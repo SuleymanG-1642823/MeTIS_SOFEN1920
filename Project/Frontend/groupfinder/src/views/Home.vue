@@ -7,12 +7,12 @@
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld/HelloWorld.ts'
+import HelloWorld from '@/components/HelloWorld/HelloWorld.ts';
 
 export default {
   name: 'home',
   components: {
-    HelloWorld
-  }
-}
+    HelloWorld,
+  },
+};
 </script>
