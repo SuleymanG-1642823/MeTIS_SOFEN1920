@@ -1,0 +1,7 @@
+-- Run frontend on localhost --
+Go to ./Frontend/groupfinder
+Run command: npm run serve
+
+-- Run backend on localhost --
+Go to ./Backend
+Run command: node ./index.js
