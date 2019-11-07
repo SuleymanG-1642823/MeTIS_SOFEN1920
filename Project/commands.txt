@@ -1,11 +1,9 @@
--- Run frontend vue on localhost --
-Go to ./Frontend/vue/groupfinder
-Run command: npm run serve
-
 -- Run frontend nuxt on localhost --
 Go to ./Frontend/nuxt/Groupfinder
+Run command (if not all dependencies installed): npm install
 Run command: npm run dev
 
 -- Run backend on localhost --
 Go to ./Backend
+Run command (if not all dependencies installed): npm install
 Run command: node ./index.js
