@@ -4,6 +4,6 @@ Run command (if not all dependencies installed): npm install
 Run command: npm run dev
 
 -- Run backend on localhost --
-Go to ./Backend
+Go to ./Backend/Groupfinder
 Run command (if not all dependencies installed): npm install
-Run command: node ./index.js
+Run command: npm run start

@@ -1,8 +1,9 @@
 const express = require('express')
 const router = express.Router()
-import User from '../types/user';
+import User from '../../types/user';
 
 router.get('/', (req: any, res: any) => {
+    // Normally, user data would be fetched from the database here.
     const user: User = {
         first_name: 'Liese',
         last_name: 'Bekkers',
