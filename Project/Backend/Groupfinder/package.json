@@ -8,7 +8,6 @@
   },
   "author": "MeTIS",
   "dependencies": {
-    "body-parser": "^1.19.0",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "~2.6.9",

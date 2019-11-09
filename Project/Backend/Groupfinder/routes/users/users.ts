@@ -1,6 +1,18 @@
-const express = require('express')
-const router = express.Router()
+import express from 'express';
+const router = express.Router();
 import User from '../../types/user';
+
+/**
+ * Middleware that is specific to this router
+ */
+router.use(function usersMiddleware (req: any, res: any, next: Function) {
+    console.log(`Users middleware is triggered`);
+    next()
+});
+
+/////////////////////////////////////////////////////////////////////////////////////
+// define routes
+/////////////////////////////////////////////////////////////////////////////////////
 
 router.get('/:user_id', (req: any, res: any) => {
     const user_id: number = parseInt(req.params.user_id);

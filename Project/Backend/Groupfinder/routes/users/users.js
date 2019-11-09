@@ -1,7 +1,20 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const express = require('express');
-const router = express.Router();
+const express_1 = __importDefault(require("express"));
+const router = express_1.default.Router();
+/**
+ * Middleware that is specific to this router
+ */
+router.use(function usersMiddleware(req, res, next) {
+    console.log(`Users middleware is triggered`);
+    next();
+});
+/////////////////////////////////////////////////////////////////////////////////////
+// define routes
+/////////////////////////////////////////////////////////////////////////////////////
 router.get('/:user_id', (req, res) => {
     const user_id = parseInt(req.params.user_id);
     console.log(req.params.user_id);
