@@ -2,9 +2,12 @@ const express = require('express')
 const router = express.Router()
 import User from '../../types/user';
 
-router.get('/', (req: any, res: any) => {
+router.get('/:user_id', (req: any, res: any) => {
+    const user_id: number = parseInt(req.params.user_id);
+    console.log(req.params.user_id)
     // Normally, user data would be fetched from the database here.
     const user: User = {
+        id: user_id,
         first_name: 'Liese',
         last_name: 'Bekkers',
         email: 'liese.bekkers@student.uhasselt.be'

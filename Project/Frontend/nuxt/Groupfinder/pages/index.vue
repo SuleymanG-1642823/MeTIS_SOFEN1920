@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div>
-      <NameCard />
+      <NameCard :user_id="1" />
     </div>
   </div>
 </template>
