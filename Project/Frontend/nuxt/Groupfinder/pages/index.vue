@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div>
-      <NameCard :user="{first_name: 'Liese', last_name: 'Bekkers', email: 'liese.bekkers@student.uhasselt.be'}" />
+      <NameCard />
     </div>
   </div>
 </template>

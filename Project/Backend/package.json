@@ -4,7 +4,8 @@
   "description": "Backend for Groupfinder.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "start": "npm run build && node ./index.js"
   },
   "author": "MeTis",
   "license": "ISC",
@@ -15,5 +16,9 @@
     "express": "^4.17.1",
     "nodemon": "^1.19.4",
     "promise": "^8.0.3"
+  },
+  "devDependencies": {
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.2"
   }
 }
