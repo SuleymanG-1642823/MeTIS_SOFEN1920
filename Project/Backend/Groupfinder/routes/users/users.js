@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express = require('express');
 const router = express.Router();
 router.get('/', (req, res) => {
+    // Normally, user data would be fetched from the database here.
     const user = {
         first_name: 'Liese',
         last_name: 'Bekkers',
@@ -15,4 +16,4 @@ router.post('/', (req, res) => {
     res.status(200).send('POST request received.');
 });
 module.exports = router;
-//# sourceMappingURL=test.js.map
+//# sourceMappingURL=users.js.map
