@@ -7,3 +7,8 @@ Run command: npm run dev
 Go to ./Backend/Groupfinder
 Run command (if not all dependencies installed): npm install
 Run command: npm run start
+
+
+-- Build & run Docker container op linux --
+To build image > docker build -t sofen_nuxt_project_frontend .
+To run container > docker run -it -p 3000:3000 sofen_nuxt_project_frontend
