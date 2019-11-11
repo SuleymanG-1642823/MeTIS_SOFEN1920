@@ -1,4 +1,4 @@
-FROM node:10-alpine
+FROM node:11.13.0-alpine
 
 # Create app directory and set it as current working directory (CWD)
 RUN mkdir -p /usr/src/app
@@ -16,5 +16,5 @@ COPY ./Groupfinder/ .
 # Let container listen on port 4000 at runtime
 EXPOSE 4000
 
-# Similar to 'npm run start'
+# Similar to 'npm run start' (this command will be executed when container is started, not when this image is created)
 CMD ["npm", "start"]

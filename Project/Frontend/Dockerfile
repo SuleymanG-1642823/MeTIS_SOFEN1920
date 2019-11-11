@@ -9,7 +9,7 @@
  RUN apk add git
  
  #Copy the app, note .dockerignore
- COPY ./Frontend/nuxt/Groupfinder /usr/src/nuxt-app
+ COPY ./Groupfinder /usr/src/nuxt-app
  RUN npm install
  
  #Build necessary, even if no static files are needed

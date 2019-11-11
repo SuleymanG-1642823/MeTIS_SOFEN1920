@@ -1,5 +1,9 @@
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// RUN PROJECT WITHOUT USING DOCKER
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 -- Run frontend nuxt on localhost --
-Go to ./Frontend/nuxt/Groupfinder
+Go to ./Frontend/Groupfinder
 Run command (if not all dependencies installed): npm install
 Run command: npm run dev
 
@@ -9,14 +13,46 @@ Run command (if not all dependencies installed): npm install
 Run command: npm run start
 
 
--- Build & run Docker (frontend) op linux --
-To build image > docker build -t sofen_nuxt_project_frontend .
-To run container > docker run -it -p 3000:3000 sofen_nuxt_project_frontend
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// CREATE DOCKER IMAGE AND CONTAINER
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+-- Build & run Docker (frontend) on linux --
+Go to ./Frontend
+To build image > docker build -t groupfinder/client . --no-cache
+To create and start container > docker run -it -p 3000:3000 --name groupfinderClientContainer groupfinder/client
 
 -- Build & run Docker (backend) on linux --
 Go to ./Backend
-Run command: docker build -t groupfinder/server . --no-cache 
+To build image > docker build -t groupfinder/server . --no-cache 
     (this will create an image named 'groupfinder/server')
-Run command: docker run -d -p 4000:4000 --name groupfinderServerContainer groupfinder/server 
+To create and start container > docker run -it -p 4000:4000 --name groupfinderServerContainer groupfinder/server 
     (this will create a running docker container named 'groupfinderServerContainer' from the image groupfinder/server)
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// DOCKER COMMANDS FOR IMAGES
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+-- Show all docker images --
+docker images
+
+-- Remove docker image --
+docker image rm NAME_OR_ID_OF_IMAGE
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// DOCKER COMMANDS FOR CONTAINERS
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+-- Show all docker containers --
+docker container ls -a
+
+-- Start docker container --
+docker container start NAME_OR_ID_OF_CONTAINER
+
+-- Stop docker container --
+docker container stop NAME_OR_ID_OF_CONTAINER
+
+-- Remove docker container --
+docker container rm NAME_OR_ID_OF_CONTAINER
