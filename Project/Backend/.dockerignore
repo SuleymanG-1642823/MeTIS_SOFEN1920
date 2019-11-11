@@ -1,0 +1,4 @@
+.dockerignore
+Dockerfile
+Groupfinder/node_modules
+Groupfinder/npm-debug.log

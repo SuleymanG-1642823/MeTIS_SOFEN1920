@@ -9,6 +9,14 @@ Run command (if not all dependencies installed): npm install
 Run command: npm run start
 
 
--- Build & run Docker container op linux --
+-- Build & run Docker (frontend) op linux --
 To build image > docker build -t sofen_nuxt_project_frontend .
 To run container > docker run -it -p 3000:3000 sofen_nuxt_project_frontend
+
+
+-- Build & run Docker (backend) on linux --
+Go to ./Backend
+Run command: docker build -t groupfinder/server . --no-cache 
+    (this will create an image named 'groupfinder/server')
+Run command: docker run -d -p 4000:4000 --name groupfinderServerContainer groupfinder/server 
+    (this will create a running docker container named 'groupfinderServerContainer' from the image groupfinder/server)
