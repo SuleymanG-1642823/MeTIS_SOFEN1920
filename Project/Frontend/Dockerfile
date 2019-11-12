@@ -25,4 +25,4 @@
  ENV NUXT_PORT=3000
  
  #Start the app
- CMD ["npm", "start"]
+ CMD ["npm", "run", "dev"]
