@@ -58,8 +58,22 @@ docker container stop NAME_OR_ID_OF_CONTAINER
 docker container rm NAME_OR_ID_OF_CONTAINER
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// DOCKER-COMPOSE COMMANDS FOR STARTING ALL DOCKER FILES AT ONCE
+// DOCKER-COMPOSE COMMANDS FOR MANAGING ALL IMAGES AND CONTAINERS AT ONCE
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
--- Start all docker containers using docker-compose --
+!!! EXECUTE FOLLOWING COMMANDS IN DIRECTORY /Project/, WHERE docker-compose.yml IS LOCATED !!!
+
+-- Build docker images, create containers and start them --
+docker-compose up
+
+-- Stop docker containers --
+docker-compose stop
+
+-- Start docker containers --
+docker-compose start
+
+-- Rebuild docker images etc. (do this if you need to install new dependencies) --
+docker-compose rm                       (remove docker containers)
+docker image rm groupfinder/server      (remove docker image groupfinder/server)
+docker image rm groupfinder/client      (remove docker image groupfinder/client)
 docker-compose up

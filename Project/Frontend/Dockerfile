@@ -12,10 +12,6 @@
  COPY ./Groupfinder /usr/src/nuxt-app
  RUN npm install
  
- #Build necessary, even if no static files are needed
- #Since it builds the server as well
- RUN npm run build
- 
  #Expose 3000 on container
  EXPOSE 3000
  

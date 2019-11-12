@@ -3,9 +3,13 @@ version: '3'
 services:
     frontend:
         build: './Frontend'
+        image: 'groupfinder/client'
+        container_name: 'groupfinderClientContainer'
         ports:
         - "3000:3000"
     backend:
         build: './Backend'
+        image: 'groupfinder/server'
+        container_name: 'groupfinderServerContainer'
         ports:
         - "4000:4000"
