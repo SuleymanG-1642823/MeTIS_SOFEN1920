@@ -1,5 +1,9 @@
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// RUN PROJECT WITHOUT USING DOCKER
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 -- Run frontend nuxt on localhost --
-Go to ./Frontend/nuxt/Groupfinder
+Go to ./Frontend/Groupfinder
 Run command (if not all dependencies installed): npm install
 Run command: npm run dev
 
@@ -7,3 +11,62 @@ Run command: npm run dev
 Go to ./Backend/Groupfinder
 Run command (if not all dependencies installed): npm install
 Run command: npm run start
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// DOCKER-COMPOSE COMMANDS FOR MANAGING ALL IMAGES AND CONTAINERS AT ONCE
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+!!! EXECUTE FOLLOWING COMMANDS IN DIRECTORY /Project/, WHERE docker-compose.yml IS LOCATED !!!
+
+-- Build docker images, create containers and start them --
+docker-compose up
+
+IF YOU HAVE CHANGED A .ts-FILE, EXECUTE FOLLOWING COMMANDS:
+docker-compose stop
+docker-compose up
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// CREATE DOCKER IMAGE AND CONTAINER
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+-- Build & run Docker (frontend) on linux --
+Go to ./Frontend
+To build image > docker build -t groupfinder/client . --no-cache
+To create and start container > docker run -it -p 3000:3000 --name groupfinderClientContainer groupfinder/client
+
+-- Build & run Docker (backend) on linux --
+Go to ./Backend
+To build image > docker build -t groupfinder/server . --no-cache 
+    (this will create an image named 'groupfinder/server')
+To create and start container > docker run -it -p 4000:4000 --name groupfinderServerContainer groupfinder/server
+    (this will create a running docker container named 'groupfinderServerContainer' from the image groupfinder/server)
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// DOCKER COMMANDS FOR IMAGES
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+-- Show all docker images --
+docker images
+
+-- Remove docker image --
+docker image rm NAME_OR_ID_OF_IMAGE
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// DOCKER COMMANDS FOR CONTAINERS
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+-- Show all docker containers --
+docker container ls -a
+
+-- Start docker container --
+docker container start NAME_OR_ID_OF_CONTAINER
+
+-- Stop docker container --
+docker container stop NAME_OR_ID_OF_CONTAINER
+
+-- Remove docker container --
+docker container rm NAME_OR_ID_OF_CONTAINER

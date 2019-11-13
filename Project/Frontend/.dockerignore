@@ -1,0 +1,5 @@
+.dockerignore
+Dockerfile
+Groupfinder/node_modules
+.nuxt
+npm-debug*
