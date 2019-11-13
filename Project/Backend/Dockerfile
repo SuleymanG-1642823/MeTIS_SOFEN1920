@@ -5,13 +5,13 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 # Copy package & package-lock.json to CWD
-COPY Groupfinder/package*.json .
+COPY Groupfinder/package*.json ./
 
 # Install dependencies
 RUN npm install
 
 # Bundle app source code
-#COPY ./Groupfinder/ .
+#COPY ./Groupfinder/ ./
 
 # Let container listen on port 4000 at runtime
 EXPOSE 4000
