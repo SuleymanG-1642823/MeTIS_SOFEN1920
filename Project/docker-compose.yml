@@ -13,3 +13,6 @@ services:
         container_name: 'groupfinderServerContainer'
         ports:
         - "4000:4000"
+        volumes:
+            - ./Backend/Groupfinder:/usr/src/app
+            - /usr/src/app/node_modules
