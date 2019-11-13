@@ -14,6 +14,20 @@ Run command: npm run start
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// DOCKER-COMPOSE COMMANDS FOR MANAGING ALL IMAGES AND CONTAINERS AT ONCE
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+!!! EXECUTE FOLLOWING COMMANDS IN DIRECTORY /Project/, WHERE docker-compose.yml IS LOCATED !!!
+
+-- Build docker images, create containers and start them --
+docker-compose up
+
+IF YOU HAVE CHANGED A .ts-FILE, EXECUTE FOLLOWING COMMANDS:
+docker-compose stop
+docker-compose up
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // CREATE DOCKER IMAGE AND CONTAINER
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -26,7 +40,7 @@ To create and start container > docker run -it -p 3000:3000 --name groupfinderCl
 Go to ./Backend
 To build image > docker build -t groupfinder/server . --no-cache 
     (this will create an image named 'groupfinder/server')
-To create and start container > docker run -it -p 4000:4000 --name groupfinderServerContainer groupfinder/server 
+To create and start container > docker run -it -p 4000:4000 --name groupfinderServerContainer groupfinder/server
     (this will create a running docker container named 'groupfinderServerContainer' from the image groupfinder/server)
 
 
@@ -56,24 +70,3 @@ docker container stop NAME_OR_ID_OF_CONTAINER
 
 -- Remove docker container --
 docker container rm NAME_OR_ID_OF_CONTAINER
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// DOCKER-COMPOSE COMMANDS FOR MANAGING ALL IMAGES AND CONTAINERS AT ONCE
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-!!! EXECUTE FOLLOWING COMMANDS IN DIRECTORY /Project/, WHERE docker-compose.yml IS LOCATED !!!
-
--- Build docker images, create containers and start them --
-docker-compose up
-
--- Stop docker containers --
-docker-compose stop
-
--- Start docker containers --
-docker-compose start
-
--- Rebuild docker images etc. (do this if you need to install new dependencies) --
-docker-compose rm                       (remove docker containers)
-docker image rm groupfinder/server      (remove docker image groupfinder/server)
-docker image rm groupfinder/client      (remove docker image groupfinder/client)
-docker-compose up
