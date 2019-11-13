@@ -7,6 +7,9 @@ services:
         container_name: 'groupfinderClientContainer'
         ports:
         - "3000:3000"
+        volumes:
+            - ./Frontend/Groupfinder:/usr/src/nuxt-app
+            - /usr/src/nuxt-app/node_modules
     backend:
         build: './Backend'
         image: 'groupfinder/server'

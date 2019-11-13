@@ -20,9 +20,9 @@ router.get('/:user_id', (req: any, res: any) => {
     // Normally, user data would be fetched from the database here.
     const user: User = {
         id: user_id,
-        first_name: 'Lien',
+        first_name: 'Liese',
         last_name: 'Bekkers',
-        email: 'lien.bekkers@student.uhasselt.be'
+        email: 'liese.bekkers@student.uhasselt.be'
     }
     res.status(200).json(user);
 });
