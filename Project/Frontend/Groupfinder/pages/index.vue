@@ -1,19 +1,19 @@
 <template>
   <div class="container">
     <div>
-      <NameCard :user_id="1" />
+      <h1>Homepage</h1>
     </div>
   </div>
 </template>
 
-<script>
-import NameCard from '~/components/NameCard/NameCard.vue'
+<script lang='ts'>
+import { Vue, Component } from 'vue-property-decorator'
 
-export default {
+@ Component({
   components: {
-    NameCard
   }
-}
+})
+export default class Index extends Vue {}
 </script>
 
 <style>
