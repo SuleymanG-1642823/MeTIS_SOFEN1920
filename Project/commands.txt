@@ -26,6 +26,13 @@ IF YOU HAVE CHANGED A .ts-FILE, EXECUTE FOLLOWING COMMANDS:
 docker-compose stop
 docker-compose up
 
+IF A NPM MODULE WAS ADDED TO A PROJECT, YOU'LL HAVE TO REBUILD THE IMAGE (AND REMOVE THE OLD ONE)
+docker-compose stop (if containers are running)
+docker-compose rm
+docker image rm groupfinder/server (if a module was added to the backend)
+docker image rm groupfinder/client (if a module was added to the frontend)
+docker-compose up
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // CREATE DOCKER IMAGE AND CONTAINER
