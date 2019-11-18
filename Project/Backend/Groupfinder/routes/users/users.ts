@@ -52,13 +52,16 @@ router.get('/:user_id', (req: any, res: any) => {
  */
 router.post('/', (req: any, res: any) => {
     const user: User = req.body.user;
-    const query: string = 'INSERT INTO Users (name, mail, address, zip, city, cv_loc, tel, website, social_media) VALUES (?,?,?,?,?,?,?,?,?)';
+    const query: string = 'INSERT INTO Users (name, mail, address, zip, city, cv_loc, tel, website, social_media) VALUES (?,?,?,?,?,?,?,?,?); SELECT LAST_INSERT_ID() AS id;';
     const params: any[] = [user.name, user.mail, user.address, user.zip, user.city, user.cv_loc, user.tel, user.website, user.social_media];
     db_conn.query(query, params, (err: any, rows: any) => {
         if (err){
             res.status(500).send("Error while inserting new user into database.");
         } else {
-            res.status(200).send("Successfully inserted new user into database.");
+            const new_id: number = rows[0].id;
+            res.status(200).json({
+                id: new_id
+            });
         }
     });
 });
