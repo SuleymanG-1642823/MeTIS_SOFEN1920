@@ -6,7 +6,7 @@ services:
         image: 'groupfinder/client'
         container_name: 'groupfinderClientContainer'
         ports:
-        - "3000:3000"
+            - "3000:3000"
         volumes:
             - ./Frontend/Groupfinder:/usr/src/nuxt-app
             - /usr/src/nuxt-app/node_modules
@@ -15,7 +15,18 @@ services:
         image: 'groupfinder/server'
         container_name: 'groupfinderServerContainer'
         ports:
-        - "4000:4000"
+            - "4000:4000"
         volumes:
             - ./Backend/Groupfinder:/usr/src/app
             - /usr/src/app/node_modules
+    db:
+        build: './Database'
+        image: 'groupfinder/database'
+        container_name: 'groupfinderDatabaseContainer'
+        ports: 
+            - '3306:3306'
+        volumes:
+            - 'data:/var/lib/mysql'
+
+volumes:
+    'data':
