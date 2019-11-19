@@ -14,6 +14,8 @@ services:
         build: './Backend'
         image: 'groupfinder/server'
         container_name: 'groupfinderServerContainer'
+        depends_on:
+            - db
         ports:
             - "4000:4000"
         volumes:
@@ -24,7 +26,7 @@ services:
         image: 'groupfinder/database'
         container_name: 'groupfinderDatabaseContainer'
         ports: 
-            - '3306:3306'
+            - '3306:3306/tcp'
         volumes:
             - 'data:/var/lib/mysql'
 
