@@ -12,6 +12,22 @@ Go to ./Backend/Groupfinder
 Run command (if not all dependencies installed): npm install
 Run command: npm run start
 
+///////////////////////////////////////////////////
+// MySQL Terminal in Docker container
+////////////////////////////////////////////////////
+-- After running docker-compose up --
+docker exec -it groupfinderDatabaseContainer bash
+
+-- For root --
+mysql -uroot -p 
+> root
+
+-- For user --
+mysql -u user -p 
+> <userpass>  // 'finderpass' for now
+
+use groupfinder 
+...
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // DOCKER-COMPOSE COMMANDS FOR MANAGING ALL IMAGES AND CONTAINERS AT ONCE
