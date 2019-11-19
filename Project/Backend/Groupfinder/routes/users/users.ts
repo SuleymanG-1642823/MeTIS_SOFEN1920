@@ -60,7 +60,8 @@ router.put('/:user_id', (req: any, res: any) => {
     const params: any[] = [user.first_name, user.last_name, user.mail, user.address, user.zip, user.city, user.tel, user.website, user.social_media, user_id];
     db_conn.query(query, params, (err: any, rows: any) => {
         if (err){
-            res.status(500).send(`Error while updating user.\n${err}`);
+            console.log(err);
+            res.status(500).send(`Error while updating user.`);
         } else {
             res.status(200).send('Succesfully updated user data.');
         }
@@ -88,7 +89,8 @@ router.post('/', async (req: any, res: any) => {
                 });
             }
             catch (err){
-                res.status(500).send(`Could not find id.\n${err}`);
+                console.log(err);
+                res.status(500).send(`Could not find id.`);
             }
         }
     });
@@ -104,7 +106,8 @@ router.delete('/:user_id', (req: any, res: any) => {
     const params: any[] = [user_id];
     db_conn.query(query, params, (err: any, rows: any) => {
         if (err){
-            res.status(500).send(`Error while deleting user.\n${err}`);
+            console.log(err);
+            res.status(500).send(`Error while deleting user.`);
         } else {
             res.status(200).send(`Succesfully deleted user with id ${user_id}.`);
         }

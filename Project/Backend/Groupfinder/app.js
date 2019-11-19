@@ -6,6 +6,7 @@ var cors = require('cors');
 var bodyParser = require('body-parser');
 
 var usersRouter = require('./routes/users/users');
+var projectsRouter = require('./routes/projects/projects');
 
 var app = express();
 
@@ -20,5 +21,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/users', usersRouter);
+app.use('/projects', projectsRouter);
 
 module.exports = app;
