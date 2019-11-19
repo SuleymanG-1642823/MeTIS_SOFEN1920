@@ -1,1 +1,1 @@
-GRANT SELECT, DELETE, INSERT, UPDATE ON groupfinder.* TO  'finder'@'%' IDENTIFIED BY 'finderpass'; 
+GRANT SELECT, DELETE, INSERT, UPDATE ON groupfinder.* TO  'finder'@'%' IDENTIFIED BY '9=&c0dL$_N+9+_}pmgx]4JE*'; 
