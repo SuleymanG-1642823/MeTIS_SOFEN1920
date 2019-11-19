@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var usersRouter = require('./routes/users/users');
 var projectsRouter = require('./routes/projects/projects');
+var messagesRouter = require('./routes/messages/messages');
 
 var app = express();
 
@@ -22,5 +23,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/users', usersRouter);
 app.use('/projects', projectsRouter);
+app.use('/messages', messagesRouter);
 
 module.exports = app;

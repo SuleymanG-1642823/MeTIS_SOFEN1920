@@ -107,10 +107,15 @@ router.post('/', async (req: any, res: any) => {
             console.log(err);
             res.status(500).send("Error while inserting new project into the database.");
         } else {
-            const newID: number = await getProjectID(project);
-            res.status(200).json({
-                id: newID
-            })
+            try{
+                const newID: number = await getProjectID(project);
+                res.status(200).json({
+                    id: newID
+                });
+            } catch (err) {
+                console.log(err);
+                res.status(500).send('Error while searching for project id.');
+            }            
         }
     });
 });
