@@ -1,9 +1,6 @@
 # Derived from official mysql image (our base image)
 FROM mysql:5.7
-# Add a database
-ENV MYSQL_DATABASE 'groupfinder'
-ENV MYSQL_USER 'user'
-ENV MYSQL_PASSWORD 'dullpass'
+# Set root password
 ENV MYSQL_ROOT_PASSWORD 'root'
 
 # Add the content of the sql-scripts/ directory to your image
