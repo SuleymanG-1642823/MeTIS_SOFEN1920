@@ -1,11 +1,11 @@
 interface User {
     id: number|null;
-    name: string;
+    first_name: string;
+    last_name: string;
     mail: string;
     address: string;
-    zip: number;
+    zip: string;
     city: string;
-    cv_loc: string;
     tel: string;
     website: string;
     social_media: any;

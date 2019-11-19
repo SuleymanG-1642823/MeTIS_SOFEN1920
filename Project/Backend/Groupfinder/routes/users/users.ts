@@ -20,11 +20,12 @@ router.use((req: any, res: any, next: Function) => {
  */
 router.get('/:user_id', (req: any, res: any) => {
     const user_id: number = parseInt(req.params.user_id);
-    const query: string = 'SELECT * FROM User WHERE id=?';
+    const query: string = 'SELECT * FROM user WHERE id=?;';
     const params: any[] = [user_id];
     db_conn.query(query, params, (err: any, rows: any) => {
         if (err){
-            res.status(500).send("Error while fetching user data.");
+            console.log(err);
+            res.status(500).send(`Error while fetching user data: ${err}`);
         } 
         else if (rows.length < 1) {
             res.status(404).send(`Error finding user with id=${user_id}`)
@@ -32,12 +33,12 @@ router.get('/:user_id', (req: any, res: any) => {
             const row = rows[0];
             const user: User = {
                 id: row.id,
-                name: row.name,
+                first_name: row.first_name,
+                last_name: row.last_name,
                 mail: row.mail,
-                address: row.address,
+                address: row.addr,
                 zip: row.zip,
                 city: row.city,
-                cv_loc: row.cv_loc,
                 tel: row.tel,
                 website: row.website,
                 social_media: row.social_media
@@ -47,23 +48,95 @@ router.get('/:user_id', (req: any, res: any) => {
     });
 });
 
+
 /**
- * Insert new user into database
+ * Change data of existing user in the database.
+ * @pre body of http request contains existing user (type: User) in JSON format
  */
-router.post('/', (req: any, res: any) => {
+router.put('/:user_id', (req: any, res: any) => {
+    const user_id: number = parseInt(req.params.user_id);
     const user: User = req.body.user;
-    const query: string = 'INSERT INTO Users (name, mail, address, zip, city, cv_loc, tel, website, social_media) VALUES (?,?,?,?,?,?,?,?,?); SELECT LAST_INSERT_ID() AS id;';
-    const params: any[] = [user.name, user.mail, user.address, user.zip, user.city, user.cv_loc, user.tel, user.website, user.social_media];
+    const query: string = 'UPDATE user SET first_name=?, last_name=?, mail=?, addr=?, zip=?, city=?, tel=?, website=?, social_media=? WHERE id=?;';
+    const params: any[] = [user.first_name, user.last_name, user.mail, user.address, user.zip, user.city, user.tel, user.website, user.social_media, user_id];
     db_conn.query(query, params, (err: any, rows: any) => {
         if (err){
-            res.status(500).send("Error while inserting new user into database.");
+            res.status(500).send(`Error while updating user.\n${err}`);
         } else {
-            const new_id: number = rows[0].id;
-            res.status(200).json({
-                id: new_id
-            });
+            res.status(200).send('Succesfully updated user data.');
         }
     });
 });
+
+
+/**
+ * Insert new user into database
+ * @pre body of http request contains new user (type: User) in JSON format
+ */
+router.post('/', async (req: any, res: any) => {
+    const user: User = req.body.user;
+    const query: string = 'INSERT INTO user (first_name, last_name, mail, addr, zip, city, tel, website, social_media) VALUES (?,?,?,?,?,?,?,?,?);';
+    const params: any[] = [user.first_name, user.last_name, user.mail, user.address, user.zip, user.city, user.tel, user.website, user.social_media];
+    db_conn.query(query, params, async (err: any, rows: any) => {
+        if (err){
+            console.log(err);
+            res.status(500).send("Error while inserting new user into database.");
+        } else {
+            try{
+                const new_id: number = await getNewID(user);
+                res.status(200).json({
+                    id: new_id
+                });
+            }
+            catch (err){
+                res.status(500).send(`Could not find id.\n${err}`);
+            }
+        }
+    });
+});
+
+
+/**
+ * Delete user from the database.
+ */
+router.delete('/:user_id', (req: any, res: any) => {
+    const user_id: number = parseInt(req.params.user_id);
+    const query: string = 'DELETE FROM user WHERE id=?;';
+    const params: any[] = [user_id];
+    db_conn.query(query, params, (err: any, rows: any) => {
+        if (err){
+            res.status(500).send(`Error while deleting user.\n${err}`);
+        } else {
+            res.status(200).send(`Succesfully deleted user with id ${user_id}.`);
+        }
+    });
+});
+
+/////////////////////////////////////////////////////////////////////////////////////
+// Define helper methods
+/////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Get id of user from database.
+ * @param user The user whose id will be searched for. (type: User)
+ * @returns promise of the user's id (type: Promise<number>)
+ */
+function getNewID(user: User): Promise<number>{
+    return new Promise(
+        (resolve, reject) => {
+            const query: string = 'SELECT id FROM user WHERE mail=?;';
+            const params: any[] = [user.mail];
+            db_conn.query(query, params, (err: any, rows: any) => {
+                if(err){
+                    reject(err);
+                } else if (rows.length < 1){
+                    reject('No records returned.');
+                } else {
+                    const id: number = rows[0].id;
+                    resolve(id);
+                }
+            });
+        }
+    );
+}
 
 module.exports = router;
