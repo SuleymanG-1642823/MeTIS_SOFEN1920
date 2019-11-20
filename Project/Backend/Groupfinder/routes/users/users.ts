@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
-const db_conn = require('../../databaseconnection');
 import User from '../../types/user';
+const $users_methods = require('./users_methods');
 
 /**
  * Middleware that is specific to this router
@@ -18,34 +18,15 @@ router.use((req: any, res: any, next: Function) => {
 /**
  * Get user with specific id from database
  */
-router.get('/:user_id', (req: any, res: any) => {
+router.get('/:user_id', async (req: any, res: any) => {
     const user_id: number = parseInt(req.params.user_id);
-    const query: string = 'SELECT * FROM user WHERE id=?;';
-    const params: any[] = [user_id];
-    db_conn.query(query, params, (err: any, rows: any) => {
-        if (err){
-            console.log(err);
-            res.status(500).send(`Error while fetching user data: ${err}`);
-        } 
-        else if (rows.length < 1) {
-            res.status(404).send(`Error finding user with id=${user_id}`)
-        } else {
-            const row = rows[0];
-            const user: User = {
-                id: row.id,
-                first_name: row.first_name,
-                last_name: row.last_name,
-                mail: row.mail,
-                address: row.addr,
-                zip: row.zip,
-                city: row.city,
-                tel: row.tel,
-                website: row.website,
-                social_media: row.social_media
-            }
-            res.status(200).json(user);
-        }
-    });
+    try{
+        const user: User = await $users_methods.getUser(user_id);
+        res.status(200).json({user});
+    } catch (err) {
+        const statusCode: number = parseInt(err);
+        res.status(statusCode).send("Error while fetching user from the database.");
+    }
 });
 
 
@@ -53,19 +34,16 @@ router.get('/:user_id', (req: any, res: any) => {
  * Change data of existing user in the database.
  * @pre body of http request contains existing user (type: User) in JSON format
  */
-router.put('/:user_id', (req: any, res: any) => {
+router.put('/:user_id', async (req: any, res: any) => {
     const user_id: number = parseInt(req.params.user_id);
     const user: User = req.body.user;
-    const query: string = 'UPDATE user SET first_name=?, last_name=?, mail=?, addr=?, zip=?, city=?, tel=?, website=?, social_media=? WHERE id=?;';
-    const params: any[] = [user.first_name, user.last_name, user.mail, user.address, user.zip, user.city, user.tel, user.website, user.social_media, user_id];
-    db_conn.query(query, params, (err: any, rows: any) => {
-        if (err){
-            console.log(err);
-            res.status(500).send(`Error while updating user.`);
-        } else {
-            res.status(200).send('Succesfully updated user data.');
-        }
-    });
+    try{
+        await $users_methods.updateUser(user_id, user);
+        res.status(200).send("Successfully updated user in the database.");
+    } catch (err) {
+        const statusCode: number = parseInt(err);
+        res.status(statusCode).send("Error while updating user in the database.");
+    }
 });
 
 
@@ -75,71 +53,28 @@ router.put('/:user_id', (req: any, res: any) => {
  */
 router.post('/', async (req: any, res: any) => {
     const user: User = req.body.user;
-    const query: string = 'INSERT INTO user (first_name, last_name, mail, addr, zip, city, tel, website, social_media) VALUES (?,?,?,?,?,?,?,?,?);';
-    const params: any[] = [user.first_name, user.last_name, user.mail, user.address, user.zip, user.city, user.tel, user.website, user.social_media];
-    db_conn.query(query, params, async (err: any, rows: any) => {
-        if (err){
-            console.log(err);
-            res.status(500).send("Error while inserting new user into database.");
-        } else {
-            try{
-                const new_id: number = await getNewID(user);
-                res.status(200).json({
-                    id: new_id
-                });
-            }
-            catch (err){
-                console.log(err);
-                res.status(500).send(`Could not find id.`);
-            }
-        }
-    });
+    try{
+        const newUserID: number = await $users_methods.addUser(user);
+        res.status(200).json({id: newUserID})
+    } catch (err) {
+        const statusCode: number = parseInt(err);
+        res.status(statusCode).send("Error while inserting new user into the database.");
+    }
 });
 
 
 /**
  * Delete user from the database.
  */
-router.delete('/:user_id', (req: any, res: any) => {
+router.delete('/:user_id', async (req: any, res: any) => {
     const user_id: number = parseInt(req.params.user_id);
-    const query: string = 'DELETE FROM user WHERE id=?;';
-    const params: any[] = [user_id];
-    db_conn.query(query, params, (err: any, rows: any) => {
-        if (err){
-            console.log(err);
-            res.status(500).send(`Error while deleting user.`);
-        } else {
-            res.status(200).send(`Succesfully deleted user with id ${user_id}.`);
-        }
-    });
+    try{
+        await $users_methods.deleteUser(user_id);
+        res.status(200).send("Successfully deleted user.");
+    } catch (err) {
+        const statusCode: number = parseInt(err);
+        res.status(statusCode).send("Error while deleting user from the database.");
+    }
 });
-
-/////////////////////////////////////////////////////////////////////////////////////
-// Define helper methods
-/////////////////////////////////////////////////////////////////////////////////////
-
-/**
- * Get id of user from database.
- * @param user The user whose id will be searched for. (type: User)
- * @returns promise of the user's id (type: Promise<number>)
- */
-function getNewID(user: User): Promise<number>{
-    return new Promise(
-        (resolve, reject) => {
-            const query: string = 'SELECT id FROM user WHERE mail=?;';
-            const params: any[] = [user.mail];
-            db_conn.query(query, params, (err: any, rows: any) => {
-                if(err){
-                    reject(err);
-                } else if (rows.length < 1){
-                    reject('No records returned.');
-                } else {
-                    const id: number = rows[0].id;
-                    resolve(id);
-                }
-            });
-        }
-    );
-}
 
 module.exports = router;
