@@ -1,17 +1,17 @@
 <template>
-  <div class="container">
+  <div>
     <div>
-      <NameCard :user_id="1" />
+      <MainLayout/>
     </div>
   </div>
 </template>
 
 <script>
-import NameCard from '~/components/NameCard/NameCard.vue'
+import MainLayout from '~/components/MainLayout/MainLayout.vue'
 
 export default {
   components: {
-    NameCard
+    MainLayout
   }
 }
 </script>
