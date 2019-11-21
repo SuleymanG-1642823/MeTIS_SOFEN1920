@@ -9,6 +9,7 @@ var usersRouter = require('./routes/users/users');
 var projectsRouter = require('./routes/projects/projects');
 var messagesRouter = require('./routes/messages/messages');
 var profilesRouter = require('./routes/profiles/profiles');
+var categoriesRouter = require('./routes/categories/categories');
 
 var app = express();
 
@@ -26,5 +27,6 @@ app.use('/users', usersRouter);
 app.use('/projects', projectsRouter);
 app.use('/messages', messagesRouter);
 app.use('/profiles', profilesRouter);
+app.use('/categories', categoriesRouter);
 
 module.exports = app;
