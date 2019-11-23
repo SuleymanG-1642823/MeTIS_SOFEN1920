@@ -1,9 +1,21 @@
 <template>
-    <div class="btn-group" role="group">
-        <button type="button" class="btn btn-secondary">Left</button>
-        <button type="button" class="btn btn-secondary">Middle</button>
-        <button type="button" class="btn btn-secondary">Right</button>
+<div class="pl-3">
+    <div class="pl-3 my-4">
+        <h5>Arno Verstraete</h5>
     </div>
+    <div class="btn-group flex-wrap" role="group">
+        <button type="button" class="btn btn-secondary" v-on:click="notificationBtnClickEvent()" :disabled="notificationsBtnClicked">
+        Notifications</button>
+        <button type="button" class="btn btn-secondary" v-on:click="messagesBtnClickEvent()" :disabled="messagesBtnClicked">
+        Messages</button>
+        <button type="button" class="btn btn-secondary" v-on:click="projectsBtnClickEvent()" :disabled="projectsBtnClicked">
+        Projects</button>
+    </div>
+    <div class="pt-3">
+        <!-- Sidebar components for projects, notifications and messages go here -->
+        <SidebarProjects v-if="projectsBtnClicked" />
+    </div>
+</div>
 </template>
 
 <script lang="ts" src="./Sidebar.ts">
