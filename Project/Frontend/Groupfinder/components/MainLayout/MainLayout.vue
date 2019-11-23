@@ -5,23 +5,30 @@
             <!-- Sidebar -->
             <div class="col-xl-2 col-lg-3 col-md-3 navbar navbar-expand-md py-0 px-0 mx-0 my-1">
                 <div class="collapse navbar-collapse">
-                <ul class="nav flex-column bg-light shadow" id="vertical-nav">
-                    <li class="nav-item">
-                        <a class="navbar-brand ml-3 py-2" href="#">Groupfinder</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Active</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#">Disabled</a>
-                    </li>
-                </ul>
+                    <div class="nav flex-column bg-light shadow" id="vertical-nav">
+                        <!-- Sidebar when logged in -->
+                        <Sidebar/>
+                        <!-- TODO Sidebar when not logged in comes here -->
+                    </div>
+                    <!--
+                    <ul class="nav flex-column bg-light shadow" id="vertical-nav">
+                        <li class="nav-item">
+                            <a class="navbar-brand ml-3 py-2" href="#">Groupfinder</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Active</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Link</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Link</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="#">Disabled</a>
+                        </li>
+                    </ul>
+                    -->
                 </div>
             </div>
 
@@ -43,7 +50,9 @@
 
                 <!-- Content -->
                 <div id="content" class="">
-                    <h1 class="h1">Groupfinder</h1>
+                    <!-- Content components go here -->
+                    <h1 v-if="content_type == 'helloworld'" class="h1">Hello world!</h1>
+                    <i class="fab fa-camera"></i>
                 </div>
             </div>
         </div>
