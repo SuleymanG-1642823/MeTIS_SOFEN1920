@@ -121,7 +121,7 @@ function deleteUser(userID: number): Promise<void> {
 function getNewID(user: User): Promise<number>{
     return new Promise(
         (resolve, reject) => {
-            const query: string = 'SELECT id FROM user WHERE mail=?;';
+            const query: string = 'SELECT id FROM user WHERE mail=? ORDER BY id DESC;';
             const params: any[] = [user.mail];
             db_conn.query(query, params, (err: any, rows: any) => {
                 if(err){
