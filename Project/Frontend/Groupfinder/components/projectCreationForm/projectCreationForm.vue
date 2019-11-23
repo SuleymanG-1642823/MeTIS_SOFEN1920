@@ -40,7 +40,7 @@
         ></b-form-select>
       </b-form-group>
     </b-form>
-    <profileFormComponent></profileFormComponent>
+    <profileForm />
   </div>
 </template>
 

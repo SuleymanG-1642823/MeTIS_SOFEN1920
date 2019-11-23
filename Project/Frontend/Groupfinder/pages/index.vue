@@ -2,19 +2,20 @@
   <div class="container">
     <div>
       <h1>Homepage</h1>
-      <projectFormComponent></projectFormComponent>
+      <projectForm />
+      <profileForm />
     </div>
   </div>
 </template>
 
 <script lang='ts'>
-import { Vue, Component } from 'vue-property-decorator'
+import Vue from 'vue'
+import { Component } from 'vue-property-decorator'
+
 import projectForm from './../components/projectCreationForm/projectCreationForm.vue'
 
 @ Component({
-  components: {
-    projectFormComponent: projectForm
-  }
+  components: { projectForm }
 })
 export default class Index extends Vue {}
 </script>

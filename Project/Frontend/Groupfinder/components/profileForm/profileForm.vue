@@ -5,9 +5,10 @@
       label="Project name:"
       label-for="input-profilename"
     >
+      <!-- Error on: v-model="form.profileName"
+        Please fix -->
       <b-form-input
         id ="input-profilename"
-        v-model="form.profileName"
         type="Profile name"
         required
         placeholder="Enter a profile name"

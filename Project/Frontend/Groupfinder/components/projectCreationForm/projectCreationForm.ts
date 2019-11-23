@@ -18,8 +18,9 @@ export default class projectCreationForm extends Vue {
             categories: [{text:"Select One", value: null}, "Website", "Native Application", "Smartphone Application"],
         }
     }
+    /*
     components: {
         'profileFormComponent': profileForm
-    }
+    }*/
 }
 
