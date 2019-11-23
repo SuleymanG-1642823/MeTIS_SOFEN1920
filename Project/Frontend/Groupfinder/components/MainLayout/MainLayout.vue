@@ -10,25 +10,6 @@
                         <Sidebar/>
                         <!-- TODO Sidebar when not logged in comes here -->
                     </div>
-                    <!--
-                    <ul class="nav flex-column bg-light shadow" id="vertical-nav">
-                        <li class="nav-item">
-                            <a class="navbar-brand ml-3 py-2" href="#">Groupfinder</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">Active</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link disabled" href="#">Disabled</a>
-                        </li>
-                    </ul>
-                    -->
                 </div>
             </div>
 
@@ -52,7 +33,6 @@
                 <div id="content" class="">
                     <!-- Content components go here -->
                     <h1 v-if="content_type == 'helloworld'" class="h1">Hello world!</h1>
-                    <i class="fab fa-camera"></i>
                 </div>
             </div>
         </div>
