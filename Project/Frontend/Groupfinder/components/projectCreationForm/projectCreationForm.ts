@@ -8,6 +8,9 @@ import profileForm from '~/components/profileForm/profileForm.vue'
     components: {profileForm}
 })
 export default class projectCreationForm extends Vue {
+    // Data
+    profilesList: Array<String> = [];
+
     data(){
         return{
             form: {
@@ -22,5 +25,14 @@ export default class projectCreationForm extends Vue {
     components: {
         'profileFormComponent': profileForm
     }*/
+
+    created(){
+        // this.addProfile();
+    }
+
+    // Methods
+    addProfile(){
+        this.profilesList.push("Profile");
+    }
 }
 

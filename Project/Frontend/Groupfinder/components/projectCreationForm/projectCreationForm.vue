@@ -1,6 +1,7 @@
 <template>
   <div>
-    <b-form @submit="onSubmit" @reset="onReset">
+    <!-- TODO:FIX @submit="onSubmit" @reset="onReset" in b-form caused errors -->
+    <b-form>
       <b-form-group
         id="input-projectname-id"
         label="Project name:"
@@ -40,7 +41,10 @@
         ></b-form-select>
       </b-form-group>
     </b-form>
-    <profileForm />
+    <!-- Dynamically add profileForms -->
+    <profileForm v-for="profile in profilesList" v-bind:key="profile" />
+    <!-- <button v-for="profile in numberOfProfiles" v-bind:key="profile">Button</button> -->
+    <b-button variant="primary" @click="addProfile">Add profile</b-button>
   </div>
 </template>
 
