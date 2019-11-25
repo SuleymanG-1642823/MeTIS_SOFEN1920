@@ -3,7 +3,6 @@
 <b-card class="mb-2">
   <!-- TODO: FIX error on  @submit="onSubmit" @reset="onReset" -->
   <b-form>
-
     <!-- Profile name input -->
     <b-form-group
       id="input-profilename-id"
@@ -14,7 +13,6 @@
         Please fix -->
       <b-form-input
         id ="input-profilename"
-        type="Profile name"
         required
         placeholder="Enter a profile name"
       ></b-form-input>
@@ -37,6 +35,8 @@
     </b-form-group>
 
   </b-form>
+
+  <b-button @click="deleteProfileFromList()" variant="outline-danger" size="sm">Delete Profile</b-button>
 </b-card>
 </div>
 </template>

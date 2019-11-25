@@ -10,7 +10,6 @@
         <b-form-input
           id ="input-projectname"
           v-model="form.projectName"
-          type="Project Name"
           required
           placeholder="Enter a project name"
         ></b-form-input>
@@ -23,7 +22,6 @@
         <b-form-textarea
           id="input-pitch"
           v-model="form.pitch"
-          type="Pitch"
           required
           placeholder="Enter a pitch for the project"
         ></b-form-textarea>
@@ -42,7 +40,7 @@
       </b-form-group>
     </b-form>
     <!-- Dynamically add profileForms -->
-    <profileForm v-for="profile in profilesList" v-bind:key="profile" />
+    <profileForm v-for="profile in profilesList" v-bind:key="profile" @deleteProfile="deleteProfileForm" :id="profile" />
     <!-- <button v-for="profile in numberOfProfiles" v-bind:key="profile">Button</button> -->
     <b-button variant="primary" @click="addProfile">Add profile</b-button>
   </div>

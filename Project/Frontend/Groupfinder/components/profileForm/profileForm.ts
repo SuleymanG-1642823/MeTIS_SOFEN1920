@@ -7,12 +7,15 @@ import axios from 'axios';
 export default class profileForm extends Vue {
     // All the skills for this profile get stored in this list
     skillList: Array<String> = [];
+    skill_input: String = ""
 
     data(){
         return{
 
         }
     }
+
+    @Prop({default: {}}) id: String
 
     // Methods
 
@@ -51,5 +54,10 @@ export default class profileForm extends Vue {
         if (indexFound){
             this.skillList.splice(index, 1);
         }
+    }
+
+    // Remove profile from list
+    deleteProfileFromList(){
+        this.$emit('deleteProfile', this.$props.id)
     }
 }

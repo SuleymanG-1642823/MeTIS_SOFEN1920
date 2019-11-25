@@ -3,7 +3,6 @@
     <div>
       <h1>Homepage</h1>
       <projectForm />
-      <profileForm />
       <div id="sidebarProjectsDiv" class="mt-3">
         <SidebarProjects />
       </div>
