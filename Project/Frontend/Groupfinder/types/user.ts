@@ -1,8 +1,14 @@
 interface User {
-    id: number;
+    id: number|null;
     first_name: string;
     last_name: string;
-    email: string;
+    mail: string;
+    address: string;
+    zip: string;
+    city: string;
+    tel: string;
+    website: string;
+    social_media: any;
 }
 
 export default User;
