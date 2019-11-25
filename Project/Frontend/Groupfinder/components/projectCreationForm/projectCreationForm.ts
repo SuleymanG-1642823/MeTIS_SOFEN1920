@@ -33,6 +33,7 @@ export default class projectCreationForm extends Vue {
     // Methods
     addProfile(){
         this.profilesList.push("Profile");
+        return this.profilesList;
     }
 }
 
