@@ -133,6 +133,14 @@ __pycache__
 .DS_Store
 *~
 
+# Ignore compiled .js.map and .js files
+/routes/**/*.js
+/routes/**/*.js.map
+/types/*.js
+/types/*.js.map
+/databaseconnection.js
+/databaseconnection.js.map
+ 
 # === Visual Studio Code ===
 .vscode
 .vscode/*
