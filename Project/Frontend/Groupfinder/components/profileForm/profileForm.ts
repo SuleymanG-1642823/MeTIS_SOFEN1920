@@ -9,12 +9,6 @@ export default class profileForm extends Vue {
     skillList: Array<String> = [];
     skill_input: String = ""
 
-    data(){
-        return{
-
-        }
-    }
-
     @Prop({default: {}}) id: String
 
     // Methods

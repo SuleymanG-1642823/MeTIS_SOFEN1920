@@ -16,7 +16,6 @@ export default class projectCreationForm extends Vue {
         category: null
     }
     categories: Array<any> = [{text:"Select One", value: null}, "Website", "Native Application", "Smartphone Application"]
-    profile_id: String = ""
     index: Number = 0
     /*
     components: {
@@ -41,4 +40,3 @@ export default class projectCreationForm extends Vue {
         }
     }
 }
-
