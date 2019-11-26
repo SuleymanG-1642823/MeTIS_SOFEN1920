@@ -83,6 +83,49 @@ function getAllProjects(): Promise<Project[]> {
     );
 }
 
+/**
+ * Get matching projects for the user from the database.
+ * @param userID ID of the user to find project matches for
+ */
+
+function getMatchingProjects(userID: number): Promise<Array<Object>> {
+    let project0 = { name: 'project1',
+        id: 0,
+        status: 0,
+        pitch: '',
+        created_at: '',
+        edited_at: '',
+        creator_id: 0,
+        creator_first_name: '',
+        creator_last_name: '',
+        profiles: [ { id: 0, name: 'front-end developper', project_id: 0 }, { id: 1, name: 'back-end developper', project_id: 0 } ] }
+    
+    let project0Matches = [{ profileID: 0, profileName: 'front-end developper', matchingPercentile: 75 }, { profileID: 1, profileName: 'back-end developper', matchingPercentile: 40 }]
+    
+    let project1 = { name: 'project2',
+        id: 1,
+        status: 0,
+        pitch: '',
+        created_at: '',
+        edited_at: '',
+        creator_id: 0,
+        creator_first_name: '',
+        creator_last_name: '',
+        profiles: [ { id: 2, name: 'database manager', project_id: 1 } ] }
+
+    let project1Matches = [{ profileID: 2, profileName: 'database manager', matchingPercentile: 65 }]
+
+    let completeData = [{ project: project0, matches: project0Matches }, { project: project1, matches: project1Matches }]
+
+    return new Promise((resolve: any, reject: any) => {
+        try {
+            resolve(completeData)
+        } catch(err) {
+            reject(err)
+        }
+    });
+}
+
 
 /**
  * Update existing project in the database.
@@ -200,6 +243,7 @@ module.exports = {
     getProject,
     getAllProjects,
     updateProject,
+    getMatchingProjects,
     addProject,
     deleteProject
 }

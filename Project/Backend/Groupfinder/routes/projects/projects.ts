@@ -43,6 +43,19 @@ router.get('/', async (req: any, res: any) => {
     }
 });
 
+/**
+ * Get matching projects for the user from the database.
+ */
+router.get('/matchFor/:userID', async (req: any, res: any) => {
+    const userID: number = parseInt(req.params.userID);
+    try {
+        const matchingProjects: Array<Object> = await $project_methods.getMatchingProjects(userID);
+        res.status(200).json(matchingProjects);
+    } catch (err) {
+        const statusCode: number = parseInt(err);
+        res.status(statusCode).send("Error while fetching matching projects from the database.");
+    }
+});
 
 /**
  * Update existing project in the database.

@@ -4,10 +4,11 @@
     <h5>Other profiles:</h5>
     <!-- Cards for the other profiles-->
     <b-card
-        v-for="profileMatch in profileMatches.slice(1)"
-        :key="profileMatch.id"
-        class="profileCard">
-        <b-card-text>{{profileMatch['profileName'] + ' ' + profileMatch['matchingPercentile'] + ' %'}}</b-card-text>
+      v-for="profileMatch in profileMatches.slice(1)"
+      :key="profileMatch.id"
+      class="profileCard"
+    >
+      <b-card-text>{{ profileMatch['profileName'] + ' ' + profileMatch['matchingPercentile'] + ' %' }}</b-card-text>
     </b-card>
   </b-card>
 </template>

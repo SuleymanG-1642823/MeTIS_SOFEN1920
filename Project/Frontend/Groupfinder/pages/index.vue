@@ -2,8 +2,8 @@
   <div class="container">
     <div>
       <h1>Homepage</h1>
-      <RecommendedProjectsList :projectMatches="myData" />
-      <NameCard />
+      <!--{{ this.myData }}-->
+      <RecommendedProjectsList :project-matches="myData" />
     </div>
   </div>
 </template>
@@ -13,10 +13,11 @@ import { Vue, Component } from 'vue-property-decorator'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import axios from 'axios'
 
 /* TEST */
 import RecommendedProjectsList from './../components/RecommendedProjectsList/RecommendedProjectsList'
-
+/*
 class MyData {
   project0 = { name: 'project1',
     id: 0,
@@ -48,7 +49,7 @@ class MyData {
 
     getData () { return this.completeData }
 }
-
+*/
 /* **** */
 
 Vue.use(BootstrapVue)
@@ -59,7 +60,19 @@ Vue.use(BootstrapVue)
   }
 })
 export default class Index extends Vue {
-  myData = new MyData().getData()
+  myData: Object|null = null;
+
+  async mounted () {
+    console.log('#mounted start')
+    try {
+      const response = await axios.get('http://localhost:4000/projects/matchFor/1')
+      console.log('#mounted after axios')
+      this.myData = response.data
+    } catch (err) {
+      console.log('Error while fetching user data.')
+    }
+    console.log('#mounted end')
+  }
 }
 
 </script>
