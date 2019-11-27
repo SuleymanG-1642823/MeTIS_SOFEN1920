@@ -7,7 +7,6 @@ const $project_methods = require('./project_methods');
  * Middleware that is specific to this router
  */
 router.use((req: any, res: any, next: Function) => {
-    console.log(`Projects middleware is triggered`);
     next()
 });
 

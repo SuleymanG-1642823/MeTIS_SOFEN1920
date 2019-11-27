@@ -8,7 +8,6 @@ const $projects_categories_methods = require("./projects_categories_methods");
  * Middleware that is specific to this router
  */
 router.use((req: any, res: any, next: Function) => {
-    console.log(`Projects-categories middleware is triggered`);
     next()
 });
 

@@ -7,7 +7,6 @@ const $users_methods = require('./users_methods');
  * Middleware that is specific to this router
  */
 router.use((req: any, res: any, next: Function) => {
-    console.log(`Users middleware is triggered`);
     next()
 });
 

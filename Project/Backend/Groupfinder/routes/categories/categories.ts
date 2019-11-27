@@ -7,7 +7,6 @@ const $categories_methods = require('./categories_methods');
  * Middleware that is specific to this router
  */
 router.use((req: any, res: any, next: Function) => {
-    console.log(`Categories middleware is triggered`);
     next()
 });
 

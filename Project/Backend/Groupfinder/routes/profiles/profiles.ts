@@ -8,7 +8,6 @@ import Profile from '../../types/profile';
  * Middleware that is specific to this router
  */
 router.use((req: any, res: any, next: Function) => {
-    console.log(`Profiles middleware is triggered`);
     next()
 });
 
@@ -20,9 +19,9 @@ router.use((req: any, res: any, next: Function) => {
  * Get all profiles of a project.
  */
 router.get('/:project_id', async (req: any, res: any) => {
-    const projectID: number = parseInt(req.params.project_id);
+    const project_id: number = parseInt(req.params.project_id);
     try {
-        const profiles: Profile[] = await $profiles_methods.getProjectProfiles(projectID);
+        const profiles: Profile[] = await $profiles_methods.getProjectProfiles(project_id);
         res.status(200).json(profiles);
     } catch (err) {
         const statusCode: number = parseInt(err);
