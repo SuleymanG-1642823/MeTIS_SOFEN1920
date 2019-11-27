@@ -7,8 +7,8 @@
                 <div class="collapse navbar-collapse">
                     <div class="nav flex-column bg-light shadow" id="vertical-nav">
                         <!-- Sidebar when logged in -->
-                        <Sidebar/>
-                        <!-- TODO Sidebar when not logged in comes here -->
+                        <Sidebar v-if="logged_in"/>
+                        <LoginForm v-else />
                     </div>
                 </div>
             </div>
@@ -32,7 +32,6 @@
                 <!-- Content -->
                 <div id="content" class="">
                     <!-- Content components go here -->
-                    <h1 v-if="content_type == 'helloworld'" class="h1">Hello world!</h1>
                     <nuxt />
                 </div>
             </div>
