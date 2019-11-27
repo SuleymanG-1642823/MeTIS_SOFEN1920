@@ -130,6 +130,22 @@ function getMatchingProjects(userID: number): any {
         return newProfileMatch;
     }
 
+    /*
+        Sorts Projects in decending maximum matching percentile and profiles in decending matching percentile
+        @pre: every project must have at least 1 profile
+    */
+    function sortMatches(matches: Array<ProjectMatch>): Array<ProjectMatch>{
+        // sort profiles per project
+        for (let projMatchIndex in matches){ 
+            matches[projMatchIndex].matches = matches[projMatchIndex].matches.sort((profileMatch1, profileMatch2) => profileMatch2.matchingPercentile - profileMatch1.matchingPercentile);
+        }
+
+        // sort projects according to their maximum profile matching percentage
+        matches.sort((projectMatch1, projectMatch2) => projectMatch2.matches[0].matchingPercentile - projectMatch1.matches[0].matchingPercentile);
+
+        return matches;
+    } 
+
     return new Promise((resolve: any, reject: any) => {
         // project_id, project_name, profile_id, profile_name, skill_name, skill_weight, matches
         const colossalQuery: string = `
@@ -219,7 +235,7 @@ function getMatchingProjects(userID: number): any {
                     lastProfMatches.push(newProfileMatch);
                 }
 
-                resolve(matches);
+                resolve(sortMatches(matches));
             }
         });
     });
