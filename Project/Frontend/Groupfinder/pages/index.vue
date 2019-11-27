@@ -65,7 +65,7 @@ export default class Index extends Vue {
   async mounted () {
     console.log('#mounted start')
     try {
-      const response = await axios.get('http://localhost:4000/projects/matchFor/1')
+      const response = await axios.get('http://localhost:4000/projects/matchFor/7')
       console.log('#mounted after axios')
       this.myData = response.data
     } catch (err) {

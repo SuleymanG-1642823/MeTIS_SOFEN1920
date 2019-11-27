@@ -2,6 +2,8 @@ const db_conn = require('../../databaseconnection');
 const moment = require('moment');
 import Project from '../../types/project';
 import Profile from '../../types/profile';
+import ProjectMatch from '../../types/projectMatch';
+import ProfileMatch from '../../types/profileMatch';
 const $profiles_methods = require('../profiles/profiles_methods');
 
 /**
@@ -86,43 +88,138 @@ function getAllProjects(): Promise<Project[]> {
 /**
  * Get matching projects for the user from the database.
  * @param userID ID of the user to find project matches for
+ * @returns <Array<Object>>: formaat:
+ *      [
+ *          { 
+ *              project: Project, 
+ *              matches: [ 
+ *                          { profileID: <ID>, profileName: <name>, matchingPercentile <%> },
+ *                          ...
+ *                       ] 
+ *          },
+ *          ...
+ *      ]
  */
-
-function getMatchingProjects(userID: number): Promise<Array<Object>> {
-    let project0 = { name: 'project1',
-        id: 0,
-        status: 0,
-        pitch: '',
-        created_at: '',
-        edited_at: '',
-        creator_id: 0,
-        creator_first_name: '',
-        creator_last_name: '',
-        profiles: [ { id: 0, name: 'front-end developper', project_id: 0 }, { id: 1, name: 'back-end developper', project_id: 0 } ] }
-    
-    let project0Matches = [{ profileID: 0, profileName: 'front-end developper', matchingPercentile: 75 }, { profileID: 1, profileName: 'back-end developper', matchingPercentile: 40 }]
-    
-    let project1 = { name: 'project2',
-        id: 1,
-        status: 0,
-        pitch: '',
-        created_at: '',
-        edited_at: '',
-        creator_id: 0,
-        creator_first_name: '',
-        creator_last_name: '',
-        profiles: [ { id: 2, name: 'database manager', project_id: 1 } ] }
-
-    let project1Matches = [{ profileID: 2, profileName: 'database manager', matchingPercentile: 65 }]
-
-    let completeData = [{ project: project0, matches: project0Matches }, { project: project1, matches: project1Matches }]
-
+// Promise<Array<Object>>
+function getMatchingProjects(userID: number): any {
     return new Promise((resolve: any, reject: any) => {
-        try {
-            resolve(completeData)
-        } catch(err) {
-            reject(err)
-        }
+        // project_id, project_name, profile_id, profile_name, skill_name, skill_weight, matches
+        const colossalQuery: string = `
+            SELECT project_skills.*, not IsNull(user_skills.id) as matches
+            FROM 
+              (
+                SELECT skill_name, user.id
+                FROM user INNER JOIN user_skill AS us ON us.user_id = user.id 
+                WHERE user.id = ?
+              ) AS user_skills
+              RIGHT JOIN
+              (
+                SELECT proj.id AS project_id, proj.name AS project_name,
+                        prof.profile_id, prof.profile_name,
+                        prof.skill_name, prof.skill_experience, prof.skill_weight
+                FROM 
+                (
+                  SELECT project_id, profile_id, name as profile_name, skill_name, skill_experience, weight as skill_weight
+                  FROM profile_skill AS ps INNER JOIN profile ON ps.profile_id = profile.id
+                  WHERE exists
+                  (
+                      SELECT 1
+                      FROM 
+                      (
+                        SELECT profile_skills.id as profile_id
+                        FROM 
+                          (
+                            SELECT skill_name as user_skill_name
+                            FROM user INNER JOIN user_skill AS us ON us.user_id = user.id 
+                            WHERE user.id = ?
+                          ) AS user_skills,
+                          (
+                            SELECT skill_name as profile_skill_name, profile.id
+                            FROM profile_skill AS ps INNER JOIN profile ON ps.profile_id = profile.id
+                          ) profile_skills
+                        WHERE user_skill_name = profile_skill_name
+                        GROUP BY profile_skills.id
+                      ) AS profiles_with_matching_skills
+                      WHERE profiles_with_matching_skills.profile_id = profile.id
+                      LIMIT 1
+                  )
+                ) as prof INNER JOIN project AS proj
+                  ON prof.project_id = proj.id
+              ) AS project_skills
+              ON user_skills.skill_name = project_skills.skill_name
+            ORDER BY project_id, profile_id;
+        `;
+        const params: any[] = [userID, userID];
+        db_conn.query(colossalQuery, params, async (err: any, rows: any) => {
+            if (err) {
+                console.log(`Error while fetching matching projects from the database.\n${err}`);
+                reject("500");
+            } else {
+                // project_id, project_name, profile_id, profile_name, skill_name, skill_weight, matches
+                let matches: Array<ProjectMatch> = [];
+
+                for (let i = 0; i < rows.length; i++){
+                    // check if a new project has appeared (different from last registered project)
+                    if (matches.length > 0 && matches[matches.length-1].project.id === rows.project_id){
+                        // same project, update values
+                        // check if a new profile has appeared, if not continue
+                        let lastProfileMatchingArray = matches[matches.length-1].matches;
+                        let lastProfileMatch: ProfileMatch = lastProfileMatchingArray[lastProfileMatchingArray.length-1];
+                        if(lastProfileMatch.profileID !== rows.profile_id){
+                            // create new Profile match and add it to the last profile match list
+                            let newProfileMatch: ProfileMatch = {
+                                profileID: rows[i].profile_id,
+                                profileName: rows[i].profile_name,
+                                matchingPercentile: 100 // TODO (see Trello Matching algorithm A2)
+                            }
+                            matches[matches.length-1].matches.push(newProfileMatch);
+                            // TODO reset weight and skill match count variables
+                        }
+                        // TODO: if the current profile is the same as the last one, update matched skill count (user_skill and profile_skill) to update percentage
+                        // TODO: calculate weights 
+                        
+                    }
+                    else{
+                        // new project, create new ProjectMatch
+                        let newProjectmatch: ProjectMatch = {project: null, matches: null};
+                        let newProfileMatches: Array<ProfileMatch> = [];
+
+                        let newProject: Project = {
+                            id: rows[i].project_id,
+                            name: rows[i].project_name,
+                            status: 0,
+                            pitch: '',
+                            created_at: '',
+                            edited_at: '',
+                            creator_id: -1,
+                            creator_first_name: '',
+                            creator_last_name: '',
+                            profiles: []
+                        }
+
+                        // create new Profile match
+                        let newProfileMatch: ProfileMatch = {
+                            profileID: rows[i].profile_id,
+                            profileName: rows[i].profile_name,
+                            matchingPercentile: 100 // TODO (see Trello Matching algorithm A2)
+                        }
+
+                        // add to list of profile matches
+                        newProfileMatches.push(newProfileMatch);
+
+                        // set project match values
+                        newProjectmatch.project = newProject;
+                        newProjectmatch.matches = newProfileMatches;
+
+                        // add project match to result
+                        matches.push(newProjectmatch);
+
+                        // TODO: check rows.matches, if it's 1 the skill matches with one of the users' skills, update percentage accordingly
+                    }
+                }
+                resolve(matches);
+            }
+        });
     });
 }
 
