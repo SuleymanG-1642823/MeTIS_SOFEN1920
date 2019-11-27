@@ -1,22 +1,16 @@
 <template>
   <div>
     <div>
-      <MainLayout />
     </div>
   </div>
 </template>
 
 <script>
-import { Vue, Component } from 'vue-property-decorator'
-import MainLayout from '~/components/MainLayout/MainLayout.vue'
 
-@Component({
+export default {
   components: {
-    MainLayout
   }
-})
-export default class Index extends Vue {}
-
+}
 </script>
 
 <style>

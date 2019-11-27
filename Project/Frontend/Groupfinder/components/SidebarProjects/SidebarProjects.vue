@@ -4,6 +4,7 @@
             <li>Project 1</li>
             <li>Project 2</li>
         </ul>
+        <nuxt-link to="/contentPage1">New Project</nuxt-link>
     </div>
 </template>
 
