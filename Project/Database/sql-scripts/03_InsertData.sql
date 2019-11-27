@@ -18,10 +18,10 @@ VALUES  (3, 'Agenda website', 0, 'A website for managing tasks.'),
 
 -- PROJECT PROFILES
 INSERT INTO profile (name, project_id)
-VALUES  ('Back-end developper', 1), ('Front-end developper', 1),
-        ('UI/UX designer android', 2), ('Sofware engineer', 2),
-        ('UI/UX designer', 3), ('Software engineer windows', 3),
-        ('Software linux', 3), ('Software OSX', 3);
+VALUES  ('Back-end developper', 4), ('Front-end developper', 4),
+        ('UI/UX designer android', 5), ('Sofware engineer', 5),
+        ('UI/UX designer', 6), ('Software engineer windows', 6),
+        ('Software engineer linux', 6), ('Software engineer OSX', 6);
 
 -- PROFILE SKILLS
 INSERT INTO profile_skill -- (profile_id, name, experience, weight)
