@@ -21,6 +21,6 @@ export default class LoginForm extends Vue {
         evt.preventDefault();
         console.log('login');
         this.$emit('setLoggedIn', true);
-        this.$router.push('/');
+        this.$router.push('/recommendedProjects');
     }
 }

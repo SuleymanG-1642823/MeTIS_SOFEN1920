@@ -17,7 +17,7 @@
                 <!-- Top bar -->
                 <div class="wrapper">
                     <div class="row nav nav-pills fixed-top px-3 py-2 navbar-light bg-light shadow">
-                        <nuxt-link to="/" class="navbar-brand align-text-middle col-3 py-0 pr-0 mr-0" href="#">Groupfinder</nuxt-link>
+                        <nuxt-link to="/recommendedProjects" class="navbar-brand align-text-middle col-3 py-0 pr-0 mr-0" href="#">Groupfinder</nuxt-link>
                         <div class="col-9">
                             <!--<div class="input-group">
                                 <div class="input-group-prepend">
