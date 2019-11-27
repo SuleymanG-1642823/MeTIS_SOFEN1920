@@ -9,11 +9,15 @@
 <script>
 import MainLayout from '~/components/MainLayout/MainLayout.vue'
 
-export default {
+Vue.use(BootstrapVue)
+
+@Component({
   components: {
     MainLayout
   }
-}
+})
+export default class Index extends Vue {}
+
 </script>
 
 <style>
