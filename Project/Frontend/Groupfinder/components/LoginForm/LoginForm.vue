@@ -33,6 +33,10 @@
         <a href="/" class="minimal-btn small float-right">Forgot password?</a>
       </div>
     </b-form>
+    <div class="px-2 py-2">
+      <p>Not logged in?</p>
+      <b-button variant="outline-primary"><nuxt-link to="signup">Sign up</nuxt-link></b-button>
+    </div>
   </div>
 </template>
 
