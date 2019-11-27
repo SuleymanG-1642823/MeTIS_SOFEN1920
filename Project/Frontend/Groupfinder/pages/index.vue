@@ -2,6 +2,7 @@
   <div class="container">
     <div>
       <h1>Homepage</h1>
+      <!-- <NameCard :user_id="1" /> -->
       <projectForm />
       <div id="sidebarProjectsDiv" class="mt-3">
         <SidebarProjects />
@@ -16,9 +17,10 @@ import { Component } from 'vue-property-decorator'
 
 import projectForm from './../components/projectCreationForm/projectCreationForm.vue'
 import SidebarProjects from '~/components/SidebarProjects/SidebarProjects.vue'
+import NameCard from '~/components/NameCard/NameCard.vue'
 
 @ Component({
-  components: { projectForm, SidebarProjects }
+  components: { projectForm, SidebarProjects, NameCard }
 })
 export default class Index extends Vue {}
 </script>

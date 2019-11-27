@@ -4,13 +4,15 @@ import User from '@/types/user.ts';
 import axios from 'axios';
 import profileForm from '~/components/profileForm/profileForm.vue'
 
+import Project from '../../types/project';
+
 @ Component({
     components: {profileForm}
 })
 export default class projectCreationForm extends Vue {
     // Data
     profilesList: Array<String> = [];
-    form: Object = {
+    form: any = {
         projectName: "",
         pitch: "",
         category: null
@@ -37,6 +39,24 @@ export default class projectCreationForm extends Vue {
         let index = this.profilesList.indexOf(value, 0)
         if(index > -1){
             this.profilesList.splice(index, 1)
+        }
+    }
+
+    async submitProject(evt: any){
+        evt.preventDefault();
+
+        let project = <Project>{};
+
+        project.name = this.form.projectName;
+        project.pitch = this.form.pitch;
+        // TODO category
+
+        try {
+            let url = "http://localhost:4000/projects/";
+            axios.post(url, project);
+            //const response = await axios.post(`http://localhost:4000/projects/${project}`);
+        } catch (err){
+            console.log('Error while posting project.')
         }
     }
 }
