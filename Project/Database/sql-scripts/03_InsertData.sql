@@ -21,7 +21,7 @@ INSERT INTO profile (name, project_id)
 VALUES  ('Back-end developper', 4), ('Front-end developper', 4),
         ('UI/UX designer android', 5), ('Sofware engineer', 5),
         ('UI/UX designer', 6), ('Software engineer windows', 6),
-        ('Software linux', 6), ('Software OSX', 6);
+        ('Software engineer linux', 6), ('Software engineer OSX', 6);
 
 -- PROFILE SKILLS
 INSERT INTO profile_skill -- (profile_id, name, experience, weight)

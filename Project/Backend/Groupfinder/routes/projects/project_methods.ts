@@ -102,52 +102,81 @@ function getAllProjects(): Promise<Project[]> {
  */
 // Promise<Array<Object>>
 function getMatchingProjects(userID: number): any {
+    function createProject(projectID: number, projectName: string): Project{
+        let newProject: Project = {
+            id: projectID,
+            name: projectName,
+            status: 0,
+            pitch: '',
+            created_at: '',
+            edited_at: '',
+            creator_id: -1,
+            creator_first_name: '',
+            creator_last_name: '',
+            profiles: []
+        }
+
+        return newProject;
+    }
+    
+    function createProfileMatch(profileID: number, profileName: string){
+        // create new Profile match
+        let newProfileMatch: ProfileMatch = {
+            profileID: profileID,
+            profileName: profileName,
+            matchingPercentile: 0
+        }
+
+        return newProfileMatch;
+    }
+
     return new Promise((resolve: any, reject: any) => {
         // project_id, project_name, profile_id, profile_name, skill_name, skill_weight, matches
         const colossalQuery: string = `
-            SELECT project_skills.*, not IsNull(user_skills.id) as matches
+        SELECT project_id, project_name, profile_id, profile_name, COUNT(profile_id) as count_skills, SUM(not IsNull(user_skills.id)) as count_matching_skills
+        FROM 
+          (
+            SELECT skill_name, user.id
+            FROM user INNER JOIN user_skill AS us ON us.user_id = user.id 
+            WHERE user.id = ?
+          ) AS user_skills
+          RIGHT JOIN
+          (
+            SELECT proj.id AS project_id, proj.name AS project_name,
+                    prof.profile_id, prof.profile_name,
+                    prof.skill_name, prof.skill_experience, prof.skill_weight
             FROM 
+            (
+              SELECT project_id, profile_id, name as profile_name, skill_name, skill_experience, weight as skill_weight
+              FROM profile_skill AS ps INNER JOIN profile ON ps.profile_id = profile.id
+              WHERE exists
               (
-                SELECT skill_name, user.id
-                FROM user INNER JOIN user_skill AS us ON us.user_id = user.id 
-                WHERE user.id = ?
-              ) AS user_skills
-              RIGHT JOIN
-              (
-                SELECT proj.id AS project_id, proj.name AS project_name,
-                        prof.profile_id, prof.profile_name,
-                        prof.skill_name, prof.skill_experience, prof.skill_weight
-                FROM 
-                (
-                  SELECT project_id, profile_id, name as profile_name, skill_name, skill_experience, weight as skill_weight
-                  FROM profile_skill AS ps INNER JOIN profile ON ps.profile_id = profile.id
-                  WHERE exists
+                  SELECT 1
+                  FROM 
                   (
-                      SELECT 1
-                      FROM 
+                    SELECT profile_skills.id as profile_id
+                    FROM 
                       (
-                        SELECT profile_skills.id as profile_id
-                        FROM 
-                          (
-                            SELECT skill_name as user_skill_name
-                            FROM user INNER JOIN user_skill AS us ON us.user_id = user.id 
-                            WHERE user.id = ?
-                          ) AS user_skills,
-                          (
-                            SELECT skill_name as profile_skill_name, profile.id
-                            FROM profile_skill AS ps INNER JOIN profile ON ps.profile_id = profile.id
-                          ) profile_skills
-                        WHERE user_skill_name = profile_skill_name
-                        GROUP BY profile_skills.id
-                      ) AS profiles_with_matching_skills
-                      WHERE profiles_with_matching_skills.profile_id = profile.id
-                      LIMIT 1
-                  )
-                ) as prof INNER JOIN project AS proj
-                  ON prof.project_id = proj.id
-              ) AS project_skills
-              ON user_skills.skill_name = project_skills.skill_name
-            ORDER BY project_id, profile_id;
+                        SELECT skill_name as user_skill_name
+                        FROM user INNER JOIN user_skill AS us ON us.user_id = user.id 
+                        WHERE user.id = ?
+                      ) AS user_skills,
+                      (
+                        SELECT skill_name as profile_skill_name, profile.id
+                        FROM profile_skill AS ps INNER JOIN profile ON ps.profile_id = profile.id
+                      ) profile_skills
+                    WHERE user_skill_name = profile_skill_name
+                    GROUP BY profile_skills.id
+                  ) AS profiles_with_matching_skills
+                  WHERE profiles_with_matching_skills.profile_id = profile.id
+                  LIMIT 1
+              )
+            ) as prof INNER JOIN project AS proj
+              ON prof.project_id = proj.id
+          ) AS project_skills
+          ON user_skills.skill_name = project_skills.skill_name
+        GROUP BY profile_id
+        ORDER BY project_id, profile_id;
         `;
         const params: any[] = [userID, userID];
         db_conn.query(colossalQuery, params, async (err: any, rows: any) => {
@@ -158,91 +187,36 @@ function getMatchingProjects(userID: number): any {
                 // project_id, project_name, profile_id, profile_name, skill_name, skill_weight, matches
                 let matches: Array<ProjectMatch> = [];
                 
-                // we're going to use these track the # of matching or non-matching skills for calculating the mean (mathcing)
-                let countProfileSkill: number = 0;
-                let countMatchingProfileSkill: number = 0;
-                
                 for (let i = 0; i < rows.length; i++){
                     // check if a new project has appeared (different from last registered project)
-                    if (matches.length > 0 && matches[matches.length-1].project.id === rows[i].project_id){
-                        // same project, update values
-                        // check if a new profile has appeared, if not continue
-                        let lastProfileMatchingArray = matches[matches.length-1].matches;
-                        let lastProfileMatch: ProfileMatch = lastProfileMatchingArray[lastProfileMatchingArray.length-1];
-                        if(lastProfileMatch.profileID !== rows[i].profile_id){
-                            // create new Profile match and add it to the last profile match list
-                            let newProfileMatch: ProfileMatch = {
-                                profileID: rows[i].profile_id,
-                                profileName: rows[i].profile_name,
-                                matchingPercentile: 0 // TODO (see Trello Matching algorithm A2)
-                            }
-                            matches[matches.length-1].matches.push(newProfileMatch);
-                            
-                            // new profile calculate mean and save it then reset counters
-                            let mean = countMatchingProfileSkill / countProfileSkill;
-                            lastProfileMatch.matchingPercentile = mean;
-                            countProfileSkill = 0;
-                            countMatchingProfileSkill = 0;
-                        }
-
-                        // check if the current skill matches and update the counters
-                        if (rows[i].macthes === 1){
-                            countMatchingProfileSkill++;
-                        }
-                        countProfileSkill++;
-                        
-                        // TODO: calculate weights 
-                        
-                    }
-                    else{
+                    if (matches.length === 0 || matches[matches.length-1].project.id !== rows[i].project_id){
                         // new project, create new ProjectMatch
                         let newProjectmatch: ProjectMatch = {project: null, matches: null};
                         let newProfileMatches: Array<ProfileMatch> = [];
 
-                        let newProject: Project = {
-                            id: rows[i].project_id,
-                            name: rows[i].project_name,
-                            status: 0,
-                            pitch: '',
-                            created_at: '',
-                            edited_at: '',
-                            creator_id: -1,
-                            creator_first_name: '',
-                            creator_last_name: '',
-                            profiles: []
-                        }
-
-                        // create new Profile match
-                        let newProfileMatch: ProfileMatch = {
-                            profileID: rows[i].profile_id,
-                            profileName: rows[i].profile_name,
-                            matchingPercentile: 0
-                        }
-
-                        // add to list of profile matches
-                        newProfileMatches.push(newProfileMatch);
+                        let newProject: Project = createProject(rows[i].project_id, rows[i].project_name);
 
                         // set project match values
                         newProjectmatch.project = newProject;
                         newProjectmatch.matches = newProfileMatches;
 
                         // add project match to result
-                        matches.push(newProjectmatch);
-
-                        // new project means new profile, check if the current skill matches and update the counters
-                        if (rows[i].macthes === 1){
-                            countMatchingProfileSkill++;
-                        }
-                        countProfileSkill++;
+                        matches.push(newProjectmatch);                        
                     }
-                }
 
-                // calculate the last percentage and add it
-                if (countProfileSkill > 0){
-                    let mean = countMatchingProfileSkill / countProfileSkill;
+                    // create new Profile match
+                    let newProfileMatch: ProfileMatch = createProfileMatch(rows[i].profile_id, rows[i].profile_name);
+
+                    // calculate profile matching percentage
+                    // TODO: calculate percentage depending on # of matching skills  
+                    // TODO: calculate percentage depending on difference required and possessed skill level  
+                    // TODO: calculate percentage depending on weights  
+                    let matchingPercentile: number = Math.ceil((rows[i].count_matching_skills / rows[i].count_skills) * 100);
+                    newProfileMatch.matchingPercentile = matchingPercentile;
+
+                    // add new profile to the last added array of profileMatches
                     let lastProfMatches = matches[matches.length-1].matches;
-                    let lastProfMatch: ProfileMatch = lastProfMatches[lastProfMatches.length-1];
-                    lastProfMatch.matchingPercentile = mean;
+                    lastProfMatches.push(newProfileMatch);
                 }
 
                 resolve(matches);

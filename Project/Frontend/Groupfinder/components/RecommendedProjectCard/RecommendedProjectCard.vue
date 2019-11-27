@@ -1,6 +1,6 @@
 <template>
   <b-card :title="project.name" class="projectCard">
-    <b-card-text> {{ profileMatches[0]['profileName'] }} {{ profileMatches[0]['matchingPercentile'] }} % match</b-card-text>
+    <b-card-text> {{ profileMatches[0]['profileName'] }} {{ profileMatches[0]['matchingPercentile'] }}% match</b-card-text>
     <h5>Other profiles:</h5>
     <!-- Cards for the other profiles-->
     <b-card
@@ -8,7 +8,7 @@
       :key="profileMatch.id"
       class="profileCard"
     >
-      <b-card-text>{{ profileMatch['profileName'] + ' ' + profileMatch['matchingPercentile'] + ' %' }}</b-card-text>
+      <b-card-text>{{ profileMatch['profileName'] + ' ' + profileMatch['matchingPercentile'] + '%' }}</b-card-text>
     </b-card>
   </b-card>
 </template>
