@@ -26,4 +26,9 @@ export default class MainLayout extends Vue {
 
     async mounted() {
     }
+
+    setLoggedIn(value: boolean){
+        console.log("Caught emit");
+        this.logged_in = value;
+    }
 }

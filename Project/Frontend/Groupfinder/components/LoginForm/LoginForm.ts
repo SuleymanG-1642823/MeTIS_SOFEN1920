@@ -17,4 +17,10 @@ export default class LoginForm extends Vue {
         console.log('pass: ', this.pass)
     }
     
+    login(evt: any){
+        evt.preventDefault();
+        console.log('login');
+        this.$emit('setLoggedIn', true);
+        this.$router.push('/');
+    }
 }

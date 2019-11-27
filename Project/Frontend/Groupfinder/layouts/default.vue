@@ -8,7 +8,7 @@
                     <div class="nav flex-column pt-5 bg-light shadow" id="vertical-nav">
                         <!-- Sidebar when logged in -->
                         <Sidebar v-if="logged_in"/>
-                        <LoginForm v-else />
+                        <LoginForm v-else @setLoggedIn="setLoggedIn"/>
                     </div>
                 </div>
             </div>

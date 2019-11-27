@@ -1,13 +1,13 @@
 <template>
   <div class="pl-3">
-    <b-form v-on:submit.prevent="tryLogin" id="login_form">
+    <b-form @submit="login" id="login_form">
       <b-form-group
         id="input-group-mail"
         label="Email address"
         label-for="input-mail"
       >
         <b-form-input
-          id="input-mail"
+          id="input-mail-login"
           v-model="mail"
           type="email"
           required
@@ -21,7 +21,7 @@
         label-for="input-password"
       >
         <b-form-input
-          id="input-password"
+          id="input-password-login"
           v-model="pass"
           type="password"
           required
@@ -34,7 +34,7 @@
       </div>
     </b-form>
     <div class="px-2 py-2">
-      <p>Not logged in?</p>
+      <p>No account?</p>
       <b-button variant="outline-primary"><nuxt-link to="signup">Sign up</nuxt-link></b-button>
     </div>
   </div>
