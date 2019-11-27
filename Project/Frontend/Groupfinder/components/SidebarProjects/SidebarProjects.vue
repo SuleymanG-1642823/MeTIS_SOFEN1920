@@ -1,15 +1,16 @@
 <template>
-    <div>
-        <ul>
-            <li>Project 1</li>
-            <li>Project 2</li>
-        </ul>
-        <nuxt-link to="/contentPage1">New Project</nuxt-link>
-    </div>
+<div>
+    <b-button id="newProjectsBtn" variant="primary">New Project</b-button>
+</div>
 </template>
 
 <script lang="ts" src="./SidebarProjects.ts">
-
 </script>
 
-<style scoped></style>
+<style scoped>
+#newProjectsBtn{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+</style>
