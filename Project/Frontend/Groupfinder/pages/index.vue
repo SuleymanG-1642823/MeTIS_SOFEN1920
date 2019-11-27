@@ -7,9 +7,8 @@
 </template>
 
 <script>
+import { Vue, Component } from 'vue-property-decorator'
 import MainLayout from '~/components/MainLayout/MainLayout.vue'
-
-Vue.use(BootstrapVue)
 
 @Component({
   components: {
