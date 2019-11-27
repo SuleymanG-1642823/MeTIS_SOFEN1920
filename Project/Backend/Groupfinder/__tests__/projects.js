@@ -56,6 +56,7 @@ describe("TESTING ALL PROJECT ROUTES", () => {
             .end((err, res) => {
                 if (err) return done(err);
                 expect(res.status).toBe(200);
+                expect(typeof(res.body)).toBe('object');
                 done();
             })
         })
