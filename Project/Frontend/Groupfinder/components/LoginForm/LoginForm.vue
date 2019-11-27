@@ -8,10 +8,10 @@
       >
         <b-form-input
           id="input-mail"
-          v-bind="mail"
+          v-model="mail"
           type="email"
           required
-          placeholder="Enter email"
+          placeholder="user@example.com"
         ></b-form-input>
       </b-form-group>
 
@@ -25,7 +25,7 @@
           v-model="pass"
           type="password"
           required
-          placeholder="Enter password"
+          placeholder=""
         ></b-form-input>
       </b-form-group>
       <div class="clearfix">
