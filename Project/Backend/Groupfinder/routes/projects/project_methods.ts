@@ -157,25 +157,40 @@ function getMatchingProjects(userID: number): any {
             } else {
                 // project_id, project_name, profile_id, profile_name, skill_name, skill_weight, matches
                 let matches: Array<ProjectMatch> = [];
-
+                
+                // we're going to use these track the # of matching or non-matching skills for calculating the mean (mathcing)
+                let countProfileSkill: number = 0;
+                let countMatchingProfileSkill: number = 0;
+                
                 for (let i = 0; i < rows.length; i++){
                     // check if a new project has appeared (different from last registered project)
-                    if (matches.length > 0 && matches[matches.length-1].project.id === rows.project_id){
+                    if (matches.length > 0 && matches[matches.length-1].project.id === rows[i].project_id){
                         // same project, update values
                         // check if a new profile has appeared, if not continue
                         let lastProfileMatchingArray = matches[matches.length-1].matches;
                         let lastProfileMatch: ProfileMatch = lastProfileMatchingArray[lastProfileMatchingArray.length-1];
-                        if(lastProfileMatch.profileID !== rows.profile_id){
+                        if(lastProfileMatch.profileID !== rows[i].profile_id){
                             // create new Profile match and add it to the last profile match list
                             let newProfileMatch: ProfileMatch = {
                                 profileID: rows[i].profile_id,
                                 profileName: rows[i].profile_name,
-                                matchingPercentile: 100 // TODO (see Trello Matching algorithm A2)
+                                matchingPercentile: 0 // TODO (see Trello Matching algorithm A2)
                             }
                             matches[matches.length-1].matches.push(newProfileMatch);
-                            // TODO reset weight and skill match count variables
+                            
+                            // new profile calculate mean and save it then reset counters
+                            let mean = countMatchingProfileSkill / countProfileSkill;
+                            lastProfileMatch.matchingPercentile = mean;
+                            countProfileSkill = 0;
+                            countMatchingProfileSkill = 0;
                         }
-                        // TODO: if the current profile is the same as the last one, update matched skill count (user_skill and profile_skill) to update percentage
+
+                        // check if the current skill matches and update the counters
+                        if (rows[i].macthes === 1){
+                            countMatchingProfileSkill++;
+                        }
+                        countProfileSkill++;
+                        
                         // TODO: calculate weights 
                         
                     }
@@ -201,7 +216,7 @@ function getMatchingProjects(userID: number): any {
                         let newProfileMatch: ProfileMatch = {
                             profileID: rows[i].profile_id,
                             profileName: rows[i].profile_name,
-                            matchingPercentile: 100 // TODO (see Trello Matching algorithm A2)
+                            matchingPercentile: 0
                         }
 
                         // add to list of profile matches
@@ -214,9 +229,22 @@ function getMatchingProjects(userID: number): any {
                         // add project match to result
                         matches.push(newProjectmatch);
 
-                        // TODO: check rows.matches, if it's 1 the skill matches with one of the users' skills, update percentage accordingly
+                        // new project means new profile, check if the current skill matches and update the counters
+                        if (rows[i].macthes === 1){
+                            countMatchingProfileSkill++;
+                        }
+                        countProfileSkill++;
                     }
                 }
+
+                // calculate the last percentage and add it
+                if (countProfileSkill > 0){
+                    let mean = countMatchingProfileSkill / countProfileSkill;
+                    let lastProfMatches = matches[matches.length-1].matches;
+                    let lastProfMatch: ProfileMatch = lastProfMatches[lastProfMatches.length-1];
+                    lastProfMatch.matchingPercentile = mean;
+                }
+
                 resolve(matches);
             }
         });
