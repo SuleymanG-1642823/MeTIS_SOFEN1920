@@ -18,10 +18,10 @@ VALUES  (3, 'Agenda website', 0, 'A website for managing tasks.'),
 
 -- PROJECT PROFILES
 INSERT INTO profile (name, project_id)
-VALUES  ('Back-end developper', 4), ('Front-end developper', 4),
-        ('UI/UX designer android', 5), ('Sofware engineer', 5),
-        ('UI/UX designer', 6), ('Software engineer windows', 6),
-        ('Software linux', 6), ('Software OSX', 6);
+VALUES  ('Back-end developper', 1), ('Front-end developper', 1),
+        ('UI/UX designer android', 2), ('Sofware engineer', 2),
+        ('UI/UX designer', 3), ('Software engineer windows', 3),
+        ('Software linux', 3), ('Software OSX', 3);
 
 -- PROFILE SKILLS
 INSERT INTO profile_skill -- (profile_id, name, experience, weight)
@@ -48,9 +48,9 @@ VALUES  (1, 'Django', 2, 1),
 
 -- USER SKILLS
 INSERT INTO user_skill -- (user_id, skill name, skill experience)
-VALUES  (7, 'c++', 7),
-        (7, 'python', 3),
-        (7, 'AGILE', 5),
-        (7, 'SCRUM', 3),
-        (7, 'Extreme programming', 2),
-        (7, 'Linux OS', 3);
+VALUES  (6, 'c++', 7),
+        (6, 'python', 3),
+        (6, 'AGILE', 5),
+        (6, 'SCRUM', 3),
+        (6, 'Extreme programming', 2),
+        (6, 'Linux OS', 3);
