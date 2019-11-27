@@ -32,7 +32,6 @@
                 <!-- Content -->
                 <div id="content" class="">
                     <!-- Content components go here -->
-                    <h1 v-if="content_type == 'helloworld'" class="h1">Hello world!</h1>
                     <nuxt />
                 </div>
             </div>
@@ -49,7 +48,7 @@
     height: 100vh;
     top: 0;
     left: 0;
-    padding-top: 50px;
+    padding-top: 20px;
 }
 
 #content{
