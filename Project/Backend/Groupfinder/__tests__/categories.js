@@ -1,9 +1,20 @@
 import app from '../app';
-const request = require("supertest");
+import http from 'http';
+import supertest from 'supertest';
 import 'babel-polyfill';
+var request;
+
 var categoryID;
 
 describe("TESTING ALL CATEGORY ROUTES", () => {
+    beforeAll((done) => {
+        var test_server = http.createServer(app);
+        test_server.listen(done);
+        request = supertest(test_server);
+    });
+    afterAll((done) => {
+        test_server.close(done);
+    });
     describe("POST /categories/", () => {
         it("Should insert a new category into the database", (done) => {
             var category = {
@@ -12,8 +23,7 @@ describe("TESTING ALL CATEGORY ROUTES", () => {
                     name: "testCategory"
                 }                
             }
-            request(app)
-            .post('/categories/')
+            request.post('/categories/')
             .send(category)
             .end((err, res) => {
                 if (err) return done(err);
@@ -26,8 +36,7 @@ describe("TESTING ALL CATEGORY ROUTES", () => {
     });
     describe("GET /categories/:category_id", () => {
         it("Should get a '404 not found' response", (done) => {
-            request(app)
-            .get(`/categories/0`)
+            request.get(`/categories/0`)
             .end((err, res) => {
                 if (err) return done(err);
                 expect(res.status).toBe(404);
@@ -35,8 +44,7 @@ describe("TESTING ALL CATEGORY ROUTES", () => {
             });
         });
         it("Should get a single category", (done) => {
-            request(app)
-            .get(`/categories/${categoryID}`)
+            request.get(`/categories/${categoryID}`)
             .end((err, res) => {
                 if (err) return done(err);
                 expect(res.status).toBe(200);
@@ -46,7 +54,7 @@ describe("TESTING ALL CATEGORY ROUTES", () => {
     });
     describe("GET /categories", () => {
         it("Should get all categories from the database", (done) => {
-            request(app)
+            request
             .get('/categories/')
             .end((err, res) => {
                 if (err) return done(err);
@@ -64,8 +72,7 @@ describe("TESTING ALL CATEGORY ROUTES", () => {
                     name: "adapted category"
                 }                
             }
-            request(app)
-            .put(`/categories/${categoryID}`)
+            request.put(`/categories/${categoryID}`)
             .send(category)
             .end((err, res) => {
                 if (err) return done(err);
@@ -76,7 +83,7 @@ describe("TESTING ALL CATEGORY ROUTES", () => {
     });
     describe("DELETE /categories/:category_id", () => {
         it("Should delete a category from the database", (done) => {
-            request(app)
+            request
             .delete(`/categories/${categoryID}`)
             .end((err, res) => {
                 if (err) return done(err);

@@ -1,13 +1,22 @@
 import app from '../app';
-const request = require("supertest");
+import http from 'http';
+import supertest from 'supertest';
 import 'babel-polyfill';
+var request;
 var userID;
 
 describe("TESTING ALL USER ROUTES", () => {
+    beforeAll((done) => {
+        var test_server = http.createServer(app);
+        test_server.listen(done);
+        request = supertest(test_server);
+    });
+    afterAll((done) => {
+        test_server.close(done);
+    });
     describe("GET /users/:user_id", () => {
         it("Should get a single user with id 1", (done) => {
-            request(app)
-            .get(`/users/1`)
+            request.get(`/users/1`)
             .end((err, res) => {
                 if (err) return done(err);
                 expect(res.status).toBe(200);
@@ -15,8 +24,7 @@ describe("TESTING ALL USER ROUTES", () => {
             });
         });
         it("Should get a '404 not found' response", (done) => {
-            request(app)
-            .get(`/users/0`)
+            request.get(`/users/0`)
             .end((err, res) => {
                 if (err) return done(err);
                 expect(res.status).toBe(404);
@@ -40,8 +48,7 @@ describe("TESTING ALL USER ROUTES", () => {
                     social_media: null
                 }
             }
-            request(app)
-            .post('/users/')
+            request.post('/users/')
             .send(user)
             .end((err, res) => {
                 if (err) return done(err);
@@ -69,8 +76,7 @@ describe("TESTING ALL USER ROUTES", () => {
                     social_media: null
                 }
             };
-            request(app)
-            .put(`/users/${userID}`)
+            request.put(`/users/${userID}`)
             .send(user)
             .end((err, res) => {
                 if (err) return done(err);
@@ -81,8 +87,7 @@ describe("TESTING ALL USER ROUTES", () => {
     });
     describe("DELETE /users/:user_id", () => {
         it("Should delete a user from the database.",(done) => {
-            request(app)
-            .delete(`/users/${userID}`)
+            request.delete(`/users/${userID}`)
             .end((err, res) => {
                 if (err) return done(err);
                 expect(res.status).toBe(200);   

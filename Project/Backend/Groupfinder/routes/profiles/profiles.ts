@@ -8,7 +8,6 @@ import Profile from '../../types/profile';
  * Middleware that is specific to this router
  */
 router.use((req: any, res: any, next: Function) => {
-    console.log(`Profiles middleware is triggered`);
     next()
 });
 

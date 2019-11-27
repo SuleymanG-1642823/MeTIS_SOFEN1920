@@ -1,10 +1,20 @@
 import app from '../app';
-const request = require("supertest");
-const moment = require('moment');
+import http from 'http';
+import supertest from 'supertest';
 import 'babel-polyfill';
+const moment = require('moment');
+var request;
 var messageID;
 
 describe("TESTING ALL MESSAGE ROUTES", () => {
+    beforeAll((done) => {
+        var test_server = http.createServer(app);
+        test_server.listen(done);
+        request = supertest(test_server);
+    });
+    afterAll((done) => {
+        test_server.close(done);
+    });
     describe("POST /messages/", () => {
         it("Should insert a new message into the database", (done) => {
             var message = {
@@ -16,8 +26,7 @@ describe("TESTING ALL MESSAGE ROUTES", () => {
                     sent_at: moment().format('YYYY-MM-DD hh:mm:ss')
                 }
             }
-            request(app)
-            .post('/messages/')
+            request.post('/messages/')
             .send(message)
             .end((err, res) => {
                 if (err) return done(err);
@@ -30,8 +39,7 @@ describe("TESTING ALL MESSAGE ROUTES", () => {
     });
     describe("GET /messages/conversation/:user_id1/:user_id2", () => {
         it("Should get a conversation between two users", (done) => {
-            request(app)
-            .get(`/messages/conversation/1/2`)
+            request.get(`/messages/conversation/1/2`)
             .end((err, res) => {
                 if (err) return done(err);
                 expect(res.status).toBe(200);
@@ -42,8 +50,7 @@ describe("TESTING ALL MESSAGE ROUTES", () => {
     });
     describe("GET /messages/:user_id", () => {
         it("Should get all message received from / sent to a user", (done) => {
-            request(app)
-            .get('/messages/1')
+            request.get('/messages/1')
             .end((err, res) => {
                 if (err) return done(err);
                 expect(res.status).toBe(200);

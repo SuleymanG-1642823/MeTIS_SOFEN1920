@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "tsc",
-    "test": "jest --detectOpenHandles",
+    "test": "jest",
     "start": "npm run build && npm run test && node ./bin/www"
   },
   "jest": {

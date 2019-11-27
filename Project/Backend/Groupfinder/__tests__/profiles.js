@@ -1,9 +1,19 @@
 import app from '../app';
-const request = require("supertest");
+import http from 'http';
+import supertest from 'supertest';
 import 'babel-polyfill';
+var request;
 var profileID;
 
 describe("TESTING ALL PROFILE ROUTES", () => {
+    beforeAll((done) => {
+        var test_server = http.createServer(app);
+        test_server.listen(done);
+        request = supertest(test_server);
+    });
+    afterAll((done) => {
+        test_server.close(done);
+    });
     describe("POST /profiles/", () => {
         it("Should insert a new profile into the database", (done) => {
             var profile = {
@@ -13,8 +23,7 @@ describe("TESTING ALL PROFILE ROUTES", () => {
                     project_id: 1
                 }
             }
-            request(app)
-            .post('/profiles/')
+            request.post('/profiles/')
             .send(profile)
             .end((err, res) => {
                 if (err) return done(err);
@@ -27,8 +36,7 @@ describe("TESTING ALL PROFILE ROUTES", () => {
     });
     describe("GET /profiles/:project_id", () => {
         it("Should get all profiles of a project from the database", (done) => {
-            request(app)
-            .get(`/profiles/1`)
+            request.get(`/profiles/1`)
             .end((err, res) => {
                 if (err) return done(err);
                 expect(res.status).toBe(200);
@@ -45,8 +53,7 @@ describe("TESTING ALL PROFILE ROUTES", () => {
                     project_id: 1
                 }
             }
-            request(app)
-            .put(`/profiles/${profileID}`)
+            request.put(`/profiles/${profileID}`)
             .send(profile)
             .end((err, res) => {
                 if (err) return done(err);
@@ -57,8 +64,7 @@ describe("TESTING ALL PROFILE ROUTES", () => {
     });
     describe("DELETE /profiles/:profile_id", () => {
         it("Should delete a profile from the database", (done) => {
-            request(app)
-            .delete(`/profiles/${profileID}`)
+            request.delete(`/profiles/${profileID}`)
             .end((err, res) => {
                 if (err) return done(err);
                 expect(res.status).toBe(200);   

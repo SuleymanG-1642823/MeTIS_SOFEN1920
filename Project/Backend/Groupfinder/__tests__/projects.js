@@ -1,9 +1,19 @@
-import app from "../app";
-const request = require("supertest");
+import app from '../app';
+import http from 'http';
+import supertest from 'supertest';
 import 'babel-polyfill';
+var request;
 var projectID;
 
 describe("TESTING ALL PROJECT ROUTES", () => {
+    beforeAll((done) => {
+        var test_server = http.createServer(app);
+        test_server.listen(done);
+        request = supertest(test_server);
+    });
+    afterAll((done) => {
+        test_server.close(done);
+    });
     describe("POST /projects/", () => {
         it("Should insert a new project (with profiles) into the database", (done) => {
             var project = {
@@ -26,8 +36,7 @@ describe("TESTING ALL PROJECT ROUTES", () => {
                     ]
                 }
             }
-            request(app)
-            .post('/projects/')
+            request.post('/projects/')
             .send(project)
             .end((err, res) => {
                 if (err) return done(err);
@@ -40,8 +49,7 @@ describe("TESTING ALL PROJECT ROUTES", () => {
     });
     describe("GET /projects/:project_id", () => {
         it("Should get a project from the database", (done) => {
-            request(app)
-            .get(`/projects/${projectID}`)
+            request.get(`/projects/${projectID}`)
             .end((err, res) => {
                 if (err) return done(err);
                 expect(res.status).toBe(200);
@@ -51,8 +59,7 @@ describe("TESTING ALL PROJECT ROUTES", () => {
     });
     describe("GET /projects/", () => {
         it("Should get all projects from the database", (done) => {
-            request(app)
-            .get('/projects/')
+            request.get('/projects/')
             .end((err, res) => {
                 if (err) return done(err);
                 expect(res.status).toBe(200);
@@ -83,8 +90,7 @@ describe("TESTING ALL PROJECT ROUTES", () => {
                     ]
                 }
             }
-            request(app)
-            .put(`/projects/${projectID}`)
+            request.put(`/projects/${projectID}`)
             .send(project)
             .end((err, res) => {
                 if (err) return done(err);
@@ -95,8 +101,7 @@ describe("TESTING ALL PROJECT ROUTES", () => {
     });
     describe("DELETE /projects/:project_id", () => {
         it("Should delete a profile from the database", (done) => {
-            request(app)
-            .delete(`/projects/${projectID}`)
+            request.delete(`/projects/${projectID}`)
             .end((err, res) => {
                 if (err) return done(err);
                 expect(res.status).toBe(200);   
