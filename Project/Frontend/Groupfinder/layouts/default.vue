@@ -5,7 +5,7 @@
             <!-- Sidebar -->
             <div class="col-xl-2 col-lg-3 col-md-3 navbar navbar-expand-md py-0 px-0 mx-0 my-1">
                 <div class="collapse navbar-collapse">
-                    <div class="nav flex-column bg-light shadow" id="vertical-nav">
+                    <div class="nav flex-column pt-5 bg-light shadow" id="vertical-nav">
                         <!-- Sidebar when logged in -->
                         <Sidebar/>
                         <!-- TODO Sidebar when not logged in comes here -->
@@ -19,12 +19,12 @@
                     <div class="row nav nav-pills fixed-top px-3 py-2 navbar-light bg-light shadow">
                         <nuxt-link to="/" class="navbar-brand align-text-middle col-3 py-0 pr-0 mr-0" href="#">Groupfinder</nuxt-link>
                         <div class="col-9">
-                            <div class="input-group">
+                            <!--<div class="input-group">
                                 <div class="input-group-prepend">
                                     <button class="btn btn-outline-secondary" type="button" id="button-addon1">Search</button>
                                 </div>
                                 <input type="search" class="form-control" placeholder="search">
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                 </div>

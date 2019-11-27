@@ -1,7 +1,7 @@
 <template>
 <div>
-    <b-button variant="primary"><nuxt-link id="new_project_button" to="/projectCreationForm" >New Project</nuxt-link></b-button>
-    <h3>Projects:</h3>
+    <b-button variant="outline-primary"><nuxt-link id="new_project_button" to="/projectCreationForm" >New Project</nuxt-link></b-button>
+    <h5>Projects:</h5>
     <ul>
         <!-- TODO: Query user's projects -->
     </ul>
