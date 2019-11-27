@@ -130,10 +130,126 @@ function getMatchingProjects(userID: number): any {
         return newProfileMatch;
     }
 
+    /*
+        Sorts Projects in decending maximum matching percentile and profiles in decending matching percentile
+        @pre: every project must have at least 1 profile
+    */
+    function sortMatches(matches: Array<ProjectMatch>): Array<ProjectMatch>{
+        // sort profiles per project
+        for (let projMatchIndex in matches){ 
+            matches[projMatchIndex].matches = matches[projMatchIndex].matches.sort((profileMatch1, profileMatch2) => profileMatch2.matchingPercentile - profileMatch1.matchingPercentile);
+        }
+
+        // sort projects according to their maximum profile matching percentage
+        matches.sort((projectMatch1, projectMatch2) => projectMatch2.matches[0].matchingPercentile - projectMatch1.matches[0].matchingPercentile);
+
+        return matches;
+    } 
+
+    interface ProfileMatch {
+        profileID: number,
+        profileName: String,
+        matchingPercentile: number
+    }
+    /**
+     * Creates a new ProfileMatch object (also calculates the matching percentage).
+     * @param rows Contains all rows from the query of a single profile.
+     * @pre "rows" must contain all rows of 1 project, if not the contents of the created ProfileMatch object
+     *      won't be correct.
+     * @pre Each profile in the output of the query (input param "rows") must contain at least 1 profile_skill.
+     */
+    function createMatchingProfile(rows: Array<any>): ProfileMatch{
+        // rows: project_id, project_name, profile_id, profile_name, skill_name, skill_experience, skill_weight, matches
+        // create the matching profile object
+        let newProfileMatch: ProfileMatch = createProfileMatch(rows[0].profile_id, rows[0].profile_name);
+
+        // TODO: experience
+        // TODO: weights
+        // count the number of matching skills en total skills, then calculate the matching percentage
+        let totalSkills = 0;
+        let totalMatchingSkills = 0;
+
+        for (let row of rows){
+            totalSkills += row.skill_weight;
+
+            if (row.matches === 1) // means matches with one of the users' skills
+            {
+                // TODO: if user has the required skill experience, # of matching skills is increased by 1
+                // otherwise the # of matching skills is increased by the percentage of which the users' skill
+                // covers the required skill for example: user skill = 1, required skill = 2, 1 is 50% of 2 so
+                // # of matching skills is increased by 0.5 (50%).
+                // NOTE: first add the column for the users' experience, so you can use it here
+                let addedValue = 1;
+
+                // the weight is calculated by multiplying the added amount by the weight itself to the # of matching skills 
+                // and # of tot skills. The added amount is determined by skill experience (1 or a percentage (max 1)). 
+                let weightedAddedValue = addedValue*row.skill_weight;
+
+                // update value
+                totalMatchingSkills += weightedAddedValue;
+            }
+        }
+
+        // matching percentage
+        newProfileMatch.matchingPercentile = Math.ceil((totalMatchingSkills / totalSkills) * 100);
+        return newProfileMatch;
+    }
+
+    /**
+     * Creates a new ProjectMatch object that contains a list of ProfileMatch objects.
+     * @param rows: Contains all rows from the query of a single project.
+     * @pre "rows" must contain all rows of 1 project, the contents are calculated according to given data.
+     *      If the rows of the same project are passed separately there will be a ProjectMatch object created
+     *      for each call of this function and the contents of those ProjectMatch objects won't be correct.
+     * @pre Each project in the output of the query (input param "rows") must contain at least 1 profile.
+     *  */
+    function createMatchingProject(rows: Array<any>): ProjectMatch{
+        let profileRows: Array<any> = [];
+        let profileMatches: Array<ProfileMatch> = [];
+
+        // create ProjectMatch object
+        let newProjectMatch: ProjectMatch = {
+            project: createProject(rows[0].profile_id, rows[0].profile_name),
+            matches: null
+        }
+
+        // cumulate rows of the same profile, and create a ProfileMatch object with each set of rows
+        for (let i in rows){
+            // check if current profile is a new one
+            if (profileRows.length === 0 || profileRows[profileRows.length-1].profile_id !== rows[i].profile_id){
+                // if there are cumulated rows then we have all the rows of one profile, make a ProfileMatch object
+                if (profileRows.length > 0){
+                    profileMatches.push(createMatchingProfile(profileRows));
+                    profileRows = [];
+                }
+            }
+
+            // add current rows to list
+            profileRows.push(rows[i]);
+        }
+
+        // if there is a cumulated set of rows remaining, make a ProfileMatch out of those
+        if (profileRows.length > 0){
+            profileMatches.push(createMatchingProfile(profileRows));
+        }
+
+        // add profile matches list to ProjectMatch object
+        newProjectMatch.matches = profileMatches;
+
+        return newProjectMatch;
+    }
+
     return new Promise((resolve: any, reject: any) => {
-        // project_id, project_name, profile_id, profile_name, skill_name, skill_weight, matches
+        // rows: project_id, project_name, profile_id, profile_name, skill_name, skill_experience, skill_weight, matches
+        /* TODO
+            PROBLEM: profiles with no matching skills are not selected so that means the following
+                  scenario is true: let A be a project and let bb and cc be A's profiles,
+                  if bb has matching skills with the user and cc does not, then cc won't be selected. 
+            SOLUTION: query all profiles (that belong to one of the projects returned by the query below) that don't have 
+                      matching skills and take the union of that with the query below.
+        */
         const colossalQuery: string = `
-        SELECT project_id, project_name, profile_id, profile_name, COUNT(profile_id) as count_skills, SUM(not IsNull(user_skills.id)) as count_matching_skills
+        SELECT project_skills.*, not IsNull(user_skills.id) as matches
         FROM 
           (
             SELECT skill_name, user.id
@@ -175,7 +291,6 @@ function getMatchingProjects(userID: number): any {
               ON prof.project_id = proj.id
           ) AS project_skills
           ON user_skills.skill_name = project_skills.skill_name
-        GROUP BY profile_id
         ORDER BY project_id, profile_id;
         `;
         const params: any[] = [userID, userID];
@@ -184,42 +299,33 @@ function getMatchingProjects(userID: number): any {
                 console.log(`Error while fetching matching projects from the database.\n${err}`);
                 reject("500");
             } else {
-                // project_id, project_name, profile_id, profile_name, skill_name, skill_weight, matches
+                // project_id, project_name, profile_id, profile_name, skill_name, skill_experience, skill_weight, matches
                 let matches: Array<ProjectMatch> = [];
-                
-                for (let i = 0; i < rows.length; i++){
-                    // check if a new project has appeared (different from last registered project)
-                    if (matches.length === 0 || matches[matches.length-1].project.id !== rows[i].project_id){
-                        // new project, create new ProjectMatch
-                        let newProjectmatch: ProjectMatch = {project: null, matches: null};
-                        let newProfileMatches: Array<ProfileMatch> = [];
+                let projectRows: Array<any> = [];
+                let projectMatches: Array<ProjectMatch> = [];
 
-                        let newProject: Project = createProject(rows[i].project_id, rows[i].project_name);
-
-                        // set project match values
-                        newProjectmatch.project = newProject;
-                        newProjectmatch.matches = newProfileMatches;
-
-                        // add project match to result
-                        matches.push(newProjectmatch);                        
+                // cumulate rows of the same project, and create a ProjectMatch object with each set of rows
+                for (let i in rows){
+                    // check if current project is a new one
+                    if (projectRows.length === 0 || projectRows[projectRows.length-1].project_id !== rows[i].project_id){
+                        // if there are cumulated rows then we have all the rows of one profile, make a ProfileMatch object
+                        if (projectRows.length > 0){
+                            projectMatches.push(createMatchingProject(projectRows));
+                            projectRows = [];
+                        }
                     }
 
-                    // create new Profile match
-                    let newProfileMatch: ProfileMatch = createProfileMatch(rows[i].profile_id, rows[i].profile_name);
-
-                    // calculate profile matching percentage
-                    // TODO: calculate percentage depending on # of matching skills  
-                    // TODO: calculate percentage depending on difference required and possessed skill level  
-                    // TODO: calculate percentage depending on weights  
-                    let matchingPercentile: number = Math.ceil((rows[i].count_matching_skills / rows[i].count_skills) * 100);
-                    newProfileMatch.matchingPercentile = matchingPercentile;
-
-                    // add new profile to the last added array of profileMatches
-                    let lastProfMatches = matches[matches.length-1].matches;
-                    lastProfMatches.push(newProfileMatch);
+                    // add current rows to list
+                    projectRows.push(rows[i]);
                 }
 
-                resolve(matches);
+                // if there is a cumulated set of rows remaining, make a ProjectMatch out of those
+                if (projectRows.length > 0){
+                    projectMatches.push(createMatchingProject(projectRows));
+                }
+
+                resolve(projectMatches);
+                // resolve(sortMatches(matches));
             }
         });
     });
