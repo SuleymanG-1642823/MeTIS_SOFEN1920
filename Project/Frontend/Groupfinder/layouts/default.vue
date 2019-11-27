@@ -7,8 +7,8 @@
                 <div class="collapse navbar-collapse">
                     <div class="nav flex-column pt-5 bg-light shadow" id="vertical-nav">
                         <!-- Sidebar when logged in -->
-                        <Sidebar/>
-                        <!-- TODO Sidebar when not logged in comes here -->
+                        <Sidebar v-if="logged_in"/>
+                        <LoginForm v-else />
                     </div>
                 </div>
             </div>
