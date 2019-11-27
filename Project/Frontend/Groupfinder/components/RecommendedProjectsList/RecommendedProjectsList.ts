@@ -1,6 +1,6 @@
 import {Vue, Component, Prop} from 'vue-property-decorator'
-import Project from '../../types/project'
 import RecommendedProjectCard from '../RecommendedProjectCard/RecommendedProjectCard'
+import ProjectMatch from '../../types/projectMatch'
 
 @Component({
     components:{
@@ -8,5 +8,5 @@ import RecommendedProjectCard from '../RecommendedProjectCard/RecommendedProject
     }
 })
 export default class RecommendedProjectsList extends Vue{
-    @Prop(Array) readonly projectMatches: Array<Project>
+    @Prop(Array) readonly projectMatches: Array<ProjectMatch>
 }
