@@ -31,8 +31,9 @@ VALUES  (1, 'Back-end developper', 1),
 
 -- PROFILE SKILLS
 INSERT INTO profile_skill -- (profile_id, name, experience, weight)
-VALUES  (1, 'Django', 2, 1),
+VALUES  (1, 'Django', 2, 2),
         (1, 'Unit testing', 2, 1),
+        (1, 'MySQL', 2, 2),
         (2, 'Vue', 3, 1),
         (2, 'Typescript', 3, 1),
         (3, 'Android SDK', 2, 3),
@@ -41,14 +42,14 @@ VALUES  (1, 'Django', 2, 1),
         (4, 'Android SDK', 2, 3),
         (4, 'Android Studio', 2, 1),
         (5, 'Qt framework', 2, 2),
-        (5, 'C++', 2, 2),
-        (6, 'C++', 3, 2),
+        (5, 'C++', 2, 4),
+        (6, 'C++', 3, 4),
         (6, 'AGILE', 3, 2),
         (6, 'Windows OS', 3, 2),
-        (7, 'C++', 3, 2),
+        (7, 'C++', 3, 4),
         (7, 'AGILE', 3, 2),
         (7, 'Linux OS', 3, 2),
-        (8, 'C++', 3, 2),
+        (8, 'C++', 3, 4),
         (8, 'AGILE', 3, 2),
         (8, 'OSx', 3, 2);
 
@@ -59,4 +60,5 @@ VALUES  (6, 'c++', 7),
         (6, 'AGILE', 5),
         (6, 'SCRUM', 3),
         (6, 'Extreme programming', 2),
-        (6, 'Linux OS', 3);
+        (6, 'Linux OS', 3),
+        (6, 'MySQL', 5);
