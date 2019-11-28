@@ -5,6 +5,7 @@ import axios from 'axios';
 import profileForm from '~/components/profileForm/profileForm.vue'
 
 import Project from '../../types/project';
+import Profile from '../../types/profile';
 
 @ Component({
     components: {profileForm}
@@ -49,6 +50,8 @@ export default class projectCreationForm extends Vue {
 
         project.name = this.form.projectName;
         project.pitch = this.form.pitch;
+        console.log(this.form)
+        console.log(this.profilesList)
         // TODO category
 
         try {
