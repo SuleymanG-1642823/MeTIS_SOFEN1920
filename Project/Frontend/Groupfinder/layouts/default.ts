@@ -22,9 +22,6 @@ export default class MainLayout extends Vue {
     // Methods
     created(){
         this.content_type = "helloworld";
-        if (!this.logged_in){
-            this.$router.push('/signup');
-        }
     }
 
     async mounted() {
