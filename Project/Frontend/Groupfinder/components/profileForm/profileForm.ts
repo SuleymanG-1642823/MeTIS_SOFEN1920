@@ -2,6 +2,7 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import User from '@/types/user.ts';
 import axios from 'axios';
+import Profile from '~/types/profile';
 
 @ Component
 export default class profileForm extends Vue {
@@ -9,7 +10,7 @@ export default class profileForm extends Vue {
     skillList: Array<String> = [];
     skill_input: String = ""
 
-    @Prop({default: {}}) id: String
+    @Prop({default: {}}) id: Profile
 
     // Methods
 

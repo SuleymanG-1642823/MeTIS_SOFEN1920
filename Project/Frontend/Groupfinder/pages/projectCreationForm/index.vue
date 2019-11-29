@@ -40,7 +40,7 @@
       </b-form-group>
 
       <!-- Dynamically add profileForms -->
-      <profileForm v-for="profile in profilesList" v-bind:key="profile" @deleteProfile="deleteProfileForm" :id="profile" />
+      <profileForm v-for="profile in listOfProfiles" v-bind:key="profile" @deleteProfile="deleteProfileForm" :id="profile" />
       <b-button variant="primary" @click="addProfile">Add profile</b-button>
 
       <b-button type="submit" variant="success">Submit Project</b-button>

@@ -78,7 +78,8 @@ router.put('/:project_id', async (req: any, res: any) => {
  * @pre body of http request contains new project (type: Project) in JSON format
  */
 router.post('/', async (req: any, res: any) => {
-    const project: Project = req.body.project;
+    const project: Project = req.body;
+    console.log(project)
     try{
         const newProjectID: number = await $project_methods.addProject(project);
         res.status(200).json({id: newProjectID});

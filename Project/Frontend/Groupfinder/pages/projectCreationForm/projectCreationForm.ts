@@ -13,13 +13,14 @@ import Profile from '../../types/profile';
 export default class projectCreationForm extends Vue {
     // Data
     profilesList: Array<String> = [];
+    listOfProfiles: Array<Profile> = [];
     form: any = {
         projectName: "",
         pitch: "",
         category: null
     }
     categories: Array<any> = [{text:"Select One", value: null}, "Website", "Native Application", "Smartphone Application"]
-    index: Number = 0
+    index: number = 0
     /*
     components: {
         'profileFormComponent': profileForm
@@ -30,19 +31,33 @@ export default class projectCreationForm extends Vue {
     }
 
     // Methods
+    /**
+     * Adds a profile to the profile form
+     */
     addProfile(){
         this.index = this.index.valueOf() + 1
-        let new_profile_id = "Profile-" + this.index.toString()
-        this.profilesList.push(new_profile_id);
+        let new_profile = <Profile>{}
+        new_profile.id = this.index
+        new_profile.name = ""
+        new_profile.project_id = 1
+        this.listOfProfiles.push(new_profile);
     }
 
-    deleteProfileForm(value: string){
-        let index = this.profilesList.indexOf(value, 0)
+    /**
+     * Deletes the profileform of the given profile
+     * @param value The profile the user wants to delete
+     */
+    deleteProfileForm(value: Profile){
+        let index = this.listOfProfiles.indexOf(value, 0)
         if(index > -1){
-            this.profilesList.splice(index, 1)
+            this.listOfProfiles.splice(index, 1)
         }
     }
 
+    /**
+     * submits the project to the database
+     * @param evt 
+     */
     async submitProject(evt: any){
         evt.preventDefault();
 
@@ -50,6 +65,7 @@ export default class projectCreationForm extends Vue {
 
         project.name = this.form.projectName;
         project.pitch = this.form.pitch;
+        project.status = 0
         console.log(this.form)
         console.log(this.profilesList)
         // TODO category
