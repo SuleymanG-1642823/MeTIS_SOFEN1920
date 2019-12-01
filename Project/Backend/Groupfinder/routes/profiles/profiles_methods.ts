@@ -18,10 +18,12 @@ function getProjectProfiles(projectID: number): Promise<Profile[]> {
                 } else {
                     let profiles: Profile[] = [];
                     for (let i=0; i < rows.length; i++){
+                        // TODO: get skills
                         let profile: Profile = {
                             id: rows[i].id,
                             name: rows[i].name,
-                            project_id: projectID
+                            project_id: projectID,
+                            skills: []
                         }
                         profiles.push(profile);
                     }

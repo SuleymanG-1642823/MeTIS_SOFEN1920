@@ -10,34 +10,35 @@ export default class profileForm extends Vue {
     skillList: Array<String> = [];
     skill_input: String = ""
 
-    @Prop({default: {}}) id: Profile
+    @Prop({default: {}}) profile: Profile
 
     // Methods
 
     // Add skill to list
-    addSkill(skill: String){
+    addSkill(skill: string){
         // Check if skill not empty string
         if (skill !== "" && skill){
             // Check if skill not already in list
             let skillFound: boolean = false;
-            for (let item of this.skillList) {
+            for (let item of this.profile.skills) {
                 if (item === skill){
                     skillFound = true;
                     break;
                 }
             }
             if (!skillFound){
-                this.skillList.push(skill);
+                this.profile.skills.push(skill);
+                this.$forceUpdate();
             }
         }
     }
 
     // Remove skill from list
-    deleteSkill(skill: String){
+    deleteSkill(skill: string){
         // Find index
         let index: number = 0;
         let indexFound: boolean = false;
-        for (let item of this.skillList) {
+        for (let item of this.profile.skills) {
             if (item === skill){
                 indexFound = true;
                 break;
@@ -47,12 +48,27 @@ export default class profileForm extends Vue {
 
         // Remove skill
         if (indexFound){
-            this.skillList.splice(index, 1);
+            this.profile.skills.splice(index, 1);
         }
+    }
+
+    // Remove skill from list by index
+    deleteSkillFromIndex(index: number){
+        this.profile.skills.splice(index, 1);
+        this.$forceUpdate();
     }
 
     // Remove profile from list
     deleteProfileFromList(){
-        this.$emit('deleteProfile', this.$props.id)
+        this.$emit('deleteProfile', this.$props.profile)
+    }
+
+    // Returns the skill at the given index
+    indexToSkill(index: number): String{
+        return this.profile.skills[index];
+    }
+
+    mounted(){
+        this.profile.skills = new Array();
     }
 }

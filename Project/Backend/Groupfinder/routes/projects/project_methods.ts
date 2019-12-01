@@ -380,6 +380,18 @@ function addProject(project: Project): Promise<number>{
                     reject("500");
                 } else {
                     try{
+                        /* Tried using LAST_INSERTED_ID, but getting access denied
+                        const IDquery: string = "SELECT LAST_INSERTED_ID();";
+                        db_conn.query(IDquery, [], (err: any, rows: any) => {
+                            if (err) {
+                                console.log("LAST INSERTED ID");
+                                console.log(err);
+                                reject("500");
+                            } else {
+                                console.log("LAST INSERTED ID");
+                                console.log(rows);
+                            }
+                        });*/
                         const newProjectID: number = await getProjectID(project);
                         for (let i = 0; i < project.profiles.length; i++){ // insert profiles into profile table
                             let newProfile: Profile = project.profiles[i];

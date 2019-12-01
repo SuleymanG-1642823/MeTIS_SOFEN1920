@@ -65,9 +65,8 @@ export default class projectCreationForm extends Vue {
 
         project.name = this.form.projectName;
         project.pitch = this.form.pitch;
-        project.status = 0
-        console.log(this.form)
-        console.log(this.profilesList)
+        project.status = 0;
+        project.profiles = this.listOfProfiles;
         // TODO category
 
         try {

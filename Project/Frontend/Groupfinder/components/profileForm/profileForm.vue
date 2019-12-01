@@ -27,9 +27,9 @@
         </b-input-group-append>
       </b-input-group>
       <ul>
-        <li v-for="skill in skillList" v-bind:key="skill" class="py-1">
-          {{skill}}
-          <b-button @click="deleteSkill(skill)" variant="outline-danger" size="sm">Delete</b-button>
+        <li v-for="(skill, index) in profile.skills" v-bind:key="index" class="py-1">
+          {{profile.skills[index]}}
+          <b-button @click="deleteSkillFromIndex(index)" variant="outline-danger" size="sm">Delete</b-button>
         </li>
       </ul>
     </b-form-group>
