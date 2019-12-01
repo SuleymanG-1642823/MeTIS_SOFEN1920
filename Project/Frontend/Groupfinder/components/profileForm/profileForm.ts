@@ -3,15 +3,31 @@ import { Component, Prop } from 'vue-property-decorator';
 import User from '@/types/user.ts';
 import axios from 'axios';
 
-@ Component
+import Questionnaire from '~/components/Questionnaire/Questionnaire.vue'
+
+@ Component ({
+    components: {Questionnaire}
+})
 export default class profileForm extends Vue {
     // All the skills for this profile get stored in this list
     skillList: Array<String> = [];
     skill_input: String = ""
 
+    // boolean indicates if questionnaire modal needs to be visible
+    showQuestionnaire: Boolean = false;
+
     @Prop({default: {}}) id: String
 
     // Methods
+
+    // Show the questionnaire
+    changeQuestionnaireVisible(value: Boolean){
+        this.showQuestionnaire = value;
+    }
+
+    showQuestionnaireModal(){
+        this.$root.$emit('bv::show::modal', 'my-modal');
+    }
 
     // Add skill to list
     addSkill(skill: String){
@@ -53,5 +69,9 @@ export default class profileForm extends Vue {
     // Remove profile from list
     deleteProfileFromList(){
         this.$emit('deleteProfile', this.$props.id)
+    }
+
+    modalId(){
+        return 'modal' + this.id;
     }
 }
