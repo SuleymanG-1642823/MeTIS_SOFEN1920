@@ -29,8 +29,13 @@
       </b-input-group>
       <ul class="list-no-style">
         <li v-for="(skill, index) in profile.skills" v-bind:key="index" class="py-3">
-          <b-card class="mb-2">
-            <h5 class="pl-2">{{profile.skills[index].name}}</h5>
+          <b-card
+            class="mb-2"
+            border-variant="primary"
+            :header='profile.skills[index].name'
+            header-bg-variant="primary"
+            header-text-variant="white">
+            <font-awesome-icon rel="tooltip" title="Use the slider to indicate how important a skill is" icon="question-circle" class="card-element-right" />
             <div class="px-3 py-3">
               <vue-slider
                 v-model="profile.skills[index].weight"
@@ -40,8 +45,21 @@
                 :max="10"
                 :marks="true"
                 class="skill-slider"/>
-                <b-button @click="deleteSkillFromIndex(index)" variant="outline-danger" size="sm">Delete</b-button>
             </div>
+            <b-form-group
+              label="How much experience with this skill is required?"
+              label-cols-sm="10"
+              label-cols-lg="9">
+              <b-input-group>
+                <b-form-input v-model="profile.skills[index].experience" class="mb-3" type="number" min="0"></b-form-input>
+                <template v-slot:append>
+                  <b-input-group-text class="mb-3">years</b-input-group-text>
+                </template>
+              </b-input-group>
+            </b-form-group>
+            <b-button @click="deleteSkillFromIndex(index)" class="card-element-right" variant="outline-danger" size="sm">
+              <font-awesome-icon icon="trash-alt" />
+            </b-button>
           </b-card>
         </li>
       </ul>
@@ -66,5 +84,9 @@
 .skill-slider {
   margin-top: 0px;
   margin-bottom: 40px;
+}
+
+.card-element-right{
+  float: right;
 }
 </style>

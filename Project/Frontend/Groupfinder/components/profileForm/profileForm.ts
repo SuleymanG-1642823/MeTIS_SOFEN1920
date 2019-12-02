@@ -7,8 +7,15 @@ import Skill from '~/types/skill';
 import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/antd.css'
 
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faQuestionCircle, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+library.add(faQuestionCircle)
+library.add(faTrashAlt)
+
 @ Component ({
-    components: {VueSlider}
+    components: {VueSlider, 'font-awesome-icon': FontAwesomeIcon}
 })
 export default class profileForm extends Vue {
     // All the skills for this profile get stored in this list
