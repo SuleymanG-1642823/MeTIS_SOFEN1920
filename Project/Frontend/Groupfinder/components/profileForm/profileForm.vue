@@ -15,6 +15,7 @@
         id ="input-profilename"
         required
         placeholder="Enter a profile name"
+        v-model="profile.name"
       ></b-form-input>
     </b-form-group>
 
