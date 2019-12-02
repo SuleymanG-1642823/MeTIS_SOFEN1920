@@ -3,8 +3,13 @@ import { Component, Prop } from 'vue-property-decorator';
 import User from '@/types/user.ts';
 import axios from 'axios';
 import Profile from '~/types/profile';
+import Skill from '~/types/skill';
+import VueSlider from 'vue-slider-component'
+import 'vue-slider-component/theme/antd.css'
 
-@ Component
+@ Component ({
+    components: {VueSlider}
+})
 export default class profileForm extends Vue {
     // All the skills for this profile get stored in this list
     skillList: Array<String> = [];
@@ -21,13 +26,15 @@ export default class profileForm extends Vue {
             // Check if skill not already in list
             let skillFound: boolean = false;
             for (let item of this.profile.skills) {
-                if (item === skill){
+                if (item.name === skill){
                     skillFound = true;
                     break;
                 }
             }
             if (!skillFound){
-                this.profile.skills.push(skill);
+                let skillObject = <Skill>{};
+                skillObject.name = skill;
+                this.profile.skills.push(skillObject);
                 this.$forceUpdate();
             }
         }
