@@ -66,8 +66,9 @@
     </b-form-group>
 
   </b-form>
-
-  <b-button @click="deleteProfileFromList()" variant="outline-danger" size="sm">Delete Profile</b-button>
+  <Questionnaire :id="id"/>
+  <b-button @click="$bvModal.show(modalId())" variant="info" size="sm">Edit questionnaire</b-button>
+  <b-button @click="deleteProfileFromList()" variant="danger" size="sm">Delete Profile</b-button>
 </b-card>
 </div>
 </template>

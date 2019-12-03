@@ -7,6 +7,8 @@ import Skill from '~/types/skill';
 import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/antd.css'
 
+import Questionnaire from '~/components/Questionnaire/Questionnaire.vue'
+
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faQuestionCircle, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -15,16 +17,28 @@ library.add(faQuestionCircle)
 library.add(faTrashAlt)
 
 @ Component ({
-    components: {VueSlider, 'font-awesome-icon': FontAwesomeIcon}
+    components: {VueSlider, 'font-awesome-icon': FontAwesomeIcon, Questionnaire}
 })
 export default class profileForm extends Vue {
     // All the skills for this profile get stored in this list
     skillList: Array<String> = [];
     skill_input: String = ""
 
+    // boolean indicates if questionnaire modal needs to be visible
+    showQuestionnaire: Boolean = false;
+
     @Prop({default: {}}) profile: Profile
 
     // Methods
+
+    // Show the questionnaire
+    changeQuestionnaireVisible(value: Boolean){
+        this.showQuestionnaire = value;
+    }
+
+    showQuestionnaireModal(){
+        this.$root.$emit('bv::show::modal', 'my-modal');
+    }
 
     // Add skill to list
     addSkill(skill: string){
@@ -84,5 +98,9 @@ export default class profileForm extends Vue {
 
     mounted(){
         this.profile.skills = new Array();
+    }
+
+    modalId(){
+        return 'modal' + this.id;
     }
 }
