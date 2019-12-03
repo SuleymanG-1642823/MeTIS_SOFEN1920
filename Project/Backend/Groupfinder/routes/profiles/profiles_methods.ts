@@ -3,7 +3,8 @@ import Profile from '../../types/profile';
 
 
 /**
- * Get all profiles of a project.
+ * Get all profiles of a project (without the skills)
+ * Only data from profile table will be fetched.
  * @param projectID search for all profiles of the project with projectID as ID 
  */
 function getProjectProfiles(projectID: number): Promise<Profile[]> {
@@ -37,6 +38,7 @@ function getProjectProfiles(projectID: number): Promise<Profile[]> {
 
 /**
  * Update existing profile in the database.
+ * The skills won't be updated.
  * @param profileID the id of the profile to be updated
  * @param profile new data of the profile
  */
@@ -60,6 +62,7 @@ function updateProfile(profileID: number, profile: Profile): Promise<void> {
 
 /**
  * Insert a new profile into the database.
+ * The skills of the profile won't be inserted into the database in this method.
  * @param profile the profile that has to be added into the database.
  * @returns the new id of the profile.
  */
@@ -88,6 +91,7 @@ function addProfile(profile: Profile): Promise<number> {
 
 /**
  * Delete a profile from the database.
+ * All skills will automatically be deleted too (because of the foreign key constraints in the database).
  * @param profileID the id of the profile to be deleted
  */
 function deleteProfile(profileID: number): Promise<void>{

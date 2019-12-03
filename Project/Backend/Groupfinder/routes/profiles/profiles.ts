@@ -1,6 +1,7 @@
 import express from 'express';
 const router = express.Router();
 const $profiles_methods = require('./profiles_methods');
+const $profiles_skills_methods = require('../profiles_skills/profiles_skills_methods');
 import Profile from '../../types/profile';
 
 
@@ -22,6 +23,9 @@ router.get('/:project_id', async (req: any, res: any) => {
     const project_id: number = parseInt(req.params.project_id);
     try {
         const profiles: Profile[] = await $profiles_methods.getProjectProfiles(project_id);
+        for (let i=0; i < profiles.length; i++) {
+            profiles[i].skills = await $profiles_skills_methods.getSkillsOfProfile(profiles[i].id);
+        }
         res.status(200).json(profiles);
     } catch (err) {
         const statusCode: number = parseInt(err);
@@ -39,6 +43,9 @@ router.put('/:profile_id', async (req: any, res: any) => {
     const profile: Profile = req.body.profile;
     try{
         await $profiles_methods.updateProfile(profileID, profile);
+        for (let i=0; i < profile.skills.length; i++) {
+            await $profiles_skills_methods.updateSkillOfProfile(profileID, profile.skills[i].name, profile.skills[i]);
+        }
         res.status(200).send("Successfully updated profile in the database.");
     } catch (err) {
         const statusCode: number = parseInt(err);
@@ -55,6 +62,9 @@ router.post('/', async (req: any, res: any) => {
     const profile: Profile = req.body.profile;
     try{
         const newProfileID: number = await $profiles_methods.addProfile(profile);
+        for (let i=0; i < profile.skills.length; i++) {
+            await $profiles_skills_methods.addSkillToProfile(newProfileID, profile.skills[i]);
+        }
         res.status(200).json({id: newProfileID});
     } catch (err) {
         const statusCode: number = parseInt(err);

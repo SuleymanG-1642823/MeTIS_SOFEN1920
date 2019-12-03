@@ -1,8 +1,10 @@
+import Skill from "./skill";
+
 interface Profile {
     id: number|null;
     name: string;
     project_id: number;
-    skills: string[];
+    skills: Skill[];
 }
 
 export default Profile;
