@@ -15,7 +15,7 @@ describe("TESTING ALL PROJECT ROUTES", () => {
         test_server.close(done);
     });
     describe("POST /projects/", () => {
-        it("Should insert a new project (with profiles) into the database", (done) => {
+        it("Should insert a new project (with profiles and skills) into the database", (done) => {
             var project = {
                 project: {
                     id: null,
@@ -31,7 +31,14 @@ describe("TESTING ALL PROJECT ROUTES", () => {
                         {
                             id: null,
                             name: "test profile",
-                            project_id: null
+                            project_id: null,
+                            skills: [
+                                {
+                                    name: "test skill",
+                                    experience: 3,
+                                    weight: 2
+                                }
+                            ]
                         }
                     ]
                 }
@@ -73,11 +80,11 @@ describe("TESTING ALL PROJECT ROUTES", () => {
             var project = {
                 project: {
                     id: null,
-                    name: "test project adapted",
+                    name: "test project",
                     status: 1,
-                    pitch: "test pitch adapted",
+                    pitch: "test pitch",
                     created_at: "2019-11-27 10:00:00", // 'YYYY-MM-DD hh:mm:ss' format
-                    edited_at: "2019-11-27 11:00:00", // 'YYYY-MM-DD hh:mm:ss' format
+                    edited_at: "2019-11-27 10:00:00", // 'YYYY-MM-DD hh:mm:ss' format
                     creator_id: 1,
                     creator_first_name: 'Lennert',
                     creator_last_name: 'Geebelen',
@@ -85,7 +92,14 @@ describe("TESTING ALL PROJECT ROUTES", () => {
                         {
                             id: null,
                             name: "test profile adapted",
-                            project_id: null
+                            project_id: null,
+                            skills: [
+                                {
+                                    name: "test skill adapted",
+                                    experience: 3,
+                                    weight: 1
+                                }
+                            ]
                         }
                     ]
                 }

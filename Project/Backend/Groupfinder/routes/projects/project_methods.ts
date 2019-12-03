@@ -6,6 +6,7 @@ const $profiles_methods = require('../profiles/profiles_methods');
 
 /**
  * Get project with specific ID from the database.
+ * The project won't contain any profile, only the project table will be accessed.
  * @param projectID the id of the project that will be searched for
  */
 function getProject(projectID: number): Promise<Project> {
@@ -22,7 +23,7 @@ function getProject(projectID: number): Promise<Project> {
                     reject("404");
                 } else {
                     try{
-                        const profiles_result: Profile[] = await $profiles_methods.getProjectProfiles(rows[0].projectID);
+                        //const profiles_result: Profile[] = await $profiles_methods.getProjectProfiles(rows[0].projectID);
                         const project: Project = {
                             id: rows[0].projectID,
                             name: rows[0].name,
@@ -33,7 +34,8 @@ function getProject(projectID: number): Promise<Project> {
                             creator_id: rows[0].userID,
                             creator_first_name: rows[0].first_name,
                             creator_last_name: rows[0].last_name,
-                            profiles: profiles_result
+                            //profiles: profiles_result
+                            profiles: []
                         }
                         resolve(project);
                     } catch (err) {
@@ -49,6 +51,7 @@ function getProject(projectID: number): Promise<Project> {
 
 /**
  * Get all projects sorted from newest to oldest from the database.
+ * The projects won't contain any profile, only the project table will be accessed.
  */
 function getAllProjects(): Promise<Project[]> {
     return new Promise(
@@ -61,7 +64,7 @@ function getAllProjects(): Promise<Project[]> {
                 } else {
                     let allProjects: Project[] = [];
                     for (let i = 0; i < rows.length; i++){
-                        const profiles_result: Profile[] = await $profiles_methods.getProjectProfiles(rows[i].projectID);
+                        //const profiles_result: Profile[] = await $profiles_methods.getProjectProfiles(rows[i].projectID);
                         let project: Project = {
                             id: rows[i].projectID,
                             name: rows[i].name,
@@ -72,7 +75,8 @@ function getAllProjects(): Promise<Project[]> {
                             creator_id: rows[i].userID,
                             creator_first_name: rows[i].first_name,
                             creator_last_name: rows[i].last_name,
-                            profiles: profiles_result
+                            //profiles: profiles_result
+                            profiles: []
                         }
                         allProjects.push(project);
                     }
@@ -86,6 +90,7 @@ function getAllProjects(): Promise<Project[]> {
 
 /**
  * Update existing project in the database.
+ * The profiles of the skill won't be updated.
  * @param projectID the id of the project that has to be updated
  * @param project the updated project
  */
@@ -99,7 +104,8 @@ function updateProject(projectID: number, project: Project): Promise<void> {
                     console.log(err);
                     reject("500");
                 } else {
-                    try{
+                    resolve();
+                    /*try{
                         for (let i=0; i < project.profiles.length; i++){
                             let profile: Profile = project.profiles[i];
                             await $profiles_methods.updateProfile(profile.id, profile);
@@ -107,7 +113,7 @@ function updateProject(projectID: number, project: Project): Promise<void> {
                         resolve();
                     } catch (err) {
                         reject(err);
-                    }                    
+                    }*/                 
                 }
             });
         }
@@ -116,7 +122,8 @@ function updateProject(projectID: number, project: Project): Promise<void> {
 
 
 /**
- * Insert new project into the database. All profiles of the project will be added too.
+ * Insert new project into the database.
+ * The profiles of the project won't be inserted into the database.
  * @param project the new project
  * @returns the new id of the project that was inserted into the database.
  */
@@ -132,11 +139,11 @@ function addProject(project: Project): Promise<number>{
                 } else {
                     try{
                         const newProjectID: number = await getProjectID(project);
-                        for (let i = 0; i < project.profiles.length; i++){ // insert profiles into profile table
+                        /*for (let i = 0; i < project.profiles.length; i++){ // insert profiles into profile table
                             let newProfile: Profile = project.profiles[i];
                             newProfile.project_id = newProjectID;
                             await $profiles_methods.addProfile(newProfile);
-                        }
+                        }*/
                         resolve(newProjectID)
                     } catch (err) {
                         reject(err);
@@ -150,6 +157,7 @@ function addProject(project: Project): Promise<number>{
 
 /**
  * Delete project from the database.
+ * All profiles of the project will automatically be deleted too (because of the foreign key constrains in the database)
  * @param projectID the id of the project that has to be deleted
  */
 function deleteProject(projectID: number): Promise<void> {
