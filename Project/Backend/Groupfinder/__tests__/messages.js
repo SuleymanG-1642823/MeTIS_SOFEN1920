@@ -3,6 +3,7 @@ import http from 'http';
 import supertest from 'supertest';
 import 'babel-polyfill';
 const moment = require('moment');
+const $messages_methods = require('../routes/messages/messages_methods');
 var request;
 var messageID;
 
@@ -58,5 +59,15 @@ describe("TESTING ALL MESSAGE ROUTES", () => {
                 done();
             })
         });
+    });
+    // Messages cannot be deleted in the website, but we still need to delete the test message
+    // So there's no route provided
+    it("Should delete a message from the database", async (done) => {
+        try{
+            await $messages_methods.deleteMessage(messageID);
+            done();
+        } catch (err) {
+            return done(err)
+        }
     });
 });

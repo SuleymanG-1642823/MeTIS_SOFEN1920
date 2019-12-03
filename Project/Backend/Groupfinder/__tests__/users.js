@@ -14,24 +14,6 @@ describe("TESTING ALL USER ROUTES", () => {
     afterAll((done) => {
         test_server.close(done);
     });
-    describe("GET /users/:user_id", () => {
-        it("Should get a single user with id 1", (done) => {
-            request.get(`/users/1`)
-            .end((err, res) => {
-                if (err) return done(err);
-                expect(res.status).toBe(200);
-                done();
-            });
-        });
-        it("Should get a '404 not found' response", (done) => {
-            request.get(`/users/0`)
-            .end((err, res) => {
-                if (err) return done(err);
-                expect(res.status).toBe(404);
-                done();
-            });
-        });
-    });
     describe("POST /users/", () => {
         it("Should insert a user into the database", (done) => {
             let user = {
@@ -53,11 +35,28 @@ describe("TESTING ALL USER ROUTES", () => {
             .end((err, res) => {
                 if (err) return done(err);
                 userID = res.body.id;
-                console.log(userID);
                 expect(res.status).toBe(200);
                 expect(typeof(res.body.id)).toBe('number');
                 done();
             })
+        });
+    });
+    describe("GET /users/:user_id", () => {
+        it("Should get a single user", (done) => {
+            request.get(`/users/${userID}`)
+            .end((err, res) => {
+                if (err) return done(err);
+                expect(res.status).toBe(200);
+                done();
+            });
+        });
+        it("Should get a '404 not found' response", (done) => {
+            request.get(`/users/0`)
+            .end((err, res) => {
+                if (err) return done(err);
+                expect(res.status).toBe(404);
+                done();
+            });
         });
     });
     describe("PUT /users/:user_id", () => {
