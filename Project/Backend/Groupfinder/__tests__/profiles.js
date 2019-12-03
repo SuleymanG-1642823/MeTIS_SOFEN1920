@@ -20,7 +20,14 @@ describe("TESTING ALL PROFILE ROUTES", () => {
                 profile: {
                     id: null,
                     name: "web programmer",
-                    project_id: 1
+                    project_id: 1,
+                    skills: [
+                        {
+                            name: "test skill",
+                            experience: 3,
+                            weight: 1
+                        }
+                    ]
                 }
             }
             request.post('/profiles/')
@@ -50,7 +57,14 @@ describe("TESTING ALL PROFILE ROUTES", () => {
                 profile: {
                     id: null,
                     name: "java programmer",
-                    project_id: 1
+                    project_id: 1,
+                    skills: [
+                        {
+                            name: "test skill adapted",
+                            experience: 3,
+                            weight: 2
+                        }
+                    ]
                 }
             }
             request.put(`/profiles/${profileID}`)
