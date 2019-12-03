@@ -67,7 +67,7 @@ export default class profileForm extends Vue {
         let index: number = 0;
         let indexFound: boolean = false;
         for (let item of this.profile.skills) {
-            if (item === skill){
+            if (item.name === skill){
                 indexFound = true;
                 break;
             }
@@ -93,7 +93,7 @@ export default class profileForm extends Vue {
 
     // Returns the skill at the given index
     indexToSkill(index: number): String{
-        return this.profile.skills[index];
+        return this.profile.skills[index].name;
     }
 
     mounted(){
@@ -101,6 +101,6 @@ export default class profileForm extends Vue {
     }
 
     modalId(){
-        return 'modal' + this.id;
+        return 'modal' + this.profile.id;
     }
 }
