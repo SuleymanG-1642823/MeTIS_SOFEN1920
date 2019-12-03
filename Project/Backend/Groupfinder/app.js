@@ -11,6 +11,7 @@ var messagesRouter = require('./routes/messages/messages');
 var profilesRouter = require('./routes/profiles/profiles');
 var categoriesRouter = require('./routes/categories/categories');
 var projects_categories_router = require('./routes/projects_categories/projects_categories');
+var profiles_skills_router = require('./routes/profiles_skills/profiles_skills');
 
 var app = express();
 
@@ -30,5 +31,6 @@ app.use('/messages', messagesRouter);
 app.use('/profiles', profilesRouter);
 app.use('/categories', categoriesRouter);
 app.use('/projects-categories', projects_categories_router);
+app.use('/profiles_skills', profiles_skills_router);
 
 module.exports = app;
