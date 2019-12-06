@@ -1,6 +1,12 @@
+/*
 import app from '../app';
 import http from 'http';
 import supertest from 'supertest';
+*/
+const app = require('../app');
+const http = require('http');
+const supertest = require('supertest');
+
 import 'babel-polyfill';
 var request;
 var profileID;
