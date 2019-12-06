@@ -1,12 +1,14 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import UserData from '../../components/UserData/UserData';
+import ProjectsOfUser from '../../components/ProjectsOfUser/ProjectsOfUser';
 import User from '../../types/user';
 import axios from 'axios';
 
 @Component({
     components: {
-        UserData
+        UserData,
+        ProjectsOfUser
     }
 })
 export default class UserPage extends Vue {

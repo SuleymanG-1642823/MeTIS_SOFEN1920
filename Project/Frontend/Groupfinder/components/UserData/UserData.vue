@@ -6,9 +6,9 @@
             </b-col>
             <b-col class="personaldata" lg>
                 <p>Liese Bekkers</p>
-                <p>3650, Dilsen-Stokkem</p>
-                <p>+32 123 45 67 89</p>
-                <p>liese.bekkers@student.uhasselt.be</p>
+                <p v-if="! this.privateData">3650, Dilsen-Stokkem</p>
+                <p v-if="! this.privateData">+32 123 45 67 89</p>
+                <p v-if="! this.privateData">liese.bekkers@student.uhasselt.be</p>
             </b-col>
             <b-col class="social" lg>
                 <p>SOCIAL MEDIA ICONS</p>
@@ -24,14 +24,5 @@
 </script>
 
 <style scoped>
-    .image{
-        background-color:cornsilk;
-    }
-    .personaldata{
-        background-color:blanchedalmond;
-    }
-    .social{
-        background-color:bisque
-    }
 
 </style>
