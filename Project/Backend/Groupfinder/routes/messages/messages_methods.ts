@@ -116,8 +116,31 @@ function getMessageId(message: Message): Promise<number> {
 }
 
 
+/**
+ * Delete a message from the database
+ * @param messageID the id of the message to be deleted
+ */
+function deleteMessage(messageID: number): Promise<void> {
+    return new Promise(
+        (resolve: any, reject: any) => {
+            const query: string = "DELETE FROM message WHERE id=?;";
+            const params: any[] = [messageID];
+            db_conn.query(query, params, (err: any, rows: any) => {
+                if (err){
+                    console.log(err);
+                    reject('500');
+                } else {
+                    resolve();
+                }
+            });
+        }
+    );
+}
+
+
 module.exports = {
     getConversation,
     getCorrespondents,
-    addMessage
+    addMessage,
+    deleteMessage
 }

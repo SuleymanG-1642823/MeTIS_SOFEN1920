@@ -6,6 +6,7 @@
 # Ignore all dotfiles.
 .*
 # Exclude specific dotfiles that we want to track.
+!.babelrc
 !deps/**/.*
 !test/fixtures/**/.*
 !.clang-format

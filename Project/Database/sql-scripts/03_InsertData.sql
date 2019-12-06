@@ -62,3 +62,5 @@ VALUES  (6, 'c++', 7),
         (6, 'Extreme programming', 2),
         (6, 'Linux OS', 3),
         (6, 'MySQL', 5);
+INSERT INTO category 
+VALUES (1, 'Mobile');
