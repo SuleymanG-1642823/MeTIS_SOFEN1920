@@ -7,7 +7,8 @@ WORKDIR /usr/src/app
 # Copy package & package-lock.json to CWD
 COPY Groupfinder/package*.json ./
 
-# Install dependencies
+# Install bash dependencies
+RUN apk add --no-cache bash
 RUN npm install
 
 # Bundle app source code
@@ -17,4 +18,5 @@ RUN npm install
 EXPOSE 4000
 
 # Similar to 'npm run start' (this command will be executed when container is started, not when this image is created)
-CMD ["npm", "start"]
+#CMD ["npm", "start"]
+CMD ["./wait-for-it.sh" , "db:3306" , "--strict" , "--timeout=300" , "--" , "npm" , "start"]
