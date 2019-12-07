@@ -8,7 +8,7 @@ ENV MYSQL_ROOT_PASSWORD 'root'
 # executed during container startup
 COPY ./sql-scripts/ /docker-entrypoint-initdb.d/
 
-HEALTHCHECK --interval=5m --timeout=3s \
-  CMD mysqladmin ping --silent
-
+HEALTHCHECK --interval=5m --timeout=3s\
+ CMD ["/usr/bin/mysql", "--user=finder", "-p'9=&c0dL$_N+9+_}pmgx]4JE*'", "--execute", "'show databases;'"]
+ 
 EXPOSE 3306
