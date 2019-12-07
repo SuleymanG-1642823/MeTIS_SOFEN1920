@@ -19,4 +19,4 @@ EXPOSE 4000
 
 # Similar to 'npm run start' (this command will be executed when container is started, not when this image is created)
 #CMD ["npm", "start"]
-CMD ["./wait-for-it.sh" , "db:3306" , "--strict" , "--timeout=300" , "--" , "npm" , "start"]
+CMD ["sh", "-c", ". ./waitForContainer.sh waitContainer db && npm start"]

@@ -8,4 +8,7 @@ ENV MYSQL_ROOT_PASSWORD 'root'
 # executed during container startup
 COPY ./sql-scripts/ /docker-entrypoint-initdb.d/
 
+HEALTHCHECK --interval=5m --timeout=3s \
+  CMD mysqladmin ping --silent
+
 EXPOSE 3306
