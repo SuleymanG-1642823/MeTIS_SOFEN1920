@@ -9,4 +9,10 @@ export default class UserData extends Vue {
 
     // DATA
     privateData: boolean = false;
+    user: User|null = null;
+
+    // LIFECYCLE HOOKS
+    mounted(){
+        this.user = this.user_prop;
+    }
 }

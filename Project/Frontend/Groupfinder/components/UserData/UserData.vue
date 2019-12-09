@@ -1,14 +1,14 @@
 <template>
-    <b-container style="wrapper" v-if="this.user_prop" fluid>
+    <b-container style="wrapper" v-if="this.user" fluid>
         <b-row>
             <b-col class="image" lg>
                 <p>IMAGE</p>
             </b-col>
             <b-col class="personaldata" lg>
-                <p>Liese Bekkers</p>
-                <p v-if="! this.privateData">3650, Dilsen-Stokkem</p>
-                <p v-if="! this.privateData">+32 123 45 67 89</p>
-                <p v-if="! this.privateData">liese.bekkers@student.uhasselt.be</p>
+                <p>{{ this.user.first_name }} {{this.user.last_name}}</p>
+                <p v-if="!this.privateData && this.user.zip && this.user.city">{{ this.user.zip }}, {{ this.user.city }}</p>
+                <p v-if="!this.privateData && this.user.tel">{{ this.user.tel }}</p>
+                <p v-if="!this.privateData && this.user.mail">{{ this.user.mail }}</p>
             </b-col>
             <b-col class="social" lg>
                 <p>SOCIAL MEDIA ICONS</p>

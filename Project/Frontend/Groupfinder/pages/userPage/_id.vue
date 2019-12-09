@@ -4,7 +4,7 @@
     <UserData v-if="this.user" :user_prop="this.user" />
     <b-tabs card>
       <b-tab title="Projects" active>
-        <ProjectsOfUser :userid_prop="1"/>
+        <ProjectsOfUser v-if="this.user" :userid_prop="this.user.id"/>
       </b-tab>
       <b-tab title="Skills">
         <b-card-text>Skills</b-card-text>
