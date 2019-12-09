@@ -66,7 +66,7 @@ router.get('/', async (req: any, res: any) => {
  * The project won't contain any profile
  */
 router.get('/owner/:user_id', async (req: any, res: any) => {
-    const userID: number = parseInt(req.params.userID);
+    const userID: number = parseInt(req.params.user_id);
     try{
         const projects: Project[] = await $project_methods.getAllProjectsOfOwner(userID);
         res.status(200).json(projects);
@@ -80,7 +80,7 @@ router.get('/owner/:user_id', async (req: any, res: any) => {
  * Get all projects from the database where user with userID is a member (not the owner) of the project.
  */
 router.get('/teammember/:user_id', async (req: any, res: any) => {
-    const userID: number = parseInt(req.params.userID);
+    const userID: number = parseInt(req.params.user_id);
     try{
         const projects: Project[] = await $project_methods.getAllProjectsWithMember(userID);
         res.status(200).json(projects);
