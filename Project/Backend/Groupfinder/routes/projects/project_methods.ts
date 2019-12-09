@@ -51,6 +51,9 @@ function getProject(projectID: number): Promise<Project> {
 }
 
 
+
+
+
 /**
  * Get all projects sorted from newest to oldest from the database.
  * The projects won't contain any profile, only the project table will be accessed.
@@ -87,6 +90,82 @@ function getAllProjects(): Promise<Project[]> {
             });
         }
     );
+}
+
+/**
+ * Get all projects from the database where userID is the id of the owner of the project.
+ * @param userID the id of the owner of the projects
+ */
+function getAllProjectsOfOwner(userID: number): Promise<Project[]>{
+    return new Promise(
+        (resolve: any, reject: any) => {
+            const query: string = "SELECT project.id AS projectID, name, status, pitch, created_at, edited_at, user.id AS userID, user.first_name, user.last_name  FROM project JOIN user ON user.id=project.creator_id WHERE project.creator_id=?;";
+            const params: number[] = [userID];
+            db_conn.query(query, params, (err: any, rows: any[]) => {
+                if (err){
+                    console.log(err);
+                    reject('500');
+                } else {
+                    let projects: Project[] = [];
+                    for (let i=0; i < rows.length; i++){
+                        let project: Project = {
+                            id: rows[i].projectID,
+                            name: rows[i].name,
+                            status: rows[i].status,
+                            pitch: rows[i].pitch,
+                            created_at: moment(rows[i].created_at).format('YYYY-MM-DD hh:mm:ss'),
+                            edited_at: moment(rows[i].edited_at).format('YYYY-MM-DD hh:mm:ss'),
+                            creator_id: rows[i].userID,
+                            creator_first_name: rows[i].first_name,
+                            creator_last_name: rows[i].last_name,
+                            //profiles: profiles_result
+                            profiles: []
+                        }
+                        projects.push(project);
+                    }
+                    resolve(projects);
+                }
+            });
+        }
+    )
+}
+
+/**
+ * Get all projects from the database where user with userID is a member (not the owner) of the project.
+ * @param userID the id of the user
+ */
+function getAllProjectsWithMember(userID: number): Promise<Project[]>{
+    return new Promise(
+        (resolve: any, reject: any) => {
+            const query: string = "SELECT * FROM member AS m JOIN project AS p ON m.project_id = p.id JOIN user AS u ON p.creator_id = u.id WHERE m.user_id = ?;";
+            const params: number[] = [userID];
+            db_conn.query(query, params, (err: any, rows: any[]) => {
+                if (err){
+                    console.log(err);
+                    reject('500');
+                } else {
+                    let projects: Project[] = [];
+                    for (let i=0; i < rows.length; i++){
+                        let project: Project = {
+                            id: rows[i].p.id,
+                            name: rows[i].p.name,
+                            status: rows[i].p.status,
+                            pitch: rows[i].p.pitch,
+                            created_at: moment(rows[i].p.created_at).format('YYYY-MM-DD hh:mm:ss'),
+                            edited_at: moment(rows[i].p.edited_at).format('YYYY-MM-DD hh:mm:ss'),
+                            creator_id: rows[i].u.id,
+                            creator_first_name: rows[i].u.first_name,
+                            creator_last_name: rows[i].u.last_name,
+                            //profiles: profiles_result
+                            profiles: []
+                        }
+                        projects.push(project);
+                    }
+                    resolve(projects);
+                }
+            });
+        }
+    )
 }
 
 /**
@@ -455,6 +534,8 @@ function getProjectID(project: Project): Promise<number>{
 module.exports = {
     getProject,
     getAllProjects,
+    getAllProjectsOfOwner,
+    getAllProjectsWithMember,
     updateProject,
     getMatchingProjects,
     addProject,

@@ -75,6 +75,28 @@ describe("TESTING ALL PROJECT ROUTES", () => {
             })
         })
     });
+    describe("GET /projects/owner/:user_id", () => {
+        it("Should get all projects with user_id the id of the project owner", (done) => {
+            request.get(`/projects/owner/1`)
+            .end((err, res) => {
+                if (err) return done(err);
+                expect(res.status).toBe(200);
+                expect(typeof(res.body)).toBe('object');
+                done();
+            });
+        });
+    });
+    describe("GET /projects/teammember/:user_id", () => {
+        it("Should get all projects where user with user_id is a member of the team", (done) => {
+            request.get(`/projects/teammember/1`)
+            .end((err, res) => {
+                if (err) return done(err);
+                expect(res.status).toBe(200);
+                expect(typeof(res.body)).toBe('object');
+                done();
+            })
+        })
+    });
     describe("PUT /projects/:project_id", () => {
         it("Should update an existing project in the database", (done) => {
             var project = {
