@@ -4,10 +4,11 @@ import User from '@/types/user.ts';
 import axios from 'axios';
 import Profile from '~/types/profile';
 import Skill from '~/types/skill';
+import Questionnaire from '~/types/questionnaire';
 import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/antd.css'
 
-import Questionnaire from '~/components/Questionnaire/Questionnaire.vue'
+import Questionnaire_Component from '~/components/Questionnaire/Questionnaire.vue'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faQuestionCircle, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
@@ -17,7 +18,7 @@ library.add(faQuestionCircle)
 library.add(faTrashAlt)
 
 @ Component ({
-    components: {VueSlider, 'font-awesome-icon': FontAwesomeIcon, Questionnaire}
+    components: {VueSlider, 'font-awesome-icon': FontAwesomeIcon, 'Questionnaire':Questionnaire_Component}
 })
 export default class profileForm extends Vue {
     // All the skills for this profile get stored in this list

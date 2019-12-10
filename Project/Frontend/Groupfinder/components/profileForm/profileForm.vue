@@ -66,7 +66,7 @@
     </b-form-group>
 
   </b-form>
-  <Questionnaire :id="profile.id"/>
+  <Questionnaire v-bind:key="profile.questionnaire" :questionnaire="profile.questionnaire" :id="profile.id"/>
   <b-button @click="$bvModal.show(modalId())" variant="info" size="sm">Edit questionnaire</b-button>
   <b-button @click="deleteProfileFromList()" variant="danger" size="sm">Delete Profile</b-button>
 </b-card>

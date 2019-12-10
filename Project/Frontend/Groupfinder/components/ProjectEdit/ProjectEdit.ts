@@ -6,6 +6,7 @@ import profileForm from '~/components/profileForm/profileForm.vue'
 
 import Project from '../../types/project';
 import Profile from '../../types/profile';
+import Questionnaire from '../../types/questionnaire'
 
 @ Component({
     components: {profileForm}
@@ -32,6 +33,9 @@ export default class ProjectEdit extends Vue {
         let new_profile = <Profile>{};
         new_profile.id = this.index;
         new_profile.name = "";
+        let new_questionnaire = <Questionnaire>{};
+        new_questionnaire.questions = [];
+        new_profile.questionnaire = new_questionnaire;
         this.project.profiles.push(new_profile);
         console.log(this.project);
         this.$forceUpdate();
