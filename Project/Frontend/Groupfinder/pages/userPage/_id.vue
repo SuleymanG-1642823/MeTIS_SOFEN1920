@@ -7,7 +7,7 @@
         <ProjectsOfUser v-if="this.user" :userid_prop="this.user.id"/>
       </b-tab>
       <b-tab title="Skills">
-        <b-card-text>Skills</b-card-text>
+        <SkillsOfUser v-if="this.user" :userid_prop="this.user.id"/>
       </b-tab>
     </b-tabs>
   </div>
