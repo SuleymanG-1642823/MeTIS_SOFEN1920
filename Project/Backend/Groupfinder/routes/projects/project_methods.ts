@@ -137,7 +137,10 @@ function getAllProjectsOfOwner(userID: number): Promise<Project[]>{
 function getAllProjectsWithMember(userID: number): Promise<Project[]>{
     return new Promise(
         (resolve: any, reject: any) => {
-            const query: string = "SELECT * FROM member AS m JOIN project AS p ON m.project_id = p.id JOIN user AS u ON p.creator_id = u.id WHERE m.user_id = ?;";
+            const select: string = "SELECT p.id AS project_id, p.name, p.pitch, p.status, p.created_at, p.edited_at, u.id AS user_id, u.first_name, u.last_name ";
+            const from: string = "FROM member AS m JOIN project AS p ON m.project_id = p.id JOIN user AS u ON p.creator_id = u.id ";
+            const where: string = "WHERE m.user_id = ?;";
+            const query: string = select + from + where;
             const params: number[] = [userID];
             db_conn.query(query, params, (err: any, rows: any[]) => {
                 if (err){
@@ -147,15 +150,15 @@ function getAllProjectsWithMember(userID: number): Promise<Project[]>{
                     let projects: Project[] = [];
                     for (let i=0; i < rows.length; i++){
                         let project: Project = {
-                            id: rows[i].p.id,
-                            name: rows[i].p.name,
-                            status: rows[i].p.status,
-                            pitch: rows[i].p.pitch,
-                            created_at: moment(rows[i].p.created_at).format('YYYY-MM-DD hh:mm:ss'),
-                            edited_at: moment(rows[i].p.edited_at).format('YYYY-MM-DD hh:mm:ss'),
-                            creator_id: rows[i].u.id,
-                            creator_first_name: rows[i].u.first_name,
-                            creator_last_name: rows[i].u.last_name,
+                            id: rows[i].project_id,
+                            name: rows[i].name,
+                            status: rows[i].status,
+                            pitch: rows[i].pitch,
+                            created_at: moment(rows[i].created_at).format('YYYY-MM-DD hh:mm:ss'),
+                            edited_at: moment(rows[i].edited_at).format('YYYY-MM-DD hh:mm:ss'),
+                            creator_id: rows[i].user_id,
+                            creator_first_name: rows[i].first_name,
+                            creator_last_name: rows[i].last_name,
                             //profiles: profiles_result
                             profiles: []
                         }
