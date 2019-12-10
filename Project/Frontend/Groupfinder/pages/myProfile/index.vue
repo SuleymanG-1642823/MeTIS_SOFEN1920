@@ -1,14 +1,15 @@
 <template>
   <div>
       <h1>My profile</h1>
-      <b-tabs>
-        <b-tab title="Projects" active>
-          <p>A list of all projects will come here</p>
-        </b-tab>
-        <b-tab title="Skills">
-          <b-card-text>Skills</b-card-text>
-        </b-tab>
-      </b-tabs>
+      <UserData v-if="this.user" :user_prop="this.user" />
+      <b-tabs card>
+      <b-tab title="Projects" active>
+        <ProjectsOfUser v-if="this.user" :userid_prop="this.user.id"/>
+      </b-tab>
+      <b-tab title="Skills">
+        <SkillsOfUser v-if="this.user" :userid_prop="this.user.id"/>
+      </b-tab>
+    </b-tabs>
   </div>
 </template>
 
