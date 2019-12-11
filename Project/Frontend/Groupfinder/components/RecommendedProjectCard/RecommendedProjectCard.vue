@@ -21,7 +21,7 @@
 <style scoped>
 
 .projectCard{
-    margin: 15px 15px 15px 0;
+    margin: 0.75rem;
 }
 
 </style>
