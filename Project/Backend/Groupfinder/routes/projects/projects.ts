@@ -48,7 +48,7 @@ router.get('/', async (req: any, res: any) => {
  */
 router.get('/matchFor/:userID', async (req: any, res: any) => {
     const userID: number = parseInt(req.params.userID);
-    try { // Array<Object>
+    try {
         const matchingProjects: any = await $project_methods.getMatchingProjects(userID);
         res.status(200).json(matchingProjects);
     } catch (err) {

@@ -150,3 +150,50 @@ FROM
   ON user_skills.skill_name = project_skills.skill_name
 GROUP BY profile_id
 ORDER BY project_id, profile_id;
+
+----------------------------------------
+/* sollution 28/11 14:34
+SELECT project_skills.*, not IsNull(user_skills.id) as matches, user_skills.skill_experience as user_skill_experience
+FROM 
+  (
+    SELECT skill_name, user.id, skill_experience
+    FROM user INNER JOIN user_skill AS us ON us.user_id = user.id 
+    WHERE user.id = 6
+  ) AS user_skills
+  RIGHT JOIN
+  (
+    SELECT proj.id AS project_id, proj.name AS project_name,
+            prof.profile_id, prof.profile_name,
+            prof.skill_name, prof.skill_experience, prof.skill_weight
+    FROM 
+    (
+      SELECT project_id, profile_id, name as profile_name, skill_name, skill_experience, weight as skill_weight
+      FROM profile_skill AS ps INNER JOIN profile ON ps.profile_id = profile.id
+      WHERE exists
+      (
+          SELECT 1
+          FROM 
+          (
+            SELECT profile_skills.id as profile_id
+            FROM 
+              (
+                SELECT skill_name as user_skill_name
+                FROM user INNER JOIN user_skill AS us ON us.user_id = user.id 
+                WHERE user.id = 6
+              ) AS user_skills,
+              (
+                SELECT skill_name as profile_skill_name, profile.id
+                FROM profile_skill AS ps INNER JOIN profile ON ps.profile_id = profile.id
+              ) profile_skills
+            WHERE user_skill_name = profile_skill_name
+            GROUP BY profile_skills.id
+          ) AS profiles_with_matching_skills
+          WHERE profiles_with_matching_skills.profile_id = profile.id
+          LIMIT 1
+      )
+    ) as prof INNER JOIN project AS proj
+      ON prof.project_id = proj.id
+  ) AS project_skills
+  ON user_skills.skill_name = project_skills.skill_name
+ORDER BY project_id, profile_id;
+*/

@@ -144,7 +144,7 @@ function getMatchingProjects(userID: number): any {
         matches.sort((projectMatch1, projectMatch2) => projectMatch2.matches[0].matchingPercentile - projectMatch1.matches[0].matchingPercentile);
 
         return matches;
-    } 
+    }
 
     interface ProfileMatch {
         profileID: number,
@@ -159,7 +159,7 @@ function getMatchingProjects(userID: number): any {
      * @pre Each profile in the output of the query (input param "rows") must contain at least 1 profile_skill.
      */
     function createMatchingProfile(rows: Array<any>): ProfileMatch{
-        // rows: project_id, project_name, profile_id, profile_name, skill_name, skill_experience, skill_weight, matches
+        // rows: project_id	project_name	profile_id	profile_name	profile_skill_name	profile_skill_experience	profile_skill_weight	matches	user_skill_experience
         // create the matching profile object
         let newProfileMatch: ProfileMatch = createProfileMatch(rows[0].profile_id, rows[0].profile_name);
 
@@ -170,7 +170,7 @@ function getMatchingProjects(userID: number): any {
         let totalMatchingSkills = 0;
 
         for (let row of rows){
-            totalSkills += row.skill_weight;
+            totalSkills += row.profile_skill_weight;
 
             if (row.matches === 1) // means matches with one of the users' skills
             {
@@ -180,10 +180,13 @@ function getMatchingProjects(userID: number): any {
                 // # of matching skills is increased by 0.5 (50%).
                 // NOTE: first add the column for the users' experience, so you can use it here
                 let addedValue = 1;
+                if (row.user_skill_experience < row.profile_skill_experience){
+                    addedValue = row.user_skill_experience / row.profile_skill_experience;
+                }
 
                 // the weight is calculated by multiplying the added amount by the weight itself to the # of matching skills 
                 // and # of tot skills. The added amount is determined by skill experience (1 or a percentage (max 1)). 
-                let weightedAddedValue = addedValue*row.skill_weight;
+                let weightedAddedValue = addedValue*row.profile_skill_weight;
 
                 // update value
                 totalMatchingSkills += weightedAddedValue;
@@ -209,7 +212,7 @@ function getMatchingProjects(userID: number): any {
 
         // create ProjectMatch object
         let newProjectMatch: ProjectMatch = {
-            project: createProject(rows[0].profile_id, rows[0].profile_name),
+            project: createProject(rows[0].project_id, rows[0].project_name),
             matches: null
         }
 
@@ -240,7 +243,7 @@ function getMatchingProjects(userID: number): any {
     }
 
     return new Promise((resolve: any, reject: any) => {
-        // rows: project_id, project_name, profile_id, profile_name, skill_name, skill_experience, skill_weight, matches
+        // rows: project_id	project_name	profile_id	profile_name	profile_skill_name	profile_skill_experience	profile_skill_weight	matches	user_skill_experience
         /* TODO
             PROBLEM: profiles with no matching skills are not selected so that means the following
                   scenario is true: let A be a project and let bb and cc be A's profiles,
@@ -249,10 +252,12 @@ function getMatchingProjects(userID: number): any {
                       matching skills and take the union of that with the query below.
         */
         const colossalQuery: string = `
-        SELECT project_skills.*, not IsNull(user_skills.id) as matches
+        SELECT project_skills.project_id, project_skills.project_name, project_skills.profile_id, project_skills.profile_name, 
+	            project_skills.skill_name AS profile_skill_name, project_skills.skill_experience AS profile_skill_experience, project_skills.skill_weight AS profile_skill_weight,
+	            not IsNull(user_skills.id) AS matches, user_skills.skill_experience as user_skill_experience
         FROM 
           (
-            SELECT skill_name, user.id
+            SELECT skill_name, user.id, skill_experience
             FROM user INNER JOIN user_skill AS us ON us.user_id = user.id 
             WHERE user.id = ?
           ) AS user_skills
@@ -324,8 +329,7 @@ function getMatchingProjects(userID: number): any {
                     projectMatches.push(createMatchingProject(projectRows));
                 }
 
-                resolve(projectMatches);
-                // resolve(sortMatches(matches));
+                resolve(sortMatches(projectMatches));
             }
         });
     });
