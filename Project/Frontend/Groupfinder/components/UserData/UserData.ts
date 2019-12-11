@@ -1,8 +1,13 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import User from '../../types/user';
+import EditUserData from '../../components/EditUserData/EditUserData';
 
-@ Component
+@Component({
+    components: {
+        EditUserData
+    }
+})
 export default class UserData extends Vue {
     // PROPS
     @Prop({type: Object, required: true}) readonly user_prop: User;

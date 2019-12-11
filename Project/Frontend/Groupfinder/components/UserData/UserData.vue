@@ -17,6 +17,10 @@
                 <p>(UN)AVAILABLE</p>
             </b-col>
         </b-row>
+        <b-row>
+            <b-button style="float-right" v-b-modal.editData>Edit data</b-button>
+            <EditUserData :user_prop="this.user" />
+        </b-row>
     </b-container>
 </template>
 
@@ -24,5 +28,4 @@
 </script>
 
 <style scoped>
-
 </style>

@@ -13,8 +13,8 @@ import SkillsOfUser from '../../components/SkillsOfUser/SkillsOfUser';
     }
 })
 export default class MyProfile extends Vue {
-    user: User|null = null;
-    /*user: User = {
+    //user: User|null = null;
+    user: User = {
         id: 3,
         first_name:  'Mart',
         last_name: 'Bolink',
@@ -25,7 +25,7 @@ export default class MyProfile extends Vue {
         tel: '+32000112233',
         website: 'www.mywebsite.be',
         social_media: {}
-    }*/
+    }
 
     mounted(){
         // TODO: get data from vuex store
