@@ -141,9 +141,33 @@ function getNewID(user: User): Promise<number>{
 }
 
 
+/**
+ * Change a user's password in the database.
+ * @param userID the id of the user whose password will be changed
+ * @param hashedPassword the new hashed password
+ */
+function changePassword(userID: number, hashedPassword: string): Promise<void>{
+    return new Promise(
+        (resolve: any, reject: any) => {
+            const query: string = "UPDATE user SET password=? WHERE id=?;";
+            const params: any[] = [hashedPassword, userID];
+            db_conn.query(query, params, (err: any, rows: any) => {
+                if(err){
+                    console.log(err);
+                    reject('500');
+                } else {
+                    resolve();
+                }
+            });
+        }
+    );
+}
+
+
 module.exports = {
     getUser,
     updateUser,
     addUser,
-    deleteUser
+    deleteUser,
+    changePassword
 }

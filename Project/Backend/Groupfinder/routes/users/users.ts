@@ -47,6 +47,23 @@ router.put('/:user_id', async (req: any, res: any) => {
 
 
 /**
+ * Change a user's password in the database.
+ * @pre body of http request contains the new password (hashed) (type: string) in JSON format
+ */
+router.put('/password/:user_id', async (req: any, res: any) => {
+    const user_id: number = parseInt(req.params.user_id);
+    const password: string = req.body.password;
+    try{
+        await $users_methods.changePassword(user_id, password);
+        res.status(200).send("Successfully changed user's password in the database.");
+    } catch (err){
+        const statusCode: number = parseInt(err);
+        res.status(statusCode).send("Error while changing user's password in the database.");
+    }
+})
+
+
+/**
  * Insert new user into database
  * @pre body of http request contains new user (type: User) in JSON format
  */
