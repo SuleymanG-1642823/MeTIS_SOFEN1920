@@ -40,6 +40,10 @@
     transition: margin 1s;
 }
 
+.main{
+    margin-left: 0px;
+}
+
 .main-row{
     width: 100%;
 }
