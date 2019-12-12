@@ -54,10 +54,12 @@ FROM
 ORDER BY project_id, profile_id;
 -------------------------------------------------------------------------------------
 -- Working example on sql fiddle:
-SELECT project_skills.*, not IsNull(user_skills.id) as matches
+SELECT project_skills.project_id, project_skills.project_name, project_skills.profile_id, project_skills.profile_name, 
+	            project_skills.skill_name AS profile_skill_name, project_skills.skill_experience AS profile_skill_experience, project_skills.skill_weight AS profile_skill_weight,
+	            not IsNull(user_skills.id) AS matches, user_skills.skill_experience as user_skill_experience
 FROM 
   (
-    SELECT skill_name, user.id
+    SELECT skill_name, user.id, skill_experience
     FROM user INNER JOIN user_skill AS us ON us.user_id = user.id 
     WHERE user.id = ?
   ) AS user_skills
