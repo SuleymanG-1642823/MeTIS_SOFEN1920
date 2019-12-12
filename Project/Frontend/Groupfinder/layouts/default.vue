@@ -6,11 +6,15 @@
         integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
         crossorigin="anonymous">
     <b-row class="main-row">
-        <b-col class="px-0">
-            <SidebarMenu :menu="sidebarmenu" :theme="theme" :showOneChild="showOneChild" @item-click="sidbarItemClick" :width="width">
-                <b-img slot="header" class="py-3 px-3" src="./Groupfinder_logo.png" fluid :hiddenOnCollapse="true"/>
-            </SidebarMenu>
-        </b-col>
+        <SidebarMenu
+        :menu="sidebarmenu"
+        :theme="theme"
+        :showOneChild="showOneChild"
+        :width="width"
+        @toggle-collapse="onToggleCollapse"
+        @item-click="sidbarItemClick">
+            <b-img v-if="!collapsed" slot="header" class="py-3 px-3" src="./Groupfinder_logo.png" fluid />
+        </SidebarMenu>
         <b-col cols="8">
             <div id="content">
                 <!-- Content components go here -->
@@ -35,7 +39,8 @@
 
 #content{
     padding-top: 60px;
-    padding-left: 20px;
+    padding-bottom: 20px;
+    padding-left: 50px;
 }
 
 .main-row{

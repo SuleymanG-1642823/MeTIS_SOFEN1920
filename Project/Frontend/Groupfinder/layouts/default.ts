@@ -19,6 +19,8 @@ export default class MainLayout extends Vue {
         'LoginForm': LoginForm
     }
 
+    collapsed: Boolean = false;
+
     sidebarmenu: any[] = [
         {
             header: true,
@@ -43,13 +45,7 @@ export default class MainLayout extends Vue {
         {
             title: 'Create Project',
             icon: 'fas fa-plus-square',
-            hidden: false,
-            child: [
-                {
-                    href: '/charts/sublink',
-                    title: 'Sub Link'
-                }
-            ]
+            hidden: false
         },
         {
             component: LoginForm,
@@ -87,6 +83,15 @@ export default class MainLayout extends Vue {
         }
         else if (item.title == "Create Project"){
             this.$router.push('/projectCreationForm');
+        }
+    }
+
+    onToggleCollapse(){
+        if (this.collapsed){
+            this.collapsed = false;
+        }
+        else {
+            this.collapsed = true;
         }
     }
 }
