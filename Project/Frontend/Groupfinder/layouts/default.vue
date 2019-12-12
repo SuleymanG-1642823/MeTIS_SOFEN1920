@@ -1,44 +1,24 @@
 <template>
-    <div class="wrapper">
-
-        <div class="row">
-            <!-- Sidebar -->
-            <!--
-            <div class="col-xl-2 col-lg-3 col-md-3 navbar navbar-expand-md py-0 px-0 mx-0 my-1">
-                <div class="collapse navbar-collapse">
-                    <div class="nav flex-column pt-5 bg-light shadow" id="vertical-nav">
-                        <-- Sidebar when logged in --
-                        <Sidebar v-if="logged_in"/>
-                        <LoginForm v-else />
-                    </div>
-                </div>
+<b-container class="mx-0 main">
+    <link
+        rel="stylesheet"
+        href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+        integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+        crossorigin="anonymous">
+    <b-row class="main-row">
+        <b-col class="px-0">
+            <SidebarMenu :menu="sidebarmenu" :theme="theme" :showOneChild="showOneChild" @item-click="sidbarItemClick" :width="width">
+                <b-img slot="header" class="py-3 px-3" src="./Groupfinder_logo.png" fluid :hiddenOnCollapse="true"/>
+            </SidebarMenu>
+        </b-col>
+        <b-col cols="8">
+            <div id="content">
+                <!-- Content components go here -->
+                <nuxt />
             </div>
-            -->
-            <SidebarMenu :menu="sidebarmenu"/>
-            <div class="col-xl-8 col-lg-8 col-md-8 bg-white mt-0 py-0 px-0 ml-3">
-                <!-- Top bar -->
-                <div class="wrapper">
-                    <div class="row nav nav-pills fixed-top px-3 py-2 navbar-light bg-light shadow">
-                        <nuxt-link to="/" class="navbar-brand align-text-middle col-3 py-0 pr-0 mr-0" href="#">Groupfinder</nuxt-link>
-                        <div class="col-9">
-                            <!--<div class="input-group">
-                                <div class="input-group-prepend">
-                                    <button class="btn btn-outline-secondary" type="button" id="button-addon1">Search</button>
-                                </div>
-                                <input type="search" class="form-control" placeholder="search">
-                            </div>-->
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Content -->
-                <div id="content" class="">
-                    <!-- Content components go here -->
-                    <nuxt />
-                </div>
-            </div>
-        </div>
-    </div>
+        </b-col>
+    </b-row>
+</b-container>
 </template>
 
 <script lang="ts" src="./default.ts">
@@ -56,5 +36,25 @@
 #content{
     padding-top: 60px;
     padding-left: 20px;
+}
+
+.main-row{
+    width: 100%;
+}
+
+.content-col {
+    padding-left: 0%;
+}
+
+.v-sidebar-menu {
+    float: none;
+    position: static;
+    border-right: 2px solid;
+    border-color: #e6e6e6;
+}
+
+/* TODO: background color not working on toggle button */
+.vsm_white-theme.vsm--toggle-btn{
+    background-color: black !important;
 }
 </style>

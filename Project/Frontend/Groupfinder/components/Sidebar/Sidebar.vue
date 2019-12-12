@@ -1,8 +1,5 @@
 <template>
-<div class="pl-3">
-    <div class="pl-3 my-4">
-        <h5>Arno Verstraete</h5>
-    </div>
+<div class="pl-3 pt-3">
     <div class="btn-group flex-wrap" role="group">
         <button type="button" class="btn btn-secondary" v-on:click="notificationBtnClickEvent()" :disabled="notificationsBtnClicked">
         Notifications</button>

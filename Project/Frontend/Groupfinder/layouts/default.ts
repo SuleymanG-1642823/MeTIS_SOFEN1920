@@ -7,6 +7,7 @@ import Sidebar from '~/components/Sidebar/Sidebar'
 import LoginForm from '~/components/LoginForm/LoginForm'
 
 import { SidebarMenu } from 'vue-sidebar-menu'
+import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
 
 @ Component({
     components: {Sidebar, LoginForm, SidebarMenu}
@@ -21,29 +22,55 @@ export default class MainLayout extends Vue {
     sidebarmenu: any[] = [
         {
             header: true,
-            title: 'Main Navigation',
+            title: 'Profile',
             hiddenOnCollapse: true
         },
         {
-            href: '/',
-            title: 'Dashboard',
-            icon: 'fa fa-user'
+            title: 'Profile Name',
+            icon: 'fas fa-user',
+            hidden: false
         },
         {
-            href: '/charts',
-            title: 'Charts',
-            icon: 'fa fa-chart-area',
+            header: true,
+            title: 'Groupfinder',
+            hiddenOnCollapse: true
+        },
+        {
+            title: 'Home',
+            icon: 'fas fa-home',
+            hidden: false
+        },
+        {
+            title: 'Create Project',
+            icon: 'fas fa-plus-square',
+            hidden: false,
             child: [
                 {
                     href: '/charts/sublink',
                     title: 'Sub Link'
                 }
             ]
+        },
+        {
+            component: LoginForm,
+            // props: componentProps
+            hidden: true,
+            hiddenOnCollapse: true
+        },
+        {
+            component: Sidebar,
+            hidden: false,
+            hiddenOnCollapse: true
         }
-    ]
+    ];
+
+    theme: String = 'white-theme';
+    showOneChild: Boolean= true;
+    width: String = '350px';
 
     // Data
     content_type: String;
+    // TODO LOGGED IN -> change sidebarmenu hidden
     logged_in: Boolean = false;
     // Methods
     created(){
@@ -51,5 +78,15 @@ export default class MainLayout extends Vue {
     }
 
     async mounted() {
+        
+    }
+
+    sidbarItemClick(event: any, item: any){
+        if (item.title == "Home"){
+            this.$router.push('/');
+        }
+        else if (item.title == "Create Project"){
+            this.$router.push('/projectCreationForm');
+        }
     }
 }
