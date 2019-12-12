@@ -2,7 +2,6 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import axios from 'axios';
 import User from '../../types/user';
-import { resolve } from 'dns';
 
 @Component({
     components: {}
@@ -12,29 +11,29 @@ export default class EditUserData extends Vue {
     @Prop({type: Object, required: true}) readonly user_prop: User;
 
     // DATA
-    first_name: string = '';
-    last_name: string = '';
-    mail: string = '';
-    tel: string = '';
-    address: string = '';
-    zip: string = '';
-    city: string = '';
-    website: string = '';
-    social_media: Object = {};
+    private first_name: string = '';
+    private last_name: string = '';
+    private mail: string = '';
+    private tel: string = '';
+    private address: string = '';
+    private zip: string = '';
+    private city: string = '';
+    private website: string = '';
+    private social_media: Object = {};
     
 
     // LIFECYCLE HOOKS
-    mounted(){
+    private mounted(){
         this.resetFields(null);
     }
 
     // METHODS
-    validateData(): boolean {
+    private validateData(): boolean {
         // TODO
         return true;
     }
 
-    async handleSubmit(event: any) {
+    private async handleSubmit(event: any) {
         event.preventDefault();
         if (this.validateData()){
             await this.saveChanges();
@@ -45,7 +44,7 @@ export default class EditUserData extends Vue {
         return;
     }
 
-    resetFields(event: any): void {
+    private resetFields(event: any): void {
         this.first_name = this.user_prop.first_name;
         this.last_name = this.user_prop.last_name;
         this.mail = this.user_prop.mail;
@@ -57,7 +56,7 @@ export default class EditUserData extends Vue {
         this.social_media = this.user_prop.social_media;
     }
 
-    async saveChanges() {
+    private async saveChanges() {
         let user: User = {
             id: this.user_prop.id,
             first_name: this.first_name,

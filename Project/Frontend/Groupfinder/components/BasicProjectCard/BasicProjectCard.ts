@@ -11,14 +11,14 @@ export default class BasicProjectCard extends Vue {
     @Prop({type: Object, required: true}) readonly project_prop: Project;
 
     // DATA
-    project: Project|null = null;
-    buttonText: string = "Show reviews"
-    reviews: Review[] = [];
-    nRatings: number = 0;
-    avgRating: number = 0;
+    private project: Project|null = null;
+    private buttonText: string = "Show reviews"
+    private reviews: Review[] = [];
+    private nRatings: number = 0;
+    private avgRating: number = 0;
     
     // LIFECYCLE HOOKS
-    async mounted(){
+    private async mounted(){
         this.project = this.project_prop;
         try{
             const response = await axios.get(`http://localhost:4000/reviews/receiver/${this.userID_prop}`);
@@ -37,7 +37,7 @@ export default class BasicProjectCard extends Vue {
     }
 
     // COMPUTED
-    get creatorName(){
+    private get creatorName(){
         if (this.project){
             return `${this.project.creator_first_name} ${this.project.creator_last_name}`;
         } else {
@@ -46,7 +46,7 @@ export default class BasicProjectCard extends Vue {
     }
 
     // METHODS
-    changeButtonText(): void {
+    private changeButtonText(): void {
         if (this.buttonText == "Show reviews"){
             this.buttonText = "Hide reviews";
         } else {
@@ -54,11 +54,11 @@ export default class BasicProjectCard extends Vue {
         }
     }
 
-    createFullName(first_name: string, last_name: string): string {
+    private createFullName(first_name: string, last_name: string): string {
         return 'From: ' + first_name + ' ' + last_name;
     }
 
-    calcAvgRating(): void {
+    private calcAvgRating(): void {
         let sum: number = 0;
         for (let i = 0; i < this.reviews.length; i++){
             this.nRatings++;

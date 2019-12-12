@@ -15,11 +15,11 @@ import axios from 'axios';
 })
 export default class UserPage extends Vue {
     // DATA
-    user: User|null = null;
+    private user: User|null = null;
     
 
     // LIFECYCLE HOOKS
-    async created(){
+    private async created(){
         try{
             const response = await axios.get(`http://localhost:4000/users/${this.$route.params.id}`);
             this.user = response.data.user;

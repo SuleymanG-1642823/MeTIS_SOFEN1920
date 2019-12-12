@@ -4,17 +4,19 @@ import User from '../../types/user';
 import UserData from '../../components/UserData/UserData';
 import ProjectsOfUser from '../../components/ProjectsOfUser/ProjectsOfUser';
 import SkillsOfUser from '../../components/SkillsOfUser/SkillsOfUser';
+import EditUserData from '../../components/EditUserData/EditUserData';
 
 @Component({
     components: {
         UserData,
+        EditUserData,
         ProjectsOfUser,
         SkillsOfUser
     }
 })
 export default class MyProfile extends Vue {
-    //user: User|null = null;
-    user: User = {
+    //private user: User|null = null;
+    private user: User = {
         id: 3,
         first_name:  'Mart',
         last_name: 'Bolink',
@@ -27,7 +29,7 @@ export default class MyProfile extends Vue {
         social_media: {}
     }
 
-    mounted(){
+    private mounted(){
         // TODO: get data from vuex store
     }
 }

@@ -14,12 +14,12 @@ export default class ProjectsOfUser extends Vue {
     @Prop({type: Number, required: true}) readonly userid_prop: number;
 
     // DATA
-    userID: number = 0;
-    projects_owner: Project[] = [];
-    projects_member: Project[] = [];
+    private userID: number = 0;
+    private projects_owner: Project[] = [];
+    private projects_member: Project[] = [];
 
     // LIFECYCLE HOOKS
-    async mounted(){
+    private async mounted(){
         this.userID = this.userid_prop;
         try{
             const response = await axios.get(`http://localhost:4000/projects/owner/${this.userid_prop}`);
