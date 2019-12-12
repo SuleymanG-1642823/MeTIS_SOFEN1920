@@ -7,6 +7,7 @@ CREATE TABLE user (
     first_name varchar(255) NOT NULL,
     last_name  varchar(255) NOT NULL,
     mail nvarchar(255) NOT NULL,
+    password varchar(255) NOT NULL,
     addr varchar(255),
     zip varchar(255),
     city varchar(255),

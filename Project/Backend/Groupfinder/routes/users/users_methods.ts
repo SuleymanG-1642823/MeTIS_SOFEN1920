@@ -66,12 +66,13 @@ function updateUser(userID: number, user: User): Promise<void> {
 /**
  * Insert new user into database
  * @param user the new user that will be added
+ * @param hashedPassword the new password (hashed)
  */
-function addUser(user: User): Promise<number> {
+function addUser(user: User, hashedPassword: string): Promise<number> {
     return new Promise(
         (resolve: any, reject: any) => {
-            const query: string = 'INSERT INTO user (first_name, last_name, mail, addr, zip, city, tel, website, social_media) VALUES (?,?,?,?,?,?,?,?,?);';
-            const params: any[] = [user.first_name, user.last_name, user.mail, user.address, user.zip, user.city, user.tel, user.website, user.social_media];
+            const query: string = 'INSERT INTO user (first_name, last_name, mail, password, addr, zip, city, tel, website, social_media) VALUES (?,?,?,?,?,?,?,?,?,?);';
+            const params: any[] = [user.first_name, user.last_name, user.mail, hashedPassword ,user.address, user.zip, user.city, user.tel, user.website, user.social_media];
             db_conn.query(query, params, async (err: any, rows: any) => {
                 if (err){
                     console.log(err);

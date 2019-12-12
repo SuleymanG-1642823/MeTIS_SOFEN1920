@@ -1,13 +1,13 @@
 USE groupfinder;
 
 -- USERS
-INSERT INTO user (id, first_name, last_name, mail)
-VALUES  (1, 'Lennert', 'Geebelen', 'lennert.geebelen@student.uhasselt.be'),
-        (2, 'Jurian', 'Lodewijk', 'Jurian.Lodewijk@mail.com'),
-        (3, 'Mart', 'Bolink', 'Mart.Bolink@mail.com'),
-        (4, 'Klaas', 'Budde', 'Klaas.Budde@mail.com'),
-        (5, 'Willem', 'Kreijkes', 'Willem.Kreijkes@mail.com'),
-        (6, 'Robert', 'Louwes', 'Robert.Louwes@mail.com');
+INSERT INTO user (id, first_name, last_name, mail, password)
+VALUES  (1, 'Lennert', 'Geebelen', 'lennert.geebelen@student.uhasselt.be', 'passwordNeedsToBeHashed'),
+        (2, 'Jurian', 'Lodewijk', 'Jurian.Lodewijk@mail.com', 'passwordNeedsToBeHashed'),
+        (3, 'Mart', 'Bolink', 'Mart.Bolink@mail.com', 'passwordNeedsToBeHashed'),
+        (4, 'Klaas', 'Budde', 'Klaas.Budde@mail.com', 'passwordNeedsToBeHashed'),
+        (5, 'Willem', 'Kreijkes', 'Willem.Kreijkes@mail.com', 'passwordNeedsToBeHashed'),
+        (6, 'Robert', 'Louwes', 'Robert.Louwes@mail.com', 'passwordNeedsToBeHashed');
       
 
 -- PROJECTS

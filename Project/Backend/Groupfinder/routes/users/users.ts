@@ -53,7 +53,7 @@ router.put('/:user_id', async (req: any, res: any) => {
 router.post('/', async (req: any, res: any) => {
     const user: User = req.body.user;
     try{
-        const newUserID: number = await $users_methods.addUser(user);
+        const newUserID: number = await $users_methods.addUser(user, ''); // TODO: pass hashed password instead of an empty string
         res.status(200).json({id: newUserID})
     } catch (err) {
         const statusCode: number = parseInt(err);
