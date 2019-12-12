@@ -19,7 +19,14 @@ export default class MainLayout extends Vue {
         'LoginForm': LoginForm
     }
 
+    // Indicates if the sidebar is collapsed or not
     collapsed: Boolean = false;
+    // Starting margin of the content when the sidebar is not collapsed
+    contentMarginCSS: String = "390px";
+    // Margin of the content when the sidebar is collapsed
+    contentMarginCSS_Collapsed: String = "60px";
+    // Margin of the content when the sidebar is not collapsed
+    contentMarginCSS_NotCollapsed: String = "390px";
 
     sidebarmenu: any[] = [
         {
@@ -86,12 +93,17 @@ export default class MainLayout extends Vue {
         }
     }
 
+    // This method is triggered when the collapse button is pressed
     onToggleCollapse(){
+        // Change the boolean value of collapsed
+        // and change the padding of the content
         if (this.collapsed){
             this.collapsed = false;
+            this.contentMarginCSS = this.contentMarginCSS_NotCollapsed;
         }
         else {
             this.collapsed = true;
+            this.contentMarginCSS = this.contentMarginCSS_Collapsed;
         }
     }
 }

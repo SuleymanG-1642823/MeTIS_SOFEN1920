@@ -5,23 +5,19 @@
         href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
         integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
         crossorigin="anonymous">
-    <b-row class="main-row">
-        <SidebarMenu
-        :menu="sidebarmenu"
-        :theme="theme"
-        :showOneChild="showOneChild"
-        :width="width"
-        @toggle-collapse="onToggleCollapse"
-        @item-click="sidbarItemClick">
-            <b-img v-if="!collapsed" slot="header" class="py-3 px-3" src="./Groupfinder_logo.png" fluid />
-        </SidebarMenu>
-        <b-col cols="8">
-            <div id="content">
-                <!-- Content components go here -->
-                <nuxt />
-            </div>
-        </b-col>
-    </b-row>
+    <SidebarMenu
+    :menu="sidebarmenu"
+    :theme="theme"
+    :showOneChild="showOneChild"
+    :width="width"
+    @toggle-collapse="onToggleCollapse"
+    @item-click="sidbarItemClick">
+        <b-img v-if="!collapsed" slot="header" class="py-3 px-3" src="./Groupfinder_logo.png" fluid />
+    </SidebarMenu>
+    <div id="content" v-bind:style="{ 'margin-left': contentMarginCSS }">
+        <!-- Content components go here -->
+        <nuxt />
+    </div>
 </b-container>
 </template>
 
@@ -40,7 +36,8 @@
 #content{
     padding-top: 60px;
     padding-bottom: 20px;
-    padding-left: 50px;
+    margin-left: 390px;
+    transition: margin 1s;
 }
 
 .main-row{
@@ -53,7 +50,6 @@
 
 .v-sidebar-menu {
     float: none;
-    position: static;
     border-right: 2px solid;
     border-color: #e6e6e6;
 }

@@ -1,14 +1,45 @@
 <template>
-<div class="pl-3 pt-3">
+<!--<div class="pl-3 pt-3">-->
+<div class="pt-3">
+    <!--
     <div class="btn-group flex-wrap" role="group">
         <button type="button" class="btn btn-secondary" v-on:click="notificationBtnClickEvent()" :disabled="notificationsBtnClicked">
         Notifications</button>
         <button type="button" class="btn btn-secondary" v-on:click="messagesBtnClickEvent()" :disabled="messagesBtnClicked">
         Messages</button>
         <button type="button" class="btn btn-secondary" v-on:click="projectsBtnClickEvent()" :disabled="projectsBtnClicked">
-        Projects</button>
+            <i class="far fa-lightbulb fa-3x sidebar-button-group"></i>
+            <span>Projects</span>
+        </button>
     </div>
-    <div class="pt-3">
+    -->
+    <b-tabs>
+        <b-tab v-on:click="projectsBtnClickEvent()">
+            <template v-slot:title>
+                <div class="sidebar-tab">
+                <i class="far fa-lightbulb fa-2x sidebar-button-group"></i>
+                </div>
+                <span>Projects</span>
+            </template>
+        </b-tab>
+        <b-tab v-on:click="notificationBtnClickEvent()">
+            <template v-slot:title>
+                <div class="sidebar-tab">
+                <i class="far fa-bell fa-2x sidebar-button-group"></i>
+                </div>
+                <span>Notifications</span>
+            </template>
+        </b-tab>
+        <b-tab v-on:click="messagesBtnClickEvent()">
+            <template v-slot:title>
+                <div class="sidebar-tab">
+                <i class="far fa-comment fa-2x sidebar-button-group"></i>
+                </div>
+                <span>Messages</span>
+            </template>
+        </b-tab>
+    </b-tabs>
+    <div class="pl-3 pt-3">
         <!-- Sidebar components for projects, notifications and messages go here -->
         <SidebarProjects v-if="projectsBtnClicked" />
     </div>
@@ -19,4 +50,13 @@
 
 </script>
 
-<style scoped></style>
+<style scoped>
+.sidebar-button-group{
+    display: block;
+}
+
+.sidebar-tab{
+    text-align:center;
+}
+
+</style>
