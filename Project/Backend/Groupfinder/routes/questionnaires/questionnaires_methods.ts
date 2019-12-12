@@ -73,19 +73,23 @@ function getQuestionnaire(id: number): Promise<Questionnaire> {
 function addQuestionnaire(questionnaire: Questionnaire): Promise<number> {
     return new Promise(
         (resolve: any, reject: any) => {
-            const questionJSON: Object = {
-                questions: questionnaire.questions
+            let questions = "";
+            for (let i = 0; i < questionnaire.questions.length; i++){
+                questions += `\"${questionnaire.questions[i]}\"`;
+                if (i < questionnaire.questions.length - 1){
+                    questions += ",";
+                }
             }
-            console.log(questionJSON);
-            const query: string = "INSERT INTO questionnaire (name, creator_id, questions) VALUES ('questionnaire', 1, '{\"questions\": [\"Question 1\"]}');";
-            const params: any[] = [questionnaire.name, questionnaire.creator_id, questionJSON.toString()];
+            questions = "[" + questions + "]";
+            const query: string = 'INSERT INTO questionnaire (name, creator_id, questions) VALUES (?,?,?);';
+            const params: any[] = [questionnaire.name, questionnaire.creator_id, questions];
             db_conn.query(query, params, async (err: any, rows: any) => {
                 if (err) {
                     console.log(err);
                     reject('500');
                 } else {
                     try{
-                        const newID: number = await getQuestionnaireID(questionnaire);
+                        const newID: number = await getQuestionnaireID(questionnaire, questions);
                         resolve(newID);
                     } catch (err) {
                         reject(err);
@@ -102,17 +106,19 @@ function addQuestionnaire(questionnaire: Questionnaire): Promise<number> {
  * @param questionnaire the questionnaire that we are searching for
  * @returns the id of the questionnaire
  */
-function getQuestionnaireID(questionnaire: Questionnaire): Promise<number> {
+function getQuestionnaireID(questionnaire: Questionnaire, questionsAsString: string): Promise<number> {
     return new Promise(
         (resolve, reject) => {
-            const query: string = 'SELECT * FROM questionnaire WHERE name=? creator_id=? questions=? ORDER BY id DESC;';
-            const params: any[] = [questionnaire.name, questionnaire.creator_id, questionnaire.questions.toString];
-            db_conn.query(query, params, async (err: any, rows: any) => {
+            const query: string = "SELECT last_insert_id() AS id;";
+            db_conn.query(query, async (err: any, rows: any) => {
                 if (err) {
                     console.log(err);
                     reject('500');
+                } else if (rows.length <= 0 || rows[0].id == 0) {
+                    console.log("Could not find id of inserted questionnaire.");
+                    reject('404');
                 } else {
-                    resolve(rows[0]);
+                    resolve(rows[0].id);
                 }
             });
         }

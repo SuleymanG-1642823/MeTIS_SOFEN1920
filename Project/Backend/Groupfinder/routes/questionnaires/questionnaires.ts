@@ -1,6 +1,6 @@
 import express from 'express';
 const router = express.Router();
-const $questionnaire_methods = require('./questionnaire_methods');
+const $questionnaire_methods = require('./questionnaires_methods');
 import Questionnaire from '../../types/questionnaire';
 
 
