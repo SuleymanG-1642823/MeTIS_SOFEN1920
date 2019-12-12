@@ -3,16 +3,18 @@
 
         <div class="row">
             <!-- Sidebar -->
+            <!--
             <div class="col-xl-2 col-lg-3 col-md-3 navbar navbar-expand-md py-0 px-0 mx-0 my-1">
                 <div class="collapse navbar-collapse">
                     <div class="nav flex-column pt-5 bg-light shadow" id="vertical-nav">
-                        <!-- Sidebar when logged in -->
+                        <-- Sidebar when logged in --
                         <Sidebar v-if="logged_in"/>
                         <LoginForm v-else />
                     </div>
                 </div>
             </div>
-
+            -->
+            <SidebarMenu :menu="sidebarmenu"/>
             <div class="col-xl-8 col-lg-8 col-md-8 bg-white mt-0 py-0 px-0 ml-3">
                 <!-- Top bar -->
                 <div class="wrapper">

@@ -6,8 +6,10 @@ import axios from 'axios';
 import Sidebar from '~/components/Sidebar/Sidebar'
 import LoginForm from '~/components/LoginForm/LoginForm'
 
+import { SidebarMenu } from 'vue-sidebar-menu'
+
 @ Component({
-    components: {Sidebar, LoginForm}
+    components: {Sidebar, LoginForm, SidebarMenu}
 })
 export default class MainLayout extends Vue {
     // Components
@@ -15,6 +17,30 @@ export default class MainLayout extends Vue {
         'Sidebar': Sidebar
         'LoginForm': LoginForm
     }
+
+    sidebarmenu: any[] = [
+        {
+            header: true,
+            title: 'Main Navigation',
+            hiddenOnCollapse: true
+        },
+        {
+            href: '/',
+            title: 'Dashboard',
+            icon: 'fa fa-user'
+        },
+        {
+            href: '/charts',
+            title: 'Charts',
+            icon: 'fa fa-chart-area',
+            child: [
+                {
+                    href: '/charts/sublink',
+                    title: 'Sub Link'
+                }
+            ]
+        }
+    ]
 
     // Data
     content_type: String;
