@@ -98,7 +98,7 @@ export default class ProjectsToUserMatcher{
                     if (projectRows.length > 0){
                         projectMatches.push(this.createMatchingProject(projectRows));
                     }
-    
+
                     resolve(this.sortMatches(projectMatches));
                 }
             });
@@ -147,6 +147,8 @@ export default class ProjectsToUserMatcher{
     /*
         Sorts Projects in decending maximum matching percentile and profiles in decending matching percentile
         @pre: every project must have at least 1 profile
+        @post the given parameter is sorted
+        @post the given parameter is returned;
     */
     private static sortMatches(matches: Array<ProjectMatch>): Array<ProjectMatch>{
         // sort profiles per project

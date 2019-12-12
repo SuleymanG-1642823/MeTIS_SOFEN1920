@@ -94,14 +94,11 @@ function getAllProjects(): Promise<Project[]> {
 // Promise<Array<Object>>
 function getMatchingProjects(userID: number): Promise<Array<ProjectMatch>> {
     return new Promise((resolve: any, reject: any) => {
-
-        // TODO: the current getMatchingProjects() returns a Promise, make it so that it doesn't do that.
-        // TODO: instead of reject() in getMatchingProjects() throw an exception
-        // TODO: instead of resolve() use return
-        // TODO: handle exceptions here
-        // TEST
-
-        // return ProjectsToUserMatcher.getMatchingProjects(userID, db_conn);
+        try{
+            resolve(ProjectsToUserMatcher.getMatchingProjects(userID, db_conn));
+        }catch(e){
+            reject("500");
+        }
     });
 }
 
