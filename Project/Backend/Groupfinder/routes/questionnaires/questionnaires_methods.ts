@@ -77,7 +77,7 @@ function addQuestionnaire(questionnaire: Questionnaire): Promise<number> {
                 questions: questionnaire.questions
             }
             console.log(questionJSON);
-            const query: string = "INSERT INTO questionnaire (name, creator_id, questions) VALUES ('testQuestion', 1, '{'questions': {['Question 1','Question 2']}});";
+            const query: string = "INSERT INTO questionnaire (name, creator_id, questions) VALUES ('questionnaire', 1, '{\"questions\": [\"Question 1\"]}');";
             const params: any[] = [questionnaire.name, questionnaire.creator_id, questionJSON.toString()];
             db_conn.query(query, params, async (err: any, rows: any) => {
                 if (err) {
