@@ -1,6 +1,6 @@
 const db_conn = require('../../databaseconnection');
 import User from '../../types/user';
-
+let bcrypt = require('bcryptjs');
 
 /**
  * Get user with specific id from database
@@ -158,6 +158,34 @@ function changePassword(userID: number, hashedPassword: string): Promise<void>{
                 } else {
                     resolve();
                 }
+            });           
+        }
+    );
+}
+
+
+/**
+ * Check if user's password is correct
+ * @param userID the id of the user whose password will be checked
+ * @param hashedPassword the hashed password of the user
+ */
+function validatePassword(userID: number, hashedPassword: string): Promise<boolean> {
+    return new Promise(
+        (resolve, reject) => {
+            const query: string = "SELECT password FROM user WHERE id=?;";
+            const params: any[] = [userID];
+            db_conn.query(query, params, (err: any, rows: any) => {
+                if(err){
+                    console.log(err);
+                    reject('500');
+                } else if (rows.length <= 0){
+                    console.log("Could not find password of user");
+                    reject('404');
+                } else {
+                    bcrypt.compare(hashedPassword, rows[0].password, function(err: any, valid: boolean) {
+                        resolve(valid);
+                    });
+                }
             });
         }
     );
@@ -169,5 +197,6 @@ module.exports = {
     updateUser,
     addUser,
     deleteUser,
-    changePassword
+    changePassword,
+    validatePassword
 }

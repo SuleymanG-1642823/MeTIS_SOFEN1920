@@ -30,6 +30,23 @@ router.get('/:user_id', async (req: any, res: any) => {
 
 
 /**
+ * Validate users's password.
+ */
+router.post('/correctPassword/:user_id', async (req: any, res: any) => {
+    const user_id: number = parseInt(req.params.user_id);
+    const hashedPsw: string = req.body.hashed_password;
+    try{
+        const valid: boolean = await $users_methods.validatePassword(user_id, hashedPsw);
+        console.log("Correct password:" + valid);
+        res.status(200).json({valid: valid});
+    } catch (err) {
+        const statusCode: number = parseInt(err);
+        res.status(statusCode).send("Error while validating password.");
+    }
+});
+
+
+/**
  * Change data of existing user in the database.
  * @pre body of http request contains existing user (type: User) in JSON format
  */

@@ -84,20 +84,6 @@ describe("TESTING ALL USER ROUTES", () => {
             });
         });
     });
-    describe("PUT /users/password/:user_id", () => {
-        it ("Should change a user's password in the database.", (done) => {
-            const data = {
-                password: "newPassword"
-            }
-            request.put(`/users/password/${userID}`)
-            .send(data)
-            .end((err, res) => {
-                if (err) return done(err);
-                expect(res.status).toBe(200);   
-                done();
-            });
-        })
-    })
     describe("DELETE /users/:user_id", () => {
         it("Should delete a user from the database.",(done) => {
             request.delete(`/users/${userID}`)
