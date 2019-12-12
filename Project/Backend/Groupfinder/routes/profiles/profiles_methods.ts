@@ -1,5 +1,7 @@
 const db_conn = require('../../databaseconnection');
 import Profile from '../../types/profile';
+import Questionnaire from '../../types/questionnaire';
+const $questionnaire_methods = require('../questionnaires/questionnaires_methods');
 
 
 /**
@@ -24,7 +26,8 @@ function getProjectProfiles(projectID: number): Promise<Profile[]> {
                             id: rows[i].id,
                             name: rows[i].name,
                             project_id: projectID,
-                            skills: []
+                            skills: [],
+                            questions: rows[i].questions
                         }
                         profiles.push(profile);
                     }
@@ -63,10 +66,11 @@ function updateProfile(profileID: number, profile: Profile): Promise<void> {
 /**
  * Insert a new profile into the database.
  * The skills of the profile won't be inserted into the database in this method.
+ * This method makes new Questionnaire entries in the database with the questions of this profile
  * @param profile the profile that has to be added into the database.
  * @returns the new id of the profile.
  */
-function addProfile(profile: Profile): Promise<number> {
+function addProfile(profile: Profile, creator_id: number): Promise<number> {
     return new Promise(
         (resolve: any, reject: any) => {
             const query: string = 'INSERT INTO profile (name, project_id) VALUES (?,?);';
@@ -77,6 +81,13 @@ function addProfile(profile: Profile): Promise<number> {
                     reject('500');
                 } else {
                     try{
+                        let newQuestionnaire: Questionnaire = {
+                            id: null,
+                            creator_id: creator_id,
+                            name: profile.name,
+                            questions: profile.questions
+                        }
+                        const newQuestionnaireID: number = await $questionnaire_methods.addQuestionnaire(newQuestionnaire)
                         const newID: number = await getProfileID(profile);
                         resolve(newID);
                     } catch (err) {
