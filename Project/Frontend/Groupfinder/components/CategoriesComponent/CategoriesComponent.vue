@@ -1,32 +1,23 @@
 <template>
 <b-row>
     <b-col>
-      <b-form-group
-        id="input-category-id"
-        label="Category"
-        label-for="input-category"
-      >
-        <b-form-select
-          id="input-category"
-          v-model="selectedCategory"
-          :options="categories_input"
-          required
-        ></b-form-select>
-      </b-form-group>
-    </b-col>
-    <b-col>
-      <b-form-group
-        id="input-category-id2"
-        label="Category"
-        label-for="input-category2"
-      >
-        <b-form-select
-          id="input-category2"
-          v-model="selectedCategory"
-          :options="categories_input"
-          required
-        ></b-form-select>
-      </b-form-group>
+      <b-form-checkbox>
+        <b-dropdown dropright text="Category">
+          <b-form-group
+            id="input-category-id"
+            label="Category"
+            label-for="input-category"
+          >
+            <b-form-select
+              id="input-category"
+              v-model="selectedCategory"
+              :options="categories_input"
+              required
+            >
+            </b-form-select>
+          </b-form-group>
+        </b-dropdown>
+      </b-form-checkbox>
     </b-col>
 </b-row>
 </template>

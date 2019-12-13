@@ -127,6 +127,7 @@ CREATE TABLE review (
 CREATE TABLE category (
     id int NOT NULL AUTO_INCREMENT,
     name varchar(255) NOT NULL,
+    subcategory varchar(255),
     PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 

@@ -65,11 +65,12 @@ VALUES  (6, 'c++', 7),
 
 -- CATEGORIES
 INSERT INTO category
-VALUES  (1, 'Mobile Application'),
-        (2, 'Website'),
-        (3, 'Native Application'),
-        (4, 'Android Application'),
-        (5, 'IOS Application'),
-        (6, 'MacOS Application'),
-        (7, 'Linux Application'),
-        (8, 'Windows Application');
+VALUES  (1, 'Website', NULL),
+        (2, 'Game Development', NULL),
+        (3, 'AR', NULL),
+        (4, 'AI', NULL),
+        (5, 'Desktop OS', 'Windows'),
+        (6, 'Desktop OS', 'Linux'),
+        (7, 'Desktop OS', 'MacOS'),
+        (8, 'Mobile OS', 'iOS'),
+        (9, 'Mobile OS', 'Android');

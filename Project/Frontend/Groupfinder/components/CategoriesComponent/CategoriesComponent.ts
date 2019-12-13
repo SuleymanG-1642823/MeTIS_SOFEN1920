@@ -15,6 +15,7 @@ export default class CategoriesComponent extends Vue {
 
     // TODO: this needs to go into the Project object
     selectedCategory: string = "";
+    selectedCategory2: string = "";
 
     async created(){
         const categories_data: Category[] = await this.getAllCategories()
