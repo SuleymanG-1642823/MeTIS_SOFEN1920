@@ -13,5 +13,12 @@ module.exports = {
   ],
   // add your custom rules here
   rules: {
+    'indent': 'off',
+    'vue/script-indent': 'off',
+    'vue/html-indent': 'off',
+    'vue/singleline-html-element-content-newline': 'off',
+    'vue/multiline-html-element-content-newline': 'off',
+    'vue/html-self-closing': 'off',
+    'vue/html-closing-bracket-spacing': 'off'
   }
 }

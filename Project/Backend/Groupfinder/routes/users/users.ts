@@ -22,7 +22,13 @@ router.get('/:user_id', (req: any, res: any) => {
         id: user_id,
         first_name: 'Liese',
         last_name: 'Bekkers',
-        email: 'liese.bekkers@student.uhasselt.be'
+        mail: 'liese.bekkers@student.uhasselt.be',
+        address: '',
+        zip: '0000',
+        city: 'place',
+        tel: '08900000000',
+        website: '',
+        social_media: {}
     }
     res.status(200).json(user);
 });

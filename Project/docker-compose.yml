@@ -3,28 +3,31 @@ version: '3'
 services:
     frontend:
         build: './Frontend'
-        image: 'groupfinder/client'
-        container_name: 'groupfinderClientContainer'
+        image: '${FRONTEND_IMAGE}'
+        container_name: '${FRONTEND_CONTAINER}'
         ports:
-            - "3000:3000"
+            - "${FRONTEND_PORT}:${FRONTEND_PORT}"
         volumes:
             - ./Frontend/Groupfinder:/usr/src/nuxt-app
             - /usr/src/nuxt-app/node_modules
+        environment:
+            - API_PORT=:${BACKEND_PORT}/
+
     backend:
         build: './Backend'
-        image: 'groupfinder/server'
-        container_name: 'groupfinderServerContainer'
+        image: '${BACKEND_IMAGE}'
+        container_name: '${BACKEND_CONTAINER}'
         ports:
-            - "4000:4000"
+            - "${BACKEND_PORT}:${BACKEND_PORT}"
         volumes:
             - ./Backend/Groupfinder:/usr/src/app
             - /usr/src/app/node_modules
     db:
         build: './Database'
-        image: 'groupfinder/database'
-        container_name: 'groupfinderDatabaseContainer'
+        image: '${DB_IMAGE}'
+        container_name: '${DB_CONTAINER}'
         ports: 
-            - '3306:3306'
+            - '${DB_PORT}:${DB_PORT}'
         volumes:
             - 'data:/var/lib/mysql'
 

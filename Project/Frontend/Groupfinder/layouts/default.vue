@@ -5,7 +5,7 @@
             <!-- Sidebar -->
             <div class="col-xl-2 col-lg-3 col-md-3 navbar navbar-expand-md py-0 px-0 mx-0 my-1">
                 <div class="collapse navbar-collapse">
-                    <div class="nav flex-column bg-light shadow" id="vertical-nav">
+                    <div id="vertical-nav" class="nav flex-column bg-light shadow">
                         <!-- Sidebar when logged in -->
                         <Sidebar v-if="logged_in"/>
                         <LoginForm v-else />
@@ -21,7 +21,7 @@
                         <div class="col-9">
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <button class="btn btn-outline-secondary" type="button" id="button-addon1">Search</button>
+                                    <button id="button-addon1" class="btn btn-outline-secondary" type="button">Search</button>
                                 </div>
                                 <input type="search" class="form-control" placeholder="search">
                             </div>
