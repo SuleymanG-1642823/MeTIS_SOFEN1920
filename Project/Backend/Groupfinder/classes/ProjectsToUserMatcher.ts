@@ -165,8 +165,6 @@ export default class ProjectsToUserMatcher{
         // create the matching profile object
         let newProfileMatch: ProfileMatch = this.createProfileMatch(rows[0].profile_id, rows[0].profile_name);
 
-        // TODO: experience
-        // TODO: weights
         // count the number of matching skills en total skills, then calculate the matching percentage
         let totalSkills = 0;
         let totalMatchingSkills = 0;
@@ -176,11 +174,10 @@ export default class ProjectsToUserMatcher{
 
             if (row.matches === 1) // means matches with one of the users' skills
             {
-                // TODO: if user has the required skill experience, # of matching skills is increased by 1
+                // If user has the required skill experience, # of matching skills is increased by 1
                 // otherwise the # of matching skills is increased by the percentage of which the users' skill
                 // covers the required skill for example: user skill = 1, required skill = 2, 1 is 50% of 2 so
                 // # of matching skills is increased by 0.5 (50%).
-                // NOTE: first add the column for the users' experience, so you can use it here
                 let addedValue = 1;
                 if (row.user_skill_experience < row.profile_skill_experience){
                     addedValue = row.user_skill_experience / row.profile_skill_experience;
@@ -221,12 +218,10 @@ export default class ProjectsToUserMatcher{
         // cumulate rows of the same profile, and create a ProfileMatch object with each set of rows
         for (let i in rows){
             // check if current profile is a new one
-            if (profileRows.length === 0 || profileRows[profileRows.length-1].profile_id !== rows[i].profile_id){
+            if (profileRows.length > 0 && profileRows[profileRows.length-1].profile_id !== rows[i].profile_id){
                 // if there are cumulated rows then we have all the rows of one profile, make a ProfileMatch object
-                if (profileRows.length > 0){
-                    profileMatches.push(this.createMatchingProfile(profileRows));
-                    profileRows = [];
-                }
+                profileMatches.push(this.createMatchingProfile(profileRows));
+                profileRows = [];
             }
 
             // add current rows to list

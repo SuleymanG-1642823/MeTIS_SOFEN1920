@@ -2,6 +2,8 @@ import ProfileUserMatch from '../types/matching/profileUserMatch';
 import Profile from '../types/profile';
 import UserMatch from '../types/matching/userMatch';
 import ProfileSkill from '../types/profileSkill';
+import User from '../types/user';
+import UserSkill from '../types/userSkill';
 
 export default class UsersToProjectMatcher{
 
@@ -64,12 +66,34 @@ export default class UsersToProjectMatcher{
      * @param name 
      * @param projectID 
      */
-    private static createNewProfile(id: number, name: string, projectID: number){
+    private static createNewProfile(id: number, name: string, projectID: number): Profile{
         return {
             id: id,
             name: name,
             project_id: projectID
         }
+    }
+
+    /**
+     * Returns a User object
+     * @param userID 
+     * @param firstName 
+     * @param lastName 
+     */
+    private static createNewUser(userID: number, firstName: string, lastName: string): User{
+        let user: User = {
+            id: userID,
+            first_name: firstName,
+            last_name: lastName,
+            mail: '',
+            address: '',
+            zip: '',
+            city: '',
+            tel: '',
+            website: '',
+            social_media: ''
+        }
+        return user;
     }
 
     /**
@@ -135,6 +159,103 @@ export default class UsersToProjectMatcher{
     }
 
     /**
+     * Creates a MatchingUserSkill object from the given rows.
+     * @param userRows: rows about 1 user whose skills match with a profiles' skills, each row represents a matching user skill.
+     * @pre userRows must contain all data about a user and profile skills that match with the users' skills
+     * @ pre userRows.length > 0 
+     */
+    private static createMatchingUserSkill(userRows: any): MatchingUserSkill{
+        let matchingUserSkill: MatchingUserSkill = {
+            user: this.createNewUser(userRows[0].user_id,userRows[0].first_name,userRows[0].last_name),
+            matchingSkills: []
+        }
+
+        // create a skill out of each row and add it to matchingUserSkill.matchingSkills
+        for (let i in userRows){
+            let userSkill: UserSkill = {
+                name: userRows[i].profile_skill_name,
+                experience: userRows[i].user_skill_experience
+            }
+            matchingUserSkill.matchingSkills.push(userSkill);
+        }
+
+        return matchingUserSkill;
+    }
+
+    /**
+     * Creates a MatchingUserProfileSkill from the given rows about a specific profile.
+     * @param profileRows rows of data of 1 profile
+     * @param projectID id of project that owns the profile (profile on which these rows belong to)
+     * @pre The rows must contain only data about 1 profile and all rows of that profile must be included,
+     *      otherwise the result will be incorrect.
+     * @pre rows.length > 0
+     */
+    private static createMatchingUserProfileSkill(profileRows: any, projectID: number): MatchingUserProfileSkill{
+        let result: MatchingUserProfileSkill = {
+            profile: this.createNewProfile(profileRows[0].profile_id, profileRows[0].profile_name, projectID),
+            users: []
+        }
+        
+        // separate rows of each user and create a MatchingUserSkill for each set of rows, then add those to
+        // result.users
+        let userRows: Array<any> = [];
+        for (let i = 0; i < profileRows.length; i++){
+            // if current row is of a different user
+            if (userRows.length > 0 && userRows[userRows.length-1].user_id != profileRows[i].user_id){
+                // encountered a new user row, make a MatchingUserSkill object of the collected rows
+                // and reset cumulated rows
+                result.users.push(this.createMatchingUserSkill(userRows));
+                userRows = []; // reset
+            }
+
+            // add current row to userRows
+            userRows.push(profileRows[i]);
+        }
+
+        // if there are userRows left, add those too
+        if (userRows.length > 0){
+            result.users.push(this.createMatchingUserSkill(userRows));
+            userRows = []; // reset
+        }
+
+        return result;
+    }
+
+    /**
+     * Returns a list of MatchingUserProfileSkill objects (contains a profile with a list of users 
+     * that have matching skills with the profile).
+     * @param rows 
+     * @param projectID 
+     */
+    private static preprocessUserSkills(rows: any, projectID: number): Array<MatchingUserProfileSkill>{
+        // First separate each profile rows such that each set contains exactly all rows of one profile. (1 set of rows / profile)
+        let profileRows: Array<any> = [];
+        let preprocessedProfiles: Array<MatchingUserProfileSkill> = [];
+
+        // cumulate rows of the same profile, when all rows of a profile are collected create a 
+        // MatchingUserProfileSkill and add it to the result (preprocessedProfiles)
+        for (let i = 0; i < rows.length; i++){
+            // check if current profile is a new one
+            if (profileRows.length > 0 && profileRows[profileRows.length-1].profile_id !== rows[i].profile_id){
+                // create a MatchingUserProfileSkill object and save it
+                preprocessedProfiles.push(this.createMatchingUserProfileSkill(profileRows, projectID));
+                profileRows = [] // reset because a new profile has occured
+            }
+
+            // add current row to list
+            profileRows.push(rows[i]);
+        }
+
+        // add the remaining profile if any
+        if (profileRows.length > 0){
+            preprocessedProfiles.push(this.createMatchingUserProfileSkill(profileRows, projectID));
+            profileRows = [] // reset
+        }
+
+        return preprocessedProfiles;
+    }
+
+    /**
      * 
      * @param projectID 
      * @param dbconn 
@@ -142,17 +263,38 @@ export default class UsersToProjectMatcher{
     //Promise<Array<ProfileUserMatch>>
     static getMatchingUsers(projectID: number, dbconn: any): Promise<any>{
         return new Promise((resolve: any, reject: any) => {
-            const params: any[] = [projectID];
-            dbconn.query(this.queryProjectSkills, params, async (err: any, rows: any) => {
+            const paramsProjectSkills: any[] = [projectID];
+            dbconn.query(this.queryProjectSkills, paramsProjectSkills, async (err: any, rows: any) => {
                 if (err) {
                     console.log(`Error while fetching matching projects from the database.\n${err}`);
                     reject("500");
                 } else {
-                    let profiles: Array<{profile: Profile, skills: Array<ProfileSkill>}> = this.preprocessProfileSkills(rows, projectID)
-                    resolve(profiles);
+                    let projectProfiles: Array<{profile: Profile, skills: Array<ProfileSkill>}> = this.preprocessProfileSkills(rows, projectID);
+                    
+                    // execute the query to get the user skills that match with the profile skills
+                    const paramsMatchingUserSkills: any[] = [projectID];
+                    dbconn.query(this.queryMatchingUserSkills, paramsMatchingUserSkills, async (err: any, userSkillRows: any) => {
+                        if (err) {
+                            console.log(`Error while fetching matching projects from the database.\n${err}`);
+                            reject("500");
+                        } else {
+                            let userSkillsPerProfile: Array<MatchingUserProfileSkill> = this.preprocessUserSkills(userSkillRows, projectID);
+                            resolve(userSkillsPerProfile)
+                        }
+                    });
+
                 }
             });
         });
     }
+}
 
+interface MatchingUserProfileSkill{
+    profile: Profile,
+    users: Array<MatchingUserSkill>
+}
+
+interface MatchingUserSkill{
+    user: User,
+    matchingSkills: Array<UserSkill>
 }

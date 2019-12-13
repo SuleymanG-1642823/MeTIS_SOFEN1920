@@ -54,7 +54,9 @@ VALUES  (1, 'Django', 2, 1),
 
 -- USER SKILLS
 INSERT INTO user_skill -- (user_id, skill name, skill experience)
-VALUES  (6, 'c++', 7),
+VALUES  (5, 'c++', 7),
+        (5, 'AGILE', 5),
+	    (6, 'c++', 7),
         (6, 'python', 3),
         (6, 'AGILE', 5),
         (6, 'SCRUM', 3),
