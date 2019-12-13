@@ -1,6 +1,6 @@
 <template>
-    <div class="center" id="signup-content">
-    <b-form v-on:submit.prevent="onSignup" id="signup_form">
+    <div id="signup-content" class="center">
+    <b-form id="signup_form" @submit.prevent="onSignup">
         <h1 id="signup-title">Sign up now!</h1>
         <div id="name-fields" class="clearfix">
         <!-- First Name -->
@@ -77,7 +77,7 @@
                 placeholder="New password"
             ></b-form-input>
             <b-input-group-append>
-                <b-button variant="outline-secondary" @click="toggleVisibility" >{{this.passwordToggle}}</b-button>
+                <b-button variant="outline-secondary" @click="toggleVisibility" >{{ passwordToggle }}</b-button>
             </b-input-group-append>
         </b-input-group>
         </b-form-group>

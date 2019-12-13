@@ -14,7 +14,7 @@
     </div>
     -->
     <b-tabs>
-        <b-tab v-on:click="projectsBtnClickEvent()">
+        <b-tab @click="projectsBtnClickEvent()">
             <template v-slot:title>
                 <div class="sidebar-tab">
                 <i class="far fa-lightbulb fa-2x sidebar-button-group"></i>
@@ -22,7 +22,7 @@
                 <span>Projects</span>
             </template>
         </b-tab>
-        <b-tab v-on:click="notificationBtnClickEvent()">
+        <b-tab @click="notificationBtnClickEvent()">
             <template v-slot:title>
                 <div class="sidebar-tab">
                 <i class="far fa-bell fa-2x sidebar-button-group"></i>
@@ -30,7 +30,7 @@
                 <span>Notifications</span>
             </template>
         </b-tab>
-        <b-tab v-on:click="messagesBtnClickEvent()">
+        <b-tab @click="messagesBtnClickEvent()">
             <template v-slot:title>
                 <div class="sidebar-tab">
                 <i class="far fa-comment fa-2x sidebar-button-group"></i>

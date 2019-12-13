@@ -3,7 +3,7 @@
     <div>
       <h1>Projects</h1>
       <b-form-input placeholder="Search projects"></b-form-input>
-      <RecommendedProjectsList v-bind:projectMatches="recommendedProjects" />
+      <RecommendedProjectsList :projectMatches="recommendedProjects"/>
     </div>
   </div>
 </template>
