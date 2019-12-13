@@ -41,11 +41,10 @@ export default class ChangePassword extends Vue {
 
     private async handleSubmit(event: any) {
         event.preventDefault();
-        const hashedPsw: string = await this.hashPassword(this.old_password);
-        const correctPassword: boolean = await this.correctPassword(hashedPsw);
+        const correctPassword: boolean = await this.correctPassword(this.old_password);
         if (this.validateData() && correctPassword){
             try{
-                await this.sendToBackend(hashedPsw);
+                await this.sendToBackend(this.new_password);
                 this.invalidMessage = '';
                 this.old_password = '';
                 this.new_password = '';
@@ -67,33 +66,17 @@ export default class ChangePassword extends Vue {
         }
     }
 
-    private async correctPassword(hashedPsw: string): Promise<boolean> {
+    private async correctPassword(password: string): Promise<boolean> {
         return new Promise(
             async (resolve, reject) => {
                 const url = `http://localhost:4000/users/correctPassword/${this.userID_prop}`
                 try{
-                    const response = await axios.post(url);
+                    const response = await axios.post(url, {password: password}, {headers: {'Content-Type': 'application/json'}});
                     if (!response.data.valid){this.invalidMessage = 'Your old password is incorrect.';}
                     resolve(response.data.valid);
                 } catch (err) {
                     reject(err);
                 }
-            }
-        );
-    }
-
-    private hashPassword(password: string): Promise<string>{
-        return new Promise(
-            (resolve, reject) => {
-                bcrypt.genSalt(10, function(err: any, salt: any) {
-                    bcrypt.hash(password, salt, function(err: any, hash: any) {
-                        if (err){
-                            reject(err)
-                        } else {
-                            resolve(hash)
-                        }
-                    });
-                });
             }
         );
     }

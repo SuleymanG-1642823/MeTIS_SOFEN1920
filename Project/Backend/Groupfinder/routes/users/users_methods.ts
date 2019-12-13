@@ -146,9 +146,10 @@ function getNewID(user: User): Promise<number>{
  * @param userID the id of the user whose password will be changed
  * @param hashedPassword the new hashed password
  */
-function changePassword(userID: number, hashedPassword: string): Promise<void>{
+function changePassword(userID: number, plainTextPassword: string): Promise<void>{
     return new Promise(
-        (resolve: any, reject: any) => {
+        async (resolve: any, reject: any) => {
+            const hashedPassword: string = await hashPassword(plainTextPassword);
             const query: string = "UPDATE user SET password=? WHERE id=?;";
             const params: any[] = [hashedPassword, userID];
             db_conn.query(query, params, (err: any, rows: any) => {
@@ -169,7 +170,7 @@ function changePassword(userID: number, hashedPassword: string): Promise<void>{
  * @param userID the id of the user whose password will be checked
  * @param hashedPassword the hashed password of the user
  */
-function validatePassword(userID: number, hashedPassword: string): Promise<boolean> {
+function validatePassword(userID: number, plainTextPassword: string): Promise<boolean> {
     return new Promise(
         (resolve, reject) => {
             const query: string = "SELECT password FROM user WHERE id=?;";
@@ -182,10 +183,31 @@ function validatePassword(userID: number, hashedPassword: string): Promise<boole
                     console.log("Could not find password of user");
                     reject('404');
                 } else {
-                    bcrypt.compare(hashedPassword, rows[0].password, function(err: any, valid: boolean) {
+                    bcrypt.compare(plainTextPassword, rows[0].password, function(err: any, valid: boolean) {
                         resolve(valid);
                     });
                 }
+            });
+        }
+    );
+}
+
+
+/**
+ * Hash a password.
+ * @param password the plain text password to be hashed
+ */
+function hashPassword(plainTextPassword: string): Promise<string>{
+    return new Promise(
+        (resolve, reject) => {
+            bcrypt.genSalt(10, function(err: any, salt: any) {
+                bcrypt.hash(plainTextPassword, salt, function(err: any, hash: any) {
+                    if (err){
+                        reject(err)
+                    } else {
+                        resolve(hash)
+                    }
+                });
             });
         }
     );

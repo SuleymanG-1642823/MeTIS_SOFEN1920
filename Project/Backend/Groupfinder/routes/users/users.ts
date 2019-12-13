@@ -34,10 +34,9 @@ router.get('/:user_id', async (req: any, res: any) => {
  */
 router.post('/correctPassword/:user_id', async (req: any, res: any) => {
     const user_id: number = parseInt(req.params.user_id);
-    const hashedPsw: string = req.body.hashed_password;
+    const password: string = req.body.password;
     try{
-        const valid: boolean = await $users_methods.validatePassword(user_id, hashedPsw);
-        console.log("Correct password:" + valid);
+        const valid: boolean = await $users_methods.validatePassword(user_id, password);
         res.status(200).json({valid: valid});
     } catch (err) {
         const statusCode: number = parseInt(err);
