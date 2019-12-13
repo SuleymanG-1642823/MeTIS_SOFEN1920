@@ -105,3 +105,11 @@ docker container stop NAME_OR_ID_OF_CONTAINER
 
 -- Remove docker container --
 docker container rm NAME_OR_ID_OF_CONTAINER
+
+################################################################################################
+#### HOW TO FIX: Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock'
+#################################################################################################
+docker exec -it groupfinderDatabaseContainer bash
+
+mysql -h localhost -P 3306 -uroot -p
+-- enter root password --
