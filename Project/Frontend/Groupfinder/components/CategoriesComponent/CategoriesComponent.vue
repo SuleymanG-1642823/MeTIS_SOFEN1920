@@ -1,6 +1,5 @@
 <template>
-<b-container>
-  <b-row>
+<b-row>
     <b-col>
       <b-form-group
         id="input-category-id"
@@ -29,8 +28,7 @@
         ></b-form-select>
       </b-form-group>
     </b-col>
-  </b-row>
-</b-container>
+</b-row>
 </template>
 
 <script lang="ts" src="./CategoriesComponent.ts">
