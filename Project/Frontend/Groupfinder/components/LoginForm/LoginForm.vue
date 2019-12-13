@@ -1,6 +1,6 @@
 <template>
   <div class="pl-3">
-    <b-form v-on:submit.prevent="tryLogin" id="login_form">
+    <b-form id="login_form" @submit.prevent="tryLogin">
       <b-form-group
         id="input-group-mail"
         label="Email address"

@@ -8,7 +8,7 @@
         label-for="input-projectname"
       >
         <b-form-input
-          id ="input-projectname"
+          id="input-projectname"
           v-model="form.projectName"
           required
           placeholder="Enter a project name"
@@ -40,7 +40,7 @@
       </b-form-group>
 
       <!-- Dynamically add profileForms -->
-      <profileForm v-for="profile in profilesList" v-bind:key="profile" @deleteProfile="deleteProfileForm" :id="profile" />
+      <profileForm v-for="profile in profilesList" :id="profile" :key="profile" @deleteProfile="deleteProfileForm"/>
       <b-button variant="primary" @click="addProfile">Add profile</b-button>
 
       <b-button type="submit" variant="success">Submit Project</b-button>

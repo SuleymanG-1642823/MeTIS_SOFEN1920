@@ -2,8 +2,7 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import User from '@/types/user.ts';
 import axios from 'axios';
-import profileForm from '~/components/profileForm/profileForm.vue'
-
+import profileForm from '~/components/profileForm/profileForm'
 import Project from '../../types/project';
 
 @ Component({
