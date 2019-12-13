@@ -24,21 +24,10 @@
           placeholder="Enter a pitch for the project"
         ></b-form-textarea>
       </b-form-group>
-      <b-form-group
-        id="input-category-id"
-        label="Category"
-        label-for="input-category"
-      >
-        <b-form-select
-          id="input-category"
-          v-model="selectedCategory"
-          :options="categories"
-          required
-        ></b-form-select>
-      </b-form-group>
+      <CategoryComponent />
 
     <!-- Dynamically add profileForms -->
-    <profileForm v-for="profile in project.profiles" v-bind:key="profile" @deleteProfile="deleteProfileForm" :profile="profile" />
+    <profileForm v-for="(profile, index) in project.profiles" v-bind:key="index" @deleteProfile="deleteProfileForm" :profile="profile"/>
     <b-button class="my-2" variant="primary" @click="addProfile">Add profile</b-button>
 </div>
 </template>

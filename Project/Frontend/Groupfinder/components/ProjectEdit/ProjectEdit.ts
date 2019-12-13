@@ -7,21 +7,28 @@ import profileForm from '~/components/profileForm/profileForm.vue'
 import Project from '../../types/project';
 import Profile from '../../types/profile';
 import Questionnaire from '../../types/questionnaire'
+import Category from '~/types/category';
+import CategoryComponent from '~/components/CategoriesComponent/CategoriesComponent.vue'
 
 @ Component({
-    components: {profileForm}
+    components: {profileForm, CategoryComponent}
 })
 export default class ProjectEdit extends Vue {
     // Data
-    categories: Array<any> = [{text:"Select One", value: null}, "Website", "Native Application", "Smartphone Application"]
+    categories: Array<Category> = []
+    categories_input : Array<String> = []
     index: number = 0
 
     // TODO: this needs to go into the Project object
-    selectedCategory: string;
+    selectedCategory: string = "";
 
     @Prop({default: {}}) project: Project;
 
-    created(){
+    async created(){
+        const categories_data: Category[] = await this.getAllCategories()
+        categories_data.forEach(element => {
+            this.categories_input.push(element.name)
+        });
     }
 
     // Methods
@@ -51,5 +58,23 @@ export default class ProjectEdit extends Vue {
             this.project.profiles.splice(index, 1);
             this.$forceUpdate();
         }
+    }
+
+    async getAllCategories(): Promise<Category[]>{
+        return new Promise(
+            async (resolve: any, reject: any) => {
+                try {
+                    let url = "http://localhost:4000/categories/";
+                    const response = await axios.get(url);
+                    const categories: Category[] = response.data;
+                    console.log(categories);
+                    resolve(categories)
+                } catch (err){
+                    console.log('Error while posting project.')
+                    reject(err)
+                }
+            }
+        )
+        
     }
 }

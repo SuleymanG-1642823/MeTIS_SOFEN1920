@@ -1,5 +1,5 @@
 import {mount} from "@vue/test-utils"
-import projectForm from "@/components/projectCreationForm/projectCreationForm.vue"
+import projectForm from "@/pages/projectCreationForm/index.vue"
 
 describe('ProjectForm', () => {
   test('adds a profile', () => {

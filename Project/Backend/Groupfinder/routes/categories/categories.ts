@@ -35,6 +35,7 @@ router.get('/:category_id', async (req: any, res: any) => {
 router.get('/', async (req: any, res: any) => {
     try{
         const categories: Category[] = await $categories_methods.getAllCategories();
+        console.log(categories)
         res.status(200).json(categories);
     } catch (err) {
         const statusCode: number = parseInt(err);
