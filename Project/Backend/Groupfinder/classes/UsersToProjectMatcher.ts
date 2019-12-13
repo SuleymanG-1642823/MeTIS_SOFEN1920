@@ -98,7 +98,7 @@ export default class UsersToProjectMatcher{
 
     /**
      * Makes a list of (profile, profile_skills) elements where profile is a profile object
-     * and profile_skills is a list of corresponding skills.
+     * and profile_skills is a list of corresponding skills. The list is sorted by profile id.
      * @param rows: result of the query queryProjectSkills
      * @param projectID: ID of the project the profiles (in rows) belong to
      * @returns as described above
@@ -223,7 +223,7 @@ export default class UsersToProjectMatcher{
 
     /**
      * Returns a list of MatchingUserProfileSkill objects (contains a profile with a list of users 
-     * that have matching skills with the profile).
+     * that have matching skills with the profile) sorted by profile id.
      * @param rows 
      * @param projectID 
      */
@@ -256,6 +256,40 @@ export default class UsersToProjectMatcher{
     }
 
     /**
+     * Calculates the matching % of the two sets of skills.
+     * @param profileSkills
+     * @param userSkills 
+     */
+    private static calculateMatchingPercentage(profileSkills: Array<ProfileSkill>, userSkills: Array<UserSkill>): number{
+        let totalSkills: number = 0; // sum of all weights
+        let totalMatchingSkills: number = 0;
+
+        // find matching skills
+        for (let profileSkill of profileSkills){
+            totalSkills += profileSkill.weigth;
+
+            for (let userSkill of userSkills){
+                // check if skill names match (case insensitive)
+                if (profileSkill.name.toUpperCase() === userSkill.name.toUpperCase()){                 
+                    // calculate the matching percentage of the experience
+                    let addedValue = 1; // 1 == 100% match
+
+                    // if user has less experience than required, take the ratio
+                    if (profileSkill.experience > userSkill.experience){
+                        addedValue = userSkill.experience / profileSkill.experience;
+                    }
+
+                    // add in the weight and update total matching
+                    totalMatchingSkills += addedValue * profileSkill.weigth;
+                }
+            }
+        }
+
+        // return matching percentage
+        return Math.ceil((totalMatchingSkills / totalSkills) * 100);
+    }
+
+    /**
      * 
      * @param projectID 
      * @param dbconn 
@@ -279,7 +313,35 @@ export default class UsersToProjectMatcher{
                             reject("500");
                         } else {
                             let userSkillsPerProfile: Array<MatchingUserProfileSkill> = this.preprocessUserSkills(userSkillRows, projectID);
-                            resolve(userSkillsPerProfile)
+                            let profileUserMatches: Array<ProfileUserMatch> = [];
+
+                            // projectProfiles and userSkillsPerProfile are sorted by profile id
+                            // calculate the matching % for each user in userSkillsPerProfile and create a ProfileUserMatch object
+
+                            for (let i in userSkillsPerProfile){
+                                // get the same profile from projectProfiles
+                                for (let j in projectProfiles){
+                                    if (userSkillsPerProfile[i].profile.id === projectProfiles[j].profile.id){
+                                        // create a ProfileUserMatch object for the current profile
+                                        let profileUserMatch: ProfileUserMatch = {
+                                            profile: projectProfiles[j].profile,
+                                            userMatches: []
+                                        };
+
+                                        for (let matchingUserSkill of userSkillsPerProfile[i].users){
+                                            let newUserMatch: UserMatch = {
+                                                user: matchingUserSkill.user,
+                                                matchingPercentage: this.calculateMatchingPercentage(projectProfiles[j].skills, matchingUserSkill.matchingSkills)
+                                            }
+                                            profileUserMatch.userMatches.push(newUserMatch);
+                                        }
+
+                                        profileUserMatches.push(profileUserMatch);
+                                    }
+                                }
+                            }
+                            
+                            resolve(profileUserMatches)
                         }
                     });
 
