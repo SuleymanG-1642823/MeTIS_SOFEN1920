@@ -1,6 +1,6 @@
 import Project from '../../types/project';
 import Profile from '../../types/profile';
-import ProjectMatch from '../../types/projectMatch';
+import ProjectMatch from '../../types/matching/projectMatch';
 import ProjectsToUserMatcher from './../../classes/ProjectsToUserMatcher';
 
 const db_conn = require('../../databaseconnection');
@@ -93,9 +93,9 @@ function getAllProjects(): Promise<Project[]> {
  */
 // Promise<Array<Object>>
 function getMatchingProjects(userID: number): Promise<Array<ProjectMatch>> {
-    return new Promise((resolve: any, reject: any) => {
+    return new Promise(async (resolve: any, reject: any) => {
         try{
-            resolve(ProjectsToUserMatcher.getMatchingProjects(userID, db_conn));
+            resolve(await ProjectsToUserMatcher.getMatchingProjects(userID, db_conn));
         }catch(e){
             reject("500");
         }

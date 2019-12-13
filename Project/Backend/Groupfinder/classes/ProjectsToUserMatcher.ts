@@ -1,6 +1,6 @@
 import Project from './../types/project'
-import ProjectMatch from './../types/projectMatch'
-import ProfileMatch from './../types/profileMatch';
+import ProjectMatch from '../types/matching/projectMatch'
+import ProfileMatch from '../types/matching/profileMatch';
 
 
 export default class ProjectsToUserMatcher{
@@ -61,14 +61,7 @@ export default class ProjectsToUserMatcher{
      */
     public static getMatchingProjects(userID: number, dbconn: any): Promise<Array<ProjectMatch>>{
         return new Promise((resolve: any, reject: any) => {
-            // rows: project_id	project_name	profile_id	profile_name	profile_skill_name	profile_skill_experience	profile_skill_weight	matches	user_skill_experience
-            /* TODO
-                PROBLEM: profiles with no matching skills are not selected so that means the following
-                      scenario is true: let A be a project and let bb and cc be A's profiles,
-                      if bb has matching skills with the user and cc does not, then cc won't be selected. 
-                SOLUTION: query all profiles (that belong to one of the projects returned by the query below) that don't have 
-                          matching skills and take the union of that with the query below.
-            */
+            // rows: project_id	project_name profile_id	profile_name profile_skill_name profile_skill_experience profile_skill_weight matches user_skill_experience
             const params: any[] = [userID, userID];
             dbconn.query(this.query, params, async (err: any, rows: any) => {
                 if (err) {
@@ -82,12 +75,10 @@ export default class ProjectsToUserMatcher{
                     // cumulate rows of the same project, and create a ProjectMatch object with each set of rows
                     for (let i in rows){
                         // check if current project is a new one
-                        if (projectRows.length === 0 || projectRows[projectRows.length-1].project_id !== rows[i].project_id){
+                        if (projectRows.length > 0 && projectRows[projectRows.length-1].project_id !== rows[i].project_id){
                             // if there are cumulated rows then we have all the rows of one profile, make a ProfileMatch object
-                            if (projectRows.length > 0){
-                                projectMatches.push(this.createMatchingProject(projectRows));
-                                projectRows = [];
-                            }
+                            projectMatches.push(this.createMatchingProject(projectRows));
+                            projectRows = [];
                         }
     
                         // add current rows to list
