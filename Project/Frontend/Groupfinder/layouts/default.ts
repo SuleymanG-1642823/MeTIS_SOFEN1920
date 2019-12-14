@@ -6,8 +6,8 @@ import axios from 'axios';
 import Sidebar from '~/components/Sidebar/Sidebar'
 import LoginForm from '~/components/LoginForm/LoginForm'
 
-const SidebarMenu = require('vue-sidebar-menu');
-//import { SidebarMenu } from 'vue-sidebar-menu'
+//const SidebarMenu = require('vue-sidebar-menu');
+import { SidebarMenu } from 'vue-sidebar-menu'
 import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
 
 @ Component({
