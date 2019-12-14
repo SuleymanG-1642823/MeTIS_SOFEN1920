@@ -4,6 +4,7 @@ import axios from 'axios';
 import profileForm from '~/components/profileForm/profileForm.vue'
 
 import Category from '~/types/category';
+import { statement } from '@babel/template';
 
 @ Component({
     components: {profileForm}
@@ -12,16 +13,20 @@ export default class CategoriesComponent extends Vue {
     // Data
     categories: Array<Category> = []
     categories_input : Array<String> = []
-
-    // TODO: this needs to go into the Project object
-    selectedCategory: string = "";
-    selectedCategory2: string = "";
+    selectedCategories: String[] = []
+    selectedCategoriesCheckboxes: Boolean[] = []
 
     async created(){
         const categories_data: Category[] = await this.getAllCategories()
         categories_data.forEach(element => {
             this.categories_input.push(element.name)
+            this.selectedCategoriesCheckboxes.push(false)
         });
+        console.log(this.selectedCategoriesCheckboxes)
+    }
+
+    get myComputedState(): any {
+        return true
     }
 
     async getAllCategories(): Promise<Category[]>{
@@ -31,7 +36,6 @@ export default class CategoriesComponent extends Vue {
                     let url = "http://localhost:4000/categories/";
                     const response = await axios.get(url);
                     const categories: Category[] = response.data;
-                    console.log(categories);
                     resolve(categories)
                 } catch (err){
                     console.log('Error while posting project.')
@@ -40,5 +44,17 @@ export default class CategoriesComponent extends Vue {
             }
         )
         
+    }
+
+    testValue(){
+        console.log(this.selectedCategories)
+    }
+
+    makeAllChecked(){
+        console.log("yes")
+    }
+
+    toggle(index: number){
+        console.log(this.selectedCategoriesCheckboxes)
     }
 }
