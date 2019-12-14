@@ -4,17 +4,19 @@
         rel="stylesheet"
         href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
         integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
-        crossorigin="anonymous">
+        crossorigin="anonymous"
+        >
     <SidebarMenu
     :menu="sidebarmenu"
     :theme="theme"
     :showOneChild="showOneChild"
     :width="width"
     @toggle-collapse="onToggleCollapse"
-    @item-click="sidbarItemClick">
+    @item-click="sidbarItemClick"
+    >
         <b-img v-if="!collapsed" slot="header" class="py-3 px-3" src="./Groupfinder_logo.png" fluid />
     </SidebarMenu>
-    <div id="content" v-bind:style="{ 'margin-left': contentMarginCSS }">
+    <div id="content" :style="{ 'margin-left': contentMarginCSS }">
         <!-- Content components go here -->
         <nuxt />
     </div>

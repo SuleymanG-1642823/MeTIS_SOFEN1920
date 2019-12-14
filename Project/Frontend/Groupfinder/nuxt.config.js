@@ -28,6 +28,7 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~/plugins/api.ts'
   ],
   /*
   ** Nuxt.js dev-modules
@@ -60,5 +61,8 @@ export default {
     */
     extend (config, ctx) {
     }
-  }
+  },
+  env: {
+     API_PORT: process.env.API_PORT 
+    }
 }
