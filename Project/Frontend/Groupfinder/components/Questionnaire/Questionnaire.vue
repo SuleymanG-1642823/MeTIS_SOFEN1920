@@ -17,6 +17,15 @@
                 <b-button @click="addQuestion" variant="primary">Add</b-button>
             </b-input-group-append>
         </b-input-group>
+
+        <template v-slot:modal-footer="{ import_questions }">
+            <b-dropdown text="Import questions">
+                <b-dropdown-item v-for="(questionnaire, index) in userQuestionnaireList" v-bind:key="index" v-model="userQuestionnaireList[index]">
+                    {{ questionnaire.name }}
+                    <b-button @click="importQuestions(index)">Import</b-button>
+                </b-dropdown-item>
+            </b-dropdown>
+        </template>
     </b-modal>
 </div>
 </template>

@@ -19,9 +19,14 @@ export default class ProjectEdit extends Vue {
     // TODO: this needs to go into the Project object
     selectedCategory: string;
 
+    // Stores all previously created questionnaires from this user
+    userQuestionnaireList: Questionnaire[] = [];
+
     @Prop({default: {}}) project: Project;
 
     created(){
+        // TODO: use actual user id
+        this.getQuestionnaires(1);
     }
 
     // Methods
@@ -36,7 +41,6 @@ export default class ProjectEdit extends Vue {
         let new_questionnaire = <Questionnaire>{};
         new_profile.questions = [];
         this.project.profiles.push(new_profile);
-        console.log(this.project);
         this.$forceUpdate();
     }
 
@@ -50,5 +54,23 @@ export default class ProjectEdit extends Vue {
             this.project.profiles.splice(index, 1);
             this.$forceUpdate();
         }
+    }
+
+    /**
+     * Gets all questionnaires from one user from the backend
+     * @param user_id the id of the user
+     */
+    async getQuestionnaires(user_id: number){
+        let url = `http://localhost:4000/questionnaires/${user_id}`;
+        const response = await axios.get(url);
+        axios.get(url)
+        .then(response => {
+            this.userQuestionnaireList = response.data;
+            console.log(this.userQuestionnaireList);
+            this.$forceUpdate();
+        })
+        .catch(error => {
+            console.log("Error while getting the questionnaires");
+        })
     }
 }

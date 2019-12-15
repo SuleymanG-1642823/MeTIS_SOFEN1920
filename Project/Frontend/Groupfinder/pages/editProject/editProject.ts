@@ -14,12 +14,13 @@ import { is } from '@babel/types';
 })
 export default class editProject extends Vue {
     // Data
-    project: Project;
+    project= <Project>{};
     id: string;
 
     gotResponse: boolean = false;
 
     created(){
+        // TODO: Check if this user is allowed to edit this project before proceeding
         this.id = this.$route.params.id;
         this.getProject(this.id);
     }
@@ -36,7 +37,6 @@ export default class editProject extends Vue {
         const response = await axios.get(url);
         axios.get(url)
         .then(response => {
-            console.log(response.data.project);
             this.project = response.data.project;
             this.stopLoadingAnimation();
             this.$forceUpdate();
@@ -59,6 +59,7 @@ export default class editProject extends Vue {
      */
     async updateProject(evt: any){
         evt.preventDefault();
+        console.log(this.project);
 
         this.project.edited_at = this.getCurrentDate();
 

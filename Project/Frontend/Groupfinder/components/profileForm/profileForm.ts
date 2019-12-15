@@ -29,6 +29,7 @@ export default class profileForm extends Vue {
     showQuestionnaire: Boolean = false;
 
     @Prop({default: {}}) profile: Profile
+    @Prop({default: {}}) userQuestionnaireList: Questionnaire[];
 
     // Methods
 
