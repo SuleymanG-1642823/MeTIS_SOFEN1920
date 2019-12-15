@@ -1,7 +1,7 @@
 <template>
 <b-row>
     <b-col sm="0.9">
-      <b-form-checkbox @change="makeAllChecked" />
+      <b-form-checkbox v-model="allCheckbox"/>
     </b-col>
     <b-col>
         <b-dropdown variant="primary" dropright text="Category">
@@ -14,11 +14,10 @@
           </b-form-checkbox-group>
           -->
             <li v-for="(box, index) in selectedCategoriesCheckboxes" v-bind:key="index">
-              <b-checkbox v-model="selectedCategoriesCheckboxes[index]" @input="toggle(index)">{{categories_input[index]}}</b-checkbox>
+              <b-checkbox v-model="selectedCategoriesCheckboxes[index]">{{categories_input[index]}}</b-checkbox>
             </li>
           </b-form-group>
         </b-dropdown>
-      <b-button @click="testValue">test</b-button>
     </b-col>
 </b-row>
 </template>

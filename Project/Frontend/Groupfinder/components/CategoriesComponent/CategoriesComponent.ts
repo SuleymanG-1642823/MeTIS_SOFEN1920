@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component, Prop, Watch } from 'vue-property-decorator';
 import axios from 'axios';
 import profileForm from '~/components/profileForm/profileForm.vue'
 
@@ -15,6 +15,7 @@ export default class CategoriesComponent extends Vue {
     categories_input : Array<String> = []
     selectedCategories: String[] = []
     selectedCategoriesCheckboxes: Boolean[] = []
+    allCheckbox: Boolean = false
 
     async created(){
         const categories_data: Category[] = await this.getAllCategories()
@@ -22,11 +23,13 @@ export default class CategoriesComponent extends Vue {
             this.categories_input.push(element.name)
             this.selectedCategoriesCheckboxes.push(false)
         });
-        console.log(this.selectedCategoriesCheckboxes)
     }
 
-    get myComputedState(): any {
-        return true
+    @Watch('allCheckbox')
+    onAllCheckboxChange(value: boolean, oldValue: boolean){
+        for(let i = 0; i < this.selectedCategoriesCheckboxes.length; i++){
+            this.selectedCategoriesCheckboxes[i] = this.allCheckbox
+        }
     }
 
     async getAllCategories(): Promise<Category[]>{
@@ -48,10 +51,6 @@ export default class CategoriesComponent extends Vue {
 
     testValue(){
         console.log(this.selectedCategories)
-    }
-
-    makeAllChecked(){
-        console.log("yes")
     }
 
     toggle(index: number){

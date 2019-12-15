@@ -67,7 +67,6 @@ export default class ProjectEdit extends Vue {
                     let url = "http://localhost:4000/categories/";
                     const response = await axios.get(url);
                     const categories: Category[] = response.data;
-                    console.log(categories);
                     resolve(categories)
                 } catch (err){
                     console.log('Error while posting project.')
