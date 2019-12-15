@@ -5,24 +5,37 @@ import profileForm from '~/components/profileForm/profileForm.vue'
 
 import Category from '~/types/category';
 import { statement } from '@babel/template';
+import SplitCategory from '~/types/splitcategory';
+import SubCategory from '~/types/subcategory';
 
 @ Component({
     components: {profileForm}
 })
 export default class CategoriesComponent extends Vue {
     // Data
-    categories: Array<Category> = []
-    categories_input : Array<String> = []
-    selectedCategories: String[] = []
+    subcategories : Array<string> = []
     selectedCategoriesCheckboxes: Boolean[] = []
     allCheckbox: Boolean = false
+    categoryName: string = ""
+    disabledDropdown: string = "dontShow"
+
+    @Prop({default: {}}) category: SplitCategory;
 
     async created(){
-        const categories_data: Category[] = await this.getAllCategories()
+        /**const categories_data: Category[] = await this.getAllCategories()
         categories_data.forEach(element => {
             this.categories_input.push(element.name)
             this.selectedCategoriesCheckboxes.push(false)
-        });
+        });*/
+        this.category.subcategories.forEach(element => {
+            this.subcategories.push(element.sub_name);
+            this.selectedCategoriesCheckboxes.push(false);
+        })
+        if(this.category.subcategories.length !== 0){
+            this.disabledDropdown = true
+        }
+        this.categoryName = this.category.main_name
+        console.log(this.category)
     }
 
     @Watch('allCheckbox')
@@ -47,10 +60,6 @@ export default class CategoriesComponent extends Vue {
             }
         )
         
-    }
-
-    testValue(){
-        console.log(this.selectedCategories)
     }
 
     toggle(index: number){

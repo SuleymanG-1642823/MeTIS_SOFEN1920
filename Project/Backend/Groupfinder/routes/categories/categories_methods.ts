@@ -20,7 +20,8 @@ function getCategory(categoryID: number): Promise<Category> {
                 } else {
                     const category: Category = {
                         id: rows[0].id,
-                        name: rows[0].name
+                        name: rows[0].name,
+                        subcategory: rows[0].subcategory
                     }
                     resolve(category);
                 }
@@ -38,6 +39,7 @@ function getAllCategories(): Promise<Category[]> {
     return new Promise(
         (resolve: any, reject: any) => {
             const query: string = "SELECT * FROM category;";
+            console.log(query)
             db_conn.query(query, (err: any, rows: any) => {
                 if (err) {
                     console.log(err);
@@ -47,7 +49,8 @@ function getAllCategories(): Promise<Category[]> {
                     for (let i=0; i < rows.length; i++) {
                         let category: Category = {
                             id: rows[i].id,
-                            name: rows[i].name
+                            name: rows[i].name,
+                            subcategory: rows[i].subcategory
                         }
                         categories.push(category);
                     }

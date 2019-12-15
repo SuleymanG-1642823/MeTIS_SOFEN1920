@@ -4,7 +4,12 @@
       <b-form-checkbox v-model="allCheckbox"/>
     </b-col>
     <b-col>
-        <b-dropdown variant="primary" dropright text="Category">
+      <div v-if="disabledDropdown === 'dontShow'">
+        <b-dropdown variant="primary" dropright :text="categoryName" disabled>
+        </b-dropdown>
+      </div>
+      <div v-else>
+        <b-dropdown variant="primary" dropright :text="categoryName">
           <b-form-group label="Subcategories">
           <!--
           <b-form-checkbox-group v-model="selectedCategories" stacked>
@@ -14,10 +19,11 @@
           </b-form-checkbox-group>
           -->
             <li v-for="(box, index) in selectedCategoriesCheckboxes" v-bind:key="index">
-              <b-checkbox v-model="selectedCategoriesCheckboxes[index]">{{categories_input[index]}}</b-checkbox>
+              <b-checkbox v-model="selectedCategoriesCheckboxes[index]">{{subcategories[index]}}</b-checkbox>
             </li>
           </b-form-group>
         </b-dropdown>
+      </div>
     </b-col>
 </b-row>
 </template>
