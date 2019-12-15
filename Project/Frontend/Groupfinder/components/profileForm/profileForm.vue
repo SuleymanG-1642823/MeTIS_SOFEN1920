@@ -66,7 +66,12 @@
     </b-form-group>
 
   </b-form>
-  <Questionnaire v-bind:key="profile.questions" :questions="profile.questions" :id="profile.id" :userQuestionnaireList="userQuestionnaireList"/>
+  <Questionnaire
+  :questions="profile.questions"
+  :id="profile.id"
+  :userQuestionnaireList="userQuestionnaireList"
+  @update_questionnaire="update_questionnaire"/>
+  <i class="fas fa-check" v-if="profile.questions.length != 0" rel="tooltip" title="The questionnaire of this profile has been filled in"></i>
   <b-button @click="$bvModal.show(modalId())" variant="info" size="sm">Edit questionnaire</b-button>
   <b-button @click="deleteProfileFromList()" variant="danger" size="sm">Delete Profile</b-button>
 </b-card>

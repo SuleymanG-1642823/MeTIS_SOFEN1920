@@ -49,8 +49,8 @@ function getProjectProfiles(projectID: number): Promise<Profile[]> {
 function updateProfile(profileID: number, profile: Profile): Promise<void> {
     return new Promise(
         (resolve: any, reject: any) => {
-            const query: string = 'UPDATE profile SET name=?, project_id=? WHERE id=?;';
-            const params: any[] = [profile.name, profile.project_id, profileID];
+            const query: string = 'UPDATE profile SET name=?, project_id=?, questions=? WHERE id=?;';
+            const params: any[] = [profile.name, profile.project_id, profile.questions, profileID];
             db_conn.query(query, params, (err: any, rows: any) => {
                 if (err) {
                     console.log(err);

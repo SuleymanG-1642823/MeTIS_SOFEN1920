@@ -34,14 +34,23 @@ export default class ProjectEdit extends Vue {
      * Adds a profile to the profile form
      */
     addProfile(){
+        // Create temp project
+        let local_project = this.project;
         this.index = this.index.valueOf() + 1
         let new_profile = <Profile>{};
         new_profile.id = this.index;
         new_profile.name = "";
-        let new_questionnaire = <Questionnaire>{};
         new_profile.questions = [];
-        this.project.profiles.push(new_profile);
-        this.$forceUpdate();
+        local_project.profiles.push(new_profile);
+        // Emit new project
+        this.$emit("update_project", local_project);
+    }
+
+    update_profile(new_profile: Profile){
+        let local_project = this.project;
+        local_project.profiles[new_profile.id] = new_profile;
+        // Emit new project
+        this.$emit("update_project", local_project);
     }
 
     /**

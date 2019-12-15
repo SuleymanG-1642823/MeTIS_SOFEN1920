@@ -27,6 +27,14 @@ export default class editProject extends Vue {
 
     mounted(){
     }
+
+    /**
+     * When the project gets edited in a child component it needs to be edited in the parent component by calling this emit
+     * @param new_project new version of the project
+     */
+    update_project(new_project: Project){
+        this.project = new_project;
+    }
     
     /**
      * Gets the project from the database

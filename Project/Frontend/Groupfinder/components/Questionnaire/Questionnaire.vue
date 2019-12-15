@@ -1,11 +1,11 @@
 <template>
 <div>
-    <b-modal :id="'modal' + id" ok-only>
+    <b-modal :id="'modal' + id" ok-only @hide="onModalClose">
         <p>
             Use a questionnaire to ask specific questions to users who want to apply for this profile.
         </p>
-        <b-input-group v-for="(question, index) in questions" v-bind:key="index" class="mt-3">
-            <b-form-input placeholder="Question" v-model="questions[index]"></b-form-input>
+        <b-input-group v-for="(question, index) in local_questions" v-bind:key="index" class="mt-3">
+            <b-form-input placeholder="Question" v-model="local_questions[index]"></b-form-input>
             <b-input-group-append>
                 <b-button @click="deleteQuestion(index)" variant="outline-danger">Delete</b-button>
             </b-input-group-append>
