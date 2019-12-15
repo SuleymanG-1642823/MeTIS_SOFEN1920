@@ -1,12 +1,11 @@
 import Skill from "./skill";
-import Questionnaire from "./questionnaire";
 
 interface Profile {
     id: number|null;
     name: string;
     project_id: number;
     skills: Skill[];
-    questionnaire: Questionnaire;
+    questions: string[];
 }
 
 export default Profile;

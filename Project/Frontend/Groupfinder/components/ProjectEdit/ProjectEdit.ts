@@ -34,8 +34,7 @@ export default class ProjectEdit extends Vue {
         new_profile.id = this.index;
         new_profile.name = "";
         let new_questionnaire = <Questionnaire>{};
-        new_questionnaire.questions = [];
-        new_profile.questionnaire = new_questionnaire;
+        new_profile.questions = [];
         this.project.profiles.push(new_profile);
         console.log(this.project);
         this.$forceUpdate();

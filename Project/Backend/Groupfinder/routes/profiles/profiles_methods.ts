@@ -22,12 +22,13 @@ function getProjectProfiles(projectID: number): Promise<Profile[]> {
                     let profiles: Profile[] = [];
                     for (let i=0; i < rows.length; i++){
                         // TODO: get skills
+                        let profile_questions = JSON.parse(rows[i].questions);
                         let profile: Profile = {
                             id: rows[i].id,
                             name: rows[i].name,
                             project_id: projectID,
                             skills: [],
-                            questions: rows[i].questions
+                            questions: profile_questions
                         }
                         profiles.push(profile);
                     }
@@ -73,8 +74,18 @@ function updateProfile(profileID: number, profile: Profile): Promise<void> {
 function addProfile(profile: Profile, creator_id: number): Promise<number> {
     return new Promise(
         (resolve: any, reject: any) => {
-            const query: string = 'INSERT INTO profile (name, project_id) VALUES (?,?);';
-            const params: any[] = [profile.name, profile.project_id];
+            // Make a string of the questions
+            let questions = "";
+            for (let i = 0; i < profile.questions.length; i++){
+                questions += `\"${profile.questions[i]}\"`;
+                if (i < profile.questions.length - 1){
+                    questions += ",";
+                }
+            }
+            questions = "[" + questions + "]";
+            // Insert the profile
+            const query: string = 'INSERT INTO profile (name, project_id, questions) VALUES (?,?,?);';
+            const params: any[] = [profile.name, profile.project_id, questions];
             db_conn.query(query, params, async (err: any, rows: any) => {
                 if (err) {
                     console.log(err);

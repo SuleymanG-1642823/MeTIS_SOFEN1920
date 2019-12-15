@@ -4,8 +4,8 @@
         <p>
             Use a questionnaire to ask specific questions to users who want to apply for this profile.
         </p>
-        <b-input-group v-for="(question, index) in questionnaire.questions" v-bind:key="index" class="mt-3">
-            <b-form-input placeholder="Question" v-model="questionnaire.questions[index]"></b-form-input>
+        <b-input-group v-for="(question, index) in questions" v-bind:key="index" class="mt-3">
+            <b-form-input placeholder="Question" v-model="questions[index]"></b-form-input>
             <b-input-group-append>
                 <b-button @click="deleteQuestion(index)" variant="outline-danger">Delete</b-button>
             </b-input-group-append>
