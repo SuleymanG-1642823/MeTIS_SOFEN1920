@@ -139,4 +139,19 @@ router.delete('/:project_id', async (req: any, res: any) => {
     }
 });
 
+
+/**
+ * Get all the projects of one user
+ */
+router.get('/user/:userID', async (req: any, res: any) => {
+    const userID: number = parseInt(req.params.userID);
+    try { // Array<Object>
+        const projects: Project[] = await $project_methods.getProjectsUser(userID);
+        res.status(200).json(projects);
+    } catch (err) {
+        const statusCode: number = parseInt(err);
+        res.status(statusCode).send("Error while fetching the user's projects");
+    }
+});
+
 module.exports = router;
