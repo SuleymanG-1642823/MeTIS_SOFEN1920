@@ -35,6 +35,7 @@ export default class ProjectEdit extends Vue {
      */
     addProfile(){
         // Create temp project
+        console.log(this.project);
         let local_project = this.project;
         this.index = this.index.valueOf() + 1
         let new_profile = <Profile>{};

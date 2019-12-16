@@ -104,7 +104,7 @@ router.put('/:project_id', async (req: any, res: any) => {
  */
 router.post('/', async (req: any, res: any) => {
     const project: Project = req.body;
-    console.log(project)
+    console.log(project);
     try{
         const newProjectID: number = await $project_methods.addProject(project);
         const profiles: Profile[] = project.profiles;

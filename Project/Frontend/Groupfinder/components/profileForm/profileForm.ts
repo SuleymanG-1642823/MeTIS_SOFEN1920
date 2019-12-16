@@ -74,6 +74,7 @@ export default class profileForm extends Vue {
                 local_profile.skills.push(skillObject);
                 // Emit the update
                 this.$emit("update_profile", local_profile);
+                this.$forceUpdate();
             }
         }
     }
