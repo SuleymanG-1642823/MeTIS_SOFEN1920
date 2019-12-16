@@ -25,7 +25,7 @@
         ></b-form-textarea>
       </b-form-group>
       <b-form-group>
-        <CategoryComponent v-for="(category, index) in categories_input" v-bind:key="index" :category="category" />
+        <CategoryComponent v-for="(category, index) in categories_input" v-bind:key="index" :category="category" @updateCategories="updateCategories" />
       </b-form-group>
     <!-- Dynamically add profileForms -->
     <profileForm v-for="(profile, index) in project.profiles" v-bind:key="index" @deleteProfile="deleteProfileForm" :profile="profile"/>

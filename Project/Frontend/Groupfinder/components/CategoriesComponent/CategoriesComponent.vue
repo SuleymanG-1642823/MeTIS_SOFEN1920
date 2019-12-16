@@ -5,10 +5,14 @@
     </b-col>
     <b-col>
       <div v-if="disabledDropdown === 'dontShow'">
-        <b-dropdown variant="primary" dropright :text="categoryName" disabled>
-        </b-dropdown>
+        <h3>
+        <b-badge variant="primary">
+          {{categoryName}}
+        </b-badge>
+        </h3>
       </div>
       <div v-else>
+        <h3>
         <b-dropdown variant="primary" dropright :text="categoryName">
           <b-form-group label="Subcategories">
           <!--
@@ -23,6 +27,7 @@
             </li>
           </b-form-group>
         </b-dropdown>
+        </h3>
       </div>
     </b-col>
 </b-row>

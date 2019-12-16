@@ -19,6 +19,7 @@ export default class ProjectEdit extends Vue {
     // Data
     categories: Array<Category> = []
     categories_input : Array<SplitCategory> = []
+    selected_categories_ids: Array<Array<number>> = []
     index: number = 0
 
     // TODO: this needs to go into the Project object
@@ -96,6 +97,10 @@ export default class ProjectEdit extends Vue {
             }
         }
         console.log(this.categories_input)
+    }
+
+    updateCategories(selected_categories: Array<number>){
+        console.log(selected_categories)
     }
 
     /**
