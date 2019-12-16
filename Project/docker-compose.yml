@@ -5,6 +5,8 @@ services:
         build: './Frontend'
         image: '${FRONTEND_IMAGE}'
         container_name: '${FRONTEND_CONTAINER}'
+        depends_on: 
+            - backend
         ports:
             - "${FRONTEND_PORT}:${FRONTEND_PORT}"
         volumes:
@@ -12,11 +14,12 @@ services:
             - /usr/src/nuxt-app/node_modules
         environment:
             - API_PORT=:${BACKEND_PORT}/
-
     backend:
         build: './Backend'
         image: '${BACKEND_IMAGE}'
         container_name: '${BACKEND_CONTAINER}'
+        depends_on:
+            - db
         ports:
             - "${BACKEND_PORT}:${BACKEND_PORT}"
         volumes:
@@ -27,7 +30,7 @@ services:
         image: '${DB_IMAGE}'
         container_name: '${DB_CONTAINER}'
         ports: 
-            - '${DB_PORT}:${DB_PORT}'
+            - '${DB_PORT}:${DB_PORT}/tcp'
         volumes:
             - 'data:/var/lib/mysql'
 

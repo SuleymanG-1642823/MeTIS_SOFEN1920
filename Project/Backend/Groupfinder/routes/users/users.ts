@@ -1,41 +1,79 @@
 import express from 'express';
 const router = express.Router();
 import User from '../../types/user';
+const $users_methods = require('./users_methods');
 
 /**
  * Middleware that is specific to this router
  */
-router.use(function usersMiddleware (req: any, res: any, next: Function) {
-    console.log(`Users middleware is triggered`);
+router.use((req: any, res: any, next: Function) => {
     next()
 });
 
 /////////////////////////////////////////////////////////////////////////////////////
-// define routes
+// Define routes
 /////////////////////////////////////////////////////////////////////////////////////
 
-router.get('/:user_id', (req: any, res: any) => {
+/**
+ * Get user with specific id from database
+ */
+router.get('/:user_id', async (req: any, res: any) => {
     const user_id: number = parseInt(req.params.user_id);
-    console.log(req.params.user_id)
-    // Normally, user data would be fetched from the database here.
-    const user: User = {
-        id: user_id,
-        first_name: 'Liese',
-        last_name: 'Bekkers',
-        mail: 'liese.bekkers@student.uhasselt.be',
-        address: '',
-        zip: '0000',
-        city: 'place',
-        tel: '08900000000',
-        website: '',
-        social_media: {}
+    try{
+        const user: User = await $users_methods.getUser(user_id);
+        res.status(200).json({user});
+    } catch (err) {
+        const statusCode: number = parseInt(err);
+        res.status(statusCode).send("Error while fetching user from the database.");
     }
-    res.status(200).json(user);
 });
 
-router.post('/', (req: any, res: any) => {
-    // Normally, data from the payload would be handled here.
-    res.status(200).send('POST request received.')
-})
+
+/**
+ * Change data of existing user in the database.
+ * @pre body of http request contains existing user (type: User) in JSON format
+ */
+router.put('/:user_id', async (req: any, res: any) => {
+    const user_id: number = parseInt(req.params.user_id);
+    const user: User = req.body.user;
+    try{
+        await $users_methods.updateUser(user_id, user);
+        res.status(200).send("Successfully updated user in the database.");
+    } catch (err) {
+        const statusCode: number = parseInt(err);
+        res.status(statusCode).send("Error while updating user in the database.");
+    }
+});
+
+
+/**
+ * Insert new user into database
+ * @pre body of http request contains new user (type: User) in JSON format
+ */
+router.post('/', async (req: any, res: any) => {
+    const user: User = req.body.user;
+    try{
+        const newUserID: number = await $users_methods.addUser(user);
+        res.status(200).json({id: newUserID})
+    } catch (err) {
+        const statusCode: number = parseInt(err);
+        res.status(statusCode).send("Error while inserting new user into the database.");
+    }
+});
+
+
+/**
+ * Delete user from the database.
+ */
+router.delete('/:user_id', async (req: any, res: any) => {
+    const user_id: number = parseInt(req.params.user_id);
+    try{
+        await $users_methods.deleteUser(user_id);
+        res.status(200).send("Successfully deleted user.");
+    } catch (err) {
+        const statusCode: number = parseInt(err);
+        res.status(statusCode).send("Error while deleting user from the database.");
+    }
+});
 
 module.exports = router;

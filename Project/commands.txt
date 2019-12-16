@@ -30,6 +30,18 @@ use groupfinder
 ...
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// REBUILD DATABASE VOLUME: if you want to totally rebuild the database volume and execute the initiation SQL files
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-- Remove container --
+sudo docker rm $(sudo docker ps -a -q) -f
+
+-- Remove volume --
+sudo docker volume prune
+
+-- Rebuild --
+sudo docker-compose up --build
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // DOCKER-COMPOSE COMMANDS FOR MANAGING ALL IMAGES AND CONTAINERS AT ONCE
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -40,6 +52,13 @@ docker-compose up
 
 IF YOU HAVE CHANGED A .ts-FILE, EXECUTE FOLLOWING COMMANDS:
 docker-compose stop
+docker-compose up
+
+IF A NPM MODULE WAS ADDED TO A PROJECT, YOU'LL HAVE TO REBUILD THE IMAGE (AND REMOVE THE OLD ONE)
+docker-compose stop (if containers are running)
+docker-compose rm
+docker image rm groupfinder/server (if a module was added to the backend)
+docker image rm groupfinder/client (if a module was added to the frontend)
 docker-compose up
 
 
@@ -86,3 +105,11 @@ docker container stop NAME_OR_ID_OF_CONTAINER
 
 -- Remove docker container --
 docker container rm NAME_OR_ID_OF_CONTAINER
+
+################################################################################################
+#### HOW TO FIX: Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock'
+#################################################################################################
+docker exec -it groupfinderDatabaseContainer bash
+
+mysql -h localhost -P 3306 -uroot -p
+-- enter root password --
