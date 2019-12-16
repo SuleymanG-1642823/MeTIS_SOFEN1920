@@ -3,6 +3,7 @@ import { Component, Prop } from 'vue-property-decorator';
 import User from '@/types/user.ts';
 import axios from 'axios';
 import profileForm from '~/components/profileForm/profileForm.vue'
+import api from '@/helpers/Api'
 
 import Project from '../../types/project';
 import Profile from '../../types/profile';
@@ -42,6 +43,7 @@ export default class ProjectEdit extends Vue {
         new_profile.id = this.index;
         new_profile.name = "";
         new_profile.questions = [];
+        new_profile.skills = [];
         local_project.profiles.push(new_profile);
         // Emit new project
         this.$emit("update_project", local_project);
@@ -71,7 +73,8 @@ export default class ProjectEdit extends Vue {
      * @param user_id the id of the user
      */
     async getQuestionnaires(user_id: number){
-        let url = `http://localhost:4000/questionnaires/${user_id}`;
+        let url = api(`questionnaires/${user_id}`);
+        // let url = `http://localhost:4000/questionnaires/${user_id}`;
         const response = await axios.get(url);
         axios.get(url)
         .then(response => {

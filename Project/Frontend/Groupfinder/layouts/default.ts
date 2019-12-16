@@ -6,6 +6,8 @@ import axios from 'axios';
 import Sidebar from '~/components/Sidebar/Sidebar'
 import LoginForm from '~/components/LoginForm/LoginForm'
 
+import User from '~/types/user';
+
 // const SidebarMenu = require('vue-sidebar-menu');
 import { SidebarMenu } from 'vue-sidebar-menu'
 import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
@@ -36,7 +38,7 @@ export default class MainLayout extends Vue {
             hiddenOnCollapse: true
         },
         {
-            title: 'Profile Name',
+            title: this.$store.state.auth.user.first_name + " " + this.$store.state.auth.user.last_name,
             icon: 'fas fa-user',
             hidden: false
         },

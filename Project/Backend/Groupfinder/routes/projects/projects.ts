@@ -27,7 +27,9 @@ router.get('/:project_id', async (req: any, res: any) => {
         const project: Project = await $project_methods.getProject(project_id);
         let profiles: Profile[] = await $profile_methods.getProjectProfiles(project_id);
         for (let i = 0; i < profiles.length; i++) {
+            console.log("Profile: " + profiles[i].name);
             let skills: Skill[] = await $profile_skill_methods.getSkillsOfProfile(profiles[i].id);
+            console.log("Skills: " + skills.toString());
             profiles[i].skills = skills;
         }
         project.profiles = profiles;

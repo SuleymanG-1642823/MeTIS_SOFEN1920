@@ -4,6 +4,7 @@ import User from '@/types/user.ts';
 import axios from 'axios';
 import ProjectEdit from '~/components/ProjectEdit/ProjectEdit.vue';
 import loadingSpinner from '~/components/loadingSpinner.vue';
+import api from '@/helpers/Api'
 
 import Project from '../../types/project';
 import Profile from '../../types/profile';
@@ -41,11 +42,12 @@ export default class editProject extends Vue {
      * @param project_id 
      */
     async getProject(project_id: string){
-        let url = `http://localhost:4000/projects/${project_id}`;
+        let url = api(`projects/${project_id}`);
         const response = await axios.get(url);
         axios.get(url)
         .then(response => {
             this.project = response.data.project;
+            console.log(this.project.profiles[0].skills);
             this.fillQuestionsInProfiles();
             this.stopLoadingAnimation();
             this.$forceUpdate();
@@ -84,8 +86,9 @@ export default class editProject extends Vue {
         this.project.edited_at = this.getCurrentDate();
 
         try {
-            let url = `http://localhost:4000/projects/${this.id}`;
+            let url = api(`projects/${this.id}`);
             axios.put(url, {project_id: this.id, project: this.project} );
+            // TODO: push to project view
             // this.$router.push('/recommendedProjects');
         } catch (err){
             console.log('Error while posting project.')
