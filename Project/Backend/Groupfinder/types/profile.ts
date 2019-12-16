@@ -5,6 +5,7 @@ interface Profile {
     name: string;
     project_id: number;
     skills: Skill[];
+    questions: string[];
 }
 
 export default Profile;

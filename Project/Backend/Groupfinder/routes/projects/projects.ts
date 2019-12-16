@@ -103,13 +103,14 @@ router.put('/:project_id', async (req: any, res: any) => {
  * @pre body of http request contains new project (type: Project) in JSON format
  */
 router.post('/', async (req: any, res: any) => {
-    const project: Project = req.body.project;
+    const project: Project = req.body;
+    console.log(project);
     try{
         const newProjectID: number = await $project_methods.addProject(project);
         const profiles: Profile[] = project.profiles;
         for (let i = 0; i < profiles.length; i++){
             profiles[i].project_id = newProjectID;
-            let profileID = await $profile_methods.addProfile(profiles[i]);
+            let profileID = await $profile_methods.addProfile(profiles[i], project.creator_id, project.name);
             for (let j = 0; j < profiles[i].skills.length; j++){
                 await $profile_skill_methods.addSkillToProfile(profileID, profiles[i].skills[j]);
             }
