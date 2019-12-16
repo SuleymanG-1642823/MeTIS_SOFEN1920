@@ -110,7 +110,7 @@ router.post('/', async (req: any, res: any) => {
         const profiles: Profile[] = project.profiles;
         for (let i = 0; i < profiles.length; i++){
             profiles[i].project_id = newProjectID;
-            let profileID = await $profile_methods.addProfile(profiles[i], project.creator_id);
+            let profileID = await $profile_methods.addProfile(profiles[i], project.creator_id, project.name);
             for (let j = 0; j < profiles[i].skills.length; j++){
                 await $profile_skill_methods.addSkillToProfile(profileID, profiles[i].skills[j]);
             }

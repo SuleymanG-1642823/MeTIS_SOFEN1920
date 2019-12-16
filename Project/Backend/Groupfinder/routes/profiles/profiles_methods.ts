@@ -2,6 +2,7 @@ const db_conn = require('../../databaseconnection');
 import Profile from '../../types/profile';
 import Questionnaire from '../../types/questionnaire';
 const $questionnaire_methods = require('../questionnaires/questionnaires_methods');
+const $projects_methods = require('../projects/project_methods');
 
 
 /**
@@ -80,9 +81,11 @@ function updateProfile(profileID: number, profile: Profile): Promise<void> {
  * @param profile the profile that has to be added into the database.
  * @returns the new id of the profile.
  */
-function addProfile(profile: Profile, creator_id: number): Promise<number> {
+function addProfile(profile: Profile, creator_id: number, project_name: string): Promise<number> {
     return new Promise(
         (resolve: any, reject: any) => {
+            console.log("Profile: ");
+            console.log(profile);
             // Make a string of the questions
             let questions = "";
             for (let i = 0; i < profile.questions.length; i++){
@@ -104,11 +107,13 @@ function addProfile(profile: Profile, creator_id: number): Promise<number> {
                         let newQuestionnaire: Questionnaire = {
                             id: null,
                             creator_id: creator_id,
-                            name: profile.name,
+                            name: project_name + ": " + profile.name,
                             questions: profile.questions
                         }
+                        console.log(newQuestionnaire);
                         const newQuestionnaireID: number = await $questionnaire_methods.addQuestionnaire(newQuestionnaire)
                         const newID: number = await getProfileID(profile);
+                        console.log("Sucessfully inserted profile");
                         resolve(newID);
                     } catch (err) {
                         reject(err);

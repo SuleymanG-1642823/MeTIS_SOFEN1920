@@ -393,6 +393,7 @@ function addProject(project: Project): Promise<number>{
                             newProfile.project_id = newProjectID;
                             await $profiles_methods.addProfile(newProfile);
                         }*/
+                        console.log("Sucessfully inserted project");
                         resolve(newProjectID)
                     } catch (err) {
                         reject(err);
