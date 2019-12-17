@@ -7,6 +7,7 @@
  #Update and install dependency
  RUN apk update && apk upgrade
  RUN apk add git
+ RUN apk add --no-cache bash
  
  #Copy the app, note .dockerignore
  COPY ./Groupfinder /usr/src/nuxt-app
@@ -21,4 +22,6 @@
  ENV NUXT_PORT=3000
  
  #Start the app
- CMD ["npm", "run", "dev"]
+ #CMD ["npm", "run", "dev"]
+ CMD ["./wait-for-it.sh" , "backend:4000" , "--strict" , "--timeout=300" , "--" , "npm" , "run", "dev"]
+

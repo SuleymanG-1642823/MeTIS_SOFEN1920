@@ -2,6 +2,7 @@ const db_conn = require('../../databaseconnection');
 const moment = require('moment');
 import Project from '../../types/project';
 import Profile from '../../types/profile';
+import User from '../../types/user';
 import ProjectMatch from '../../types/projectMatch';
 import ProfileMatch from '../../types/profileMatch';
 const $profiles_methods = require('../profiles/profiles_methods');
@@ -393,6 +394,7 @@ function addProject(project: Project): Promise<number>{
                             newProfile.project_id = newProjectID;
                             await $profiles_methods.addProfile(newProfile);
                         }*/
+                        console.log("Sucessfully inserted project");
                         resolve(newProjectID)
                     } catch (err) {
                         reject(err);
@@ -453,11 +455,36 @@ function getProjectID(project: Project): Promise<number>{
     );
 }
 
+
+/**
+ * Returns all the projects of one user
+ * @param user_id the id of the user
+ * @returns a list of Project objects containing all the projects of this user
+ */
+function getProjectsUser(user_id: number): Promise<Project[]>{
+    return new Promise(
+        (resolve, reject) => {
+            const query: string = 'SELECT * FROM project WHERE creator_id=?';
+            const params: any[] = [user_id];
+            db_conn.query(query, params, (err: any, rows: any) => {
+                if (err){
+                    console.log(err);
+                    reject("500");
+                } else {
+                    const projects: Project[] = rows;
+                    resolve(projects);
+                }
+            });
+        }
+    )
+}
+
 module.exports = {
     getProject,
     getAllProjects,
     updateProject,
     getMatchingProjects,
     addProject,
-    deleteProject
+    deleteProject,
+    getProjectsUser
 }

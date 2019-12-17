@@ -22,12 +22,13 @@
     "bootstrap-vue": "^2.0.0",
     "nuxt": "^2.10.2",
     "vue-property-decorator": "^8.3.0",
+    "vue-sidebar-menu": "^4.4.3",
     "vue-slider-component": "^3.0.44",
     "vue-template-loader": "^1.0.0",
     "webpack-stream": "^5.2.1"
   },
   "devDependencies": {
-    "@fortawesome/fontawesome-free": "^5.11.2",
+    "@fortawesome/fontawesome-free": "^5.12.0",
     "@nuxt/typescript-build": "^0.3.3",
     "@nuxtjs/eslint-config": "^1.0.1",
     "@nuxtjs/eslint-module": "^1.0.0",

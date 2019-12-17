@@ -2,7 +2,9 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import User from '@/types/user.ts';
 import axios from 'axios';
+import profileForm from '~/components/profileForm/profileForm.vue'
 import ProjectEdit from '~/components/ProjectEdit/ProjectEdit.vue'
+import api from '@/helpers/Api'
 
 import Project from '../../types/project';
 import Profile from '../../types/profile';
@@ -12,13 +14,34 @@ import Profile from '../../types/profile';
 })
 export default class projectCreationForm extends Vue {
     // Data
-    project = <Project>{};
+    project= <Project>{};
 
     created(){
     }
 
     mounted(){
-        this.project.profiles = [];
+        this.project = {
+            id: null,
+            name: "",
+            status: 0,
+            pitch: "",
+            created_at: "",
+            edited_at: "",
+            creator_id: 1,
+            creator_first_name: "",
+            creator_last_name: "",
+            profiles: []
+        }
+    }
+
+    /**
+     * When the project gets edited in a child component it needs to be edited in the parent component by calling this emit
+     * @param new_project new version of the project
+     */
+    update_project(new_project: Project){
+        this.project = new_project;
+        console.log(this.project);
+        this.$forceUpdate();
     }
 
     /**
@@ -41,7 +64,8 @@ export default class projectCreationForm extends Vue {
         this.project.edited_at = this.getCurrentDate();
 
         try {
-            let url = "http://localhost:4000/projects/";
+            let url = api(`projects/`);
+            // let url = "http://localhost:4000/projects/";
             axios.post(url, this.project);
             //const response = await axios.post(`http://localhost:4000/projects/${project}`);
             this.$router.push('/recommendedProjects');

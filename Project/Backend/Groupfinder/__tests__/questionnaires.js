@@ -15,13 +15,15 @@ describe("TESTING ALL QUESTIONNAIRE ROUTES", () => {
     afterAll((done) => {
         test_server.close(done);
     });
-    describe("POST /profiles/", () => {
+    describe("POST /questionnaires/", () => {
         it("Should insert a new questionnaire into the database", (done) => {
             var questionnaire = {
-                id: null,
-                name: "Frontend_profile_questionnaire",
-                creator_id: 1,
-                questions: ["Test quesion?"]
+                questionnaire: {
+                    id: null,
+                    name: "Frontend_profile_questionnaire",
+                    creator_id: 1,
+                    questions: ["Test quesion?"]
+                }
             };
             request.post('/questionnaires/').send(questionnaire).end((err, res) => {
                 if (err) return done(err);
@@ -31,5 +33,15 @@ describe("TESTING ALL QUESTIONNAIRE ROUTES", () => {
                 done();
             })
         })
+    });
+    describe("GET /questionnaires/:user_id", () => {
+        it("Should return all the projects of the user, including the one whe posted in the previous test", (done) => {
+            request.get(`/questionnaires/1`).end((err, res) => {
+                if (err) return done(err);
+                expect(res.status).toBe(200);
+                expect(typeof(res.body)).toBe('object');
+                done();
+            })
+        });
     });
 });

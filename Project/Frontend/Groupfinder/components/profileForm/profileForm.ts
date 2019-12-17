@@ -22,13 +22,14 @@ library.add(faTrashAlt)
 })
 export default class profileForm extends Vue {
     // All the skills for this profile get stored in this list
-    skillList: Array<String> = [];
+    // skillList: Array<String> = [];
     skill_input: String = ""
 
     // boolean indicates if questionnaire modal needs to be visible
     showQuestionnaire: Boolean = false;
 
     @Prop({default: {}}) profile: Profile
+    @Prop({default: {}}) userQuestionnaireList: Questionnaire[];
 
     // Methods
 
@@ -41,8 +42,21 @@ export default class profileForm extends Vue {
         this.$root.$emit('bv::show::modal', 'my-modal');
     }
 
+    /**
+     * When a child component edits the questions prop it needs to be updated using this method
+     * @param questions the new questions
+     */
+    update_questionnaire(new_questions: string[]){
+        let local_profile = this.profile;
+        local_profile.questions = new_questions;
+        // Emit the update
+        this.$emit("update_profile", local_profile);
+
+    }
+
     // Add skill to list
     addSkill(skill: string){
+        console.log(this.profile.skills);
         // Check if skill not empty string
         if (skill !== "" && skill){
             // Check if skill not already in list
@@ -54,9 +68,13 @@ export default class profileForm extends Vue {
                 }
             }
             if (!skillFound){
+                // Create local version of profile
+                let local_profile = this.profile;
                 let skillObject = <Skill>{};
                 skillObject.name = skill;
-                this.profile.skills.push(skillObject);
+                local_profile.skills.push(skillObject);
+                // Emit the update
+                this.$emit("update_profile", local_profile);
                 this.$forceUpdate();
             }
         }
@@ -77,19 +95,24 @@ export default class profileForm extends Vue {
 
         // Remove skill
         if (indexFound){
-            this.profile.skills.splice(index, 1);
+            let local_profile = this.profile;
+            local_profile.skills.splice(index, 1);
+            // Emit the update
+            this.$emit("update_profile", local_profile);
         }
     }
 
     // Remove skill from list by index
     deleteSkillFromIndex(index: number){
-        this.profile.skills.splice(index, 1);
-        this.$forceUpdate();
+        let local_profile = this.profile;
+        local_profile.skills.splice(index, 1);
+        // Emit the update
+        this.$emit("update_profile", local_profile);
     }
 
     // Remove profile from list
     deleteProfileFromList(){
-        this.$emit('deleteProfile', this.$props.profile)
+        this.$emit('deleteProfile', this.$props.profile);
     }
 
     // Returns the skill at the given index
@@ -98,10 +121,24 @@ export default class profileForm extends Vue {
     }
 
     mounted(){
-        this.profile.skills = new Array();
     }
 
     modalId(){
         return 'modal' + this.profile.id;
+    }
+
+    /**
+     * Checks if the questionnaire of this profile is filled
+     * @retruns false if it is empty, true if it has atleast 1 question
+     */
+    isQuestionnaireFilled(){
+        if (this.profile.questions === null){
+            console.log("Questions is undefined");
+            return false;
+        } else if (this.profile.questions.length == 0){
+            return false;
+        } else {
+            return true;
+        }
     }
 }

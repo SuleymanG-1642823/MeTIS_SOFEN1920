@@ -27,7 +27,9 @@ router.get('/:project_id', async (req: any, res: any) => {
         const project: Project = await $project_methods.getProject(project_id);
         let profiles: Profile[] = await $profile_methods.getProjectProfiles(project_id);
         for (let i = 0; i < profiles.length; i++) {
+            console.log("Profile: " + profiles[i].name);
             let skills: Skill[] = await $profile_skill_methods.getSkillsOfProfile(profiles[i].id);
+            console.log("Skills: " + skills.toString());
             profiles[i].skills = skills;
         }
         project.profiles = profiles;
@@ -104,13 +106,13 @@ router.put('/:project_id', async (req: any, res: any) => {
  */
 router.post('/', async (req: any, res: any) => {
     const project: Project = req.body;
-    console.log(project)
+    console.log(project);
     try{
         const newProjectID: number = await $project_methods.addProject(project);
         const profiles: Profile[] = project.profiles;
         for (let i = 0; i < profiles.length; i++){
             profiles[i].project_id = newProjectID;
-            let profileID = await $profile_methods.addProfile(profiles[i]);
+            let profileID = await $profile_methods.addProfile(profiles[i], project.creator_id, project.name);
             for (let j = 0; j < profiles[i].skills.length; j++){
                 await $profile_skill_methods.addSkillToProfile(profileID, profiles[i].skills[j]);
             }
@@ -134,6 +136,21 @@ router.delete('/:project_id', async (req: any, res: any) => {
     } catch (err) {
         const statusCode: number = parseInt(err);
         res.status(statusCode).send("Error while deleting project from the database.");
+    }
+});
+
+
+/**
+ * Get all the projects of one user
+ */
+router.get('/user/:userID', async (req: any, res: any) => {
+    const userID: number = parseInt(req.params.userID);
+    try { // Array<Object>
+        const projects: Project[] = await $project_methods.getProjectsUser(userID);
+        res.status(200).json(projects);
+    } catch (err) {
+        const statusCode: number = parseInt(err);
+        res.status(statusCode).send("Error while fetching the user's projects");
     }
 });
 

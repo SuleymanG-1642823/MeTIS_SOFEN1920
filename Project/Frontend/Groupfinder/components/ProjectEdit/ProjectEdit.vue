@@ -28,7 +28,12 @@
         <CategoryComponent v-for="(category, index) in categories_input" v-bind:key="index" :category="category" @updateCategories="updateCategories" />
       </b-form-group>
     <!-- Dynamically add profileForms -->
-    <profileForm v-for="(profile, index) in project.profiles" v-bind:key="index" @deleteProfile="deleteProfileForm" :profile="profile"/>
+    <profileForm
+    v-for="(profile, index) in project.profiles"
+    v-bind:key="index"
+    @deleteProfile="deleteProfileForm"
+    :profile="profile"
+    :userQuestionnaireList="userQuestionnaireList"/>
     <b-button class="my-2" variant="primary" @click="addProfile">Add profile</b-button>
 </div>
 </template>

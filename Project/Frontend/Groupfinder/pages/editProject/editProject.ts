@@ -4,6 +4,7 @@ import User from '@/types/user.ts';
 import axios from 'axios';
 import ProjectEdit from '~/components/ProjectEdit/ProjectEdit.vue';
 import loadingSpinner from '~/components/loadingSpinner.vue';
+import api from '@/helpers/Api'
 
 import Project from '../../types/project';
 import Profile from '../../types/profile';
@@ -14,17 +15,26 @@ import { is } from '@babel/types';
 })
 export default class editProject extends Vue {
     // Data
-    project: Project;
+    project= <Project>{};
     id: string;
 
     gotResponse: boolean = false;
 
     created(){
+        // TODO: Check if this user is allowed to edit this project before proceeding
         this.id = this.$route.params.id;
         this.getProject(this.id);
     }
 
     mounted(){
+    }
+
+    /**
+     * When the project gets edited in a child component it needs to be edited in the parent component by calling this emit
+     * @param new_project new version of the project
+     */
+    update_project(new_project: Project){
+        this.project = new_project;
     }
     
     /**
@@ -32,18 +42,30 @@ export default class editProject extends Vue {
      * @param project_id 
      */
     async getProject(project_id: string){
-        let url = `http://localhost:4000/projects/${project_id}`;
+        let url = api(`projects/${project_id}`);
         const response = await axios.get(url);
         axios.get(url)
         .then(response => {
-            console.log(response.data.project);
             this.project = response.data.project;
+            console.log(this.project.profiles[0].skills);
+            this.fillQuestionsInProfiles();
             this.stopLoadingAnimation();
             this.$forceUpdate();
         })
         .catch(error => {
             console.log("Error while getting the project information");
         })
+    }
+
+    /**
+     * Checks the project object and fills all the undefined questions
+     */
+    fillQuestionsInProfiles(){
+        for (let i in this.project.profiles){
+            if (this.project.profiles[i].questions == null){
+                this.project.profiles[i].questions = [];
+            }
+        }
     }
 
     /**
@@ -59,12 +81,14 @@ export default class editProject extends Vue {
      */
     async updateProject(evt: any){
         evt.preventDefault();
+        console.log(this.project);
 
         this.project.edited_at = this.getCurrentDate();
 
         try {
-            let url = `http://localhost:4000/projects/${this.id}`;
+            let url = api(`projects/${this.id}`);
             axios.put(url, {project_id: this.id, project: this.project} );
+            // TODO: push to project view
             // this.$router.push('/recommendedProjects');
         } catch (err){
             console.log('Error while posting project.')

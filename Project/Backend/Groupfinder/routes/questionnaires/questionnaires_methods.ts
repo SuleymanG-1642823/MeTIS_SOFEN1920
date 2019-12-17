@@ -19,11 +19,12 @@ function getQuestionnaires(creator_id: number): Promise<Questionnaire[]> {
                 } else {
                     let questionnaires : Questionnaire[] = [];
                     for (let i=0; i < rows.length; i++){
+                        let questionnaire_questions = JSON.parse(rows[i].questions);
                         let questionnaire: Questionnaire = {
                             id: rows[i].id,
                             name: rows[i].name,
                             creator_id: rows[i].creator_id,
-                            questions: rows[i].questions
+                            questions: questionnaire_questions
                         }
                         questionnaires.push(questionnaire);
                     }
