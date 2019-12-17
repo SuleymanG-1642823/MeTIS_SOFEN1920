@@ -17,21 +17,9 @@ import ChangePassword from '../../components/ChangePassword/ChangePassword';
     }
 })
 export default class MyProfile extends Vue {
-    //private user: User|null = null;
-    private user: User = {
-        id: 3,
-        first_name:  'Mart',
-        last_name: 'Bolink',
-        mail: 'Mart.Bolink@mail.com',
-        address: 'kerkstraat 100',
-        zip: '3500',
-        city: 'Brussel',
-        tel: '+32000112233',
-        website: 'www.mywebsite.be',
-        social_media: {}
-    }
+    private user: User|null = null;
 
-    private mounted(){
-        // TODO: get data from vuex store
+    private created(){
+        this.user = this.$store.state.auth.user;
     }
 }

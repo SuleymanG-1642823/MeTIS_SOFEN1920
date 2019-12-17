@@ -2,7 +2,8 @@
   <div>
       <h1>My profile</h1>
       <UserData v-if="this.user" :user_prop="this.user" />
-      <b-button style="float-right" v-b-modal.editData>Edit data</b-button>
+      <b-tooltip target="edit_data_btn" triggers="hover">Edit data</b-tooltip>
+      <b-button v-b-modal.editData type="button" id="edit_data_btn" class="icon_button"><i class="fas fa-pen"></i></b-button>
       <EditUserData :user_prop="this.user" />
       <b-tabs id="myProfileNav" v-if="this.user" card>
       <b-tab title="Projects" active>
@@ -25,10 +26,16 @@
 </script>
 
 <style scoped>
-  h2{
-    margin-top: 30px;
-  }
   #myProfileNav{
-    margin-top: 40px;
+    margin-top: 100px;
+  }
+  .icon_button{
+      width: 50px;
+      height: 50px;
+      border-radius: 35px;
+      font-size: 20px;
+  }
+  #edit_data_btn{
+      float: right
   }
 </style>
