@@ -14,6 +14,7 @@ var projects_categories_router = require('./routes/projects_categories/projects_
 var profiles_skills_router = require('./routes/profiles_skills/profiles_skills');
 var reviews_router = require('./routes/reviews/reviews');
 var users_skills_router = require('./routes/users_skills/users_skills');
+var questionnaires_router = require('./routes/questionnaires/questionnaires');
 
 var app = express();
 
@@ -36,5 +37,6 @@ app.use('/projects-categories', projects_categories_router);
 app.use('/profiles_skills', profiles_skills_router);
 app.use('/reviews', reviews_router);
 app.use('/users_skills', users_skills_router);
+app.use('/questionnaires', questionnaires_router);
 
 module.exports = app;

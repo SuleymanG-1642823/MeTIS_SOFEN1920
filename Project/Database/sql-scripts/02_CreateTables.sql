@@ -39,6 +39,7 @@ CREATE TABLE profile (
     id int NOT NULL AUTO_INCREMENT,
     name varchar(255) NOT NULL,
     project_id int,
+    questions JSON,
     CONSTRAINT fk_profile_project_id FOREIGN KEY (project_id)
         REFERENCES project(id)
         ON UPDATE CASCADE
@@ -226,6 +227,16 @@ CREATE TABLE user_skill (
     PRIMARY KEY (user_id, skill_name)
 ) ENGINE=InnoDB;
 
-
+CREATE TABLE questionnaire (
+    id int NOT NULL AUTO_INCREMENT,
+    name varchar(255) NOT NULL,
+    creator_id int NOT NULL,
+    questions JSON,
+    CONSTRAINT fk_questionnaire_user_id FOREIGN KEY (creator_id)
+        REFERENCES user(id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB;
 
 

@@ -40,7 +40,8 @@ describe("TESTING ALL PROJECT ROUTES", () => {
                                 }
                             ]
                         }
-                    ]
+                    ],
+                    questions: ["Question 1", "Question 2"]
                 }
             }
             request.post('/projects/')
@@ -121,7 +122,8 @@ describe("TESTING ALL PROJECT ROUTES", () => {
                                     experience: 3,
                                     weight: 1
                                 }
-                            ]
+                            ],
+                            questions: ["Question 1 adapted", "Question 2 adapted"]
                         }
                     ]
                 }

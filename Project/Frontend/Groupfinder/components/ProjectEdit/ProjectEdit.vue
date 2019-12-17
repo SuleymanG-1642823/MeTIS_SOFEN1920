@@ -1,15 +1,13 @@
 <template>
-  <div>
-    <!-- TODO:FIX @submit="onSubmit" @reset="onReset" in b-form caused errors -->
-    <b-form @submit="submitProject">
-      <b-form-group
+<div>
+    <b-form-group
         id="input-projectname-id"
         label="Project name:"
         label-for="input-projectname"
       >
         <b-form-input
           id ="input-projectname"
-          v-model="form.projectName"
+          v-model="project.name"
           required
           placeholder="Enter a project name"
         ></b-form-input>
@@ -21,7 +19,7 @@
       >
         <b-form-textarea
           id="input-pitch"
-          v-model="form.pitch"
+          v-model="project.pitch"
           required
           placeholder="Enter a pitch for the project"
         ></b-form-textarea>
@@ -33,20 +31,22 @@
       >
         <b-form-select
           id="input-category"
-          v-model="form.category"
+          v-model="selectedCategory"
           :options="categories"
           required
         ></b-form-select>
       </b-form-group>
 
-      <!-- Dynamically add profileForms -->
-      <profileForm v-for="profile in profilesList" v-bind:key="profile" @deleteProfile="deleteProfileForm" :id="profile" />
-      <b-button variant="primary" @click="addProfile">Add profile</b-button>
-
-      <b-button type="submit" variant="success">Submit Project</b-button>
-    </b-form>
-  </div>
+    <!-- Dynamically add profileForms -->
+    <profileForm
+    v-for="(profile, index) in project.profiles"
+    v-bind:key="index"
+    @deleteProfile="deleteProfileForm"
+    :profile="profile"
+    :userQuestionnaireList="userQuestionnaireList"/>
+    <b-button class="my-2" variant="primary" @click="addProfile">Add profile</b-button>
+</div>
 </template>
 
-<script lang="ts" src="./projectCreationForm.ts">
+<script lang="ts" src="./ProjectEdit.ts">
 </script>

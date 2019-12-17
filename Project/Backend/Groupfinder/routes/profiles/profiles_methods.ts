@@ -1,5 +1,8 @@
 const db_conn = require('../../databaseconnection');
 import Profile from '../../types/profile';
+import Questionnaire from '../../types/questionnaire';
+const $questionnaire_methods = require('../questionnaires/questionnaires_methods');
+const $projects_methods = require('../projects/project_methods');
 
 
 /**
@@ -19,11 +22,14 @@ function getProjectProfiles(projectID: number): Promise<Profile[]> {
                 } else {
                     let profiles: Profile[] = [];
                     for (let i=0; i < rows.length; i++){
+                        // TODO: get skills
+                        let profile_questions = JSON.parse(rows[i].questions);
                         let profile: Profile = {
                             id: rows[i].id,
                             name: rows[i].name,
                             project_id: projectID,
-                            skills: []
+                            skills: [],
+                            questions: profile_questions
                         }
                         profiles.push(profile);
                     }
@@ -44,8 +50,17 @@ function getProjectProfiles(projectID: number): Promise<Profile[]> {
 function updateProfile(profileID: number, profile: Profile): Promise<void> {
     return new Promise(
         (resolve: any, reject: any) => {
-            const query: string = 'UPDATE profile SET name=?, project_id=? WHERE id=?;';
-            const params: any[] = [profile.name, profile.project_id, profileID];
+            // Make a string of the questions
+            let questions = "";
+            for (let i = 0; i < profile.questions.length; i++){
+                questions += `\"${profile.questions[i]}\"`;
+                if (i < profile.questions.length - 1){
+                    questions += ",";
+                }
+            }
+            questions = "[" + questions + "]";
+            const query: string = 'UPDATE profile SET name=?, project_id=?, questions=? WHERE id=?;';
+            const params: any[] = [profile.name, profile.project_id, questions, profileID];
             db_conn.query(query, params, (err: any, rows: any) => {
                 if (err) {
                     console.log(err);
@@ -62,21 +77,43 @@ function updateProfile(profileID: number, profile: Profile): Promise<void> {
 /**
  * Insert a new profile into the database.
  * The skills of the profile won't be inserted into the database in this method.
+ * This method makes new Questionnaire entries in the database with the questions of this profile
  * @param profile the profile that has to be added into the database.
  * @returns the new id of the profile.
  */
-function addProfile(profile: Profile): Promise<number> {
+function addProfile(profile: Profile, creator_id: number, project_name: string): Promise<number> {
     return new Promise(
         (resolve: any, reject: any) => {
-            const query: string = 'INSERT INTO profile (name, project_id) VALUES (?,?);';
-            const params: any[] = [profile.name, profile.project_id];
+            console.log("Profile: ");
+            console.log(profile);
+            // Make a string of the questions
+            let questions = "";
+            for (let i = 0; i < profile.questions.length; i++){
+                questions += `\"${profile.questions[i]}\"`;
+                if (i < profile.questions.length - 1){
+                    questions += ",";
+                }
+            }
+            questions = "[" + questions + "]";
+            // Insert the profile
+            const query: string = 'INSERT INTO profile (name, project_id, questions) VALUES (?,?,?);';
+            const params: any[] = [profile.name, profile.project_id, questions];
             db_conn.query(query, params, async (err: any, rows: any) => {
                 if (err) {
                     console.log(err);
                     reject('500');
                 } else {
                     try{
+                        let newQuestionnaire: Questionnaire = {
+                            id: null,
+                            creator_id: creator_id,
+                            name: project_name + ": " + profile.name,
+                            questions: profile.questions
+                        }
+                        console.log(newQuestionnaire);
+                        const newQuestionnaireID: number = await $questionnaire_methods.addQuestionnaire(newQuestionnaire)
                         const newID: number = await getProfileID(profile);
+                        console.log("Sucessfully inserted profile");
                         resolve(newID);
                     } catch (err) {
                         reject(err);

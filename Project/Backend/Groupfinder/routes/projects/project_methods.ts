@@ -460,6 +460,7 @@ function updateProject(projectID: number, project: Project): Promise<void> {
 function addProject(project: Project): Promise<number>{
     return new Promise(
         (resolve: any, reject: any) => {
+            console.log(project);
             const query: string = "INSERT INTO project (creator_id, name, status, pitch, created_at, edited_at) VALUES (?,?,?,?,?,?);";
             const params: any[] = [project.creator_id, project.name, project.status, project.pitch, project.created_at, project.edited_at];
             db_conn.query(query, params, async (err: any, rows: any) => {
@@ -474,6 +475,7 @@ function addProject(project: Project): Promise<number>{
                             newProfile.project_id = newProjectID;
                             await $profiles_methods.addProfile(newProfile);
                         }*/
+                        console.log("Sucessfully inserted project");
                         resolve(newProjectID)
                     } catch (err) {
                         reject(err);

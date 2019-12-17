@@ -1,6 +1,12 @@
+/*
 import app from '../app';
 import http from 'http';
 import supertest from 'supertest';
+*/
+const app = require('../app');
+const http = require('http');
+const supertest = require('supertest');
+
 import 'babel-polyfill';
 var request;
 var profileID;
@@ -27,7 +33,8 @@ describe("TESTING ALL PROFILE ROUTES", () => {
                             experience: 3,
                             weight: 1
                         }
-                    ]
+                    ],
+                    questions: ["Question 1", "Question 2"]
                 }
             }
             request.post('/profiles/')
@@ -64,7 +71,8 @@ describe("TESTING ALL PROFILE ROUTES", () => {
                             experience: 3,
                             weight: 2
                         }
-                    ]
+                    ],
+                    questions: ["Question 1 adapted", "Question 2 adapted"]
                 }
             }
             request.put(`/profiles/${profileID}`)

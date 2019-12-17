@@ -2,35 +2,30 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import User from '@/types/user.ts';
 import axios from 'axios';
-import profileForm from '~/components/profileForm/profileForm.vue'
-import ProjectEdit from '~/components/ProjectEdit/ProjectEdit.vue'
+import ProjectEdit from '~/components/ProjectEdit/ProjectEdit.vue';
+import loadingSpinner from '~/components/loadingSpinner.vue';
 
 import Project from '../../types/project';
 import Profile from '../../types/profile';
+import { is } from '@babel/types';
 
 @ Component({
-    components: {ProjectEdit}
+    components: {ProjectEdit, loadingSpinner}
 })
-export default class projectCreationForm extends Vue {
+export default class editProject extends Vue {
     // Data
     project= <Project>{};
+    id: string;
+
+    gotResponse: boolean = false;
 
     created(){
+        // TODO: Check if this user is allowed to edit this project before proceeding
+        this.id = this.$route.params.id;
+        this.getProject(this.id);
     }
 
     mounted(){
-        this.project = {
-            id: null,
-            name: "",
-            status: 0,
-            pitch: "",
-            created_at: "",
-            edited_at: "",
-            creator_id: 1,
-            creator_first_name: "",
-            creator_last_name: "",
-            profiles: []
-        }
     }
 
     /**
@@ -39,34 +34,59 @@ export default class projectCreationForm extends Vue {
      */
     update_project(new_project: Project){
         this.project = new_project;
-        console.log(this.project);
-        this.$forceUpdate();
+    }
+    
+    /**
+     * Gets the project from the database
+     * @param project_id 
+     */
+    async getProject(project_id: string){
+        let url = `http://localhost:4000/projects/${project_id}`;
+        const response = await axios.get(url);
+        axios.get(url)
+        .then(response => {
+            this.project = response.data.project;
+            this.fillQuestionsInProfiles();
+            this.stopLoadingAnimation();
+            this.$forceUpdate();
+        })
+        .catch(error => {
+            console.log("Error while getting the project information");
+        })
     }
 
     /**
-     * submits the project to the database
+     * Checks the project object and fills all the undefined questions
+     */
+    fillQuestionsInProfiles(){
+        for (let i in this.project.profiles){
+            if (this.project.profiles[i].questions == null){
+                this.project.profiles[i].questions = [];
+            }
+        }
+    }
+
+    /**
+     * Makes the loading animation stop
+     */
+    stopLoadingAnimation(){
+        this.gotResponse = true;
+    }
+
+    /**
+     * submits the project to the database to update is
      * @param evt 
      */
-    async submitProject(evt: any){
+    async updateProject(evt: any){
         evt.preventDefault();
+        console.log(this.project);
 
-        // project.name = this.form.projectName;
-        // project.pitch = this.form.pitch;
-        this.project.status = 0;
-        // project.profiles = this.listOfProfiles;
-        // TODO: use stored id
-        this.project.creator_id = 1;
-        this.project.creator_first_name = 'Lennert';
-        this.project.creator_last_name = 'Geebelen';
-        // TODO category
-        this.project.created_at = this.getCurrentDate();
         this.project.edited_at = this.getCurrentDate();
 
         try {
-            let url = "http://localhost:4000/projects/";
-            axios.post(url, this.project);
-            //const response = await axios.post(`http://localhost:4000/projects/${project}`);
-            this.$router.push('/recommendedProjects');
+            let url = `http://localhost:4000/projects/${this.id}`;
+            axios.put(url, {project_id: this.id, project: this.project} );
+            // this.$router.push('/recommendedProjects');
         } catch (err){
             console.log('Error while posting project.')
         }
