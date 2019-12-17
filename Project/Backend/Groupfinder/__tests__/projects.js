@@ -17,32 +17,30 @@ describe("TESTING ALL PROJECT ROUTES", () => {
     describe("POST /projects/", () => {
         it("Should insert a new project (with profiles and skills) into the database", (done) => {
             var project = {
-                project: {
-                    id: null,
-                    name: "test project",
-                    status: 1,
-                    pitch: "test pitch",
-                    created_at: "2019-11-27 10:00:00", // 'YYYY-MM-DD hh:mm:ss' format
-                    edited_at: "2019-11-27 10:00:00", // 'YYYY-MM-DD hh:mm:ss' format
-                    creator_id: 1,
-                    creator_first_name: 'Lennert',
-                    creator_last_name: 'Geebelen',
-                    profiles: [
-                        {
-                            id: null,
-                            name: "test profile",
-                            project_id: null,
-                            skills: [
-                                {
-                                    name: "test skill",
-                                    experience: 3,
-                                    weight: 2
-                                }
-                            ]
-                        }
-                    ],
-                    questions: ["Question 1", "Question 2"]
-                }
+                id: null,
+                name: "test project",
+                status: 1,
+                pitch: "test pitch",
+                created_at: "2019-11-27 10:00:00", // 'YYYY-MM-DD hh:mm:ss' format
+                edited_at: "2019-11-27 10:00:00", // 'YYYY-MM-DD hh:mm:ss' format
+                creator_id: 1,
+                creator_first_name: 'Lennert',
+                creator_last_name: 'Geebelen',
+                profiles: [
+                    {
+                        id: null,
+                        name: "test profile",
+                        project_id: null,
+                        skills: [
+                            {
+                                name: "test skill",
+                                experience: 3,
+                                weight: 2
+                            }
+                        ],
+                        questions: ["Question 1", "Question 2"]
+                    }
+                ]
             }
             request.post('/projects/')
             .send(project)
