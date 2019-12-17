@@ -1,5 +1,5 @@
 <template>
-<b-container class="mx-0 main">
+<b-container fluid class="main">
     <link
         rel="stylesheet"
         href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
@@ -36,8 +36,7 @@
 }
 
 #content{
-    padding-top: 60px;
-    padding-bottom: 20px;
+    margin: 30px;
     margin-left: 390px;
     transition: margin 1s;
 }
