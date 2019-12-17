@@ -18,8 +18,9 @@ import CategoryComponent from '~/components/CategoriesComponent/CategoriesCompon
 export default class ProjectEdit extends Vue {
     // Data
     categories: Array<Category> = []
+    selected_categories: Array<Category> = []
     categories_input : Array<SplitCategory> = []
-    selected_categories_ids: Array<Array<number>> = []
+    selected_categories_ids: Array<number> = []
     index: number = 0
 
     // TODO: this needs to go into the Project object
@@ -67,40 +68,79 @@ export default class ProjectEdit extends Vue {
         let temp_sub_category = <SubCategory>{};
         temp_sub_category.sub_id = id;
         temp_sub_category.sub_name = subcategory;
-        return temp_sub_category
+        return temp_sub_category;
     }
 
     parseCategories(categories_inp: Array<Category>){
         for(let i = 0; i < categories_inp.length; i++){
-            let check = true
-            let existing_main_index = 0
+            let check = true;
+            let existing_main_index = 0;
             for(let j = 0; j < this.categories_input.length; j++){
                 if(categories_inp[i].name == this.categories_input[j].main_name){
-                    check = false
-                    existing_main_index = j
+                    check = false;
+                    existing_main_index = j;
                 }
             }
             if(check){
                 let temp_split_category = <SplitCategory>{};
-                temp_split_category.main_name = categories_inp[i].name
-                temp_split_category.subcategories = []
+                temp_split_category.main_name = categories_inp[i].name;
+                temp_split_category.subcategories = [];
                 if(categories_inp[i].subcategory != null){
-                    temp_split_category.subcategories.push(this.parseSubCategory(categories_inp[i].subcategory, categories_inp[i].id))
+                    temp_split_category.subcategories.push(this.parseSubCategory(categories_inp[i].subcategory, categories_inp[i].id));
                 }
                 else{
-                    temp_split_category.main_id = categories_inp[i].id
+                    temp_split_category.main_id = categories_inp[i].id;
                 }
-                this.categories_input.push(temp_split_category)
+                this.categories_input.push(temp_split_category);
             }
             else{
-                this.categories_input[existing_main_index].subcategories.push(this.parseSubCategory(categories_inp[i].subcategory, categories_inp[i].id))
+                this.categories_input[existing_main_index].subcategories.push(this.parseSubCategory(categories_inp[i].subcategory, categories_inp[i].id));
             }
         }
-        console.log(this.categories_input)
     }
 
-    updateCategories(selected_categories: Array<number>){
-        console.log(selected_categories)
+    findIndexToRemove(id: number): number {
+        for(let i = 0; i < this.selected_categories_ids.length; i++){
+            if(this.selected_categories_ids[i] === id){
+                return i;
+            }
+        }
+        return this.selected_categories_ids.length + 1;
+    }
+
+    deleteCategoryToSelection(id: number){
+        for(let i = 0; i < this.selected_categories.length; i++){
+            if(this.selected_categories[i].id === id){
+                this.selected_categories.splice(i, 1)
+            }
+        }
+    }
+
+    addCategoryToSelection(id: number){
+        for(let i = 0; i < this.categories.length; i++){
+            if(this.categories[i].id === id){
+                this.selected_categories.push(this.categories[i])
+            }
+        }
+    }
+
+    updateCategories(selected_categories: Array<[number, boolean]>){
+        selected_categories.forEach(element => {
+            if(this.selected_categories_ids.includes(element[0].valueOf())){
+                if(element[1] === false){
+                    let index = this.findIndexToRemove(element[0]);
+                    this.selected_categories_ids.splice(index, 1);
+                    this.deleteCategoryToSelection(element[0])
+                }
+            }
+            else{
+                if(element[1] === true){
+                    this.selected_categories_ids.push(element[0]);
+                    this.addCategoryToSelection(element[0])
+                }
+            }
+        });
+        this.project.categories = this.selected_categories
     }
 
     /**
@@ -122,10 +162,10 @@ export default class ProjectEdit extends Vue {
                     let url = "http://localhost:4000/categories/";
                     const response = await axios.get(url);
                     const categories: Category[] = response.data;
-                    resolve(categories)
+                    resolve(categories);
                 } catch (err){
-                    console.log('Error while posting project.')
-                    reject(err)
+                    console.log('Error while posting project.');
+                    reject(err);
                 }
             }
         )

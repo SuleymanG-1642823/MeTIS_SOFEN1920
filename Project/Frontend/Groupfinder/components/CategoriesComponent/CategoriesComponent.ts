@@ -30,7 +30,6 @@ export default class CategoriesComponent extends Vue {
             this.disabledDropdown = "show"
         }
         this.categoryName = this.category.main_name
-        console.log(this.category)
     }
 
     @Watch('allCheckbox')
@@ -38,44 +37,45 @@ export default class CategoriesComponent extends Vue {
         for(let i = 0; i < this.selectedCategoriesCheckboxes.length; i++){
             this.selectedCategoriesCheckboxes[i] = this.allCheckbox
         }
-        if(this.category.main_id != null && this.allCheckbox === true){
-            let temp_categories: Array<number|null> = []
-            temp_categories.push(this.category.main_id)
+        if(this.category.main_id != null){
+            let temp_categories: Array<[number|null, boolean]> = []
+            temp_categories.push([this.category.main_id, this.allCheckbox.valueOf()])
             this.$emit("updateCategories", temp_categories)
         }
     }
 
     @Watch('selectedCategoriesCheckboxes')
     onSelectedCatCheckChange(){
-        let temp_categories: Array<number|null> = []
-        if(this.category.main_id != null && this.allCheckbox === true){
-            temp_categories.push(this.category.main_id)
+        let temp_categories: Array<[number|null, boolean]> = []
+        if(this.category.main_id != null){
+            temp_categories.push([this.category.main_id, this.allCheckbox.valueOf()])
         }
         else{
             for(let i = 0; i < this.selectedCategoriesCheckboxes.length; i++){
-                if(this.selectedCategoriesCheckboxes[i] === true){
-                    temp_categories.push(this.category.subcategories[i].sub_id)
-                }
+                temp_categories.push([this.category.subcategories[i].sub_id, this.selectedCategoriesCheckboxes[i].valueOf()])
             }
         }
-        if(!(this.checkIfNothingChecked())){
-            this.$emit("updateCategories", temp_categories)
-        }
+        this.$emit("updateCategories", temp_categories);
     }
 
     checkIfNothingChecked(): boolean {
-        if(this.allCheckbox !== true){
+        if(this.category.subcategories.length === 0){
+            if(this.allCheckbox === false){
+                return true
+            }
+            else{
+                return false
+            }
+        }
+        else{
             let check = true
             this.selectedCategoriesCheckboxes.forEach(element => {
-                console.log("out")
                 if(element.valueOf() === true){
-                    console.log("in")
                     check = false
                 }
             });
             return check
         }
-        return false
     }
 
     async getAllCategories(): Promise<Category[]>{
