@@ -30,6 +30,22 @@ router.get('/:user_id', async (req: any, res: any) => {
 
 
 /**
+ * Validate users's password.
+ */
+router.post('/correctPassword/:user_id', async (req: any, res: any) => {
+    const user_id: number = parseInt(req.params.user_id);
+    const password: string = req.body.password;
+    try{
+        const valid: boolean = await $users_methods.validatePassword(user_id, password);
+        res.status(200).json({valid: valid});
+    } catch (err) {
+        const statusCode: number = parseInt(err);
+        res.status(statusCode).send("Error while validating password.");
+    }
+});
+
+
+/**
  * Change data of existing user in the database.
  * @pre body of http request contains existing user (type: User) in JSON format
  */
@@ -47,13 +63,30 @@ router.put('/:user_id', async (req: any, res: any) => {
 
 
 /**
+ * Change a user's password in the database.
+ * @pre body of http request contains the new password (hashed) (type: string) in JSON format
+ */
+router.put('/password/:user_id', async (req: any, res: any) => {
+    const user_id: number = parseInt(req.params.user_id);
+    const password: string = req.body.password;
+    try{
+        await $users_methods.changePassword(user_id, password);
+        res.status(200).send("Successfully changed user's password in the database.");
+    } catch (err){
+        const statusCode: number = parseInt(err);
+        res.status(statusCode).send("Error while changing user's password in the database.");
+    }
+})
+
+
+/**
  * Insert new user into database
  * @pre body of http request contains new user (type: User) in JSON format
  */
 router.post('/', async (req: any, res: any) => {
     const user: User = req.body.user;
     try{
-        const newUserID: number = await $users_methods.addUser(user);
+        const newUserID: number = await $users_methods.addUser(user, ''); // TODO: pass hashed password instead of an empty string
         res.status(200).json({id: newUserID})
     } catch (err) {
         const statusCode: number = parseInt(err);

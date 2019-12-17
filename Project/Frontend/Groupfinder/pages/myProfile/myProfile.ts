@@ -1,14 +1,25 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import User from '../../types/user';
+import UserData from '../../components/UserData/UserData';
+import ProjectsOfUser from '../../components/ProjectsOfUser/ProjectsOfUser';
+import SkillsOfUser from '../../components/SkillsOfUser/SkillsOfUser';
+import EditUserData from '../../components/EditUserData/EditUserData';
+import ChangePassword from '../../components/ChangePassword/ChangePassword';
 
 @Component({
-    components: {}
+    components: {
+        UserData,
+        EditUserData,
+        ProjectsOfUser,
+        SkillsOfUser,
+        ChangePassword
+    }
 })
 export default class MyProfile extends Vue {
-    user: User|null = null;
+    private user: User|null = null;
 
-    mounted(){
-        // TODO: get data from vuex store
+    private created(){
+        this.user = this.$store.state.auth.user;
     }
 }

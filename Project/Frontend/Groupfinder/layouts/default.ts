@@ -36,7 +36,7 @@ export default class MainLayout extends Vue {
             hiddenOnCollapse: true
         },
         {
-            title: 'Profile Name',
+            title: this.getFullName(),
             icon: 'fas fa-user',
             hidden: false
         },
@@ -92,6 +92,9 @@ export default class MainLayout extends Vue {
         else if (item.title == "Create Project"){
             this.$router.push('/projectCreationForm');
         }
+        else if (item.title == this.getFullName()){
+            this.$router.push('/myProfile');
+        }
     }
 
     // This method is triggered when the collapse button is pressed
@@ -106,5 +109,9 @@ export default class MainLayout extends Vue {
             this.collapsed = true;
             this.contentMarginCSS = this.contentMarginCSS_Collapsed;
         }
+    }
+
+    private getFullName(){
+        return `${this.$store.state.auth.user.first_name} ${this.$store.state.auth.user.last_name}`;
     }
 }

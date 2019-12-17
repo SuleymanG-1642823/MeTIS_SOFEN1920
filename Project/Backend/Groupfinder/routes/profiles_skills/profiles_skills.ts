@@ -26,7 +26,7 @@ router.put('/:profile_id/:skill_name', async (req: any, res: any) => {
     const skillName: string = req.params.skill_name;
     const skill: Skill = req.body.skill;
     try{
-        $profiles_skills_methods.updateSkillOfProfile(profileID, skillName, skill);
+        await $profiles_skills_methods.updateSkillOfProfile(profileID, skillName, skill);
         res.status(200).send("Successfully updated a profile's skill in the database.");
     } catch (err) {
         const statusCode: number = parseInt(err);
