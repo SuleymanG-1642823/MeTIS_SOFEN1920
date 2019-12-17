@@ -290,12 +290,11 @@ export default class UsersToProjectMatcher{
     }
 
     /**
-     * 
+     * Returns users with a matching percentage that have a matching skill with one of the skills of the profiles of the given project.
      * @param projectID 
      * @param dbconn 
      */
-    //Promise<Array<ProfileUserMatch>>
-    static getMatchingUsers(projectID: number, dbconn: any): Promise<any>{
+    static getMatchingUsers(projectID: number, dbconn: any): Promise<Array<ProfileUserMatch>>{
         return new Promise((resolve: any, reject: any) => {
             const paramsProjectSkills: any[] = [projectID];
             dbconn.query(this.queryProjectSkills, paramsProjectSkills, async (err: any, rows: any) => {
