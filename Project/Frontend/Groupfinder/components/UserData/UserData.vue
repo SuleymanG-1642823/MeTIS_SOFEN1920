@@ -1,5 +1,5 @@
 <template>
-    <b-container v-if="this.user" style="wrapper" fluid>
+    <div v-if="this.user" style="wrapper">
         <b-row>
             <b-col id="image_column" lg>
                 <b-img id="profile_image" fluid-grow alt="ProfileImage" src="https://img.icons8.com/ios/100/000000/user.png"/>
@@ -17,24 +17,41 @@
                 <p v-if="this.user.available"><i class="fas fa-circle green"></i> available for joining projects</p>
                 <p v-else><i class="fas fa-circle red"></i> unavailable for joining projects</p>
             </b-col>
-            <b-col>
+            <b-col id="flex">
                 <a id="facebook_icon" class="social_media_icon" href="https://www.facebook.com"><i class="fab fa-facebook"></i></a>
                 <a id="twitter_icon" class="social_media_icon" href="https://www.twitter.com"><i class="fab fa-twitter-square"></i></a>
                 <a id="linkedin_icon" class="social_media_icon" href="https://linkedin.com"><i class="fab fa-linkedin"></i></a>
             </b-col>
         </b-row>
-    </b-container>
+    </div>
 </template>
 
 <script lang="ts" src="./UserData.ts">
 </script>
 
 <style scoped>
+    @media (min-width: 993px) {
+        #flex{
+            display: flex;
+            flex-direction: column;
+        }
+    }
+    @media (max-width: 992px) {
+        #flex{
+            display: flex;
+            flex-direction: row;
+        }
+        .social_media_icon{
+            margin-right:10px;
+        }
+    }
     #profile_image{
         width: auto;
         height: auto;
         max-height: 200px;
-        max-width: 100%;
+        max-width: 200px;
+        margin: auto;
+        display: block;
     }
     #facebook_icon{
         color:#3B5B98;
@@ -46,8 +63,6 @@
         color:#227AC3;
     }
     .social_media_icon{
-        float: right;
-        clear: right;
         font-size: 30px;
     }
     .green{
