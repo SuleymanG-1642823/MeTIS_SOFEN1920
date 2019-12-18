@@ -20,6 +20,7 @@ export default class EditUserData extends Vue {
     private city: string = '';
     private website: string = '';
     private social_media: Object = {};
+    private available: boolean = false;
     
 
     // LIFECYCLE HOOKS
@@ -54,6 +55,7 @@ export default class EditUserData extends Vue {
         this.city = this.user_prop.city;
         this.website = this.user_prop.website;
         this.social_media = this.user_prop.social_media;
+        this.available = this.user_prop.available;
     }
 
     private async saveChanges() {
@@ -67,7 +69,8 @@ export default class EditUserData extends Vue {
             zip: this.zip,
             city: this.city,
             website: this.website,
-            social_media: '{}'
+            social_media: '{}',
+            available: this.available
         }
         try {
             let url = `http://localhost:4000/users/${this.user_prop.id}`;

@@ -9,6 +9,7 @@ interface User {
     tel: string;
     website: string;
     social_media: any;
+    available: boolean;
 }
 
 export default User;
