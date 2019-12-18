@@ -1,4 +1,5 @@
 import Profile from './profile';
+import Category from './category'
 
 interface Project {
     id: number|null;
@@ -11,6 +12,7 @@ interface Project {
     creator_first_name: string;
     creator_last_name: string;
     profiles: Profile[];
+    categories: Category[];
 }
 
 export default Project;

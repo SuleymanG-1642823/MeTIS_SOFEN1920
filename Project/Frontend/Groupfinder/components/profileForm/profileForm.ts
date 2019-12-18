@@ -22,7 +22,7 @@ library.add(faTrashAlt)
 })
 export default class profileForm extends Vue {
     // All the skills for this profile get stored in this list
-    skillList: Array<String> = [];
+    // skillList: Array<String> = [];
     skill_input: String = ""
 
     // boolean indicates if questionnaire modal needs to be visible
@@ -56,6 +56,7 @@ export default class profileForm extends Vue {
 
     // Add skill to list
     addSkill(skill: string){
+        console.log(this.profile.skills);
         // Check if skill not empty string
         if (skill !== "" && skill){
             // Check if skill not already in list
@@ -120,7 +121,6 @@ export default class profileForm extends Vue {
     }
 
     mounted(){
-        this.profile.skills = new Array();
     }
 
     modalId(){

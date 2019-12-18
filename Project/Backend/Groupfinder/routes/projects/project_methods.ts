@@ -2,6 +2,7 @@ const db_conn = require('../../databaseconnection');
 const moment = require('moment');
 import Project from '../../types/project';
 import Profile from '../../types/profile';
+import User from '../../types/user';
 import ProjectMatch from '../../types/projectMatch';
 import ProfileMatch from '../../types/profileMatch';
 const $profiles_methods = require('../profiles/profiles_methods');
@@ -37,7 +38,8 @@ function getProject(projectID: number): Promise<Project> {
                             creator_first_name: rows[0].first_name,
                             creator_last_name: rows[0].last_name,
                             //profiles: profiles_result
-                            profiles: []
+                            profiles: [],
+                            categories: []
                         }
                         resolve(project);
                     } catch (err) {
@@ -81,7 +83,8 @@ function getAllProjects(): Promise<Project[]> {
                             creator_first_name: rows[i].first_name,
                             creator_last_name: rows[i].last_name,
                             //profiles: profiles_result
-                            profiles: []
+                            profiles: [],
+                            categories: []
                         }
                         allProjects.push(project);
                     }
@@ -199,7 +202,8 @@ function getMatchingProjects(userID: number): any {
             creator_id: -1,
             creator_first_name: '',
             creator_last_name: '',
-            profiles: []
+            profiles: [],
+            categories: []
         }
 
         return newProject;
@@ -535,6 +539,30 @@ function getProjectID(project: Project): Promise<number>{
     );
 }
 
+
+/**
+ * Returns all the projects of one user
+ * @param user_id the id of the user
+ * @returns a list of Project objects containing all the projects of this user
+ */
+function getProjectsUser(user_id: number): Promise<Project[]>{
+    return new Promise(
+        (resolve, reject) => {
+            const query: string = 'SELECT * FROM project WHERE creator_id=?';
+            const params: any[] = [user_id];
+            db_conn.query(query, params, (err: any, rows: any) => {
+                if (err){
+                    console.log(err);
+                    reject("500");
+                } else {
+                    const projects: Project[] = rows;
+                    resolve(projects);
+                }
+            });
+        }
+    )
+}
+
 module.exports = {
     getProject,
     getAllProjects,
@@ -543,5 +571,6 @@ module.exports = {
     updateProject,
     getMatchingProjects,
     addProject,
-    deleteProject
+    deleteProject,
+    getProjectsUser
 }

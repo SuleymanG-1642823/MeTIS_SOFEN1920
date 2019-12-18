@@ -62,5 +62,15 @@ VALUES  (6, 'c++', 7),
         (6, 'Extreme programming', 2),
         (6, 'Linux OS', 3),
         (6, 'MySQL', 5);
-INSERT INTO category 
-VALUES (1, 'Mobile');
+
+-- CATEGORIES
+INSERT INTO category
+VALUES  (1, 'Website', NULL),
+        (2, 'Game Development', NULL),
+        (3, 'AR', NULL),
+        (4, 'AI', NULL),
+        (5, 'Desktop OS', 'Windows'),
+        (6, 'Desktop OS', 'Linux'),
+        (7, 'Desktop OS', 'MacOS'),
+        (8, 'Mobile OS', 'iOS'),
+        (9, 'Mobile OS', 'Android');

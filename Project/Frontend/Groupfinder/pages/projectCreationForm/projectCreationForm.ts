@@ -4,6 +4,7 @@ import User from '@/types/user.ts';
 import axios from 'axios';
 import profileForm from '~/components/profileForm/profileForm.vue'
 import ProjectEdit from '~/components/ProjectEdit/ProjectEdit.vue'
+import api from '@/helpers/Api'
 
 import Project from '../../types/project';
 import Profile from '../../types/profile';
@@ -63,7 +64,8 @@ export default class projectCreationForm extends Vue {
         this.project.edited_at = this.getCurrentDate();
 
         try {
-            let url = "http://localhost:4000/projects/";
+            let url = api(`projects/`);
+            // let url = "http://localhost:4000/projects/";
             axios.post(url, this.project);
             //const response = await axios.post(`http://localhost:4000/projects/${project}`);
             this.$router.push('/recommendedProjects');
