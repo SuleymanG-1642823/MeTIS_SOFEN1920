@@ -1,5 +1,5 @@
 <template>
-    <div class="hollow-dots-spinner center-screen" :style="spinnerStyle">
+    <div :style="spinnerStyle" class="hollow-dots-spinner center-screen">
         <div class="dot"></div>
         <div class="dot"></div>
         <div class="dot"></div>

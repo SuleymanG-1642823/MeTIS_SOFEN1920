@@ -2,7 +2,7 @@
 <div>
     <h5>Projects:</h5>
     <b-list-group>
-        <b-list-group-item class="sidebar-projects" v-for="(project, index) in user_projects" v-bind:key="index">
+        <b-list-group-item v-for="(project, index) in user_projects" v-bind:key="index" class="sidebar-projects">
             {{ project.name }}
         </b-list-group-item>
     </b-list-group>

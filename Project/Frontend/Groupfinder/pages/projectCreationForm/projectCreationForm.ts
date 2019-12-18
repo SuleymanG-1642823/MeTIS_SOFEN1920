@@ -51,23 +51,20 @@ export default class projectCreationForm extends Vue {
     async submitProject(evt: any){
         evt.preventDefault();
 
-        // project.name = this.form.projectName;
-        // project.pitch = this.form.pitch;
+        // Fill in the details of the project
         this.project.status = 0;
-        // project.profiles = this.listOfProfiles;
-        // TODO: use stored id
-        this.project.creator_id = 1;
-        this.project.creator_first_name = 'Lennert';
-        this.project.creator_last_name = 'Geebelen';
+        this.project.creator_id = this.$store.state.auth.user.id;
+        this.project.creator_first_name = this.$store.state.auth.user.first_name;
+        this.project.creator_last_name = this.$store.state.auth.user.last_name;
         // TODO category
         this.project.created_at = this.getCurrentDate();
         this.project.edited_at = this.getCurrentDate();
 
+        // Post
         try {
             let url = api(`projects/`);
-            // let url = "http://localhost:4000/projects/";
             axios.post(url, this.project);
-            //const response = await axios.post(`http://localhost:4000/projects/${project}`);
+            // TODO: rout to project page
             this.$router.push('/recommendedProjects');
         } catch (err){
             console.log('Error while posting project.')
