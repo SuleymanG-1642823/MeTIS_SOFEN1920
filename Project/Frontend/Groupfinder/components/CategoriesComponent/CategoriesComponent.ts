@@ -58,6 +58,10 @@ export default class CategoriesComponent extends Vue {
         this.$emit("updateCategories", temp_categories);
     }
 
+    checkBoxOff(): void{
+        this.allCheckbox = !this.allCheckbox;
+    }
+
     checkIfNothingChecked(): boolean {
         if(this.category.subcategories.length === 0){
             if(this.allCheckbox === false){
