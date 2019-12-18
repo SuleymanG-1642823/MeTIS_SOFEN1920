@@ -13,9 +13,12 @@ export default class UserData extends Vue {
     // DATA
     private privateData: boolean = false;
     private user: User|null = null;
+    private logged_in_user: boolean = false;
 
     // LIFECYCLE HOOKS
     private mounted(){
         this.user = this.user_prop;
+        this.privateData = this.user_prop.private;
+        this.logged_in_user = (this.$store.state.auth.user.id == this.user_prop.id);
     }
 }

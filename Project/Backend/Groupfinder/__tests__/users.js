@@ -34,7 +34,8 @@ describe("TESTING ALL USER ROUTES", () => {
                     tel: null,
                     website: null,
                     social_media: null,
-                    available: false
+                    available: false,
+                    private: false
                 }
             }
             request.post('/users/')
@@ -80,7 +81,8 @@ describe("TESTING ALL USER ROUTES", () => {
                     tel: null,
                     website: null,
                     social_media: null,
-                    available: true
+                    available: true,
+                    private: true
                 }
             };
             request.put(`/users/${userID}`)

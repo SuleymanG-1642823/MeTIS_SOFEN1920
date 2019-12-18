@@ -6,10 +6,10 @@
             </b-col>
             <b-col lg>
                 <p>{{ this.user.first_name }} {{ this.user.last_name }}</p>
-                <p v-if="!this.privateData && this.user.address"> <i class="fas fa-map-marker-alt"></i> {{ this.user.address }}</p>
-                <p v-if="!this.privateData && this.user.zip && this.user.city"><i class="fas fa-building"></i> {{ this.user.zip }}, {{ this.user.city }}</p>
-                <p v-if="!this.privateData && this.user.tel"><i class="fas fa-phone"></i> {{ this.user.tel }}</p>
-                <p v-if="!this.privateData && this.user.mail"><i class="fas fa-envelope"></i> {{ this.user.mail }}</p>
+                <p v-if="(this.logged_in_user || !this.privateData) && this.user.address"> <i class="fas fa-map-marker-alt"></i> {{ this.user.address }}</p>
+                <p v-if="(this.logged_in_user || !this.privateData) && this.user.zip && this.user.city"><i class="fas fa-building"></i> {{ this.user.zip }}, {{ this.user.city }}</p>
+                <p v-if="(this.logged_in_user || !this.privateData) && this.user.tel"><i class="fas fa-phone"></i> {{ this.user.tel }}</p>
+                <p v-if="(this.logged_in_user || !this.privateData) && this.user.mail"><i class="fas fa-envelope"></i> {{ this.user.mail }}</p>
             </b-col>
             <b-col lg>
                 <p><i class="fas fa-globe"></i> <a>www.link-to-my-website.be</a></p>

@@ -32,7 +32,8 @@ function getUser(userID: number): Promise<User> {
                         tel: row.tel,
                         website: row.website,
                         social_media: row.social_media,
-                        available: row.available
+                        available: row.available,
+                        private: row.private
                     }
                     resolve(user);
                 }
@@ -50,8 +51,8 @@ function getUser(userID: number): Promise<User> {
 function updateUser(userID: number, user: User): Promise<void> {
     return new Promise(
         (resolve: any, reject: any) => {
-            const query: string = 'UPDATE user SET first_name=?, last_name=?, mail=?, addr=?, zip=?, city=?, tel=?, website=?, social_media=?, available=? WHERE id=?;';
-            const params: any[] = [user.first_name, user.last_name, user.mail, user.address, user.zip, user.city, user.tel, user.website, user.social_media, user.available, userID];
+            const query: string = 'UPDATE user SET first_name=?, last_name=?, mail=?, addr=?, zip=?, city=?, tel=?, website=?, social_media=?, available=?, private=? WHERE id=?;';
+            const params: any[] = [user.first_name, user.last_name, user.mail, user.address, user.zip, user.city, user.tel, user.website, user.social_media, user.available, user.private, userID];
             db_conn.query(query, params, (err: any, rows: any) => {
                 if (err){
                     console.log(err);
@@ -72,8 +73,8 @@ function updateUser(userID: number, user: User): Promise<void> {
 function addUser(user: User, hashedPassword: string): Promise<number> {
     return new Promise(
         (resolve: any, reject: any) => {
-            const query: string = 'INSERT INTO user (first_name, last_name, mail, password, addr, zip, city, tel, website, social_media, available) VALUES (?,?,?,?,?,?,?,?,?,?,?);';
-            const params: any[] = [user.first_name, user.last_name, user.mail, hashedPassword ,user.address, user.zip, user.city, user.tel, user.website, user.social_media, user.available];
+            const query: string = 'INSERT INTO user (first_name, last_name, mail, password, addr, zip, city, tel, website, social_media, available, private) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);';
+            const params: any[] = [user.first_name, user.last_name, user.mail, hashedPassword ,user.address, user.zip, user.city, user.tel, user.website, user.social_media, user.available, user.private];
             db_conn.query(query, params, async (err: any, rows: any) => {
                 if (err){
                     console.log(err);

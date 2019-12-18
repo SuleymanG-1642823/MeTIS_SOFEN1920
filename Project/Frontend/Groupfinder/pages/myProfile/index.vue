@@ -16,7 +16,12 @@
         <h2>Change password</h2>
         <ChangePassword :userID_prop=this.user.id />
         <h2>Privacy settings</h2>
-        <p>TODO: privacy settings</p>
+        <b-form>
+          <b-form-group label="I want my data to be visible for:">
+            <b-form-radio v-model="private_data" name="not_private" :value=false>all users of the platform.</b-form-radio>
+            <b-form-radio v-model="private_data" name="private" :value=true>all teammembers of the projects where I participate.</b-form-radio>
+          </b-form-group>
+        </b-form>
       </b-tab>
     </b-tabs>
   </div>

@@ -10,6 +10,7 @@ export const state = () => ({
     tel: '+32000112233',
     website: 'www.mywebsite.be',
     social_media: {},
-    available: true
+    available: true,
+    private: true
   }
 })
