@@ -2,12 +2,13 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import User from '@/types/user.ts';
 import axios from 'axios';
-import profileForm from '~/components/profileForm/profileForm.vue'
-import api from '@/helpers/Api'
+import profileForm from '../profileForm/profileForm';
+// import profileForm from '~/components/profileForm/profileForm.vue'
+import api from '@/helpers/Api';
 
 import Project from '../../types/project';
 import Profile from '../../types/profile';
-import Questionnaire from '../../types/questionnaire'
+import Questionnaire from '../../types/questionnaire';
 
 @ Component({
     components: {profileForm}
