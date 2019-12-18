@@ -21,7 +21,7 @@ export default class EditUserData extends Vue {
     private website: string = '';
     private social_media: Object = {};
     private available: boolean = false;
-    
+
 
     // LIFECYCLE HOOKS
     private mounted(){

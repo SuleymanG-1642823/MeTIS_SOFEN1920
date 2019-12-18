@@ -14,8 +14,8 @@
             <b-col lg>
                 <p><i class="fas fa-globe"></i> <a>www.link-to-my-website.be</a></p>
                 <p>TODO: rating</p>
-                <p v-if="this.user.available">AVAILABLE</p>
-                <p v-else>UNAVAILABLE</p>
+                <p v-if="this.user.available"><i class="fas fa-circle green"></i> available for joining projects</p>
+                <p v-else><i class="fas fa-circle red"></i> unavailable for joining projects</p>
             </b-col>
             <b-col>
                 <a id="facebook_icon" class="social_media_icon" href="https://www.facebook.com"><i class="fab fa-facebook"></i></a>
@@ -49,5 +49,15 @@
         float: right;
         clear: right;
         font-size: 30px;
+    }
+    .green{
+        color:green;
+    }
+    .red{
+        color: grey;
+    }
+    .fas.fa-circle{
+        font-size: 10px;
+        line-height: 100%;
     }
 </style>
