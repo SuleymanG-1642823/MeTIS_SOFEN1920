@@ -21,6 +21,10 @@ export default class CategoriesComponent extends Vue {
 
     @Prop({default: {}}) category: SplitCategory;
 
+    /**
+     * Function gets called when the component gets created,
+     * makes a checkbox for each existing category and its subcategories
+     */
     async created(){
         this.category.subcategories.forEach(element => {
             this.subcategories.push(element.sub_name);
@@ -32,8 +36,13 @@ export default class CategoriesComponent extends Vue {
         this.categoryName = this.category.main_name
     }
 
+    /**
+     * Watchers over the allCheckbox v-model, when this model changes
+     * the functions gets called.
+     * Checks all subcategories if allCheckbox checkend, otherwise unchecks them
+     */
     @Watch('allCheckbox')
-    onAllCheckboxChange(value: boolean, oldValue: boolean){
+    onAllCheckboxChange(){
         for(let i = 0; i < this.selectedCategoriesCheckboxes.length; i++){
             this.selectedCategoriesCheckboxes[i] = this.allCheckbox
         }
@@ -44,6 +53,10 @@ export default class CategoriesComponent extends Vue {
         }
     }
 
+    /**
+     * Watches over the selectedCategoriesCheckboxes v-model if one of the element
+     * in the array changes. Updates the project if so.
+     */
     @Watch('selectedCategoriesCheckboxes')
     onSelectedCatCheckChange(){
         let temp_categories: Array<[number|null, boolean]> = []
@@ -58,10 +71,17 @@ export default class CategoriesComponent extends Vue {
         this.$emit("updateCategories", temp_categories);
     }
 
-    checkBoxOff(): void{
+    /**
+     * Checks the checkbox if not checked and vice versa.
+     */
+    checkBoxSwitch(): void{
         this.allCheckbox = !this.allCheckbox;
     }
 
+    /**
+     * Checks if none of the checkboxes are checked
+     * @return returns true if none are checked else returns fealse
+     */
     checkIfNothingChecked(): boolean {
         if(this.category.subcategories.length === 0){
             if(this.allCheckbox === false){
@@ -82,6 +102,10 @@ export default class CategoriesComponent extends Vue {
         }
     }
 
+    /**
+     * Returns all the categories in the 'category' table in the database
+     * @return returns an array of Category objects with all categories
+     */
     async getAllCategories(): Promise<Category[]>{
         return new Promise(
             async (resolve: any, reject: any) => {
@@ -97,9 +121,5 @@ export default class CategoriesComponent extends Vue {
             }
         )
         
-    }
-
-    toggle(index: number){
-        console.log(this.selectedCategoriesCheckboxes)
     }
 }

@@ -122,7 +122,8 @@ function getAllProjectsOfOwner(userID: number): Promise<Project[]>{
                             creator_first_name: rows[i].first_name,
                             creator_last_name: rows[i].last_name,
                             //profiles: profiles_result
-                            profiles: []
+                            profiles: [],
+                            categories: []
                         }
                         projects.push(project);
                     }
@@ -163,7 +164,8 @@ function getAllProjectsWithMember(userID: number): Promise<Project[]>{
                             creator_first_name: rows[i].first_name,
                             creator_last_name: rows[i].last_name,
                             //profiles: profiles_result
-                            profiles: []
+                            profiles: [],
+                            categories: []
                         }
                         projects.push(project);
                     }
