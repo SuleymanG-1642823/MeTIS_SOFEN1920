@@ -38,7 +38,8 @@ function getProject(projectID: number): Promise<Project> {
                             creator_first_name: rows[0].first_name,
                             creator_last_name: rows[0].last_name,
                             //profiles: profiles_result
-                            profiles: []
+                            profiles: [],
+                            categories: []
                         }
                         resolve(project);
                     } catch (err) {
@@ -79,7 +80,8 @@ function getAllProjects(): Promise<Project[]> {
                             creator_first_name: rows[i].first_name,
                             creator_last_name: rows[i].last_name,
                             //profiles: profiles_result
-                            profiles: []
+                            profiles: [],
+                            categories: []
                         }
                         allProjects.push(project);
                     }
@@ -118,7 +120,8 @@ function getMatchingProjects(userID: number): any {
             creator_id: -1,
             creator_first_name: '',
             creator_last_name: '',
-            profiles: []
+            profiles: [],
+            categories: []
         }
 
         return newProject;
