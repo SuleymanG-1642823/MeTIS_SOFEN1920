@@ -91,7 +91,11 @@ function getAllProjects(): Promise<Project[]> {
  * @param userID ID of the user to find project matches for
  * @returns A list of projectMatch objects in json format
  */
-// Promise<Array<Object>>
+
+ /* ********************FOR TESTING ONLY ************************ */
+ import ProjectsToUserMatcherTest from '../../classes/matching_algorithm_tests/ProjectsToUserMatcherTest';
+ /* ************************************************************* */
+
 function getMatchingProjects(userID: number): Promise<Array<ProjectMatch>> {
     return new Promise(async (resolve: any, reject: any) => {
         try{
@@ -99,6 +103,16 @@ function getMatchingProjects(userID: number): Promise<Array<ProjectMatch>> {
         }catch(e){
             reject("500");
         }
+
+        /* ******************** FOR TESTING ONLY ************************ */
+        
+        try{
+            await ProjectsToUserMatcherTest.executeTests();
+        }catch(e){
+            reject('Test failed');
+        }            
+
+        /* ************************************************************* */
     });
 }
 
