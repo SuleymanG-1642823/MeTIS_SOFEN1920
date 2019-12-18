@@ -5,10 +5,9 @@
   "scripts": {
     "build": "tsc",
     "test": "jest",
-    "start": "npm run build && npm run test && node ./bin/www"
+    "start": "npm run build && node ./bin/www"
   },
   "jest": {
-    "testEnvironment": "node",
     "transform": {
       "^.+\\.jsx?$": "babel-jest"
     },

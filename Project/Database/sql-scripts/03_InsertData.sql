@@ -8,7 +8,7 @@ VALUES  (1, 'Lennert', 'Geebelen', 'lennert.geebelen@student.uhasselt.be'),
         (4, 'Klaas', 'Budde', 'Klaas.Budde@mail.com'),
         (5, 'Willem', 'Kreijkes', 'Willem.Kreijkes@mail.com'),
         (6, 'Robert', 'Louwes', 'Robert.Louwes@mail.com');
-      
+
 
 -- PROJECTS
 INSERT INTO project (id, creator_id, name, status, pitch)
@@ -33,8 +33,8 @@ VALUES  (1, 'Back-end developper', 1),
 INSERT INTO profile_skill -- (profile_id, name, experience, weight)
 VALUES  (1, 'Django', 2, 1),
         (1, 'Unit testing', 2, 1),
-	    (1, 'MySQL', 2, 2),
-	    (1, 'AGILE', 1, 1),
+	(1, 'MySQL', 2, 2),
+	(1, 'AGILE', 1, 1),
         (2, 'Vue', 3, 1),
         (2, 'Typescript', 3, 1),
         (3, 'Android SDK', 2, 3),
@@ -42,7 +42,7 @@ VALUES  (1, 'Django', 2, 1),
         (4, 'Java', 3, 3),
         (4, 'Android SDK', 2, 3),
         (4, 'Android Studio', 2, 1),
-	    (4, 'AGILE', 1, 1),
+	(4, 'AGILE', 1, 1),
         (5, 'Qt framework', 2, 2),
         (5, 'C++', 2, 2),
         (6, 'C++', 3, 2),
@@ -59,7 +59,7 @@ VALUES  (1, 'Django', 2, 1),
 INSERT INTO user_skill -- (user_id, skill name, skill experience)
 VALUES  (5, 'c++', 7),
         (5, 'AGILE', 5),
-	    (6, 'c++', 7),
+	(6, 'c++', 7),
         (6, 'python', 3),
         (6, 'AGILE', 5),
         (6, 'SCRUM', 3),

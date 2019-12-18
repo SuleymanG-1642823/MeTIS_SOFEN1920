@@ -1,0 +1,144 @@
+const ProjectsToUserMatcher = require('../../classes/ProjectsToUserMatcher.js');
+const db_conn = require('../../databaseconnection');
+
+// Function that gets called before the tests, used for initializing test data
+beforeAll(() => {
+    function addNewUser(id, firstName, lastName, mail){
+        const query = `
+            INSERT INTO user (id, first_name, last_name, mail) 
+            VALUES (?, ?, ?, ?) 
+            ON DUPLICATE KEY UPDATE 
+                first_name = ?, 
+                last_name = ?, 
+                mail = ?;
+        `;
+        let params = [id, firstName, lastName, mail, firstName, lastName, mail];
+
+        db_conn.query(query, params, async (err, rows) => {
+            if (err){
+                throw Error;
+            }
+        });
+    }
+
+    function addNewProject(id, creator_id, name, status){
+        const query = `
+            INSERT INTO project (id, creator_id, name, status) 
+            VALUES (?, ?, ?, ?) 
+            ON DUPLICATE KEY UPDATE 
+                creator_id = ?, 
+                name = ?, 
+                status = ?;
+        `;
+        let params = [id, creator_id, name, status, creator_id, name, status];
+
+        db_conn.query(query, params, async (err, rows) => {
+            if (err){
+                throw Error;
+            }
+        });
+    }
+
+    function addNewProfile(id, name, project_id){
+        const query = `
+            INSERT INTO project (id, name, project_id) 
+            VALUES (?, ?, ?) 
+            ON DUPLICATE KEY UPDATE
+                name = ?;
+                project_id = ?, 
+        `;
+        let params = [id, name, project_id, name, project_id];
+
+        db_conn.query(query, params, async (err, rows) => {
+            if (err){
+                throw Error;
+            }
+        });
+    }
+
+    function addNewProfileSkill(profile_id, skill_name, skill_experience, weight){
+        const query = `
+            INSERT INTO profile_skill (profile_id, skill_name, skill_experience, weight)
+            VALUES (?, ?, ?, ?) 
+            ON DUPLICATE KEY UPDATE 
+                skill_name = ?, 
+                skill_experience = ?, 
+                weight = ?;
+        `;
+        let params = [profile_id, skill_name, skill_experience, weight, skill_name, skill_experience, weight];
+
+        db_conn.query(query, params, async (err, rows) => {
+            if (err){
+                throw Error;
+            }
+        });
+    }
+
+    function addNewUserSkill(user_id, skill_name, skill_experience){
+        const query = `
+            INSERT INTO user_skill (user_id, skill_name, skill_experience)
+            VALUES (?, ?, ?) 
+            ON DUPLICATE KEY UPDATE 
+                skill_name = ?, 
+                skill_experience = ?;
+        `;
+        let params = [user_id, skill_name, skill_experience, skill_name, skill_experience];
+
+        db_conn.query(query, params, async (err, rows) => {
+            if (err){
+                throw Error;
+            }
+        });
+    }
+
+    // users (id, firstName, lastName, mail)
+    addNewUser(6000, 'testUser1', '1', 'testUser1@test.com');
+    addNewUser(6001, 'testUser2', '2', 'testUser2@test.com');
+    
+    // projects (id, creator_id, name, status)
+    addNewProject(7000, 6000, 'testProject1', 0); // testUser1 (6000)
+
+    // profiles (id, name, project_id)
+    addNewProfile(8000, 'Profile A', 7000); // testProject1 (7000)
+    addNewProfile(8001, 'Profile B', 7000);
+    addNewProfile(8002, 'Profile C', 7000);
+
+    // profile skills (profile_id, skill_name, skill_experience, weight)
+    addNewProfileSkill(8000, 'SKILL ALPHA', 1, 1);  // Profile A
+    addNewProfileSkill(8000, 'SKILL BETA', 1, 1);
+    addNewProfileSkill(8000, 'SKILL TETA', 1, 1);
+
+    addNewProfileSkill(8001, 'SKILL BETA', 1, 1);  // Profile B
+    addNewProfileSkill(8001, 'SKILL TETA', 1, 1);
+    addNewProfileSkill(8001, 'SKILL YETA', 1, 1);
+    
+
+    addNewProfileSkill(8002, 'SKILL GIGA', 1, 1);  // Profile C
+    addNewProfileSkill(8002, 'SKILL MEGA', 1, 1);
+
+    // user Skills
+    addNewUserSkill(6001, 'SKILL ALPHA', 1);  // testUser2
+    addNewUserSkill(6001, 'SKILL BETA', 1);
+    addNewUserSkill(6001, 'SKILL TETA', 1);
+
+});
+
+describe('Testing class ProjectsToUserMatcher', () => {
+    describe('Testing function getMatchingProjects(userID, dbconn)', () => {
+        describe('[1] Matching % calculation', () => {
+            test('Matching % proportional to # of matching skills', async () => {
+                // result: Array<ProjectMatch>
+                const result = await ProjectsToUserMatcher.getMatchingProjects(6001, db_conn);
+                
+                // There must be results
+                expect(result.length).toBeGreaterThan(0); 
+
+                // Check matching % with Profiles 
+                const profileMatches = result[0].matches;
+                expect(profileMatches[0].matchingPercentile).toBe(100); // must be 100% because the testUser2 has all required skills for profileA
+                expect(profileMatches[1].matchingPercentile).toBe(67); // must be 67% (rounded up) because the testUser2 has 2 of the required skills for profileB
+                expect(profileMatches[2].matchingPercentile).toBe(0); // 0% because testUser2 has none of the required skills for profileC
+            });
+        });
+    });
+});
