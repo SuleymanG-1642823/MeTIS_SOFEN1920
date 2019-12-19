@@ -1,5 +1,4 @@
 import {mount, shallowMount} from "@vue/test-utils";
-import Vue from 'vue';
 import { tsExternalModuleReference, exportAllDeclaration } from "@babel/types";
 import projectForm from "@/components/ProjectEdit/ProjectEdit";
 

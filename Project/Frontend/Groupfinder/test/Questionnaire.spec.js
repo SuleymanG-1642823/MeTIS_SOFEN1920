@@ -26,18 +26,17 @@ describe('Questionnaire component', () => {
         wrapper.vm.inputText = "Test";
         wrapper.vm.addQuestion();
         expect(wrapper.vm.questions[0]).toEqual("Test");
+        console.log(wrapper.vm.questions);
         done();
     }),
     test('removes a question', (done) => {
         wrapper.vm.deleteQuestion(0);
         expect(wrapper.vm.questions).toEqual([]);
         done();
-    })
-    /*
+    })/*,
     test('imports a questionnaire', (done) => {
-        console.log(userQuestionnaireList[0]);
-        console.log(wrapper.vm.userQuestionnaireList);
         wrapper.vm.importQuestions(0);
+        wrapper.vm.onModalClose();
         expect(wrapper.vm.questions).toEqual(userQuestionnaireList[0].questions);
         done();
     })*/
