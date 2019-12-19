@@ -55,7 +55,6 @@ function getUser(userID: number): Promise<User> {
  *      ProfileObject contains information about a profile and userMatch contains a userObject
  *      along with the matching percentage.
  */
-// Promise<Array<ProfileUserMatch>>
 function getMatchingUsers(projectID: number): Promise<any>{
     return new Promise(
         async (resolve: any, reject: any) => {

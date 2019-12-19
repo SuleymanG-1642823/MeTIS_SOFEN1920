@@ -289,6 +289,24 @@ export default class UsersToProjectMatcher{
         return Math.ceil((totalMatchingSkills / totalSkills) * 100);
     }
 
+    /*
+        Sorts Projects in decending maximum matching percentile and profiles in decending matching percentile
+        @pre: every project must have at least 1 profile
+        @post the given parameter is sorted
+        @post the given parameter is returned;
+    */
+    private static sortMatches(matches: Array<ProfileUserMatch>): Array<ProfileUserMatch>{
+        // sort users per profile
+        for (let profMatchIndex in matches){ 
+            matches[profMatchIndex].userMatches = matches[profMatchIndex].userMatches.sort((userMatch1, userMatch2) => userMatch2.matchingPercentage - userMatch1.matchingPercentage);
+        }
+
+        // sort projects according to their maximum profile matching percentage
+        matches.sort((profileMatch1, profileMatch2) => profileMatch2.userMatches[0].matchingPercentage - profileMatch1.userMatches[0].matchingPercentage);
+
+        return matches;
+    }
+    
     /**
      * Returns users with a matching percentage that have a matching skill with one of the skills of the profiles of the given project.
      * @param projectID 
@@ -340,7 +358,7 @@ export default class UsersToProjectMatcher{
                                 }
                             }
                             
-                            resolve(profileUserMatches)
+                            resolve(this.sortMatches(profileUserMatches));
                         }
                     });
 

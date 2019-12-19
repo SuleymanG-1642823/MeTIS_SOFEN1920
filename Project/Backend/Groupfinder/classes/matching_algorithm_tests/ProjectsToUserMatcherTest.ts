@@ -1,164 +1,59 @@
 import ProjectsToUserMatcher from '../ProjectsToUserMatcher';
 import ProjectMatch from '../../types/matching/projectMatch';
+import SimpleDBInterface from './SimpleDBInterface';
 const db_conn = require('../../databaseconnection');
 
 export default class ProjectsToUserMatcherTest{
     private static async initData(){
-        function dbQueryHelper(query: string, params: any[]): Promise<void>{
-            return new Promise((resolve: any, reject: any) => {
-                db_conn.query(query, params, async (err: any, rows: any) => {
-                    if (err){
-                        reject();
-                    }
-                });
-                resolve();
-            });
-        }
-
-        async function addNewUser(id: number, firstName: string, lastName: string, mail: string){
-            const query = `
-                INSERT INTO user (id, first_name, last_name, mail) 
-                VALUES (?, ?, ?, ?) 
-                ON DUPLICATE KEY UPDATE 
-                    first_name = ?, 
-                    last_name = ?, 
-                    mail = ?;
-            `;
-            let params = [id, firstName, lastName, mail, firstName, lastName, mail];
-    
-            try{
-                dbQueryHelper(query, params);            
-            }catch(e){}
-        }
-    
-        async function addNewProject(id: number, creator_id: number, name: string, status: number){
-            const query = `
-                INSERT INTO project (id, creator_id, name, status) 
-                VALUES (?, ?, ?, ?) 
-                ON DUPLICATE KEY UPDATE 
-                    creator_id = ?, 
-                    name = ?, 
-                    status = ?;
-            `;
-            let params = [id, creator_id, name, status, creator_id, name, status];
-    
-            try{
-                dbQueryHelper(query, params);            
-            }catch(e){}            
-        }
-    
-        async function addNewProfile(id: number, name: string, project_id: number){
-            /* 
-            8000, 'Profile A', 7000
-                INSERT INTO profile (id, name, project_id) 
-                VALUES (8000, 'Profile A', 7000) 
-                ON DUPLICATE KEY UPDATE
-                    name = 'Profile A',
-                    project_id = 7000;
-            */
-            const query = `
-                INSERT INTO profile (id, name, project_id) 
-                VALUES (?, ?, ?) 
-                ON DUPLICATE KEY UPDATE
-                    name = ?,
-                    project_id = ?; 
-            `;
-            let params = [id, name, project_id, name, project_id];
-    
-            try{
-                dbQueryHelper(query, params);            
-            }catch(e){}          
-        }
-    
-        async function addNewProfileSkill(profile_id: number, skill_name: string, skill_experience: number, weight: number){
-        /*
-        8001, 'SKILL BETA', 1, 1
-                INSERT INTO profile_skill (profile_id, skill_name, skill_experience, weight)
-                VALUES (8001, 'SKILL BETA', 1, 1) 
-                ON DUPLICATE KEY UPDATE 
-                    skill_name = 'SKILL BETA', 
-                    skill_experience = 1, 
-                    weight = 1;
-        */    
-            
-            
-            const query = `
-                INSERT INTO profile_skill (profile_id, skill_name, skill_experience, weight)
-                VALUES (?, ?, ?, ?) 
-                ON DUPLICATE KEY UPDATE 
-                    skill_name = ?, 
-                    skill_experience = ?, 
-                    weight = ?;
-            `;
-            let params = [profile_id, skill_name, skill_experience, weight, skill_name, skill_experience, weight];
-    
-            try{
-                dbQueryHelper(query, params);            
-            }catch(e){}        
-        }
-    
-        async function addNewUserSkill(user_id: number, skill_name: string, skill_experience: number){
-            const query = `
-                INSERT INTO user_skill (user_id, skill_name, skill_experience)
-                VALUES (?, ?, ?) 
-                ON DUPLICATE KEY UPDATE 
-                    skill_name = ?, 
-                    skill_experience = ?;
-            `;
-            let params = [user_id, skill_name, skill_experience, skill_name, skill_experience];
-    
-            try{
-                dbQueryHelper(query, params);            
-            }catch(e){}        
-        }
+        let db = new SimpleDBInterface(db_conn);
 
         // users (id, firstName, lastName, mail)
-        await addNewUser(6000, 'testUser1', '1', 'testUser1@test.com');
-        await addNewUser(6001, 'testUser2', '2', 'testUser2@test.com');
+        await db.insertNewUser(6000, 'testUser1', '1', 'testUser1@test.com');
+        await db.insertNewUser(6001, 'testUser2', '2', 'testUser2@test.com');
         
         // projects (id, creator_id, name, status)
-        await addNewProject(7000, 6000, 'testProject1', 0); // testUser1 (6000)
+        await db.insertNewProject(7000, 6000, 'testProject1', 0); // testUser1 (6000)
         
         // profiles (id, name, project_id)
-        await addNewProfile(8000, 'Profile A', 7000); // testProject1 (7000)
-        await addNewProfile(8001, 'Profile B', 7000);
-        await addNewProfile(8002, 'Profile C', 7000);
-        await addNewProfile(8003, 'Profile weight1', 7000);
-        await addNewProfile(8004, 'Profile experience1', 7000);
-        await addNewProfile(8005, 'Profile matching perc all', 7000);
+        await db.insertNewProfile(8000, 'Profile A', 7000); // testProject1 (7000)
+        await db.insertNewProfile(8001, 'Profile B', 7000);
+        await db.insertNewProfile(8002, 'Profile C', 7000);
+        await db.insertNewProfile(8003, 'Profile weight1', 7000);
+        await db.insertNewProfile(8004, 'Profile experience1', 7000);
+        await db.insertNewProfile(8005, 'Profile matching perc all', 7000);
 
         // profile skills (profile_id, skill_name, skill_experience, weight)
-        await addNewProfileSkill(8000, 'SKILL ALPHA', 1, 1);  // Profile A
-        await addNewProfileSkill(8000, 'SKILL BETA', 1, 1);
-        await addNewProfileSkill(8000, 'SKILL TETA', 1, 1);
+        await db.insertNewProfileSkill(8000, 'SKILL ALPHA', 1, 1);  // Profile A
+        await db.insertNewProfileSkill(8000, 'SKILL BETA', 1, 1);
+        await db.insertNewProfileSkill(8000, 'SKILL TETA', 1, 1);
         
-        await addNewProfileSkill(8001, 'SKILL BETA', 1, 1);  // Profile B
-        await addNewProfileSkill(8001, 'SKILL TETA', 1, 1);
-        await addNewProfileSkill(8001, 'SKILL YETA', 1, 1);
+        await db.insertNewProfileSkill(8001, 'SKILL BETA', 1, 1);  // Profile B
+        await db.insertNewProfileSkill(8001, 'SKILL TETA', 1, 1);
+        await db.insertNewProfileSkill(8001, 'SKILL YETA', 1, 1);
         
-        await addNewProfileSkill(8002, 'SKILL GIGA', 1, 1);  // Profile C
-        await addNewProfileSkill(8002, 'SKILL MEGA', 1, 1);
+        await db.insertNewProfileSkill(8002, 'SKILL GIGA', 1, 1);  // Profile C
+        await db.insertNewProfileSkill(8002, 'SKILL MEGA', 1, 1);
 
-        await addNewProfileSkill(8003, 'SKILL ALPHA', 1, 4);  // Profile Weight1
-        await addNewProfileSkill(8003, 'SKILL KILO', 1, 1);
-        await addNewProfileSkill(8003, 'SKILL TETA', 1, 2);
+        await db.insertNewProfileSkill(8003, 'SKILL ALPHA', 1, 4);  // Profile Weight1
+        await db.insertNewProfileSkill(8003, 'SKILL KILO', 1, 1);
+        await db.insertNewProfileSkill(8003, 'SKILL TETA', 1, 2);
 
-        await addNewProfileSkill(8004, 'SKILL EPSILON', 7, 1);  // Profile experience1
-        await addNewProfileSkill(8004, 'SKILL SIGMA', 5, 1);
-        await addNewProfileSkill(8004, 'SKILL PI', 5, 1);
+        await db.insertNewProfileSkill(8004, 'SKILL EPSILON', 7, 1);  // Profile experience1
+        await db.insertNewProfileSkill(8004, 'SKILL SIGMA', 5, 1);
+        await db.insertNewProfileSkill(8004, 'SKILL PI', 5, 1);
         
-        await addNewProfileSkill(8005, 'SKILL LAMBDA', 7, 5);  // Profile matching perc all
-        await addNewProfileSkill(8005, 'SKILL ALPHA', 2, 2); 
-        await addNewProfileSkill(8005, 'SKILL TETA', 3, 4); 
-        await addNewProfileSkill(8005, 'SKILL SIGMA', 3, 3); 
+        await db.insertNewProfileSkill(8005, 'SKILL LAMBDA', 7, 5);  // Profile matching perc all
+        await db.insertNewProfileSkill(8005, 'SKILL ALPHA', 2, 2); 
+        await db.insertNewProfileSkill(8005, 'SKILL TETA', 3, 4); 
+        await db.insertNewProfileSkill(8005, 'SKILL SIGMA', 3, 3); 
 
         // user Skills
-        await addNewUserSkill(6001, 'SKILL ALPHA', 1);  // testUser2
-        await addNewUserSkill(6001, 'SKILL BETA', 1);
-        await addNewUserSkill(6001, 'SKILL TETA', 1);   
-        await addNewUserSkill(6001, 'SKILL EPSILON', 5);   
-        await addNewUserSkill(6001, 'SKILL SIGMA', 3);   
-        await addNewUserSkill(6001, 'SKILL PI', 5);   
+        await db.insertNewUserSkill(6001, 'SKILL ALPHA', 1);  // testUser2
+        await db.insertNewUserSkill(6001, 'SKILL BETA', 1);
+        await db.insertNewUserSkill(6001, 'SKILL TETA', 1);   
+        await db.insertNewUserSkill(6001, 'SKILL EPSILON', 5);   
+        await db.insertNewUserSkill(6001, 'SKILL SIGMA', 3);   
+        await db.insertNewUserSkill(6001, 'SKILL PI', 5);   
     }
 
     /**
@@ -175,15 +70,6 @@ export default class ProjectsToUserMatcherTest{
         }
 
         return result;
-    }
-
-    /**
-     * Helper function, executes msgToIndentFunction() to get msgToIndent parameter
-     * @param msg 
-     * @param msgToIndentFunction 
-     */
-    private static concatAndIndentHelper(msg: string, msgToIndentFunction: () => string): string{
-        return this.concatAndIndent(msg, msgToIndentFunction());
     }
 
     /**
@@ -216,14 +102,14 @@ export default class ProjectsToUserMatcherTest{
      */
     private static isSorted(projectMatches: Array<ProjectMatch>): boolean{
         for (let i = 0; i < (projectMatches.length-1); i++){ // matches.length -1 because we need to ensure there is a next elem
-            // projects must be sorted on descending order according on their biggest matching percentage
+            // projects must be sorted in descending order according on their biggest matching percentage
             if (projectMatches[i].matches[0].matchingPercentile < projectMatches[i+1].matches[0].matchingPercentile){
                 return false;
             }
 
             const currentProjectMatches = projectMatches[i].matches;
             for (let j = 0; j < (currentProjectMatches.length - 1); j++){
-                // profiles must be sorted on descending order
+                // profiles must be sorted in descending order
                 if (currentProjectMatches[j].matchingPercentile < currentProjectMatches[j+1].matchingPercentile){
                     return false;
                 }
@@ -235,8 +121,6 @@ export default class ProjectsToUserMatcherTest{
 
    public static executeTests(): Promise<void>{
         return new Promise(async (resolve: any, reject: any) => {
-            console.log('##################################################################################################')
-
             await this.initData();
             
             let results: string = await this.concatAndIndentHelperAsync('Testing class ProjectsToUserMatcher', async () => {
@@ -297,8 +181,6 @@ export default class ProjectsToUserMatcherTest{
             
             console.log(results);
             resolve();
-            console.log('##################################################################################################')
-
         });
     }
 }
