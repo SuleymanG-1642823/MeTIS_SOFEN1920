@@ -25,7 +25,7 @@ export default class CategoriesComponent extends Vue {
      * Function gets called when the component gets created,
      * makes a checkbox for each existing category and its subcategories
      */
-    async created(){
+    created(){
         this.category.subcategories.forEach(element => {
             this.subcategories.push(element.sub_name);
             this.selectedCategoriesCheckboxes.push(false);
@@ -100,26 +100,5 @@ export default class CategoriesComponent extends Vue {
             });
             return check
         }
-    }
-
-    /**
-     * Returns all the categories in the 'category' table in the database
-     * @return returns an array of Category objects with all categories
-     */
-    async getAllCategories(): Promise<Category[]>{
-        return new Promise(
-            async (resolve: any, reject: any) => {
-                try {
-                    let url = "http://localhost:4000/categories/";
-                    const response = await axios.get(url);
-                    const categories: Category[] = response.data;
-                    resolve(categories)
-                } catch (err){
-                    console.log('Error while posting project.')
-                    reject(err)
-                }
-            }
-        )
-        
     }
 }
