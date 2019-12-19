@@ -3,6 +3,16 @@ import ProjectMatch from '../../types/matching/projectMatch';
 import SimpleDBInterface from './SimpleDBInterface';
 const db_conn = require('../../databaseconnection');
 
+/**
+ * import this class somewhere and do the following to execute the tests:
+ * 
+try{
+    await ProjectsToUserMatcherTest.executeTests();
+}catch(e){
+            reject('Test failed');
+} 
+ */
+
 export default class ProjectsToUserMatcherTest{
     private static async initData(){
         let db = new SimpleDBInterface(db_conn);

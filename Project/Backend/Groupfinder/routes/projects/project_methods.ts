@@ -91,13 +91,6 @@ function getAllProjects(): Promise<Project[]> {
  * @param userID ID of the user to find project matches for
  * @returns A list of projectMatch objects in json format
  */
-
- /* ********************FOR TESTING ONLY - CAN BE REMOVED ************************ */
- import ProjectsToUserMatcherTest from '../../classes/matching_algorithm_tests/ProjectsToUserMatcherTest';
- import UsersToProjectMatcherTest from '../../classes/matching_algorithm_tests/UsersToProjectMatcherTest';
-
- /* ************************************************************* */
-
 function getMatchingProjects(userID: number): Promise<Array<ProjectMatch>> {
     return new Promise(async (resolve: any, reject: any) => {
         try{
@@ -105,17 +98,6 @@ function getMatchingProjects(userID: number): Promise<Array<ProjectMatch>> {
         }catch(e){
             reject("500");
         }
-
-        /* ******************** FOR TESTING ONLY - CAN BE REMOVED  ************************ */
-        try{
-            console.log('##################################################################################################')
-            await ProjectsToUserMatcherTest.executeTests();
-            await UsersToProjectMatcherTest.executeTests();
-            console.log('##################################################################################################')
-        }catch(e){
-            reject('Test failed');
-        }            
-        /* ************************************************************* */
     });
 }
 
