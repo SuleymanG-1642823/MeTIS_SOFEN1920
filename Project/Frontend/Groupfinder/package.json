@@ -5,7 +5,7 @@
   "author": "MeTIS",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
+    "dev": "npm run test && nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
@@ -21,10 +21,11 @@
     "bcryptjs": "^2.4.3",
     "bootstrap": "^4.1.3",
     "bootstrap-vue": "^2.0.0",
+    "identity-obj-proxy": "^3.0.0",
     "nuxt": "^2.10.2",
     "vue-property-decorator": "^8.3.0",
     "vue-sidebar-menu": "^4.4.3",
-    "vue-slider-component": "^3.0.44",
+    "vue-slider-component": "^3.1.0",
     "vue-template-loader": "^1.0.0",
     "webpack-stream": "^5.2.1"
   },
