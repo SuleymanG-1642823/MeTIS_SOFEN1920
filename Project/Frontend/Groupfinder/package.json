@@ -5,7 +5,7 @@
   "author": "MeTIS",
   "private": true,
   "scripts": {
-    "dev": "npm run test && nuxt",
+    "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
