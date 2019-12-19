@@ -31,5 +31,23 @@ describe('Category Component', () => {
         });
         expect(wrapper.vm.checkIfNothingChecked()).toEqual(true);
         done();
+    }),
+    test('updates the changes in the checkboxes', (done) => {
+        const category = {main_id: null, main_name: "web", subcategories: [{sub_id: 1, sub_name: "chrome"}]};
+        const wrapper = shallowMount(CategoriesComponent, {
+            propsData: {category}
+        });
+        wrapper.vm.onAllCheckboxChange();
+        expect(wrapper.emitted("updateCategories")).toBeTruthy();
+        done();
+    }),
+    test('updates the changes in the subcategory checkboxes', (done) => {
+        const category = {main_id: null, main_name: "web", subcategories: [{sub_id: 1, sub_name: "chrome"}]};
+        const wrapper = shallowMount(CategoriesComponent, {
+            propsData: {category}
+        });
+        wrapper.vm.onSelectedCatCheckChange();
+        expect(wrapper.emitted("updateCategories")).toBeTruthy();
+        done();
     })
 })
