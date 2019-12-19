@@ -85,6 +85,11 @@ export default class ProjectEdit extends Vue {
         return temp_sub_category;
     }
 
+    /**
+     * parses the given categories array to an array containing the SplitCategory 
+     * type
+     * @param categories_inp an array containing categories chosen categories
+     */
     parseCategories(categories_inp: Array<Category>){
         for(let i = 0; i < categories_inp.length; i++){
             let check = true;
@@ -113,6 +118,10 @@ export default class ProjectEdit extends Vue {
         }
     }
 
+    /**
+     * finds the index of the given category that needs to be removed
+     * @param id contains the id of the category that needs to be removed
+     */
     findIndexToRemove(id: number): number {
         for(let i = 0; i < this.selected_categories_ids.length; i++){
             if(this.selected_categories_ids[i] === id){
@@ -122,6 +131,10 @@ export default class ProjectEdit extends Vue {
         return this.selected_categories_ids.length + 1;
     }
 
+    /**
+     * deletes a category from the array
+     * @param id the id of the category that needs to be deleted
+     */
     deleteCategoryToSelection(id: number){
         for(let i = 0; i < this.selected_categories.length; i++){
             if(this.selected_categories[i].id === id){

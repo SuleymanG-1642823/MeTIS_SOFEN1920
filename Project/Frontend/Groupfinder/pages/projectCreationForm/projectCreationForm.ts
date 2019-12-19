@@ -30,7 +30,8 @@ export default class projectCreationForm extends Vue {
             creator_id: 1,
             creator_first_name: "",
             creator_last_name: "",
-            profiles: []
+            profiles: [],
+            categories: []
         }
     }
 

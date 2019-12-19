@@ -6,7 +6,7 @@
     <b-col>
       <div v-if="disabledDropdown === 'dontShow'">
         <h3>
-        <b-button variant="primary" @click="checkBoxOff">
+        <b-button variant="primary" @click="checkBoxSwitch">
           {{categoryName}}
         </b-button>
         </h3>
@@ -28,9 +28,3 @@
 
 <script lang="ts" src="./CategoriesComponent.ts">
 </script>
-
-<style>
-.noBoldText b-badge{
-  font-weight: normal;
-}
-</style>

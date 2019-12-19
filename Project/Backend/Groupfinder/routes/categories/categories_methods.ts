@@ -138,6 +138,11 @@ function getCategoryID(category: Category): Promise<number> {
     );
 }
 
+/**
+ * updates the project table, posts the categories_ids in the table
+ * @param categories array of Category objects of chosen categories
+ * @param projectID id of the project the categories belong to
+ */
 function addCategoriesToProject(categories: Category[], projectID: number): Promise<void>{
     return new Promise(
         (resolve: any, reject: any) => {
