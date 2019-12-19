@@ -1,11 +1,11 @@
 import {mount} from "@vue/test-utils"
-import ProjectEdit from "@/components/ProjectEdit/ProjectEdit.ts"
+import projectForm from "@/pages/projectCreationForm/index.vue"
 
 describe('ProjectForm', () => {
   test('adds a profile', () => {
-    const wrapper = mount(ProjectEdit)
+    const wrapper = mount(projectForm)
     wrapper.vm.addProfile()
-    expect(wrapper.vm.$data.project.profiles[0]).toBeTruthy()
+    expect(wrapper.vm.$data.profilesList[0]).toBe("Profile-1")
   })
   test('removes a profile', () => {
     const wrapper = mount(projectForm)

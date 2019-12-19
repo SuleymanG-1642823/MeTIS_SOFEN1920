@@ -7,6 +7,7 @@ CREATE TABLE user (
     first_name varchar(255) NOT NULL,
     last_name  varchar(255) NOT NULL,
     mail nvarchar(255) NOT NULL,
+    password varchar(255) NOT NULL,
     addr varchar(255),
     zip varchar(255),
     city varchar(255),
@@ -27,6 +28,7 @@ CREATE TABLE project (
     -- video_loc varchar(255),              similarly to cv_loc, videos/project_id could be used
     created_at datetime,
     edited_at datetime,
+    categories JSON,
     CONSTRAINT fk_project_user_id FOREIGN KEY (creator_id)
         REFERENCES user(id)
         ON UPDATE CASCADE
@@ -127,6 +129,7 @@ CREATE TABLE review (
 CREATE TABLE category (
     id int NOT NULL AUTO_INCREMENT,
     name varchar(255) NOT NULL,
+    subcategory varchar(255),
     PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 

@@ -20,7 +20,8 @@ function getCategory(categoryID: number): Promise<Category> {
                 } else {
                     const category: Category = {
                         id: rows[0].id,
-                        name: rows[0].name
+                        name: rows[0].name,
+                        subcategory: rows[0].subcategory
                     }
                     resolve(category);
                 }
@@ -38,6 +39,7 @@ function getAllCategories(): Promise<Category[]> {
     return new Promise(
         (resolve: any, reject: any) => {
             const query: string = "SELECT * FROM category;";
+            console.log(query)
             db_conn.query(query, (err: any, rows: any) => {
                 if (err) {
                     console.log(err);
@@ -47,7 +49,8 @@ function getAllCategories(): Promise<Category[]> {
                     for (let i=0; i < rows.length; i++) {
                         let category: Category = {
                             id: rows[i].id,
-                            name: rows[i].name
+                            name: rows[i].name,
+                            subcategory: rows[i].subcategory
                         }
                         categories.push(category);
                     }
@@ -135,6 +138,31 @@ function getCategoryID(category: Category): Promise<number> {
     );
 }
 
+function addCategoriesToProject(categories: Category[], projectID: number): Promise<void>{
+    return new Promise(
+        (resolve: any, reject: any) => {
+            const query: string = 'UPDATE project SET categories=? WHERE id=?;';
+            let categories_ids = "";
+            for(let i = 0; i < categories.length; i++){
+                let temp_num = categories[i].id;
+                categories_ids += `${temp_num}`;
+                if(i < categories.length - 1){
+                    categories_ids += ",";
+                }
+            }
+            categories_ids = "[" + categories_ids + "]";
+            const params: any[] = [categories_ids, projectID]
+            db_conn.query(query, params, async (err: any, rows: any) => {
+                if(err){
+                    console.log(err);
+                    reject('500');
+                } else {
+                    resolve();
+                }
+            })
+        }
+    )
+}
 
 /**
  * Delete a category from the database.
@@ -162,5 +190,6 @@ module.exports = {
     getAllCategories,
     updateCategory,
     addCategory,
-    deleteCategory
+    deleteCategory,
+    addCategoriesToProject
 }

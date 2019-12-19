@@ -6,6 +6,7 @@ import Skill from '../../types/skill';
 const $project_methods = require('./project_methods');
 const $profile_methods = require('../profiles/profiles_methods');
 const $profile_skill_methods = require('../profiles_skills/profiles_skills_methods');
+const $categories_methods = require('../categories/categories_methods')
 
 /**
  * Middleware that is specific to this router
@@ -64,6 +65,35 @@ router.get('/', async (req: any, res: any) => {
 });
 
 /**
+ * Get all projects from the database where userID is the id of the owner of the projects.
+ * The project won't contain any profile
+ */
+router.get('/owner/:user_id', async (req: any, res: any) => {
+    const userID: number = parseInt(req.params.user_id);
+    try{
+        const projects: Project[] = await $project_methods.getAllProjectsOfOwner(userID);
+        res.status(200).json(projects);
+    } catch (err) {
+        const statusCode: number = parseInt(err);
+        res.status(statusCode).send("Error while fetching all projects from the database where userID is the id of the owner of the projects.");
+    }
+});
+
+/**
+ * Get all projects from the database where user with userID is a member (not the owner) of the project.
+ */
+router.get('/teammember/:user_id', async (req: any, res: any) => {
+    const userID: number = parseInt(req.params.user_id);
+    try{
+        const projects: Project[] = await $project_methods.getAllProjectsWithMember(userID);
+        res.status(200).json(projects);
+    } catch (err) {
+        const statusCode: number = parseInt(err);
+        res.status(statusCode).send("Error while fetching all projects from the database where user with userID is a member (not the owner) of the project.");
+    }
+})
+
+/**
  * Get matching projects for the user from the database.
  */
 router.get('/matchFor/:userID', async (req: any, res: any) => {
@@ -106,7 +136,6 @@ router.put('/:project_id', async (req: any, res: any) => {
  */
 router.post('/', async (req: any, res: any) => {
     const project: Project = req.body;
-    console.log(project);
     try{
         const newProjectID: number = await $project_methods.addProject(project);
         const profiles: Profile[] = project.profiles;
@@ -117,6 +146,7 @@ router.post('/', async (req: any, res: any) => {
                 await $profile_skill_methods.addSkillToProfile(profileID, profiles[i].skills[j]);
             }
         }
+        await $categories_methods.addCategoriesToProject(project.categories, newProjectID)
         res.status(200).json({id: newProjectID});
     } catch (err) {
         const statusCode: number = parseInt(err);

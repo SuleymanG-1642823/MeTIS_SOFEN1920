@@ -38,7 +38,8 @@ function getProject(projectID: number): Promise<Project> {
                             creator_first_name: rows[0].first_name,
                             creator_last_name: rows[0].last_name,
                             //profiles: profiles_result
-                            profiles: []
+                            profiles: [],
+                            categories: []
                         }
                         resolve(project);
                     } catch (err) {
@@ -50,6 +51,9 @@ function getProject(projectID: number): Promise<Project> {
         }
     );
 }
+
+
+
 
 
 /**
@@ -79,7 +83,8 @@ function getAllProjects(): Promise<Project[]> {
                             creator_first_name: rows[i].first_name,
                             creator_last_name: rows[i].last_name,
                             //profiles: profiles_result
-                            profiles: []
+                            profiles: [],
+                            categories: []
                         }
                         allProjects.push(project);
                     }
@@ -88,6 +93,87 @@ function getAllProjects(): Promise<Project[]> {
             });
         }
     );
+}
+
+/**
+ * Get all projects from the database where userID is the id of the owner of the project.
+ * @param userID the id of the owner of the projects
+ */
+function getAllProjectsOfOwner(userID: number): Promise<Project[]>{
+    return new Promise(
+        (resolve: any, reject: any) => {
+            const query: string = "SELECT project.id AS projectID, name, status, pitch, created_at, edited_at, user.id AS userID, user.first_name, user.last_name  FROM project JOIN user ON user.id=project.creator_id WHERE project.creator_id=?;";
+            const params: number[] = [userID];
+            db_conn.query(query, params, (err: any, rows: any[]) => {
+                if (err){
+                    console.log(err);
+                    reject('500');
+                } else {
+                    let projects: Project[] = [];
+                    for (let i=0; i < rows.length; i++){
+                        let project: Project = {
+                            id: rows[i].projectID,
+                            name: rows[i].name,
+                            status: rows[i].status,
+                            pitch: rows[i].pitch,
+                            created_at: moment(rows[i].created_at).format('YYYY-MM-DD hh:mm:ss'),
+                            edited_at: moment(rows[i].edited_at).format('YYYY-MM-DD hh:mm:ss'),
+                            creator_id: rows[i].userID,
+                            creator_first_name: rows[i].first_name,
+                            creator_last_name: rows[i].last_name,
+                            //profiles: profiles_result
+                            profiles: [],
+                            categories: []
+                        }
+                        projects.push(project);
+                    }
+                    resolve(projects);
+                }
+            });
+        }
+    )
+}
+
+/**
+ * Get all projects from the database where user with userID is a member (not the owner) of the project.
+ * @param userID the id of the user
+ */
+function getAllProjectsWithMember(userID: number): Promise<Project[]>{
+    return new Promise(
+        (resolve: any, reject: any) => {
+            const select: string = "SELECT p.id AS project_id, p.name, p.pitch, p.status, p.created_at, p.edited_at, u.id AS user_id, u.first_name, u.last_name ";
+            const from: string = "FROM member AS m JOIN project AS p ON m.project_id = p.id JOIN user AS u ON p.creator_id = u.id ";
+            const where: string = "WHERE m.user_id = ?;";
+            const query: string = select + from + where;
+            const params: number[] = [userID];
+            db_conn.query(query, params, (err: any, rows: any[]) => {
+                if (err){
+                    console.log(err);
+                    reject('500');
+                } else {
+                    let projects: Project[] = [];
+                    for (let i=0; i < rows.length; i++){
+                        let project: Project = {
+                            id: rows[i].project_id,
+                            name: rows[i].name,
+                            status: rows[i].status,
+                            pitch: rows[i].pitch,
+                            created_at: moment(rows[i].created_at).format('YYYY-MM-DD hh:mm:ss'),
+                            edited_at: moment(rows[i].edited_at).format('YYYY-MM-DD hh:mm:ss'),
+                            creator_id: rows[i].user_id,
+                            creator_first_name: rows[i].first_name,
+                            creator_last_name: rows[i].last_name,
+                            //profiles: profiles_result
+                            profiles: [],
+                            categories: []
+                        }
+                        projects.push(project);
+                    }
+                    resolve(projects);
+                }
+            });
+        }
+    )
 }
 
 /**
@@ -118,7 +204,8 @@ function getMatchingProjects(userID: number): any {
             creator_id: -1,
             creator_first_name: '',
             creator_last_name: '',
-            profiles: []
+            profiles: [],
+            categories: []
         }
 
         return newProject;
@@ -379,7 +466,6 @@ function updateProject(projectID: number, project: Project): Promise<void> {
 function addProject(project: Project): Promise<number>{
     return new Promise(
         (resolve: any, reject: any) => {
-            console.log(project);
             const query: string = "INSERT INTO project (creator_id, name, status, pitch, created_at, edited_at) VALUES (?,?,?,?,?,?);";
             const params: any[] = [project.creator_id, project.name, project.status, project.pitch, project.created_at, project.edited_at];
             db_conn.query(query, params, async (err: any, rows: any) => {
@@ -482,6 +568,8 @@ function getProjectsUser(user_id: number): Promise<Project[]>{
 module.exports = {
     getProject,
     getAllProjects,
+    getAllProjectsOfOwner,
+    getAllProjectsWithMember,
     updateProject,
     getMatchingProjects,
     addProject,
