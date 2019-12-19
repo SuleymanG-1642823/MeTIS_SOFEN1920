@@ -40,6 +40,13 @@ describe("TESTING ALL PROJECT ROUTES", () => {
                         ],
                         questions: ["Question 1", "Question 2"]
                     }
+                ],
+                categories: [
+                    {
+                        id: 1,
+                        name: "Web",
+                        subcategory: "Chrome"
+                    }
                 ]
             }
             request.post('/projects/')
