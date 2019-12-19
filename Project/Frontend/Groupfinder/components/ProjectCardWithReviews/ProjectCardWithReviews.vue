@@ -14,5 +14,5 @@
     </b-card>
 </template>
 
-<script lang="ts" src="./BasicProjectCard.ts">
+<script lang="ts" src="./ProjectCardWithReviews.ts">
 </script>

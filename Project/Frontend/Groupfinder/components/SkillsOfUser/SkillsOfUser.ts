@@ -2,6 +2,7 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import Skill from '../../types/skill';
 import axios from 'axios';
+import api from '@/helpers/Api';
 
 @Component
 export default class SkillsOfUser extends Vue {
@@ -14,7 +15,8 @@ export default class SkillsOfUser extends Vue {
     // LIFECYCLE HOOKS
     async mounted(){
         try{
-            const response = await axios.get(`http://localhost:4000/users_skills/${this.userid_prop}`);
+            const url = api(`users_skills/${this.userid_prop}`);
+            const response = await axios.get(url);
             this.skills = response.data;
         } catch (err) {
             console.log(err);

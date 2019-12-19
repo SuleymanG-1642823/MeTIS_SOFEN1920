@@ -2,6 +2,7 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import axios from 'axios';
 import User from '../../types/user';
+import api from '@/helpers/Api';
 
 @Component({
     components: {}
@@ -89,7 +90,8 @@ export default class EditUserData extends Vue {
             private: this.user_prop.private
         }
         try {
-            let url = `http://localhost:4000/users/${this.user_prop.id}`;
+            const url = api(`users/${this.user_prop.id}`);
+            //let url = `http://localhost:4000/users/${this.user_prop.id}`;
             axios.put(url, {user: user}, {headers: {'Content-Type': 'application/json'}});
         } catch (err){
             console.log(`Following error occured while updating user:\n${err}`);

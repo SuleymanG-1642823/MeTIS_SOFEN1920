@@ -7,6 +7,7 @@ import SkillsOfUser from '../../components/SkillsOfUser/SkillsOfUser';
 import EditUserData from '../../components/EditUserData/EditUserData';
 import ChangePassword from '../../components/ChangePassword/ChangePassword';
 import axios from 'axios';
+import api from '@/helpers/Api';
 
 @Component({
     components: {
@@ -63,7 +64,8 @@ export default class MyProfile extends Vue {
             private: private_data
         }
         try {
-            let url = `http://localhost:4000/users/${user.id}`;
+            let url = api(`users/${user.id}`);
+            //let url = `http://localhost:4000/users/${user.id}`;
             axios.put(url, {user: body}, {headers: {'Content-Type': 'application/json'}});
         } catch (err){
             console.log(`Following error occured while updating user:\n${err}`);

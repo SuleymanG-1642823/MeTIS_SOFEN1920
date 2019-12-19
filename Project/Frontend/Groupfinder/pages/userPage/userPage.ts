@@ -5,6 +5,7 @@ import ProjectsOfUser from '../../components/ProjectsOfUser/ProjectsOfUser';
 import SkillsOfUser from '../../components/SkillsOfUser/SkillsOfUser';
 import User from '../../types/user';
 import axios from 'axios';
+import api from '@/helpers/Api';
 
 @Component({
     components: {
@@ -21,7 +22,9 @@ export default class UserPage extends Vue {
     // LIFECYCLE HOOKS
     private async created(){
         try{
-            const response = await axios.get(`http://localhost:4000/users/${this.$route.params.id}`);
+            let url = api(`users/${this.$route.params.id}`);
+            const response = await axios.get(url);
+            //const response = await axios.get(`http://localhost:4000/users/${this.$route.params.id}`);
             this.user = response.data.user;
         } catch (err) {
             console.log(err);
