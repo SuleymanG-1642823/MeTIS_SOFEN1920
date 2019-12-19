@@ -29,12 +29,24 @@ export default class MyProfile extends Vue {
     }
 
     // WATCHERS
+    /**
+     * This is a watcher on the member 'private_data', which means that this method is called every time this member changes.
+     * This method will send the new value of the member to the database.
+     * @param newValue the new value of the member private_data
+     * @param oldValue the old value of the member private_data
+     */
     @Watch('private_data')
     onPrivateDataChanged(newValue: boolean, oldValue: boolean){
         this.savePrivacySetting(this.$store.state.auth.user, newValue);
     }
 
     // METHODS
+    /**
+     * Save the privacy settings of a user.
+     * A user can choose to set his phone number, address, zip, city and mail visible for everyone or protected (= only visible for teammembers).
+     * @param user the user whose privacy settings will be updated.
+     * @param private_data true if the user wants his data to be protected, false if he wants his data to be public.
+     */
     private savePrivacySetting(user: User, private_data: boolean){
         let body: User = {
             id: user.id,

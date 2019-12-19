@@ -1,12 +1,12 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import Project from '../../types/project';
-import BasicProjectCard from '../BasicProjectCard/BasicProjectCard';
+import ProjectCardWithReviews from '../ProjectCardWithReviews/ProjectCardWithReviews';
 import axios from 'axios';
 
 @ Component({
     components:{
-        BasicProjectCard
+        ProjectCardWithReviews
     }
 })
 export default class ProjectsOfUser extends Vue {
