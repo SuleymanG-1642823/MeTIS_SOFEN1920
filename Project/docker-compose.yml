@@ -25,6 +25,16 @@ services:
         volumes:
             - ./Backend/Groupfinder:/usr/src/app
             - /usr/src/app/node_modules
+        environment: 
+            - JWT_SECRET=${JWT_SECRET}
+            - JWT_TOKEN_EXPIRY=${JWT_TOKEN_EXPIRY}
+            - REFRESH_TOKEN=${REFRESH_TOKEN}
+            - STATIC_SALT=${STATIC_SALT}
+            - DB_USER=${DB_USER}
+            - DB_PASSWORD=${DB_PASSWORD}
+            - DB_NAME=${DB_NAME}
+            - DB_PORT=${DB_PORT}
+            - DB_HOST=db
     db:
         build: './Database'
         image: '${DB_IMAGE}'
@@ -33,6 +43,9 @@ services:
             - '${DB_PORT}:${DB_PORT}/tcp'
         volumes:
             - 'data:/var/lib/mysql'
+        environment: 
+            - USER=${DB_USER}
+            - PASS=${DB_PASSWORD}
 
 volumes:
     'data':

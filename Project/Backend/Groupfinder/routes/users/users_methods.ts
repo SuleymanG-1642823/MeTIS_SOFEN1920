@@ -26,7 +26,6 @@ function getUser(userID: number): Promise<User> {
                         first_name: row.first_name,
                         last_name: row.last_name,
                         mail: row.mail,
-                        address: row.addr,
                         zip: row.zip,
                         city: row.city,
                         tel: row.tel,
@@ -49,8 +48,8 @@ function getUser(userID: number): Promise<User> {
 function updateUser(userID: number, user: User): Promise<void> {
     return new Promise(
         (resolve: any, reject: any) => {
-            const query: string = 'UPDATE user SET first_name=?, last_name=?, mail=?, addr=?, zip=?, city=?, tel=?, website=?, social_media=? WHERE id=?;';
-            const params: any[] = [user.first_name, user.last_name, user.mail, user.address, user.zip, user.city, user.tel, user.website, user.social_media, userID];
+            const query: string = 'UPDATE user SET first_name=?, last_name=?, mail=?, zip=?, city=?, tel=?, website=?, social_media=? WHERE id=?;';
+            const params: any[] = [user.first_name, user.last_name, user.mail, user.zip, user.city, user.tel, user.website, user.social_media, userID];
             db_conn.query(query, params, (err: any, rows: any) => {
                 if (err){
                     console.log(err);
@@ -70,8 +69,8 @@ function updateUser(userID: number, user: User): Promise<void> {
 function addUser(user: User): Promise<number> {
     return new Promise(
         (resolve: any, reject: any) => {
-            const query: string = 'INSERT INTO user (first_name, last_name, mail, addr, zip, city, tel, website, social_media) VALUES (?,?,?,?,?,?,?,?,?);';
-            const params: any[] = [user.first_name, user.last_name, user.mail, user.address, user.zip, user.city, user.tel, user.website, user.social_media];
+            const query: string = 'INSERT INTO user (first_name, last_name, mail, zip, city, tel, website, social_media) VALUES (?,?,?,?,?,?,?,?,?);';
+            const params: any[] = [user.first_name, user.last_name, user.mail, user.zip, user.city, user.tel, user.website, user.social_media];
             db_conn.query(query, params, async (err: any, rows: any) => {
                 if (err){
                     console.log(err);
@@ -139,10 +138,49 @@ function getNewID(user: User): Promise<number>{
     );
 }
 
-
+/**
+ * Get user with specific mail address from database
+ * @param mail the mail address of the user that will be searched for
+ */
+function getUserForLogin(mail: string): Promise<User> {
+    return new Promise(
+        (resolve: any, reject: any) => {
+            const query: string = 'SELECT * FROM user WHERE mail=?;';
+            const params: any[] = [mail];
+            db_conn.query(query, params, (err: any, rows: any) => {
+                if (err){
+                    console.log(err);
+                    reject('500');
+                } 
+                else if (rows.length < 1) {
+                    console.log(`Error finding user with mail=${mail}`)
+                    //reject('404');
+                    resolve();
+                } else {
+                    const row = rows[0];
+                    const user: User = {
+                        id: row.id,
+                        pw_hash: row.pw_hash,
+                        is_admin: row.is_admin,
+                        first_name: row.first_name,
+                        last_name: row.last_name,
+                        mail: row.mail,
+                        zip: row.zip,
+                        city: row.city,
+                        tel: row.tel,
+                        website: row.website,
+                        social_media: JSON.parse(row.social_media)
+                    }
+                    resolve(user);
+                }
+            });
+        }
+    );
+}
 module.exports = {
     getUser,
     updateUser,
     addUser,
-    deleteUser
+    deleteUser,
+    getUserForLogin
 }

@@ -4,7 +4,9 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
 var bodyParser = require('body-parser');
+var tokenVerification = require('./middleware/checkJWT')
 
+var authRouter = require('./routes/auth/auth');
 var usersRouter = require('./routes/users/users');
 var projectsRouter = require('./routes/projects/projects');
 var messagesRouter = require('./routes/messages/messages');
@@ -25,6 +27,9 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use(tokenVerification.checkJWT)
+
+app.use('/auth', authRouter);
 app.use('/users', usersRouter);
 app.use('/projects', projectsRouter);
 app.use('/messages', messagesRouter);

@@ -1,13 +1,13 @@
 USE groupfinder;
 
 -- USERS
-INSERT INTO user (id, first_name, last_name, mail)
-VALUES  (1, 'Lennert', 'Geebelen', 'lennert.geebelen@student.uhasselt.be'),
-        (2, 'Jurian', 'Lodewijk', 'Jurian.Lodewijk@mail.com'),
-        (3, 'Mart', 'Bolink', 'Mart.Bolink@mail.com'),
-        (4, 'Klaas', 'Budde', 'Klaas.Budde@mail.com'),
-        (5, 'Willem', 'Kreijkes', 'Willem.Kreijkes@mail.com'),
-        (6, 'Robert', 'Louwes', 'Robert.Louwes@mail.com');
+INSERT INTO user (first_name, last_name, is_admin, mail, pw_hash)
+VALUES  ('Lennert', 'Geebelen', TRUE, 'lennert.geebelen@student.uhasselt.be', '$2a$10$5sOZPGw9EqiWCBgWcmuI3.6uCX/yv8KlL7EN498xe8P2nWGDx/WY6'),
+        ('Jurian', 'Lodewijk', FALSE, 'Jurian.Lodewijk@mail.com', '$2a$10$jpvCdxgnT6ejUrXiFrmgmusepRCctuw9kOL.nHZREmcGZxNAjB4OS'),
+        ('Mart', 'Bolink', FALSE, 'Mart.Bolink@mail.com', '$2a$10$yVlaF55Nw/ZWPL595Mgh6.wvBcywkipRkRCe4rNacwaLc2qo/1hRO'),
+        ('Klaas', 'Budde', FALSE, 'Klaas.Budde@mail.com', '$2a$10$iYHnK/Nh/gtB/LpMAb3AqOW8KfSx2.KLxfE98icojvyU02vKs4k3S'),
+        ('Willem', 'Kreijkes', FALSE, 'Willem.Kreijkes@mail.com', '$2a$10$Yi12KDq5PRu0NmZswuIehOfpD9cdw8GcyEEHuJmT.V6Guey28GOlS'),
+        ('Robert', 'Louwes', FALSE, 'Robert.Louwes@mail.com', '$2a$10$UScEJgbk9HCRWHcwpacTH.IvpPTjaj7J1dwJGq6YuPUO1kfAN6w.C');
       
 
 -- PROJECTS
