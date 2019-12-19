@@ -1,15 +1,18 @@
 module.exports = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
+    '^~/(.*)$': '<rootDir>/$1',
     '^vue$': 'vue/dist/vue.common.js'
   },
-  moduleFileExtensions: ['js', 'vue', 'json', 'ts'],
-  transformIgnorePatterns: [
-    "/node_modules(?![\\/]vue-slider-component[\\/])/"],
+  moduleFileExtensions: ['js', 'vue', 'json'],
   transform: {
-    '^.+\\.(js|jsx)?$': 'babel-jest',
-    '.*\\.(vue)$': 'vue-jest',
-    "^.+\\.(css|scss|less)$": "jest-css-modules"
+    '^.+\\.js$': 'babel-jest',
+    '.*\\.(vue)$': 'vue-jest'
   },
-  preset: 'ts-jest/presets/js-with-ts'
+  'collectCoverage': true,
+  'collectCoverageFrom': [
+    '<rootDir>/components/**/*.vue',
+    '<rootDir>/pages/**/*.vue'
+  ],
+  'transformIgnorePatterns': ['/node_modules/(?!vue-slider-component)/*']
 }
