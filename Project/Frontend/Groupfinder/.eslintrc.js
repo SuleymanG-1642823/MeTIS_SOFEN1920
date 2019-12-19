@@ -24,5 +24,12 @@ module.exports = {
     'vue/html-self-closing': 'off',
     'vue/html-closing-bracket-spacing': 'off',
     'vue/attribute-hyphenation': 'off',
+    'vue/this-in-template': 'off',
+    'vue/html-quotes': 'off',
+    'vue/attributes-order': 'off',
+    'vue/html-closing-bracket-newline': 'off',
+    'vue/v-bind-style': 'off',
+    'vue/no-spaces-around-equal-signs-in-attribute': 'off',
+    'vue/name-property-casing': 'off'
   }
 }
