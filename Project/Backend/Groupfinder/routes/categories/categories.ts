@@ -7,7 +7,6 @@ const $categories_methods = require('./categories_methods');
  * Middleware that is specific to this router
  */
 router.use((req: any, res: any, next: Function) => {
-    console.log(`Categories middleware is triggered`);
     next()
 });
 
@@ -36,6 +35,7 @@ router.get('/:category_id', async (req: any, res: any) => {
 router.get('/', async (req: any, res: any) => {
     try{
         const categories: Category[] = await $categories_methods.getAllCategories();
+        console.log(categories)
         res.status(200).json(categories);
     } catch (err) {
         const statusCode: number = parseInt(err);

@@ -7,7 +7,6 @@ const $messages_methods = require('./messages_methods')
  * Middleware that is specific to this router
  */
 router.use((req: any, res: any, next: Function) => {
-    console.log(`Messages middleware is triggered`);
     next()
 });
 

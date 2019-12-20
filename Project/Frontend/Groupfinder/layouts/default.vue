@@ -1,26 +1,66 @@
 <template>
-  <div>
-    <nuxt />
-  </div>
+<b-container fluid class="main">
+    <link
+        rel="stylesheet"
+        href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+        integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+        crossorigin="anonymous"
+        >
+    <SidebarMenu
+    :menu="sidebarmenu"
+    :theme="theme"
+    :showOneChild="showOneChild"
+    :width="width"
+    @toggle-collapse="onToggleCollapse"
+    @item-click="sidbarItemClick"
+    >
+        <b-img v-if="!collapsed" slot="header" class="py-3 px-3" src="./Groupfinder_logo.png" fluid />
+    </SidebarMenu>
+    <div id="content" :style="{ 'margin-left': contentMarginCSS }">
+        <!-- Content components go here -->
+        <nuxt />
+    </div>
+</b-container>
 </template>
 
-<style>
-html {
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
-  font-size: 16px;
-  word-spacing: 1px;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
+<script lang="ts" src="./default.ts">
+</script>
+
+<style scoped>
+#vertical-nav{
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    padding-top: 20px;
 }
 
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-  margin: 0;
+#content{
+    margin: 30px;
+    margin-left: 390px;
+    transition: margin 1s;
+}
+
+.main{
+    margin-left: 0px;
+}
+
+.main-row{
+    width: 100%;
+}
+
+.content-col {
+    padding-left: 0%;
+}
+
+.v-sidebar-menu {
+    float: none;
+    border-right: 2px solid;
+    border-color: #e6e6e6;
+}
+
+/* TODO: background color not working on toggle button */
+.vsm_white-theme.vsm--toggle-btn{
+    background-color: black !important;
 }
 </style>

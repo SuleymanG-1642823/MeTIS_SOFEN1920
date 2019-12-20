@@ -1,13 +1,14 @@
 USE groupfinder;
 
 -- USERS
-INSERT INTO user (id, first_name, last_name, mail)
-VALUES  (1, 'Lennert', 'Geebelen', 'lennert.geebelen@student.uhasselt.be'),
-        (2, 'Jurian', 'Lodewijk', 'Jurian.Lodewijk@mail.com'),
-        (3, 'Mart', 'Bolink', 'Mart.Bolink@mail.com'),
-        (4, 'Klaas', 'Budde', 'Klaas.Budde@mail.com'),
-        (5, 'Willem', 'Kreijkes', 'Willem.Kreijkes@mail.com'),
-        (6, 'Robert', 'Louwes', 'Robert.Louwes@mail.com');
+INSERT INTO user (id, first_name, last_name, mail, password)
+VALUES  (1, 'Lennert', 'Geebelen', 'lennert.geebelen@student.uhasselt.be', ' $2a$10$xNkcrieExKemWxBlqNDS8ORKbY8QV0Y5N2WYUO4iW6FTudjgfm9KS'),
+        (2, 'Jurian', 'Lodewijk', 'Jurian.Lodewijk@mail.com', ' $2a$10$xNkcrieExKemWxBlqNDS8ORKbY8QV0Y5N2WYUO4iW6FTudjgfm9KS'),
+        (3, 'Mart', 'Bolink', 'Mart.Bolink@mail.com', ' $2a$10$xNkcrieExKemWxBlqNDS8ORKbY8QV0Y5N2WYUO4iW6FTudjgfm9KS'),
+        (4, 'Klaas', 'Budde', 'Klaas.Budde@mail.com', ' $2a$10$xNkcrieExKemWxBlqNDS8ORKbY8QV0Y5N2WYUO4iW6FTudjgfm9KS'),
+        (5, 'Willem', 'Kreijkes', 'Willem.Kreijkes@mail.com', ' $2a$10$xNkcrieExKemWxBlqNDS8ORKbY8QV0Y5N2WYUO4iW6FTudjgfm9KS'),
+        (6, 'Robert', 'Louwes', 'Robert.Louwes@mail.com', ' $2a$10$xNkcrieExKemWxBlqNDS8ORKbY8QV0Y5N2WYUO4iW6FTudjgfm9KS');
+      
 
 
 -- PROJECTS
@@ -31,7 +32,7 @@ VALUES  (1, 'Back-end developper', 1),
 
 -- PROFILE SKILLS
 INSERT INTO profile_skill -- (profile_id, name, experience, weight)
-VALUES  (1, 'Django', 2, 1),
+VALUES  (1, 'Django', 2, 2),
         (1, 'Unit testing', 2, 1),
 	(1, 'MySQL', 2, 2),
 	(1, 'AGILE', 1, 1),
@@ -44,14 +45,14 @@ VALUES  (1, 'Django', 2, 1),
         (4, 'Android Studio', 2, 1),
 	(4, 'AGILE', 1, 1),
         (5, 'Qt framework', 2, 2),
-        (5, 'C++', 2, 2),
-        (6, 'C++', 3, 2),
+        (5, 'C++', 2, 4),
+        (6, 'C++', 3, 4),
         (6, 'AGILE', 3, 2),
         (6, 'Windows OS', 3, 2),
-        (7, 'C++', 3, 2),
+        (7, 'C++', 3, 4),
         (7, 'AGILE', 3, 2),
         (7, 'Linux OS', 3, 2),
-        (8, 'C++', 3, 2),
+        (8, 'C++', 3, 4),
         (8, 'AGILE', 3, 2),
         (8, 'OSx', 3, 2);
 
@@ -64,4 +65,17 @@ VALUES  (5, 'c++', 7),
         (6, 'AGILE', 5),
         (6, 'SCRUM', 3),
         (6, 'Extreme programming', 2),
-        (6, 'Linux OS', 3);
+        (6, 'Linux OS', 3),
+        (6, 'MySQL', 5);
+
+-- CATEGORIES
+INSERT INTO category
+VALUES  (1, 'Website', NULL),
+        (2, 'Game Development', NULL),
+        (3, 'AR', NULL),
+        (4, 'AI', NULL),
+        (5, 'Desktop OS', 'Windows'),
+        (6, 'Desktop OS', 'Linux'),
+        (7, 'Desktop OS', 'MacOS'),
+        (8, 'Mobile OS', 'iOS'),
+        (9, 'Mobile OS', 'Android');

@@ -2,8 +2,8 @@
   <div class="container">
     <div>
       <h1>Projects</h1>
-      <b-form-input placeholder="Search projects" />
-      <RecommendedProjectsList :project-matches="recommendedProjects" />
+      <b-form-input placeholder="Search projects"></b-form-input>
+      <RecommendedProjectsList :projectMatches="recommendedProjects"/>
     </div>
   </div>
 </template>

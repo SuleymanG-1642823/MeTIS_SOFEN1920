@@ -6,6 +6,7 @@
 # Ignore all dotfiles.
 .*
 # Exclude specific dotfiles that we want to track.
+!.babelrc
 !deps/**/.*
 !test/fixtures/**/.*
 !.clang-format
@@ -133,6 +134,14 @@ __pycache__
 .DS_Store
 *~
 
+# Ignore compiled .js.map and .js files
+/routes/**/*.js
+/routes/**/*.js.map
+/types/*.js
+/types/*.js.map
+/databaseconnection.js
+/databaseconnection.js.map
+ 
 # === Visual Studio Code ===
 .vscode
 .vscode/*
@@ -145,11 +154,9 @@ __pycache__
 # Ignore compiled .js.map and .js files
 /routes/**/*.js
 /routes/**/*.js.map
+/types/**/*.js
+/types/**/*.js.map
 /classes/**/*.js
 /classes/**/*.js.map
-/types/*.js
-/types/*.js.map
-/types/matching/*.js
-/types/matching/*.js.map
 /databaseconnection.js
 /databaseconnection.js.map

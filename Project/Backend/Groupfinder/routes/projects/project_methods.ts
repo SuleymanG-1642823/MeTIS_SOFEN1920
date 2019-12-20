@@ -1,14 +1,15 @@
 import Project from '../../types/project';
 import Profile from '../../types/profile';
-import ProjectMatch from '../../types/matching/projectMatch';
-import ProjectsToUserMatcher from './../../classes/ProjectsToUserMatcher';
-
 const db_conn = require('../../databaseconnection');
 const moment = require('moment');
+import User from '../../types/user';
+import ProjectsToUserMatcher from './../../classes/ProjectsToUserMatcher';
+import ProjectMatch from '../../types/matching/projectMatch';
 const $profiles_methods = require('../profiles/profiles_methods');
 
 /**
  * Get project with specific ID from the database.
+ * The project won't contain any profile, only the project table will be accessed.
  * @param projectID the id of the project that will be searched for
  */
 function getProject(projectID: number): Promise<Project> {
@@ -25,7 +26,7 @@ function getProject(projectID: number): Promise<Project> {
                     reject("404");
                 } else {
                     try{
-                        const profiles_result: Profile[] = await $profiles_methods.getProjectProfiles(rows[0].projectID);
+                        //const profiles_result: Profile[] = await $profiles_methods.getProjectProfiles(rows[0].projectID);
                         const project: Project = {
                             id: rows[0].projectID,
                             name: rows[0].name,
@@ -36,7 +37,9 @@ function getProject(projectID: number): Promise<Project> {
                             creator_id: rows[0].userID,
                             creator_first_name: rows[0].first_name,
                             creator_last_name: rows[0].last_name,
-                            profiles: profiles_result
+                            //profiles: profiles_result
+                            profiles: [],
+                            categories: []
                         }
                         resolve(project);
                     } catch (err) {
@@ -50,8 +53,12 @@ function getProject(projectID: number): Promise<Project> {
 }
 
 
+
+
+
 /**
  * Get all projects sorted from newest to oldest from the database.
+ * The projects won't contain any profile, only the project table will be accessed.
  */
 function getAllProjects(): Promise<Project[]> {
     return new Promise(
@@ -64,7 +71,7 @@ function getAllProjects(): Promise<Project[]> {
                 } else {
                     let allProjects: Project[] = [];
                     for (let i = 0; i < rows.length; i++){
-                        const profiles_result: Profile[] = await $profiles_methods.getProjectProfiles(rows[i].projectID);
+                        //const profiles_result: Profile[] = await $profiles_methods.getProjectProfiles(rows[i].projectID);
                         let project: Project = {
                             id: rows[i].projectID,
                             name: rows[i].name,
@@ -75,7 +82,9 @@ function getAllProjects(): Promise<Project[]> {
                             creator_id: rows[i].userID,
                             creator_first_name: rows[i].first_name,
                             creator_last_name: rows[i].last_name,
-                            profiles: profiles_result
+                            //profiles: profiles_result
+                            profiles: [],
+                            categories: []
                         }
                         allProjects.push(project);
                     }
@@ -84,6 +93,87 @@ function getAllProjects(): Promise<Project[]> {
             });
         }
     );
+}
+
+/**
+ * Get all projects from the database where userID is the id of the owner of the project.
+ * @param userID the id of the owner of the projects
+ */
+function getAllProjectsOfOwner(userID: number): Promise<Project[]>{
+    return new Promise(
+        (resolve: any, reject: any) => {
+            const query: string = "SELECT project.id AS projectID, name, status, pitch, created_at, edited_at, user.id AS userID, user.first_name, user.last_name  FROM project JOIN user ON user.id=project.creator_id WHERE project.creator_id=?;";
+            const params: number[] = [userID];
+            db_conn.query(query, params, (err: any, rows: any[]) => {
+                if (err){
+                    console.log(err);
+                    reject('500');
+                } else {
+                    let projects: Project[] = [];
+                    for (let i=0; i < rows.length; i++){
+                        let project: Project = {
+                            id: rows[i].projectID,
+                            name: rows[i].name,
+                            status: rows[i].status,
+                            pitch: rows[i].pitch,
+                            created_at: moment(rows[i].created_at).format('YYYY-MM-DD hh:mm:ss'),
+                            edited_at: moment(rows[i].edited_at).format('YYYY-MM-DD hh:mm:ss'),
+                            creator_id: rows[i].userID,
+                            creator_first_name: rows[i].first_name,
+                            creator_last_name: rows[i].last_name,
+                            //profiles: profiles_result
+                            profiles: [],
+                            categories: []
+                        }
+                        projects.push(project);
+                    }
+                    resolve(projects);
+                }
+            });
+        }
+    )
+}
+
+/**
+ * Get all projects from the database where user with userID is a member (not the owner) of the project.
+ * @param userID the id of the user
+ */
+function getAllProjectsWithMember(userID: number): Promise<Project[]>{
+    return new Promise(
+        (resolve: any, reject: any) => {
+            const select: string = "SELECT p.id AS project_id, p.name, p.pitch, p.status, p.created_at, p.edited_at, u.id AS user_id, u.first_name, u.last_name ";
+            const from: string = "FROM member AS m JOIN project AS p ON m.project_id = p.id JOIN user AS u ON p.creator_id = u.id ";
+            const where: string = "WHERE m.user_id = ?;";
+            const query: string = select + from + where;
+            const params: number[] = [userID];
+            db_conn.query(query, params, (err: any, rows: any[]) => {
+                if (err){
+                    console.log(err);
+                    reject('500');
+                } else {
+                    let projects: Project[] = [];
+                    for (let i=0; i < rows.length; i++){
+                        let project: Project = {
+                            id: rows[i].project_id,
+                            name: rows[i].name,
+                            status: rows[i].status,
+                            pitch: rows[i].pitch,
+                            created_at: moment(rows[i].created_at).format('YYYY-MM-DD hh:mm:ss'),
+                            edited_at: moment(rows[i].edited_at).format('YYYY-MM-DD hh:mm:ss'),
+                            creator_id: rows[i].user_id,
+                            creator_first_name: rows[i].first_name,
+                            creator_last_name: rows[i].last_name,
+                            //profiles: profiles_result
+                            profiles: [],
+                            categories: []
+                        }
+                        projects.push(project);
+                    }
+                    resolve(projects);
+                }
+            });
+        }
+    )
 }
 
 /**
@@ -104,6 +194,7 @@ function getMatchingProjects(userID: number): Promise<Array<ProjectMatch>> {
 
 /**
  * Update existing project in the database.
+ * The profiles of the skill won't be updated.
  * @param projectID the id of the project that has to be updated
  * @param project the updated project
  */
@@ -117,7 +208,8 @@ function updateProject(projectID: number, project: Project): Promise<void> {
                     console.log(err);
                     reject("500");
                 } else {
-                    try{
+                    resolve();
+                    /*try{
                         for (let i=0; i < project.profiles.length; i++){
                             let profile: Profile = project.profiles[i];
                             await $profiles_methods.updateProfile(profile.id, profile);
@@ -125,7 +217,7 @@ function updateProject(projectID: number, project: Project): Promise<void> {
                         resolve();
                     } catch (err) {
                         reject(err);
-                    }                    
+                    }*/                 
                 }
             });
         }
@@ -134,7 +226,8 @@ function updateProject(projectID: number, project: Project): Promise<void> {
 
 
 /**
- * Insert new project into the database. All profiles of the project will be added too.
+ * Insert new project into the database.
+ * The profiles of the project won't be inserted into the database.
  * @param project the new project
  * @returns the new id of the project that was inserted into the database.
  */
@@ -150,11 +243,12 @@ function addProject(project: Project): Promise<number>{
                 } else {
                     try{
                         const newProjectID: number = await getProjectID(project);
-                        for (let i = 0; i < project.profiles.length; i++){ // insert profiles into profile table
+                        /*for (let i = 0; i < project.profiles.length; i++){ // insert profiles into profile table
                             let newProfile: Profile = project.profiles[i];
                             newProfile.project_id = newProjectID;
                             await $profiles_methods.addProfile(newProfile);
-                        }
+                        }*/
+                        console.log("Sucessfully inserted project");
                         resolve(newProjectID)
                     } catch (err) {
                         reject(err);
@@ -168,6 +262,7 @@ function addProject(project: Project): Promise<number>{
 
 /**
  * Delete project from the database.
+ * All profiles of the project will automatically be deleted too (because of the foreign key constrains in the database)
  * @param projectID the id of the project that has to be deleted
  */
 function deleteProject(projectID: number): Promise<void> {
@@ -214,11 +309,38 @@ function getProjectID(project: Project): Promise<number>{
     );
 }
 
+
+/**
+ * Returns all the projects of one user
+ * @param user_id the id of the user
+ * @returns a list of Project objects containing all the projects of this user
+ */
+function getProjectsUser(user_id: number): Promise<Project[]>{
+    return new Promise(
+        (resolve, reject) => {
+            const query: string = 'SELECT * FROM project WHERE creator_id=?';
+            const params: any[] = [user_id];
+            db_conn.query(query, params, (err: any, rows: any) => {
+                if (err){
+                    console.log(err);
+                    reject("500");
+                } else {
+                    const projects: Project[] = rows;
+                    resolve(projects);
+                }
+            });
+        }
+    )
+}
+
 module.exports = {
     getProject,
     getAllProjects,
+    getAllProjectsOfOwner,
+    getAllProjectsWithMember,
     updateProject,
     getMatchingProjects,
     addProject,
-    deleteProject
+    deleteProject,
+    getProjectsUser
 }

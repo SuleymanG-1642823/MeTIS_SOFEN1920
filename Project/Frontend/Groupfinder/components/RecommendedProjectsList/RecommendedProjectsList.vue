@@ -4,7 +4,7 @@
       v-for="projectMatch in projectMatches"
       :key="projectMatch.project.id"
       :project="projectMatch.project"
-      :profile-matches="projectMatch.matches"
+      :profileMatches="projectMatch.matches"
     />
   </div>
 </template>
