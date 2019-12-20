@@ -93,7 +93,9 @@ export default class UsersToProjectMatcher{
             city: '',
             tel: '',
             website: '',
-            social_media: ''
+            social_media: '',
+            available: true,
+            private: true
         }
         return user;
     }
