@@ -89,7 +89,7 @@ export default class MainLayout extends Vue {
 
     sidbarItemClick(event: any, item: any){
         if (item.title == "Home"){
-            this.$router.push('/');
+            this.$router.push('/recommendedProjects');
         }
         else if (item.title == "Create Project"){
             this.$router.push('/projectCreationForm');
