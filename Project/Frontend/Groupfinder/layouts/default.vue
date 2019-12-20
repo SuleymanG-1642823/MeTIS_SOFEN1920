@@ -14,7 +14,7 @@
     @toggle-collapse="onToggleCollapse"
     @item-click="sidbarItemClick"
     >
-        <b-img v-if="!collapsed" slot="header" class="py-3 px-3" src="./Groupfinder_logo.png" fluid />
+        <b-img slot="header" v-if="!collapsed" class="py-3 px-3" src="./Groupfinder_logo.png" fluid />
     </SidebarMenu>
     <div id="content" :style="{ 'margin-left': contentMarginCSS }">
         <!-- Content components go here -->

@@ -6,7 +6,7 @@
         label-for="input-projectname"
       >
         <b-form-input
-          id ="input-projectname"
+          id="input-projectname"
           v-model="project.name"
           required
           placeholder="Enter a project name"
@@ -35,8 +35,9 @@
     v-bind:key="index"
     @deleteProfile="deleteProfileForm"
     :profile="profile"
-    :userQuestionnaireList="userQuestionnaireList"/>
-    <b-button class="my-2" variant="primary" @click="addProfile">Add profile</b-button>
+    :userQuestionnaireList="userQuestionnaireList"
+    />
+    <b-button @click="addProfile" class="my-2" variant="primary">Add profile</b-button>
 </div>
 </template>
 

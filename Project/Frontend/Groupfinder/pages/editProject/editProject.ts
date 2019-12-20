@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import VueRouter from 'vue-router'
 import { Component, Prop } from 'vue-property-decorator';
 import User from '@/types/user.ts';
 import axios from 'axios';
@@ -27,6 +28,16 @@ export default class editProject extends Vue {
     }
 
     mounted(){
+    }
+
+    beforeRouteLeave(to: any, from: any, next: any) {
+        console.log("beforeRouteLeave");
+        if(window.confirm('Do you really want to leave? You have unsaved changes!')){
+            next()
+        }
+        else{
+            next(false);
+        }
     }
 
     /**
