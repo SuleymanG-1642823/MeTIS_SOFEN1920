@@ -67,6 +67,29 @@ function updateStateToSeen(userID: number): Promise<void>{
     });
 }
 
+/**
+ * Inserts new notification in the database
+ * @param notif: Notification object
+ */
+function addNotification(notif: Notification): Promise<void>{
+    return new Promise((resolve: any, reject: any) => {
+        const query: string = `
+            INSERT INTO notification (user_id, status, dest_url)
+            VALUES (?, ?, ?);
+        `;
+        const params: any[] = [notif.user_id, notif.status, notif.dest_url];
+        
+        db_conn.query(query, params, async (err: any, rows: any) => {
+            if (err){
+                console.log(`Error while updating notification statusses in database: ${err}`);
+                reject("500");
+            } else {
+                resolve()           
+            }
+        });
+    });
+}
+
 module.exports = {
     getNotifications,
     updateStateToSeen

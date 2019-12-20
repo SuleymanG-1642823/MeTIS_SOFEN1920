@@ -1,4 +1,5 @@
 import express from 'express';
+import Notification from '../../types/notification';
 const router = express.Router();
 const $notification_methods = require('./notification_methods');
 
@@ -43,15 +44,15 @@ router.put('/:user_id', async (req: any, res: any) => {
  * Insert new notification into the database.
  * @pre the notification is in the body of the request in JSON format
  */
-// router.post('/', async (req: any, res: any) => {
-//     const notification: Notification = req.body;
-//     try{
-//         
-//         res.status(200).json();
-//     } catch (err) {
-//         const statusCode: number = parseInt(err);
-//         res.status(statusCode).send("Error while inserting new notifications into the database.");
-//     }
-// });
+router.post('/', async (req: any, res: any) => {
+    const notification: Notification = req.body;
+    try{
+        await $notification_methods.addNotification(notification);
+        res.status(200).json("Successfully inserted new notification for user " + notification.user_id + ", status notification: " + notification.status);
+    } catch (err) {
+        const statusCode: number = parseInt(err);
+        res.status(statusCode).send("Error while inserting new notifications into the database.");
+    }
+});
 
 module.exports = router;
