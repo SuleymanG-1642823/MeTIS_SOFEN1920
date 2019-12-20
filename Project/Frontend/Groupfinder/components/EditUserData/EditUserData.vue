@@ -33,6 +33,10 @@
           <b-form-group label="Website">
               <b-form-input v-model='website'/>
           </b-form-group>
+          <b-form-group label="Availability">
+              <b-form-radio v-model="available" name="available" :value=true>Yes, I am available for joining other projects.</b-form-radio>
+              <b-form-radio v-model="available" name="not_available" :value=false>No, I am not available for joining projects.</b-form-radio>
+          </b-form-group>
       </b-form>
   </b-modal>
 </template>

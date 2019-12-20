@@ -2,6 +2,7 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import axios from 'axios';
 import User from '../../types/user';
+import api from '@/helpers/Api';
 
 @Component({
     components: {}
@@ -20,7 +21,9 @@ export default class EditUserData extends Vue {
     private city: string = '';
     private website: string = '';
     private social_media: Object = {};
-    
+    private available: boolean = false;
+    private private_data: boolean = false;
+
 
     // LIFECYCLE HOOKS
     private mounted(){
@@ -28,11 +31,18 @@ export default class EditUserData extends Vue {
     }
 
     // METHODS
+    /**
+     * Validate the new data of the user.
+     */
     private validateData(): boolean {
         // TODO
         return true;
     }
 
+    /**
+     * Validate the new data and save changes to the server is the new data is valid.
+     * @param event the event emitted when this method was called.
+     */
     private async handleSubmit(event: any) {
         event.preventDefault();
         if (this.validateData()){
@@ -44,6 +54,10 @@ export default class EditUserData extends Vue {
         return;
     }
 
+    /**
+     * Remove all updates to the fields. Reset all data to the initial data of the user.
+     * @param event the event emitted when this method was called.
+     */
     private resetFields(event: any): void {
         this.first_name = this.user_prop.first_name;
         this.last_name = this.user_prop.last_name;
@@ -54,8 +68,12 @@ export default class EditUserData extends Vue {
         this.city = this.user_prop.city;
         this.website = this.user_prop.website;
         this.social_media = this.user_prop.social_media;
+        this.available = this.user_prop.available;
     }
 
+    /**
+     * Save the new data on the server.
+     */
     private async saveChanges() {
         let user: User = {
             id: this.user_prop.id,
@@ -67,11 +85,14 @@ export default class EditUserData extends Vue {
             zip: this.zip,
             city: this.city,
             website: this.website,
-            social_media: '{}'
+            social_media: '{}',
+            available: this.available,
+            private: this.user_prop.private
         }
         try {
-            let url = `http://localhost:4000/users/${this.user_prop.id}`;
-            axios.put(url, {user: user}, {headers: {'Content-Type': 'application/json'}});
+            const url = api(`users/${this.user_prop.id}`);
+            //let url = `http://localhost:4000/users/${this.user_prop.id}`;
+            await axios.put(url, {user: user}, {headers: {'Content-Type': 'application/json'}});
         } catch (err){
             console.log(`Following error occured while updating user:\n${err}`);
         }

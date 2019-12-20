@@ -15,6 +15,8 @@ CREATE TABLE user (
     tel varchar(255),
     website varchar(255),
     social_media JSON,
+    available BOOLEAN NOT NULL,
+    private BOOLEAN NOT NULL,
     UNIQUE(mail),
     PRIMARY KEY (id)
 ) ENGINE=InnoDB;

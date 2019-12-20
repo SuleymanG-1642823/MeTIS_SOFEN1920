@@ -3,9 +3,10 @@ import { Component, Prop } from 'vue-property-decorator';
 import Project from '../../types/project';
 import Review from '../../types/review';
 import axios from 'axios';
+import api from '@/helpers/Api';
 
 @ Component
-export default class BasicProjectCard extends Vue {
+export default class ProjectCardWithReviews extends Vue {
     // PROPS
     @Prop({type: Number, required: true}) readonly userID_prop: number;
     @Prop({type: Object, required: true}) readonly project_prop: Project;
@@ -21,7 +22,9 @@ export default class BasicProjectCard extends Vue {
     private async mounted(){
         this.project = this.project_prop;
         try{
-            const response = await axios.get(`http://localhost:4000/reviews/receiver/${this.userID_prop}`);
+            const url = api(`reviews/receiver/${this.userID_prop}`);
+            //const response = await axios.get(`http://localhost:4000/reviews/receiver/${this.userID_prop}`);
+            const response = await axios.get(url);
             let allReviews: Review[] = response.data;
             let reviewsForProject = [];
             for (let i = 0; i < allReviews.length; i++){
@@ -37,6 +40,9 @@ export default class BasicProjectCard extends Vue {
     }
 
     // COMPUTED
+    /**
+     * Concat the first name with the last name of the creator of the project.
+     */
     private get creatorName(){
         if (this.project){
             return `${this.project.creator_first_name} ${this.project.creator_last_name}`;
@@ -46,6 +52,9 @@ export default class BasicProjectCard extends Vue {
     }
 
     // METHODS
+    /**
+     * Change the text of the button from 'show reviews' to 'hide reviews' and vice versa.
+     */
     private changeButtonText(): void {
         if (this.buttonText == "Show reviews"){
             this.buttonText = "Hide reviews";
@@ -54,10 +63,18 @@ export default class BasicProjectCard extends Vue {
         }
     }
 
+    /**
+     * Concat the first name with the last name.
+     * @param first_name first name as a string.
+     * @param last_name last name as a string.
+     */
     private createFullName(first_name: string, last_name: string): string {
         return 'From: ' + first_name + ' ' + last_name;
     }
 
+    /**
+     * From all ratings, calculate the average rating.
+     */
     private calcAvgRating(): void {
         let sum: number = 0;
         for (let i = 0; i < this.reviews.length; i++){
