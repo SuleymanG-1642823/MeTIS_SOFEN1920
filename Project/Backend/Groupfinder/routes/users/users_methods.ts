@@ -248,7 +248,7 @@ module.exports = {
     updateUser,
     addUser,
     deleteUser,
-    getMatchingUsers
+    getMatchingUsers,
     changePassword,
     validatePassword
 }

@@ -112,7 +112,8 @@ export default class ProjectsToUserMatcher{
             creator_id: -1,
             creator_first_name: '',
             creator_last_name: '',
-            profiles: []
+            profiles: [],
+            categories: []
         }
 
         return newProject;

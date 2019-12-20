@@ -70,7 +70,9 @@ export default class UsersToProjectMatcher{
         return {
             id: id,
             name: name,
-            project_id: projectID
+            project_id: projectID,
+            skills: [],
+            questions: []
         }
     }
 
