@@ -95,7 +95,7 @@ export default class MainLayout extends Vue {
             this.$router.push('/projectCreationForm');
         }
         else if (item.title == this.getFullName()){
-            this.$router.push('/myProfile');
+            this.$router.push('/myprofile');
         }
     }
 
