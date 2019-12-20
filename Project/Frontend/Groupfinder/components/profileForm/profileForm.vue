@@ -1,7 +1,6 @@
 <template>
 <div>
 <b-card class="mb-2">
-  <!-- TODO: FIX error on  @submit="onSubmit" @reset="onReset" -->
   <b-form>
     <!-- Profile name input -->
     <b-form-group
@@ -9,8 +8,6 @@
       label="Profile name:"
       label-for="input-profilename"
     >
-      <!-- Error on: v-model="form.profileName"
-        Please fix -->
       <b-form-input
         id="input-profilename"
         v-model="profile.name"

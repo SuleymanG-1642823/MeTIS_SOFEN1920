@@ -57,7 +57,6 @@ export default class projectCreationForm extends Vue {
         this.project.creator_id = this.$store.state.auth.user.id;
         this.project.creator_first_name = this.$store.state.auth.user.first_name;
         this.project.creator_last_name = this.$store.state.auth.user.last_name;
-        // TODO category
         this.project.created_at = this.getCurrentDate();
         this.project.edited_at = this.getCurrentDate();
 
