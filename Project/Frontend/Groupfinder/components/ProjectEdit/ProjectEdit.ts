@@ -42,7 +42,7 @@ export default class ProjectEdit extends Vue {
             this.categories.push(new_category)
         });
         this.parseCategories(this.categories)
-        this.getQuestionnaires(1)
+        await this.getQuestionnaires(1)
     }
 
     // Methods
@@ -143,6 +143,10 @@ export default class ProjectEdit extends Vue {
         }
     }
 
+    /**
+     * builds up the array with the chosen categories
+     * @param id id of the category that needs to be added to the selection array
+     */
     addCategoryToSelection(id: number){
         for(let i = 0; i < this.categories.length; i++){
             if(this.categories[i].id === id){
@@ -151,6 +155,11 @@ export default class ProjectEdit extends Vue {
         }
     }
 
+    /**
+     * updates the categories arrays based on which checkboxes are checked
+     * @param selected_categories array containing all the ids of the categories and
+     * if they are checked or not in boolean form
+     */
     updateCategories(selected_categories: Array<[number, boolean]>){
         selected_categories.forEach(element => {
             if(this.selected_categories_ids.includes(element[0].valueOf())){
