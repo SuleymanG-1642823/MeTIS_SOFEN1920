@@ -12,9 +12,7 @@ class ProfileMatch{
 
     @pre: A project is recommended for it's profile matching rates. So the given project Object
     must contain at least one profile object, otherwise it is not possible for the project
-    to be recommended in the first place. 
-
-    TODO: sort data or not (is data sorted in back-end)?
+    to be recommended in the first place.
 */
 @Component
 export default class RecommendedProjectCard extends Vue{

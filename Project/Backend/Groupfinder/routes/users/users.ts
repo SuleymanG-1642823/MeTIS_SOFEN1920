@@ -28,6 +28,19 @@ router.get('/:user_id', async (req: any, res: any) => {
     }
 });
 
+/**
+ * Get users that match with at least one of the profiles of the given project
+ */
+router.get('/matchFor/:project_id', async (req: any, res: any) => {
+    const project_id: number = parseInt(req.params.project_id);
+    try{
+        let result = await $users_methods.getMatchingUsers(project_id);
+        res.status(200).json(result);
+    }catch (err){
+        const statusCode: number = parseInt(err);
+        res.status(statusCode).send("Error while fetching user matches.");
+    }
+});
 
 /**
  * Validate users's password.

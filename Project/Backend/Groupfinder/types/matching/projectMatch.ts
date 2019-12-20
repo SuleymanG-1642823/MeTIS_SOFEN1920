@@ -1,4 +1,4 @@
-import Project from './project';
+import Project from '../project';
 import ProfileMatch from './profileMatch';
 
 interface ProjectMatch {

@@ -97,3 +97,7 @@ sw.*
 !.vscode/launch.json
 !.vscode/extensions.json
 *.code-workspace
+
+# js and js.map files
+/types/**/*.js
+/types/**/*.js.map
