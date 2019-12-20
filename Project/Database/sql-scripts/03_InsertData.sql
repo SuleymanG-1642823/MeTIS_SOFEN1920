@@ -18,15 +18,15 @@ VALUES  (1, 3, 'Agenda website', 0, 'A website for managing tasks.'),
 ;
 
 -- PROJECT PROFILES
-INSERT INTO profile (id, name, project_id)
-VALUES  (1, 'Back-end developper', 1), 
-        (2, 'Front-end developper', 1),
-        (3, 'UI/UX designer android', 2), 
-        (4, 'Sofware engineer', 2),
-        (5, 'UI/UX designer', 3), 
-        (6, 'Software engineer windows', 3),
-        (7, 'Software engineer linux', 3), 
-        (8, 'Software engineer OSX', 3);
+INSERT INTO profile (name, project_id, questions)
+VALUES  ('Back-end developper', 1, '["What other projects have you worked on?", "What is your preferred backend language?"]'), 
+        ('Front-end developper', 1, '["What other projects have you worked on?", "What is your preferred JavaScript framework?"]'),
+        ('UI/UX designer android', 2, '["What other projects have you worked on?"]'), 
+        ('Sofware engineer', 2, '["What other projects have you worked on?", "What is your preferred programming language?"]'),
+        ('UI/UX designer', 3, '["What other projects have you worked on?"]'), 
+        ('Software engineer windows', 3, '["What other projects have you worked on?", "What is your preferred programming language?"]'),
+        ('Software engineer linux', 3, '["What other projects have you worked on?", "What is your preferred programming language?"]'), 
+        ('Software engineer OSX', 3, '["What other projects have you worked on?", "What is your preferred programming language?"]');
 
 
 -- PROFILE SKILLS
@@ -74,3 +74,7 @@ VALUES  (1, 'Website', NULL),
         (7, 'Desktop OS', 'MacOS'),
         (8, 'Mobile OS', 'iOS'),
         (9, 'Mobile OS', 'Android');
+
+-- QUESTIONNAIRES
+INSERT INTO questionnaire (name, creator_id, questions)
+VALUES  ("Fronend-Developer", 1, '["What other projects have you worked on?", "What is your preferred backend language?"]');

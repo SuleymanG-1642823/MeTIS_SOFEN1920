@@ -38,8 +38,8 @@ export default class ProjectEdit extends Vue {
             new_category.subcategory = element.subcategory
             this.categories.push(new_category)
         });
-        this.parseCategories(this.categories)
-        this.getQuestionnaires(1)
+        this.parseCategories(this.categories);
+        this.getQuestionnaires(this.$store.state.auth.user.id);
     }
 
     // Methods
@@ -185,10 +185,10 @@ export default class ProjectEdit extends Vue {
      */
     async getQuestionnaires(user_id: number){
         let url = api(`questionnaires/${user_id}`);
-        // let url = `http://localhost:4000/questionnaires/${user_id}`;
-        const response = await axios.get(url);
         axios.get(url)
         .then(response => {
+            console.log("GET QUESTIONNAIRES");
+            console.log(response.data);
             this.userQuestionnaireList = response.data;
             console.log(this.userQuestionnaireList);
             this.$forceUpdate();
