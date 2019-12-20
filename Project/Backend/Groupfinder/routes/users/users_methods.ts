@@ -1,6 +1,7 @@
 const db_conn = require('../../databaseconnection');
 import User from '../../types/user';
-
+import ProfileUserMatch from '../../types/matching/profileUserMatch';
+import UsersToProjectMatcher from '../../classes/UsersToProjectMatcher';
 
 /**
  * Get user with specific id from database
@@ -40,6 +41,33 @@ function getUser(userID: number): Promise<User> {
     );
 }
 
+/**
+ * Returns users that have a matching percentage > 0 with the project that has the given id.
+ * The matching percentage is always > 0 if there is at least one matching skill (user skill 
+ * and profile skill) and the user skill experience is >= 1.
+ * @param projectID: id of the project to find matches for.
+ * @return a list of user/profile matches. Format:
+ *      [
+ *          {profile: profileObject, users: [userMatch1, ..., userMatchn]},
+ *          ...
+ *      ]
+ * 
+ *      ProfileObject contains information about a profile and userMatch contains a userObject
+ *      along with the matching percentage.
+ */
+function getMatchingUsers(projectID: number): Promise<any>{
+    return new Promise(
+        async (resolve: any, reject: any) => {
+            try{
+                let result = await UsersToProjectMatcher.getMatchingUsers(projectID, db_conn);
+                resolve(result);
+            }catch(err){
+                reject(500);
+            }
+
+        }
+    );
+}
 
 /**
  * Change data of existing user in the database.
@@ -144,5 +172,6 @@ module.exports = {
     getUser,
     updateUser,
     addUser,
-    deleteUser
+    deleteUser,
+    getMatchingUsers
 }

@@ -4,7 +4,16 @@
   "private": true,
   "scripts": {
     "build": "tsc",
+    "test": "jest",
     "start": "npm run build && node ./bin/www"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "testMatch": [
+      "**/__tests__/**/*.+(ts|tsx|js)"
+    ]
   },
   "author": "MeTIS",
   "dependencies": {
@@ -21,7 +30,11 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.2",
+    "@types/jest": "^24.0.23",
     "@types/node": "^12.12.7",
+    "babel-cli": "^6.26.0",
+    "jest": "^24.9.0",
+    "supertest": "^4.0.2",
     "tslint": "^5.20.1",
     "typescript": "^3.7.2"
   }

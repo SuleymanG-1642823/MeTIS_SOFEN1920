@@ -1,6 +1,6 @@
 import Project from './../types/project'
-import ProjectMatch from './../types/projectMatch'
-import ProfileMatch from './../types/profileMatch';
+import ProjectMatch from '../types/matching/projectMatch'
+import ProfileMatch from '../types/matching/profileMatch';
 
 
 export default class ProjectsToUserMatcher{
@@ -61,14 +61,7 @@ export default class ProjectsToUserMatcher{
      */
     public static getMatchingProjects(userID: number, dbconn: any): Promise<Array<ProjectMatch>>{
         return new Promise((resolve: any, reject: any) => {
-            // rows: project_id	project_name	profile_id	profile_name	profile_skill_name	profile_skill_experience	profile_skill_weight	matches	user_skill_experience
-            /* TODO
-                PROBLEM: profiles with no matching skills are not selected so that means the following
-                      scenario is true: let A be a project and let bb and cc be A's profiles,
-                      if bb has matching skills with the user and cc does not, then cc won't be selected. 
-                SOLUTION: query all profiles (that belong to one of the projects returned by the query below) that don't have 
-                          matching skills and take the union of that with the query below.
-            */
+            // rows: project_id	project_name profile_id	profile_name profile_skill_name profile_skill_experience profile_skill_weight matches user_skill_experience
             const params: any[] = [userID, userID];
             dbconn.query(this.query, params, async (err: any, rows: any) => {
                 if (err) {
@@ -82,12 +75,10 @@ export default class ProjectsToUserMatcher{
                     // cumulate rows of the same project, and create a ProjectMatch object with each set of rows
                     for (let i in rows){
                         // check if current project is a new one
-                        if (projectRows.length === 0 || projectRows[projectRows.length-1].project_id !== rows[i].project_id){
+                        if (projectRows.length > 0 && projectRows[projectRows.length-1].project_id !== rows[i].project_id){
                             // if there are cumulated rows then we have all the rows of one profile, make a ProfileMatch object
-                            if (projectRows.length > 0){
-                                projectMatches.push(this.createMatchingProject(projectRows));
-                                projectRows = [];
-                            }
+                            projectMatches.push(this.createMatchingProject(projectRows));
+                            projectRows = [];
                         }
     
                         // add current rows to list
@@ -174,8 +165,6 @@ export default class ProjectsToUserMatcher{
         // create the matching profile object
         let newProfileMatch: ProfileMatch = this.createProfileMatch(rows[0].profile_id, rows[0].profile_name);
 
-        // TODO: experience
-        // TODO: weights
         // count the number of matching skills en total skills, then calculate the matching percentage
         let totalSkills = 0;
         let totalMatchingSkills = 0;
@@ -185,11 +174,10 @@ export default class ProjectsToUserMatcher{
 
             if (row.matches === 1) // means matches with one of the users' skills
             {
-                // TODO: if user has the required skill experience, # of matching skills is increased by 1
+                // If user has the required skill experience, # of matching skills is increased by 1
                 // otherwise the # of matching skills is increased by the percentage of which the users' skill
                 // covers the required skill for example: user skill = 1, required skill = 2, 1 is 50% of 2 so
                 // # of matching skills is increased by 0.5 (50%).
-                // NOTE: first add the column for the users' experience, so you can use it here
                 let addedValue = 1;
                 if (row.user_skill_experience < row.profile_skill_experience){
                     addedValue = row.user_skill_experience / row.profile_skill_experience;
@@ -230,12 +218,10 @@ export default class ProjectsToUserMatcher{
         // cumulate rows of the same profile, and create a ProfileMatch object with each set of rows
         for (let i in rows){
             // check if current profile is a new one
-            if (profileRows.length === 0 || profileRows[profileRows.length-1].profile_id !== rows[i].profile_id){
+            if (profileRows.length > 0 && profileRows[profileRows.length-1].profile_id !== rows[i].profile_id){
                 // if there are cumulated rows then we have all the rows of one profile, make a ProfileMatch object
-                if (profileRows.length > 0){
-                    profileMatches.push(this.createMatchingProfile(profileRows));
-                    profileRows = [];
-                }
+                profileMatches.push(this.createMatchingProfile(profileRows));
+                profileRows = [];
             }
 
             // add current rows to list
