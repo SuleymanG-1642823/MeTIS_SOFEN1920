@@ -32,7 +32,17 @@ export default class ProjectEdit extends Vue {
 
     @Prop({default: {}}) project: Project;
 
-    async created(){
+    created(){
+        this.createCategories();
+        this.getQuestionnaires(1)
+    }
+
+    // Methods
+    /**
+     * Gets all the categories from the database and puts them
+     * in the categories array
+     */
+    async createCategories(){
         const categories_data: Category[] = await this.getAllCategories()
         categories_data.forEach(element => {
             let new_category = <Category>{};
@@ -42,10 +52,7 @@ export default class ProjectEdit extends Vue {
             this.categories.push(new_category)
         });
         this.parseCategories(this.categories)
-        await this.getQuestionnaires(1)
     }
-
-    // Methods
     /**
      * Adds a profile to the profile form
      */
@@ -210,6 +217,10 @@ export default class ProjectEdit extends Vue {
         })
     }
 
+    /**
+     * Returns all the categories stored in the category table in the database
+     * @return returns an array containing all the categories as Category types
+     */
     async getAllCategories(): Promise<Category[]>{
         return new Promise(
             async (resolve: any, reject: any) => {

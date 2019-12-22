@@ -73,7 +73,7 @@ describe('ProjectEdit component', () => {
     done();
   }),
   test('adds a category to the selection', (done) => {
-    wrapper.vm.selected_categories.push({id: 1, name: "web", subcategory: "chrome"})
+    wrapper.vm.categories.push({id: 1, name: "web", subcategory: "chrome"})
     wrapper.vm.addCategoryToSelection(1);
     console.log("adding: ", wrapper.vm.selected_categories);
     expect(wrapper.vm.selected_categories[0].name).toEqual("web");
