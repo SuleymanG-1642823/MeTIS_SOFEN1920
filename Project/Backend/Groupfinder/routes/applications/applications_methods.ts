@@ -20,7 +20,7 @@ function applyForProject(application: Application): Promise<number> {
             }
             answers = "[" + answers + "]";
 
-            const query: string = 'INSERT INTO application (user_id, project_id, profile_id, answers, status, created_at, edited_at) VALUES (?,?,?,?,?,?,?)';
+            const query: string = 'INSERT INTO application (user_id, project_id, profile_id, answers, status, created_at, edited_at) VALUES (?,?,?,?,?,?,?);';
             const params: any[] = [application.user_id, application.profile_id, application.profile_id, answers, application.status, application.created_at, application.edited_at];
             db_conn.query(query, params, async (err: any, rows: any) => {
                 if (err) {
@@ -34,6 +34,47 @@ function applyForProject(application: Application): Promise<number> {
         }
     );
 }
+
+
+/**
+ * Get all the applications for a single profile
+ * @param profile_id the id of the profile
+ * @returns an array with application objects containing all the applications for the profile
+ */
+function getProfileApplications(profile_id: number): Promise<Application[]> {
+    return new Promise(
+        (resolve: any, reject: any) => {
+            console.log(profile_id);
+            const query: string = 'SELECT * FROM application WHERE profile_id=?;';
+            const params: any[] = [profile_id];
+            db_conn.query(query, params, async (err: any, rows: any) => {
+                if (err) {
+                    console.log('error');
+                    console.log(err);
+                    reject('500');
+                } else {
+                    console.log(rows);
+                    let applications: Application[] = [];
+                    for (let i = 0; i < rows.length; i++) {
+                        let application: Application = {
+                            id: rows[i].id,
+                            user_id: rows[i].user_id,
+                            profile_id: rows[i].profile_id,
+                            project_id: rows[i].project_id,
+                            answers: JSON.parse(rows[i].answers),
+                            status: rows[i].status,
+                            created_at: rows[i].created_at,
+                            edited_at: rows[i].edited_at
+                        }
+                        applications.push(application);
+                    }
+                    resolve(applications);
+                }
+            });
+        }
+    );
+}
+
 
 /**
  * Get ID of the last inserted application
@@ -60,5 +101,6 @@ function getApplicationID(): Promise<number> {
 
 module.exports = {
     applyForProject,
+    getProfileApplications,
     getApplicationID
 }
