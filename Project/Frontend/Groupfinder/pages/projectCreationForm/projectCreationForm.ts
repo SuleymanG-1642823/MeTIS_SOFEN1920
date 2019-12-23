@@ -2,9 +2,10 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import User from '@/types/user.ts';
 import axios from 'axios';
-import profileForm from '~/components/profileForm/profileForm.vue'
-import ProjectEdit from '~/components/ProjectEdit/ProjectEdit.vue'
-import api from '@/helpers/Api'
+import profileForm from '~/components/profileForm/profileForm.vue';
+import ProjectEdit from '~/components/ProjectEdit/ProjectEdit.vue';
+import api from '@/helpers/Api';
+import GetDate from '@/helpers/GetDate';
 
 import Project from '../../types/project';
 import Profile from '../../types/profile';
@@ -57,8 +58,8 @@ export default class projectCreationForm extends Vue {
         this.project.creator_id = this.$store.state.auth.user.id;
         this.project.creator_first_name = this.$store.state.auth.user.first_name;
         this.project.creator_last_name = this.$store.state.auth.user.last_name;
-        this.project.created_at = this.getCurrentDate();
-        this.project.edited_at = this.getCurrentDate();
+        this.project.created_at = GetDate();
+        this.project.edited_at = GetDate();
 
         // Post
         try {
@@ -70,54 +71,5 @@ export default class projectCreationForm extends Vue {
         } catch (err){
             console.log('Error while posting project.')
         }
-    }
-
-    // Returns date string in format 'YYYY-MM-DD hh:mm:ss'
-    getCurrentDate(){
-        let date: Date = new Date();
-        let year: number = date.getFullYear();
-        let month: number = date.getMonth() + 1; // Starts at 0
-        let monthString: string;
-        if (month < 10){
-            monthString = '0' + month.toString();
-        }
-        else {
-            monthString = month.toString();
-        }
-        let day: number = date.getDate();
-        let dayString: string;
-        if (day < 10){
-            dayString = '0' + day.toString();
-        }
-        else {
-            dayString = day.toString();
-        }
-        let hour: number = date.getHours();
-        let hourString: string;
-        if (hour < 10){
-            hourString = '0' + hour.toString();
-        }
-        else {
-            hourString = hour.toString();
-        }
-        let minutes: number = date.getMinutes();
-        let minutesString: string;
-        if (minutes < 10){
-            minutesString = '0' + minutes.toString();
-        }
-        else {
-            minutesString = minutes.toString();
-        }
-        let seconds: number = date.getSeconds();
-        let secondsString: string;
-        if (seconds < 10){
-            secondsString = '0' + seconds.toString();
-        }
-        else {
-            secondsString = seconds.toString();
-        }
-        let dateString = year.toString() + '-' + monthString + '-' + dayString + ' ' + hourString + ':' + minutesString + ':' + secondsString;
-        
-        return dateString;
     }
 }
