@@ -8,6 +8,7 @@ import api from '@/helpers/Api'
 
 import Project from '../../types/project';
 import Profile from '../../types/profile';
+import FormValidationBools from '../../types/formvalidationbools';
 
 @ Component({
     components: {ProjectEdit}
@@ -15,6 +16,7 @@ import Profile from '../../types/profile';
 export default class projectCreationForm extends Vue {
     // Data
     project= <Project>{};
+    formvalidationbools = <FormValidationBools>{};
 
     created(){
     }
@@ -33,6 +35,7 @@ export default class projectCreationForm extends Vue {
             profiles: [],
             categories: []
         }
+        this.formvalidationbools.CategoriesBool = false;
     }
 
     /**
@@ -46,11 +49,50 @@ export default class projectCreationForm extends Vue {
     }
 
     /**
+     * validates if a checkbox from the categories is checked
+     * @return returns a boolean saying true if one or more checkboxes or checked,
+     * otherwise returns false
+     */
+    validateCategoriesInForm(): boolean{
+        if(this.project.categories.length == 0){
+            console.log("if", this.project.categories);
+            this.formvalidationbools.CategoriesBool = true;
+            return false;
+        }
+        else{
+            console.log("else", this.project.categories);
+            console.log(this.project.categories.length);
+            this.formvalidationbools.CategoriesBool = false;
+            return true;
+        }
+    }
+
+    /**
+     * validates the form
+     * @return returns a boolean saying true if the form is correctly filled in,
+     * otherwise returns false
+     */
+    validateForm(): boolean{
+        if(this.validateCategoriesInForm()){
+            return true;
+        };
+        return false;
+    }
+
+    /**
      * submits the project to the database
      * @param evt 
      */
     async submitProject(evt: any){
         evt.preventDefault();
+
+        if(!(this.validateForm())){
+            console.log("not validated");
+            return;
+        }
+        else{
+            console.log("what went wrong");
+        }
 
         // Fill in the details of the project
         this.project.status = 0;

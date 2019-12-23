@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component, Prop, Watch } from 'vue-property-decorator';
 import User from '@/types/user.ts';
 import axios from 'axios';
 import profileForm from '~/components/profileForm/profileForm.vue'
@@ -11,6 +11,7 @@ import Questionnaire from '../../types/questionnaire'
 import Category from '~/types/category';
 import SplitCategory from '~/types/splitcategory'
 import SubCategory from '~/types/subcategory'
+import FormValidationBools from '../../types/formvalidationbools';
 import CategoryComponent from '~/components/CategoriesComponent/CategoriesComponent.vue'
 
 @ Component({
@@ -23,6 +24,7 @@ export default class ProjectEdit extends Vue {
     categories_input : Array<SplitCategory> = []
     selected_categories_ids: Array<number> = []
     index: number = 0
+    CategoriesBool: boolean = false;
 
     // TODO: this needs to go into the Project object
     selectedCategory: string = "";
@@ -31,10 +33,21 @@ export default class ProjectEdit extends Vue {
     userQuestionnaireList: Questionnaire[] = [];
 
     @Prop({default: {}}) project: Project;
+    @Prop({default: {}}) formvalidationbools: FormValidationBools
 
     created(){
         this.createCategories();
         this.getQuestionnaires(1)
+    }
+
+    @Watch('formvalidationbools', {immediate: true})
+    setCategoriesAlert(){
+        console.log("watcher", this.formvalidationbools);
+    }
+
+    @Watch('formvalidationbools')
+    setCategoriesTest(){
+        console.log("test", this.formvalidationbools);
     }
 
     // Methods
