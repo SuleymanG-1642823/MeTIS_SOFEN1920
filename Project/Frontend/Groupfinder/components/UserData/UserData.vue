@@ -13,7 +13,10 @@
             </b-col>
             <b-col lg>
                 <p><i class="fas fa-globe"></i> <a>www.link-to-my-website.be</a></p>
-                <p>TODO: rating</p>
+                <!--<vue-stars
+                    name="rating"
+                    />-->
+                <p><star-rating v-model="rating" :star-size="20" :read-only="true"></star-rating></p>
                 <p v-if="this.user.available"><i class="fas fa-circle green"></i> available for joining projects</p>
                 <p v-else><i class="fas fa-circle red"></i> unavailable for joining projects</p>
             </b-col>

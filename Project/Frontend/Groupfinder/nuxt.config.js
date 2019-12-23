@@ -28,7 +28,8 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '~/plugins/api.ts'
+    '~/plugins/api.ts',
+    '~/plugins/vue-star-rating'
   ],
   /*
   ** Nuxt.js dev-modules

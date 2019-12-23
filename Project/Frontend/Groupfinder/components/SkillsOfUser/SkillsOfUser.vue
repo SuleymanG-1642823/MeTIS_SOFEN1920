@@ -2,7 +2,7 @@
     <div style="overflow:auto;">
     <table id="skills_table">
         <tr> <!-- TABLE HEADER -->
-            <th>Name</th>
+            <th>Skill name</th>
             <th>Experience</th>
             <th v-if="logged_in_user">Actions</th>
         </tr>
@@ -14,10 +14,10 @@
                         v-model="new_name"
                         :state="new_name_state"
                         aria-describedby="feedback"
-                        placeholder="Enter new name">
+                        placeholder="Enter new skill">
                     </b-form-input>
                     <b-form-invalid-feedback id="feedback">
-                        Duplicate skill name.
+                        This skill name already exists.
                     </b-form-invalid-feedback>
                 </b-form>
             </td>
