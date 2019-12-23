@@ -11,7 +11,7 @@ export default class SidebarProjects extends Vue {
     user_projects: Project[];
 
     // Methods
-    created(){
+    getProjects(){
         let url = api(`projects/user/${this.$store.state.auth.user.id}`);
         axios.get(url)
         .then(response => {
@@ -24,6 +24,14 @@ export default class SidebarProjects extends Vue {
         })
     }
 
+    created(){
+        this.getProjects();
+    }
+
     async mounted() {
+        this.$root.$on('refreshProjects', data => {
+            console.log("caught emit");
+            this.getProjects();
+        });
     }
 }
