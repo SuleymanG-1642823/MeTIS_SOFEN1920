@@ -1,7 +1,12 @@
 <template>
     <div id="wrapper">
         <div v-if="isNew" id="newNotif"></div>
-        <p id="msg">{{displayedMsg}}</p>
+        <router-link
+            v-if="destination.length > 0"
+            :to="destination">
+           <p class="msg">{{displayedMsg}}</p>
+        </router-link>
+        <p v-if="destination.length === 0" class="msg">{{displayedMsg}}</p>
         <span id="created">{{createdAt}}</span>
         <button v-if="expandable" id="expand" @click="expandCollapseBtnClickEvent()">{{expandBtnText}}</button>
     </div>
@@ -19,10 +24,14 @@
     padding: 5px 5px 14px 5px;
     overflow: auto;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    color: black;
 }
 
-#msg{
-    margin-left: 8px;
+#wrapper:hover{
+    background-color: #f0f0f0;
+}
+
+.msg{
     font-size:1rem;
     margin-bottom: 4px;
 }
@@ -49,7 +58,8 @@
     width: 10px;
 }
 
-hr{
+a{
+    text-decoration: none;
     color: black;
 }
 

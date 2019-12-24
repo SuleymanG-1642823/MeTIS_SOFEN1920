@@ -1,4 +1,5 @@
 import {Vue, Component, Prop} from 'vue-property-decorator'
+import api from '@/helpers/Api';
 
 @Component
 export default class Notification extends Vue{
@@ -12,9 +13,10 @@ export default class Notification extends Vue{
     @Prop(String) msg: string;
     @Prop(Boolean) isNew: boolean;
     @Prop(String) createdAt: string;
-    @Prop(String) destination: string; // url for redirection
+    @Prop({ default: '' }) readonly destination!: string; // url for redirection
 
     created(){
+        // msg
         if (this.msg.length <= 90){
             this.shortMsg = this.msg;
         }
@@ -24,6 +26,9 @@ export default class Notification extends Vue{
             this.expandable = true;
         }
         this.displayedMsg = this.shortMsg;
+
+        // redirection url
+        
     }
 
     expandCollapseBtnClickEvent(){
