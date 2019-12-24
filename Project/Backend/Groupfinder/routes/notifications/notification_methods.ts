@@ -10,7 +10,6 @@ function getNotifications(userID: number): Promise<Array<Notification>>{
             SELECT * 
             FROM notification
             WHERE user_id = ?
-            ORDER BY id
         `;
         const params: any[] = [userID];
         
@@ -28,7 +27,8 @@ function getNotifications(userID: number): Promise<Array<Notification>>{
                             id: rows[i].id,
                             user_id: rows[i].user_id,
                             status: rows[i].status,
-                            dest_url: rows[i].dest_url
+                            dest_url: rows[i].dest_url,
+                            msg: rows[i].msg
                         };
 
                         notifications.push(notif);
@@ -72,16 +72,17 @@ function updateStateToSeen(userID: number): Promise<void>{
  * @param notif: Notification object
  */
 function addNotification(notif: Notification): Promise<void>{
+    console.log(notif);
     return new Promise((resolve: any, reject: any) => {
         const query: string = `
-            INSERT INTO notification (user_id, status, dest_url)
-            VALUES (?, ?, ?);
+            INSERT INTO notification (user_id, status, dest_url, msg)
+            VALUES (?, ?, ?, ?);
         `;
-        const params: any[] = [notif.user_id, notif.status, notif.dest_url];
+        const params: any[] = [notif.user_id, notif.status, notif.dest_url, notif.msg];
         
         db_conn.query(query, params, async (err: any, rows: any) => {
             if (err){
-                console.log(`Error while updating notification statusses in database: ${err}`);
+                console.log(`Error while inserting new notification into the database: ${err}`);
                 reject("500");
             } else {
                 resolve()           
@@ -92,5 +93,6 @@ function addNotification(notif: Notification): Promise<void>{
 
 module.exports = {
     getNotifications,
-    updateStateToSeen
+    updateStateToSeen,
+    addNotification
 }

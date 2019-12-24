@@ -10,7 +10,7 @@ import ProjectMatch from '../../types/projectMatch';
   })
   export default class RecommendedProjects extends Vue {
     recommendedProjects: Array<ProjectMatch>|null = null;
-  
+    
     async mounted () {
       try {
         // Get current user ID if a user is logged in and pass that in the url
