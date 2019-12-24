@@ -1,5 +1,4 @@
 import Notification from '../../types/notification';
-import TimeStamp from '../../classes/TimeStamp';
 const db_conn = require('../../databaseconnection');
 
 /**
@@ -76,10 +75,10 @@ function updateStateToSeen(userID: number): Promise<void>{
 function addNotification(notif: Notification): Promise<void>{
     return new Promise((resolve: any, reject: any) => {
         const query: string = `
-            INSERT INTO notification (user_id, status, dest_url, msg)
-            VALUES (?, ?, ?, ?);
+            INSERT INTO notification (user_id, dest_url, msg)
+            VALUES (?, ?, ?);
         `;
-        const params: any[] = [notif.user_id, notif.status, notif.dest_url, notif.msg];
+        const params: any[] = [notif.user_id, notif.dest_url, notif.msg];
         
         db_conn.query(query, params, async (err: any, rows: any) => {
             if (err){
@@ -110,8 +109,6 @@ function getNumberOfNewNotifications(userID: number): Promise<number>{
                 console.log(`Error while fetching number of new notifications from the database: ${err}`);
                 reject("500");
             } else {
-                console.log('########  ' + rows[0].amount + '  ##########');
-
                 resolve(rows[0].amount);         
             }
         });

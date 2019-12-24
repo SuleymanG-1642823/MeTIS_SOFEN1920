@@ -79,3 +79,9 @@ VALUES  (1, 'Website', NULL),
         (7, 'Desktop OS', 'MacOS'),
         (8, 'Mobile OS', 'iOS'),
         (9, 'Mobile OS', 'Android');
+
+-- NOTIFICATIONS
+INSERT INTO notification (user_id, dest_url, msg)
+VALUES 
+    (1, '', 'Welcome to groupfinder!'),
+    (1, 'recommendedProjects', 'Check out the projects!');
