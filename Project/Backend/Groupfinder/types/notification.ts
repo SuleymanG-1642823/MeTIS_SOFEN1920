@@ -1,3 +1,5 @@
+import TimeStamp from '../classes/TimeStamp'
+
 /**
  * Status codes:
  *      0: not seen
@@ -9,6 +11,7 @@ interface Notification {
     status: number;
     dest_url: string;
     msg: string;
+    created_at: string;
 }
 
 export default Notification;

@@ -2,11 +2,13 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import axios from 'axios';
 
-import SidebarProjects from '~/components/SidebarProjects/SidebarProjects.vue'
+import SidebarProjects from '~/components/SidebarProjects/SidebarProjects'
+import SidebarNotifications from '~/components/SidebarNotifications/SidebarNotifications'
 
 @ Component({
     components: {
-        SidebarProjects
+        SidebarProjects,
+        SidebarNotifications
     }
 })
 export default class Sidebar extends Vue {

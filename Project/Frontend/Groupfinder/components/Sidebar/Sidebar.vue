@@ -42,6 +42,7 @@
     <div class="pl-3 pt-3">
         <!-- Sidebar components for projects, notifications and messages go here -->
         <SidebarProjects v-if="projectsBtnClicked" />
+        <SidebarNotifications v-if="notificationsBtnClicked"/>
     </div>
 </div>
 </template>

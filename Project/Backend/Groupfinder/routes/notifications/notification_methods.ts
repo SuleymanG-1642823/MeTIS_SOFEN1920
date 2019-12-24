@@ -1,4 +1,5 @@
 import Notification from '../../types/notification';
+import TimeStamp from '../../classes/TimeStamp';
 const db_conn = require('../../databaseconnection');
 
 /**
@@ -7,7 +8,7 @@ const db_conn = require('../../databaseconnection');
 function getNotifications(userID: number): Promise<Array<Notification>>{
     return new Promise((resolve: any, reject: any) => {
         const query: string = `
-            SELECT * 
+            SELECT id, user_id, status, dest_url, msg, DATE_FORMAT(created_at, "%Y-%m-%d %H:%i:%S") as created_at
             FROM notification
             WHERE user_id = ?
         `;
@@ -15,11 +16,10 @@ function getNotifications(userID: number): Promise<Array<Notification>>{
         
         db_conn.query(query, params, async (err: any, rows: any) => {
             if (err){
-                console.log(`Error while fetching project from database: ${err}`);
+                console.log(`Error while fetching notifications of a user from the database: ${err}`);
                 reject("500");
             } else {
                 try{
-                    //const profiles_result: Profile[] = await $profiles_methods.getProjectProfiles(rows[0].projectID);
                     let notifications: Array<Notification> = [];
 
                     for (let i in rows){
@@ -28,7 +28,8 @@ function getNotifications(userID: number): Promise<Array<Notification>>{
                             user_id: rows[i].user_id,
                             status: rows[i].status,
                             dest_url: rows[i].dest_url,
-                            msg: rows[i].msg
+                            msg: rows[i].msg,
+                            created_at: rows[i].created_at
                         };
 
                         notifications.push(notif);
@@ -36,7 +37,7 @@ function getNotifications(userID: number): Promise<Array<Notification>>{
 
                     resolve(notifications);
                 } catch (err) {
-                    console.log("Error while fetching profiles of a project from the database.");
+                    console.log("Error while fetching notifications of a user from the database.");
                     reject(err);
                 }                    
             }
@@ -72,7 +73,6 @@ function updateStateToSeen(userID: number): Promise<void>{
  * @param notif: Notification object
  */
 function addNotification(notif: Notification): Promise<void>{
-    console.log(notif);
     return new Promise((resolve: any, reject: any) => {
         const query: string = `
             INSERT INTO notification (user_id, status, dest_url, msg)

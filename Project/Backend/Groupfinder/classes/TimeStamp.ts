@@ -3,7 +3,7 @@
  * the mysql timestamps).
  */
 
-class TimeStamp{
+export default class TimeStamp{
     year: number;
     month: number;
     day: number;
@@ -79,8 +79,6 @@ class TimeStamp{
 
         return newTimeStamp;
     }
-
-    
 
     /**
      * Checks if given time stamp has a valid format and valid time values
