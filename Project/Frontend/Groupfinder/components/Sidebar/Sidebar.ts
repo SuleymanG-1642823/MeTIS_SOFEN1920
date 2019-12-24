@@ -4,11 +4,13 @@ import axios from 'axios';
 
 import SidebarProjects from '~/components/SidebarProjects/SidebarProjects'
 import SidebarNotifications from '~/components/SidebarNotifications/SidebarNotifications'
+import NewNotificationsBadge from '~/components/NewNotificationsBadge/NewNotificationsBadge'
 
 @ Component({
     components: {
         SidebarProjects,
-        SidebarNotifications
+        SidebarNotifications,
+        NewNotificationsBadge
     }
 })
 export default class Sidebar extends Vue {

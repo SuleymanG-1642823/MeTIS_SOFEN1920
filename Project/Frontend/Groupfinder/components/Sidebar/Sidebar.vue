@@ -25,7 +25,8 @@
         <b-tab @click="notificationBtnClickEvent()">
             <template v-slot:title>
                 <div class="sidebar-tab">
-                <i class="far fa-bell fa-2x sidebar-button-group"></i>
+                    <NewNotificationsBadge />
+                    <i class="far fa-bell fa-2x sidebar-button-group"></i>
                 </div>
                 <span>Notifications</span>
             </template>
@@ -58,6 +59,10 @@
 
 .sidebar-tab{
     text-align:center;
+}
+
+.sidebar-tab > i {
+    display: inline-block;
 }
 
 </style>

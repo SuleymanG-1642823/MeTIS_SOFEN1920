@@ -2,7 +2,7 @@
     <div id="wrapper">
         <div v-if="isNew" id="newNotif"></div>
         <p id="msg">{{displayedMsg}}</p>
-        <span id="created">2019-12-24 18:00:00</span>
+        <span id="created">{{createdAt}}</span>
         <button v-if="expandable" id="expand" @click="expandCollapseBtnClickEvent()">{{expandBtnText}}</button>
     </div>
 </template>

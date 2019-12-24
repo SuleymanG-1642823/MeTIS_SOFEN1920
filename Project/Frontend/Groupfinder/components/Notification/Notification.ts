@@ -11,6 +11,8 @@ export default class Notification extends Vue{
 
     @Prop(String) msg: string;
     @Prop(Boolean) isNew: boolean;
+    @Prop(String) createdAt: string;
+    @Prop(String) destination: string; // url for redirection
 
     created(){
         if (this.msg.length <= 90){

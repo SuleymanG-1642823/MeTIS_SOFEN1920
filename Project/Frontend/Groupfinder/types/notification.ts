@@ -4,6 +4,7 @@ interface Notification {
     status: number;
     dest_url: string;
     msg: string;
+    created_at: string;
 }
 
 export default Notification;

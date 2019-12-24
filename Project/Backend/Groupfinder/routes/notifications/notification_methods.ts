@@ -11,6 +11,7 @@ function getNotifications(userID: number): Promise<Array<Notification>>{
             SELECT id, user_id, status, dest_url, msg, DATE_FORMAT(created_at, "%Y-%m-%d %H:%i:%S") as created_at
             FROM notification
             WHERE user_id = ?
+            ORDER BY created_at DESC
         `;
         const params: any[] = [userID];
         
@@ -91,8 +92,35 @@ function addNotification(notif: Notification): Promise<void>{
     });
 }
 
+/**
+ * returns the number of new notifications that the user with the given id has received.
+ */
+function getNumberOfNewNotifications(userID: number): Promise<number>{
+    return new Promise((resolve: any, reject: any) => {
+        const query: string = `
+            SELECT COUNT(status) AS amount
+            FROM notification
+            WHERE user_id = ? AND status = 0
+            LIMIT 1;
+        `;
+        const params: any[] = [userID];
+        
+        db_conn.query(query, params, async (err: any, rows: any) => {
+            if (err){
+                console.log(`Error while fetching number of new notifications from the database: ${err}`);
+                reject("500");
+            } else {
+                console.log('########  ' + rows[0].amount + '  ##########');
+
+                resolve(rows[0].amount);         
+            }
+        });
+    });
+}
+
 module.exports = {
     getNotifications,
     updateStateToSeen,
-    addNotification
+    addNotification,
+    getNumberOfNewNotifications
 }
