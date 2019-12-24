@@ -29,7 +29,8 @@ export default {
   */
   plugins: [
     '~/plugins/api.ts',
-    '~/plugins/vue-star-rating'
+    '~/plugins/vue-star-rating',
+    '~/plugins/vue-sidebar-menu'
   ],
   /*
   ** Nuxt.js dev-modules
