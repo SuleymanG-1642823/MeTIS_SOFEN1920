@@ -15,9 +15,10 @@
 
 #wrapper{
     /*border: 1px solid black;*/
-    margin-right: 8px;
-    padding: 5px;
+    margin: 0 8px 10px 0;
+    padding: 5px 5px 14px 5px;
     overflow: auto;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 #msg{

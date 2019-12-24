@@ -1,8 +1,13 @@
 <template>
     <div id="wrapper">
-        <Notification :isNew="true" msg="This is a test notif This is a test notif This is a test notif This is a test notif This is a test notif This is a test notif This is a test notif "/>
-        <hr>
-        <Notification msg="This is the second notification." />
+        <Notification
+            v-for="(notif, index) in notifications"
+            :key="index"
+            :isNew="notif.status === 0"
+            :createdAt="notif.created_at"
+            :msg="notif.msg"
+            :destination="notif.dest_url"
+        />
     </div>
 </template>
 

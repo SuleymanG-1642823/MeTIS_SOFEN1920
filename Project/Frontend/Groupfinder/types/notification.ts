@@ -1,4 +1,4 @@
-interface Notification {
+interface INotification {
     id: number|null;
     user_id: number;
     status: number;
@@ -7,4 +7,4 @@ interface Notification {
     created_at: string;
 }
 
-export default Notification;
+export default INotification;
