@@ -15,15 +15,6 @@ router.use((req: any, res: any, next: Function) => {
  * Get all notifications of the user that has the given id.
  */
 router.get('/:user_id', async (req: any, res: any) => {
-    //let notif: Notification = {
-    //    id: null,
-    //    user_id: 4,
-    //    status: 0,
-    //    dest_url: '',
-    //    msg: 'This is the first notification'
-    //};
-    //
-    //res.status(200).json(notif);
     const user_id: number = parseInt(req.params.user_id);
     try{
         let notifications: Notification[] = await $notification_methods.getNotifications(user_id);
@@ -54,27 +45,7 @@ router.put('/:user_id', async (req: any, res: any) => {
  * @pre the notification is in the body of the request in JSON format
  */
 router.post('/', async (req: any, res: any) => {
-    
-
     try{
-        //let invalidNotif: Notification = {
-        //    id: undefined,
-        //    user_id: undefined,
-        //    status: undefined,
-        //    dest_url: undefined,
-        //    msg: undefined
-        //}
-//
-        //console.log("### req.body: " + req.body + '###');
-        //const notification: Notification = req.body;
-        //console.log("### converted notif obj: " + notification + '###');
-        //console.log("### id: " + notification.id + '###');
-        //console.log("### user_id: " + notification.user_id + '###');
-        //console.log("### msg: " + notification.msg + '###');
-        //res.json(req.body);
-    //
-        //return;
-
         const notification: Notification = req.body;
         await $notification_methods.addNotification(notification);
         res.status(200).json("Successfully inserted new notification for user " + notification.user_id + ", status notification: " + notification.status);

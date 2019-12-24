@@ -54,6 +54,7 @@ CREATE TABLE notification(
     status int NOT NULL, 
     dest_url varchar(255),
     msg varchar(512),
+    created_at timestamp,
     PRIMARY KEY (id),
     CONSTRAINT fk_notification_user_id FOREIGN KEY (user_id)
         REFERENCES user(id)
