@@ -161,7 +161,8 @@ export default class SkillsOfUser extends Vue {
      * Show form for changing a skill.
      */
     private onEditSkill(skill: Skill): void{
-        this.$refs.editSkill.show();
+        let editSkillModal: any = this.$refs.editSkill;
+        editSkillModal.show();
         this.selected_skill_name = skill.name;
         this.edit_name = skill.name;
         this.edit_month_selected = skill.experience % 12;
@@ -172,7 +173,8 @@ export default class SkillsOfUser extends Vue {
      * Show warning modal before deleting a skill.
      */
     private onDeleteSkill(skill: Skill): void {
-        this.$refs.deleteSkill.show();
+        let deleteSkillModal: any = this.$refs.deleteSkill;
+        deleteSkillModal.show();
         this.selected_skill_name = skill.name;
     }
 

@@ -48,7 +48,8 @@ export default class EditUserData extends Vue {
         if (this.validateData()){
             await this.saveChanges();
             this.$nextTick(() => {
-                this.$refs.modal.hide();
+                let modal: any = this.$refs.modal;
+                modal.hide();
             })
         }
         return;
