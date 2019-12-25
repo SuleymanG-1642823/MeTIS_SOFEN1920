@@ -10,6 +10,12 @@
                 :categories="project.categories"
                 :creator="project.creator_first_name + ' ' + project.creator_last_name"
             />
+            <button
+                v-if="isOwner"
+                class="edit"
+            >
+                <i class="fas fa-pen"></i>
+            </button>
         </div>
     </div>
 </template>
@@ -19,9 +25,38 @@
 
 <style scoped>
 
+#wrapper{
+    padding-right: 40px;
+}
+
 #projectWrapper{
     max-width: 1140px;
     margin: 0 auto;
-    display: block;
+    display: grid;
 }
+
+button.edit{
+    background: none;
+    color: inherit;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+    border: 2px solid black;
+    height: 3.4rem;
+    width: 3.4rem;
+    border-radius: 1.7rem;
+    position: fixed;
+    right: 5px;
+    top: 30px;
+}
+
+button.edit > i {
+    font-size: 2rem;
+}
+
+ProjectInformation{
+    display: inline-block;
+}
+
 </style>
