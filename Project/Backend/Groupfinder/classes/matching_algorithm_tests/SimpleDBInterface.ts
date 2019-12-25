@@ -38,8 +38,8 @@ export default class SimpleDBInterface{
      */
     public async insertNewUser(id: number, firstName: string, lastName: string, mail: string){
         const query = `
-            INSERT INTO user (id, first_name, last_name, mail) 
-            VALUES (?, ?, ?, ?) 
+            INSERT INTO user (id, first_name, last_name, mail, password) 
+            VALUES (?, ?, ?, ?, '') 
             ON DUPLICATE KEY UPDATE 
                 first_name = ?, 
                 last_name = ?, 

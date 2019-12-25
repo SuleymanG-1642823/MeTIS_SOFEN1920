@@ -82,3 +82,9 @@ VALUES  (1, 'Website', NULL),
 -- QUESTIONNAIRES
 INSERT INTO questionnaire (name, creator_id, questions)
 VALUES  ("Fronend-Developer", 1, '["What other projects have you worked on?", "What is your preferred backend language?"]');
+
+-- NOTIFICATIONS
+INSERT INTO notification (user_id, dest_url, msg)
+VALUES 
+    (1, '', 'Welcome to groupfinder!'),
+    (1, 'recommendedProjects', 'Check out the projects!');

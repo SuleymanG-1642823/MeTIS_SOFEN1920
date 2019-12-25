@@ -1,8 +1,14 @@
-const ProjectsToUserMatcher = require('../../classes/ProjectsToUserMatcher.js');
-const db_conn = require('../../databaseconnection');
+describe("TESTING MATCHING ALGO", () => {
+    describe("#############################TESTING######################################", () => {
+        test('This is a test', () => {
+            expect(7).toBe(7);
+        })
+    });
+});
+
 
 // Function that gets called before the tests, used for initializing test data
-beforeAll(() => {
+/*beforeAll(() => {
     function addNewUser(id, firstName, lastName, mail){
         const query = `
             INSERT INTO user (id, first_name, last_name, mail) 
@@ -141,4 +147,4 @@ describe('Testing class ProjectsToUserMatcher', () => {
             });
         });
     });
-});
+});*/

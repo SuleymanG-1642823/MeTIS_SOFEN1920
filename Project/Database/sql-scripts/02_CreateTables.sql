@@ -53,8 +53,10 @@ CREATE TABLE profile (
 CREATE TABLE notification(
     id int NOT NULL AUTO_INCREMENT,
     user_id int NOT NULL,
-    status int NOT NULL, 
+    status int DEFAULT 0, 
     dest_url varchar(255),
+    msg varchar(512),
+    created_at timestamp,
     PRIMARY KEY (id),
     CONSTRAINT fk_notification_user_id FOREIGN KEY (user_id)
         REFERENCES user(id)
