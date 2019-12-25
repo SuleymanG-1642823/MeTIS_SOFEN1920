@@ -25,7 +25,7 @@
         <b-tab @click="notificationBtnClickEvent()">
             <template v-slot:title>
                 <div class="sidebar-tab">
-                    <NewNotificationsBadge />
+                    <NewNotificationsBadge v-if="viewNotificationBadge"/>
                     <i class="far fa-bell fa-2x sidebar-button-group"></i>
                 </div>
                 <span>Notifications</span>

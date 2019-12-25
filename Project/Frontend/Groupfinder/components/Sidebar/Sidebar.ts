@@ -19,6 +19,7 @@ export default class Sidebar extends Vue {
     projectsBtnClicked: boolean = true;
     messagesBtnClicked: boolean = false;
     notificationsBtnClicked: boolean = false;
+    viewNotificationBadge: boolean = true;
 
     // Methods
     created(){
@@ -40,6 +41,8 @@ export default class Sidebar extends Vue {
         this.projectsBtnClicked = false;
         this.messagesBtnClicked = false;
         this.notificationsBtnClicked = true;
+
+        this.viewNotificationBadge = false;
     }
 
     async mounted() {
