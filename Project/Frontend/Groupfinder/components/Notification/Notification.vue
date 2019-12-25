@@ -4,11 +4,11 @@
         <router-link
             v-if="destination.length > 0"
             :to="destination">
-           <p class="msg">{{displayedMsg}}</p>
+           <p class="msg">{{ displayedMsg }}</p>
         </router-link>
-        <p v-if="destination.length === 0" class="msg">{{displayedMsg}}</p>
-        <span id="created">{{createdAt}}</span>
-        <button v-if="expandable" id="expand" @click="expandCollapseBtnClickEvent()">{{expandBtnText}}</button>
+        <p v-if="destination.length === 0" class="msg">{{ displayedMsg }}</p>
+        <span id="created">{{ createdAt }}</span>
+        <button v-if="expandable" id="expand" @click="expandCollapseBtnClickEvent()">{{ expandBtnText }}</button>
     </div>
 </template>
 

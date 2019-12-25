@@ -7,7 +7,7 @@
       <div v-if="disabledDropdown === 'dontShow'">
         <h3>
         <b-button variant="primary" @click="checkBoxSwitch">
-          {{categoryName}}
+          {{ categoryName }}
         </b-button>
         </h3>
       </div>
@@ -16,7 +16,7 @@
         <b-dropdown :text="categoryName" variant="primary" dropright offset="-35">
           <b-form-group class="pl-1" label="Subcategories:">
             <li v-for="(box, index) in selectedCategoriesCheckboxes" v-bind:key="index" class="pl-2">
-              <b-checkbox v-model="selectedCategoriesCheckboxes[index]">{{subcategories[index]}}</b-checkbox>
+              <b-checkbox v-model="selectedCategoriesCheckboxes[index]">{{ subcategories[index] }}</b-checkbox>
             </li>
           </b-form-group>
         </b-dropdown>
