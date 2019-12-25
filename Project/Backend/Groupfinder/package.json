@@ -10,7 +10,10 @@
   "jest": {
     "transform": {
       "^.+\\.jsx?$": "babel-jest"
-    }
+    },
+    "testMatch": [
+      "**/__tests__/**/*.[jt]s?(x)"
+    ]
   },
   "author": "MeTIS",
   "dependencies": {

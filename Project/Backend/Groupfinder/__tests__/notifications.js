@@ -3,10 +3,12 @@ import http from 'http';
 import supertest from 'supertest';
 
 import 'babel-polyfill';
+import { isArray } from 'util';
+
+const db_conn = require('../databaseconnection');
 
 var request;
-var userID;
-var notifMsg = 'TESTNOTIFICATION';
+var testUser1ID = 9999;
 
 describe("TESTING ALL NOTIFICATION ROUTES", () => {
     beforeAll((done) => {
@@ -17,72 +19,102 @@ describe("TESTING ALL NOTIFICATION ROUTES", () => {
     afterAll((done) => {
         test_server.close(done);
     });
-    describe("POST /notifications/:user_id", () => {
-        it("Should add a notification for a user", (done) => {
-            userID = 5;
-            var newNotif = {
-                'id': null,
-                'user_id': userID,
-                'status': 0,
-                'msg': notifMsg,
-                'dest_url': '',
-                'created_at': ''
-            };
-
-            request.post(`/notifications/${userID}`)
-            .send(newNotif)
-            .set('Content-Type', 'application/json')
-            .set('Accept', 'application/json')
-            .end((err, res) => {
-                if (err) return done(err);
-                expect(res.status).toBe(200);
-                done();
-            })
-        });
-    });
-    describe("GET /notifications/numOfNewNotifications/:user_id", () => {
-        it("Should return the number of new notifications for a user", (done) => {
-            request.get(`/notifications/numOfNewNotifications/${userID}`)
-            .end((err, res) => {
-                if (err) return done(err);
-                expect(res.status).toBe(200);
-                expect(res.body).toBe(1);
-                done();
-            })
-        });
-    });
     describe("GET /notifications/:user_id", () => {
-        it("Should return all notifications of a user", (done) => {
-            userID = 1;
+        test("Should return no notifications because the user has no notifications", async (done) => {
+            let userID = 645182; // id of a user that has no notifs
             request.get(`/notifications/${userID}`)
-            .end((err, res) => {
+            .end((err, response) => {
                 if (err) return done(err);
-                categoryID = res.body.id;
-                expect(res.status).toBe(200);
-                expect(typeof(res.body)).toBe('object');
+                expect(response.status).toBe(200); // Request must succeed
+                expect(isArray(response.body)).toBe(true); // Response must be an array; 
+                
+                // body is an array object we can use its length property
+                expect(response.body.length).toBe(0);
+
+                // var myArray = Array.from(response.body);
+                // console.log("len array: " + myArray.length);
+                // console.log("array: " + myArray);
+                // console.log("len body: " + response.body.length);
+                // console.log("body : " + response.body);
                 done();
             })
         });
-    });
-    describe("PUT /notifications/:user_id", () => {
-        it("Should update the status of all notifications to seen for a user", (done) => {
+        test("Should return some notifications because user with ID has notifications (see DB insert data file)", async (done) => {
             let userID = 1;
-            request.put(`/notifications/${userID}`)
-            .end((err, res) => {
+            request.get(`/notifications/${userID}`)
+            .end((err, response) => {
                 if (err) return done(err);
-                expect(res.status).toBe(200);
-                done();
-            })
-        });
-        it("Should return 0, because there shouldn't be new notifs", (done) => {
-            request.get(`/notifications/numOfNewNotifications/${userID}`)
-            .end((err, res) => {
-                if (err) return done(err);
-                expect(res.status).toBe(200);
-                expect(res.body).toBe(0);
+                expect(response.status).toBe(200); // Request must succeed
+                expect(isArray(response.body)).toBe(true); // Response must be an array; 
+                
+                // body is an array object we can use its length property
+                expect(response.body.length).toBeGreaterThan(0);
+
                 done();
             })
         });
     });
-    
+    describe("POST /notifications/:user_id", () => {
+        // insert a test user
+        // let query =`
+        // INSERT INTO user (id, first_name, last_name, mail, password)
+        // VALUES  (?, 'Testuser1', 'notif', 'test.user1@test.be', '');
+        // `;
+        // 
+        // let param = [testUser1ID];
+        // let ready = false;
+        // db_conn.query(query, param, (err, rows) => {
+        //     ready = true;
+        // });
+        
+        // test("Should return no notifications because the testuser has no notifications", async (done) => {            
+        //     request.get(`/notifications/${testUser1ID}`)
+        //     .end((err, response) => {
+        //         if (err) return done(err);
+        //         expect(response.status).toBe(200); // Request must succeed
+        //         expect(isArray(response.body)).toBe(true); // Response must be an array; 
+        //         
+        //         // body is an array object we can use its length property
+        //         expect(response.body.length).toBe(0);
+// 
+        //         // var myArray = Array.from(response.body);
+        //         // console.log("len array: " + myArray.length);
+        //         // console.log("array: " + myArray);
+        //         // console.log("len body: " + response.body.length);
+        //         // console.log("body : " + response.body);
+// 
+        //         // remove test user
+        //         
+        //         done();
+        //     })
+        // });
+        test("Should add a notification for the test user", async (done) => {
+            let data = {
+                user_id: 1,
+                dest_url: "",
+                msg: "This is a testnotification added by Jest tests"
+            }
+            request.post(`/notifications/`)
+            .send(data)
+            .set('Content-Type', 'application/json')
+            .end((err, response) => {
+                if (err) return done(err);
+                expect(response.status).toBe(200);
+                done();
+            })
+        });
+        test("Number oof new notifications should be > 0 because a new one was just added", async (done) => {
+            request.get(`/notifications/numOfNewNotifications/1`)
+            .end((err, response) => {
+                if (err) return done(err);
+                expect(response.status).toBe(200);
+                expect(response.body).toBeGreaterThan(0);
+                done();
+            })
+        });
+
+        // query =`delete from user where id = ?;`;
+        // param = [testUser1ID];
+        // db_conn.query(query, param);
+    });
 });
