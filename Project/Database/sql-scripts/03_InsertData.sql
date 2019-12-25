@@ -87,4 +87,5 @@ VALUES  ("Fronend-Developer", 1, '["What other projects have you worked on?", "W
 INSERT INTO notification (user_id, dest_url, msg)
 VALUES 
     (1, '', 'Welcome to groupfinder!'),
-    (1, 'recommendedProjects', 'Check out the projects!');
+    (1, 'recommendedProjects', 'Check out the projects!'),
+    (1, 'projectCreationForm', 'Create your own project!');
