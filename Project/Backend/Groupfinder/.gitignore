@@ -156,6 +156,7 @@ __pycache__
 /routes/**/*.js.map
 /**/*.js
 /**/*.js.map
+!/__tests__/*.js
 /types/*.js
 /types/*.js.map
 /databaseconnection.js

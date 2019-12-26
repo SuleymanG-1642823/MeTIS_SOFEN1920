@@ -23,6 +23,7 @@ function getUser(userID: number): Promise<User> {
                     const row = rows[0];
                     const user: User = {
                         id: row.id,
+                        is_admin: row.is_admin,
                         first_name: row.first_name,
                         last_name: row.last_name,
                         mail: row.mail,
@@ -69,8 +70,8 @@ function updateUser(userID: number, user: User): Promise<void> {
 function addUser(user: User): Promise<number> {
     return new Promise(
         (resolve: any, reject: any) => {
-            const query: string = 'INSERT INTO user (first_name, last_name, mail, zip, city, tel, website, social_media) VALUES (?,?,?,?,?,?,?,?,?);';
-            const params: any[] = [user.first_name, user.last_name, user.mail, user.zip, user.city, user.tel, user.website, user.social_media];
+            const query: string = 'INSERT INTO user (first_name, last_name, password, is_admin, mail, zip, city, tel, website, social_media) VALUES (?,?,?,?,?,?,?,?,?,?);';
+            const params: any[] = [user.first_name, user.last_name, user.password, user.is_admin , user.mail, user.zip, user.city, user.tel, user.website, JSON.stringify(user.social_media)];
             db_conn.query(query, params, async (err: any, rows: any) => {
                 if (err){
                     console.log(err);
@@ -160,7 +161,7 @@ function getUserForLogin(mail: string): Promise<User> {
                     const row = rows[0];
                     const user: User = {
                         id: row.id,
-                        pw_hash: row.pw_hash,
+                        password: row.password,
                         is_admin: row.is_admin,
                         first_name: row.first_name,
                         last_name: row.last_name,
@@ -177,10 +178,31 @@ function getUserForLogin(mail: string): Promise<User> {
         }
     );
 }
+
+function userExists(mail: string): Promise<boolean> {
+    return new Promise((resolve: any, reject: any) => {
+        const query: string = 'SELECT * FROM user WHERE mail=?;';
+        const params: any[] = [mail];
+        db_conn.query(query, params, (err: any, rows: any) => {
+            if (err){
+                console.log(err);
+                reject('500');
+            } 
+            else if (rows.length > 0) {
+                console.log(`User already exists for mail=${mail}`)
+                resolve(true);
+            } else {
+                resolve(false);
+            }
+        });
+    });
+}
+
 module.exports = {
     getUser,
     updateUser,
     addUser,
     deleteUser,
-    getUserForLogin
+    getUserForLogin,
+    userExists,
 }

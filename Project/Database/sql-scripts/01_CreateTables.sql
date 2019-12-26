@@ -4,7 +4,7 @@ USE groupfinder;
 
 CREATE TABLE user (
     id int NOT NULL AUTO_INCREMENT,
-    pw_hash varchar(255) NOT NULL,
+    password varchar(255) NOT NULL,
     is_admin BOOLEAN NOT NULL,
     first_name varchar(255) NOT NULL,
     last_name  varchar(255) NOT NULL,

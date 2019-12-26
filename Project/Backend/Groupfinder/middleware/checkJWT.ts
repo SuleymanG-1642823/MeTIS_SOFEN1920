@@ -2,7 +2,8 @@
 import { Request, Response, NextFunction } from "express";
 import * as _ from "lodash";
 import * as jwt from "jsonwebtoken";
-import { JWT_SECRET, JWT_TOKEN_EXPIRY, REFRESH_TOKEN, NON_AUTH_PATHS  } from "../Helpers/constants";
+import authHelpers from '../Helpers/authHelpers'
+import { JWT_SECRET, REFRESH_TOKEN, NON_AUTH_PATHS  } from "../Helpers/constants";
 
 export const checkJWT = (req: Request, res: Response, next: NextFunction) => {
   if(_.includes(NON_AUTH_PATHS, req.path)) {
@@ -22,37 +23,10 @@ export const checkJWT = (req: Request, res: Response, next: NextFunction) => {
   }
 
   if(REFRESH_TOKEN=='yes'){ // Send a new token on every request 
-    const { id, email, isAdmin } = tokenData;
-    const newToken = jwt.sign({ id, email, isAdmin }, JWT_SECRET, {
-      expiresIn: JWT_TOKEN_EXPIRY   // The token is valid for duration set via env variable
-      });
+    const newToken = authHelpers.refreshJWT(tokenData)
     res.setHeader("access-token", newToken);
-}
+  }
 
   // Call the next middleware or controller
   next();
 };
-
-// https://medium.com/quick-code/handling-authentication-and-authorization-with-node-7f9548fedde8
-/*
-import { verify } from "jsonwebtoken";
-import { JWT_SECRET } from "../Helpers/constants";
-
-export default function(req, res, next) {
-  //get the token from the header if present
-  const token = req.headers["x-access-token"] || req.headers["authorization"];
-  //if no token found, return response (without going to the next middelware)
-  if (!token) return res.status(401).send("Access denied. No token provided.");
-
-  try {
-    //if can verify the token, set req.user and pass to next middleware
-    const decoded = verify(token, JWT_SECRET);
-    req.user = decoded;
-    next();
-  } catch (ex) {
-    //if invalid token
-    res.status(400).send("Invalid token.");
-  }
-};
-*/
-

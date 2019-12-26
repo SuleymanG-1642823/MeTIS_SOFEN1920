@@ -1,7 +1,7 @@
 USE groupfinder;
 
 -- USERS
-INSERT INTO user (first_name, last_name, is_admin, mail, pw_hash)
+INSERT INTO user (first_name, last_name, is_admin, mail, password)
 VALUES  ('Lennert', 'Geebelen', TRUE, 'lennert.geebelen@student.uhasselt.be', '$2a$10$5sOZPGw9EqiWCBgWcmuI3.6uCX/yv8KlL7EN498xe8P2nWGDx/WY6'),
         ('Jurian', 'Lodewijk', FALSE, 'Jurian.Lodewijk@mail.com', '$2a$10$jpvCdxgnT6ejUrXiFrmgmusepRCctuw9kOL.nHZREmcGZxNAjB4OS'),
         ('Mart', 'Bolink', FALSE, 'Mart.Bolink@mail.com', '$2a$10$yVlaF55Nw/ZWPL595Mgh6.wvBcywkipRkRCe4rNacwaLc2qo/1hRO'),
