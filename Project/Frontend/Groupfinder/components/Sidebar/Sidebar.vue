@@ -25,7 +25,8 @@
         <b-tab @click="notificationBtnClickEvent()">
             <template v-slot:title>
                 <div class="sidebar-tab">
-                <i class="far fa-bell fa-2x sidebar-button-group"></i>
+                    <NewNotificationsBadge v-if="viewNotificationBadge"/>
+                    <i class="far fa-bell fa-2x sidebar-button-group"></i>
                 </div>
                 <span>Notifications</span>
             </template>
@@ -42,6 +43,7 @@
     <div class="pl-3 pt-3">
         <!-- Sidebar components for projects, notifications and messages go here -->
         <SidebarProjects v-if="projectsBtnClicked" />
+        <SidebarNotifications v-if="notificationsBtnClicked"/>
     </div>
 </div>
 </template>
@@ -57,6 +59,10 @@
 
 .sidebar-tab{
     text-align:center;
+}
+
+.sidebar-tab > i {
+    display: inline-block;
 }
 
 </style>

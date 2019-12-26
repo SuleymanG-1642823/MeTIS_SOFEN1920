@@ -13,7 +13,7 @@
   </div>
 </template>
 
-<script lang="ts" src="./userPage.ts">
+<script lang="ts" src="./userpage.ts">
 </script>
 
 <style scoped>

@@ -10,7 +10,10 @@
   "jest": {
     "transform": {
       "^.+\\.jsx?$": "babel-jest"
-    }
+    },
+    "testMatch": [
+      "**/__tests__/**/*.[jt]s?(x)"
+    ]
   },
   "author": "MeTIS",
   "dependencies": {
@@ -29,6 +32,7 @@
   "devDependencies": {
     "@babel/preset-env": "^7.7.4",
     "@types/express": "^4.17.2",
+    "@types/jest": "^24.0.24",
     "@types/node": "^12.12.7",
     "babel-cli": "^6.26.0",
     "babel-jest": "^24.9.0",

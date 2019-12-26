@@ -30,6 +30,7 @@ CREATE TABLE project (
     -- video_loc varchar(255),              similarly to cv_loc, videos/project_id could be used
     created_at datetime,
     edited_at datetime,
+    categories JSON,
     CONSTRAINT fk_project_user_id FOREIGN KEY (creator_id)
         REFERENCES user(id)
         ON UPDATE CASCADE
@@ -52,8 +53,10 @@ CREATE TABLE profile (
 CREATE TABLE notification(
     id int NOT NULL AUTO_INCREMENT,
     user_id int NOT NULL,
-    status int NOT NULL, 
+    status int DEFAULT 0, 
     dest_url varchar(255),
+    msg varchar(512),
+    created_at timestamp,
     PRIMARY KEY (id),
     CONSTRAINT fk_notification_user_id FOREIGN KEY (user_id)
         REFERENCES user(id)
@@ -130,6 +133,7 @@ CREATE TABLE review (
 CREATE TABLE category (
     id int NOT NULL AUTO_INCREMENT,
     name varchar(255) NOT NULL,
+    subcategory varchar(255),
     PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 

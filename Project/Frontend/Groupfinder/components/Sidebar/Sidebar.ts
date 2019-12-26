@@ -2,11 +2,15 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import axios from 'axios';
 
-import SidebarProjects from '~/components/SidebarProjects/SidebarProjects.vue'
+import SidebarProjects from '~/components/SidebarProjects/SidebarProjects'
+import SidebarNotifications from '~/components/SidebarNotifications/SidebarNotifications'
+import NewNotificationsBadge from '~/components/NewNotificationsBadge/NewNotificationsBadge'
 
 @ Component({
     components: {
-        SidebarProjects
+        SidebarProjects,
+        SidebarNotifications,
+        NewNotificationsBadge
     }
 })
 export default class Sidebar extends Vue {
@@ -15,6 +19,7 @@ export default class Sidebar extends Vue {
     projectsBtnClicked: boolean = true;
     messagesBtnClicked: boolean = false;
     notificationsBtnClicked: boolean = false;
+    viewNotificationBadge: boolean = true;
 
     // Methods
     created(){
@@ -36,6 +41,8 @@ export default class Sidebar extends Vue {
         this.projectsBtnClicked = false;
         this.messagesBtnClicked = false;
         this.notificationsBtnClicked = true;
+
+        this.viewNotificationBadge = false;
     }
 
     async mounted() {

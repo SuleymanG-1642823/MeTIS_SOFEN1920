@@ -6,6 +6,7 @@ import axios from 'axios';
 import Sidebar from '~/components/Sidebar/Sidebar'
 import LoginForm from '~/components/LoginForm/LoginForm'
 
+import User from '~/types/user';
 @ Component({
     components: {Sidebar, LoginForm}
 })
@@ -83,13 +84,13 @@ export default class MainLayout extends Vue {
 
     sidbarItemClick(event: any, item: any){
         if (item.title == "Home"){
-            this.$router.push('/');
+            this.$router.push('/recommendedProjects');
         }
         else if (item.title == "Create Project"){
             this.$router.push('/projectCreationForm');
         }
         else if (item.title == this.getFullName()){
-            this.$router.push('/myProfile');
+            this.$router.push('/myprofile');
         }
     }
 

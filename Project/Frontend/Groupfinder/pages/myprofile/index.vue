@@ -30,7 +30,7 @@
   </div>
 </template>
 
-<script lang="ts" src="./myProfile.ts">
+<script lang="ts" src="./myprofile.ts">
 </script>
 
 <style scoped>

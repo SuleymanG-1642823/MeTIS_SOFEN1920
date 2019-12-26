@@ -1,7 +1,7 @@
 import Skill from "./skill";
 
 interface Profile {
-    id: number|null;
+    id: number;
     name: string;
     project_id: number;
     skills: Skill[];
