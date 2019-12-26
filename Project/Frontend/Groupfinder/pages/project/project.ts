@@ -20,8 +20,7 @@ import ProjectProfilesOwner from '~/components/ProjectProfilesOwner/ProjectProfi
 })
 export default class RecommendedProjects extends Vue {
     project: Project;
-    gotProject: boolean = false;
-    notFound: boolean = false;
+    notFound: boolean = true;
     isOwner: boolean = false;
 
     constructor(){
@@ -64,11 +63,13 @@ export default class RecommendedProjects extends Vue {
                     subcategory: ''
                 }
 
-                this.gotProject = true;
+                this.notFound = false;
             
                 if (this.project !== null){
                     this.project.categories.push(category1);
                 }
+                this.project.created_at = '2019-12-26 14:05';
+                // test till here
             } catch (err) {
                 console.log(`Error while requesting project ${projectID}: ${err.response.data}`)
                 this.notFound = true;

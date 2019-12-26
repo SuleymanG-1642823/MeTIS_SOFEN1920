@@ -9,7 +9,6 @@
             :key="profile.id"
             :profile="profile"
         />
-        <ProjectProfileGuest />
     </div>
 </template>
 

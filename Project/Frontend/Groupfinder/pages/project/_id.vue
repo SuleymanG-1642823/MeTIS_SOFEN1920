@@ -1,13 +1,14 @@
 <template>
     <div id="wrapper">
         <h1 v-if="notFound">Project could not be found</h1>
-        <div id="projectWrapper" v-if="gotProject">
+        <div id="projectWrapper" v-if="!notFound">
             <ProjectInformation
                 :title="project.name"
                 :description="project.pitch"
                 :createdAt="project.created_at"
                 :categories="project.categories"
                 :creator="project.creator_first_name + ' ' + project.creator_last_name"
+                :creatorID="project.creator_id"
             />
             <button
                 v-if="isOwner"

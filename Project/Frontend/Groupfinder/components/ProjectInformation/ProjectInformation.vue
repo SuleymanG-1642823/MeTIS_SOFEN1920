@@ -4,13 +4,19 @@
             <h1 id="title">{{ title }}</h1>
             <span
                 id="createdAt"
-                v-if="createdAt !== ''"
+                v-if="mCreatedAt !== ''"
             >
                 <i class="far fa-calendar-alt"></i>
-                {{ createdAt }}
+                {{ mCreatedAt }}
             </span>
         </div>
-        <p id="creator">{{ creator }}</p>
+        <p id="creator">
+            {{ creator }}
+            <i
+                class="far fa-comment"
+                @click="goToChatPage(creatorID)"
+            ></i>
+        </p>
         <div id="categories">
             <b-badge
                 class="category badge"
@@ -47,9 +53,19 @@ h1#title{
     color: #464545;
 }
 
-#createdAt{
+#creator > i{
+    margin-left: 5px;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+span#createdAt{
     float: right;
     display: block;
+}
+
+span#createdAt > i{
+    font-size: 1.5rem;
 }
 
 .category.badge{
