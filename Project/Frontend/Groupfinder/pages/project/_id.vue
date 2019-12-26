@@ -16,6 +16,8 @@
             >
                 <i class="fas fa-pen"></i>
             </button>
+            <ProjectProfilesGuest />
+            <ProjectProfilesOwner />
         </div>
     </div>
 </template>

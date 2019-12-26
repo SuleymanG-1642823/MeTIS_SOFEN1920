@@ -4,10 +4,14 @@ import Project from '../../types/project'
 import api from '@/helpers/Api';
 import ProjectInformation from '~/components/ProjectInformation/ProjectInformation'
 import Category from '~/types/category'
+import ProjectProfilesGuest from '~/components/ProjectProfilesGuest/ProjectProfilesGuest'
+import ProjectProfilesOwner from '~/components/ProjectProfilesOwner/ProjectProfilesOwner'
 
 @Component({
     components: {
-        ProjectInformation
+        ProjectInformation,
+        ProjectProfilesGuest,
+        ProjectProfilesOwner
     },
     validate ({ params }) {
         // Must be a number
