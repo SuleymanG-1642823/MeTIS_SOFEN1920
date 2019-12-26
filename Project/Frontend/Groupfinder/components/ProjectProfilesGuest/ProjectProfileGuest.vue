@@ -29,14 +29,22 @@
                 v-b-toggle="collapseID"
                 class="fas fa-angle-double-down expand-collapse"
             ></i>
+            <div id="iconsOnCollapsed" v-if="membersCollapsed">
+                <i
+                    v-for="(member, index) in members"
+                    :key="index"
+                    class="fas fa-user profile-member"
+                >
+                </i>
+            </div>
             <b-collapse :id="collapseID" class="mt-2">
               <ul id="members">
                   <li
                     v-for="(member, index) in members"
                     :key="index"
                   >
-                    <i class="fas fa-user"></i>
-                    <span>{{ member.first_name + ' ' + member.last_name}}</span>
+                    <i class="fas fa-user profile-member"></i>
+                    <span>{{ member.first_name + ' ' + member.last_name }}</span>
                     <i class="far fa-comment msg" @click="goToChatPage(member.id)"></i>
                   </li>
               </ul>
@@ -79,7 +87,7 @@ hr{
 
 i.expand-collapse{
     cursor: pointer;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
 }
 
 ul#members{
@@ -91,7 +99,7 @@ ul#members > li{
     margin: 8px 0 8px 0
 }
 
-ul#members i{
+i.profile-member{
     font-size: 1.5rem;
 }
 
@@ -101,6 +109,14 @@ ul#members span{
 
 i.msg{
     cursor:pointer;
+}
+
+div#iconsOnCollapsed{
+    display: inline;
+}
+
+div#iconsOnCollapsed i{
+    margin-left: 8px;
 }
 
 </style>
