@@ -50,8 +50,13 @@ export class PreferenceController {
     public addPreferences(userID: number, categories: Category[], type: boolean): Promise<void> {
         return new Promise(
             async (resolve, reject) => {
-                for (let i = 0; i < categories.length; i++) {
-                    await this.addPreference(userID, categories[i], type);
+                try{
+                    for (let i = 0; i < categories.length; i++) {
+                        await this.addPreference(userID, categories[i], type);
+                    }
+                    resolve();
+                } catch (err) {
+                    reject(err);
                 }
             }
         );
@@ -67,9 +72,15 @@ export class PreferenceController {
     public deletePreferences(userID: number, categories: Category[]): Promise<void> {
         return new Promise(
             async (resolve, reject) => {
-                for (let i = 0; i < categories.length; i++){
-                    await this.deletePreference(userID, categories[i]);
+                try{
+                    for (let i = 0; i < categories.length; i++){
+                        await this.deletePreference(userID, categories[i]);
+                    }
+                    resolve();
+                } catch (err) {
+                    reject(err);
                 }
+
             }
         );
     }
@@ -91,7 +102,7 @@ export class PreferenceController {
                         console.log(err);
                         reject('500')
                     } else {
-                        reject();
+                        resolve();
                     }
                 })
             }

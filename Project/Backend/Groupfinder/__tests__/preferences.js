@@ -2,6 +2,7 @@ import app from '../app';
 import http from 'http';
 import supertest from 'supertest';
 import 'babel-polyfill';
+var request;
 
 describe("TESTING ALL PREFERENCES ROUTES", () => {
     beforeAll((done) => {

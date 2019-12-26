@@ -24,7 +24,7 @@ router.use((req: any, res: any, next: Function) => {
 router.get('/:user_id/:type', async (req: any, res: any) => {
     try {
         const userID: number = parseInt(req.params.user_id);
-        const type: boolean = req.params.type;
+        const type: boolean = ('true' == req.params.type);
         const categories: Category[] = await controller.getPreferences(userID, type);
         res.status(200).json(categories);
     } catch (err) {
@@ -40,7 +40,7 @@ router.get('/:user_id/:type', async (req: any, res: any) => {
 router.post('/:user_id/:type', async (req: any, res: any) => {
     try{
         const userID: number = parseInt(req.params.user_id);
-        const type: boolean = req.params.type;
+        const type: boolean = ('true' == req.params.type);
         const categories: Category[] = req.body.categories;
         await controller.addPreferences(userID, categories, type);
         res.status(200).send('Successfully added preferred categories into the database.')
