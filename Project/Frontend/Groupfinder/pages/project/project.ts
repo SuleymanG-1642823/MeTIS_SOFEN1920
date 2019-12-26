@@ -19,10 +19,30 @@ import ProjectProfilesOwner from '~/components/ProjectProfilesOwner/ProjectProfi
     }
 })
 export default class RecommendedProjects extends Vue {
-    project: Project|null = null;
+    project: Project;
+    gotProject: boolean = false;
     notFound: boolean = false;
     isOwner: boolean = false;
 
+    constructor(){
+        super();
+
+        // put dummy values in project, assigning null makes the app behave undeterministic
+        this.project = {
+            id: -1,
+            name: '',
+            pitch: '',
+            created_at: '',
+            edited_at: '',
+            creator_id: 0,
+            creator_first_name: '',
+            creator_last_name: '',
+            profiles: [],
+            categories: [],
+            status: 0
+        }
+    }
+    
     beforeCreate(){
         return new Promise<void>(async resolve => {
             let projectID = this.$route.params.id;
@@ -43,6 +63,8 @@ export default class RecommendedProjects extends Vue {
                     name: 'Website',
                     subcategory: ''
                 }
+
+                this.gotProject = true;
             
                 if (this.project !== null){
                     this.project.categories.push(category1);

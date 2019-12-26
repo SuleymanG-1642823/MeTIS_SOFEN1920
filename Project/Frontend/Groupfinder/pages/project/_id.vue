@@ -1,9 +1,8 @@
 <template>
     <div id="wrapper">
         <h1 v-if="notFound">Project could not be found</h1>
-        <div id="projectWrapper">
+        <div id="projectWrapper" v-if="gotProject">
             <ProjectInformation
-                v-if="project !== null"
                 :title="project.name"
                 :description="project.pitch"
                 :createdAt="project.created_at"
@@ -16,7 +15,7 @@
             >
                 <i class="fas fa-pen"></i>
             </button>
-            <ProjectProfilesGuest />
+            <ProjectProfilesGuest :profiles="project.profiles"/>
             <ProjectProfilesOwner />
         </div>
     </div>
