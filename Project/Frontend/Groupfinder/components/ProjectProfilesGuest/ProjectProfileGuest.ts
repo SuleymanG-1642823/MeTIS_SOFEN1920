@@ -25,6 +25,19 @@ export default class ProjectProfileGuest extends Vue {
         });
     }
 
+    /**
+     * Updates the checked member that represents the state of the checkbox
+     */
+    checkedUnChecked(checkBoxChecked: boolean){
+        // emit signal to parent that profile is (un)checked
+        if (checkBoxChecked){
+            this.$emit('profile-checked', this.profile.id);
+        }
+        else{
+            this.$emit('profile-unchecked', this.profile.id);
+        }
+    }
+
     /** 
      * Requests the users that are invited for this project from the backend
     */
@@ -79,5 +92,13 @@ export default class ProjectProfileGuest extends Vue {
 
     onExpandCollapseClick(){
         this.membersCollapsed = !this.membersCollapsed;
+    }
+
+    /**
+     * Redirects to the chat page
+     * @param userID 
+     */
+    goToChatPage(userID: number){
+        alert('TODO: insert link tag to chat page');
     }
 }

@@ -1,7 +1,10 @@
 <template>
     <div id="profilewrapper" v-if="profile !== undefined">
-        <span>{{ profile.name }}</span>
-        <b-form-checkbox class="apply-checkbox"></b-form-checkbox>
+        <span>{{ profile.name + ', ' + profile.id }}</span>
+        <b-form-checkbox
+            class="apply-checkbox"
+            @change="checkedUnChecked"
+        ></b-form-checkbox>
         <div id="skills">
             <b-badge
                 v-for="skill in profile.skills"
@@ -34,7 +37,7 @@
                   >
                     <i class="fas fa-user"></i>
                     <span>{{ member.first_name + ' ' + member.last_name}}</span>
-                    <i class="far fa-comment msg" @click="goToChatPage(creatorID)"></i>
+                    <i class="far fa-comment msg" @click="goToChatPage(member.id)"></i>
                   </li>
               </ul>
             </b-collapse>
@@ -94,6 +97,10 @@ ul#members i{
 
 ul#members span{
     margin: 0 4px 0 4px;;
+}
+
+i.msg{
+    cursor:pointer;
 }
 
 </style>
