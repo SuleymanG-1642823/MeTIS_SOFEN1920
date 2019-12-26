@@ -48,7 +48,7 @@ export default class MyProfile extends Vue {
      * @param user the user whose privacy settings will be updated.
      * @param private_data true if the user wants his data to be protected, false if he wants his data to be public.
      */
-    private savePrivacySetting(user: User, private_data: boolean){
+    private async savePrivacySetting(user: User, private_data: boolean){
         let body: User = {
             id: user.id,
             first_name: user.first_name,
@@ -59,14 +59,13 @@ export default class MyProfile extends Vue {
             zip: user.zip,
             city: user.city,
             website: user.website,
-            social_media: '{}',
+            social_media: user.social_media,
             available: user.available,
             private: private_data
         }
         try {
             let url = api(`users/${user.id}`);
-            //let url = `http://localhost:4000/users/${user.id}`;
-            axios.put(url, {user: body}, {headers: {'Content-Type': 'application/json'}});
+            await axios.put(url, {user: body}, {headers: {'Content-Type': 'application/json'}});
         } catch (err){
             console.log(`Following error occured while updating user:\n${err}`);
         }

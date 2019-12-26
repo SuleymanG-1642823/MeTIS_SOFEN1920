@@ -241,7 +241,7 @@ export default class SkillsOfUser extends Vue {
      */
     private skillAlreadyExists(name: string): boolean {
         for (let i = 0; i < this.skills.length; i++){
-            if (this.skills[i].name.localeCompare(name) == 0){
+            if (this.skills[i].name.toUpperCase() === name.toUpperCase()){
                 return true;
             }
         }

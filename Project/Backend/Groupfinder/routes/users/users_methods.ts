@@ -80,8 +80,16 @@ function getMatchingUsers(projectID: number): Promise<any>{
 function updateUser(userID: number, user: User): Promise<void> {
     return new Promise(
         (resolve: any, reject: any) => {
+            let social_media = [];
+            for (let i = 0; i < user.social_media.length; i++){
+                social_media.push({
+                    prefix: user.social_media[i].prefix,
+                    suffix: user.social_media[i].suffix
+                });
+            }   
+
             const query: string = 'UPDATE user SET first_name=?, last_name=?, mail=?, addr=?, zip=?, city=?, tel=?, website=?, social_media=?, available=?, private=? WHERE id=?;';
-            const params: any[] = [user.first_name, user.last_name, user.mail, user.address, user.zip, user.city, user.tel, user.website, user.social_media, user.available, user.private, userID];
+            const params: any[] = [user.first_name, user.last_name, user.mail, user.address, user.zip, user.city, user.tel, user.website, JSON.stringify(social_media), user.available, user.private, userID];
             db_conn.query(query, params, (err: any, rows: any) => {
                 if (err){
                     console.log(err);
@@ -102,8 +110,16 @@ function updateUser(userID: number, user: User): Promise<void> {
 function addUser(user: User, hashedPassword: string): Promise<number> {
     return new Promise(
         (resolve: any, reject: any) => {
+            let social_media = [];
+            for (let i = 0; i < user.social_media.length; i++){
+                social_media.push({
+                    prefix: user.social_media[i].prefix,
+                    suffix: user.social_media[i].suffix
+                });
+            }          
+
             const query: string = 'INSERT INTO user (first_name, last_name, mail, password, addr, zip, city, tel, website, social_media, available, private) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);';
-            const params: any[] = [user.first_name, user.last_name, user.mail, hashedPassword ,user.address, user.zip, user.city, user.tel, user.website, user.social_media, user.available, user.private];
+            const params: any[] = [user.first_name, user.last_name, user.mail, hashedPassword ,user.address, user.zip, user.city, user.tel, user.website, JSON.stringify(social_media), user.available, user.private];
             db_conn.query(query, params, async (err: any, rows: any) => {
                 if (err){
                     console.log(err);
