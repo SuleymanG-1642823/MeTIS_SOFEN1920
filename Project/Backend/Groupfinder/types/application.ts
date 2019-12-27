@@ -1,10 +1,12 @@
+import Answer from './answer';
+
 interface Application {
     id: number|null;
-    creator_id: number;
+    user_id: number;
     project_id: number;
     profile_id: number;
-    answers: any;
-    status: number;
+    answers: Answer[];
+    status: number; // 0 = pending, 1 = accepted, 2 = rejected
     created_at: string; // 'YYYY-MM-DD hh:mm:ss' format
     edited_at: string; // 'YYYY-MM-DD hh:mm:ss' format
 }
