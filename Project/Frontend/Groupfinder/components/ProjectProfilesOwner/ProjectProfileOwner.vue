@@ -10,10 +10,10 @@
             >
                 {{ skill.name }}
             </b-badge>
-            <i class="far fa-plus-square add-skill" @click="addSkill"></i>
+            <!--<i class="far fa-plus-square add-skill" @click="addSkill"></i>-->
         </div>
         <hr v-if="hasAssociatedUsers()">
-        <div v-if="hasAssociatedUsers()">
+        <div v-if="hasAssociatedUsers()" class="expandable-parent">
             <i
                 v-if="!membersCollapsed"
                 @click="onExpandCollapseClick()"
@@ -30,35 +30,89 @@
                 <i
                     v-for="(member, index) in members"
                     :key="index"
-                    class="far fa-user profile-member"
+                    class="far fa-user profile-user"
                 >
                 </i>
             </div>
+            <b-button variant="outline-dark" class="btn-invite" @click="invitePeople">
+                <i class="fas fa-user-plus"></i>
+                Invite people
+            </b-button>
             <b-collapse :id="collapseID" class="mt-2">
-              <ul id="members">
-                  <li
-                    v-for="(member, index) in members"
-                    :key="index"
-                  >
-                    <div class="col1">
-                        <i class="far fa-user profile-member"></i>
-                        <span>{{ member.first_name + ' ' + member.last_name }}</span>
-                    </div>
-                    <div class="col2">
-                        <i class="far fa-comment msg" @click="goToChatPage(member.id)"></i>
-                    </div>
-                    <div class="col3">
-                        Member
-                    </div>
-                    <div class="col4">
-                    </div>
-                    <div class="col5">
-                        <b-button variant="light" class="user-button decline">
-                            <i class="fas fa-times"></i>
-                            Remove
-                        </b-button>
-                    </div>
-                  </li>
+              <ul id="users">
+                    <li
+                        v-for="(user, index) in applicants"
+                        :key="index"
+                    >
+                        <div class="col1">
+                            <i class="far fa-user profile-user"></i>
+                            <span>{{ user.first_name + ' ' + user.last_name }}</span>
+                        </div>
+                        <div class="col2">
+                            <i class="far fa-comment msg" @click="goToChatPage(user.id)"></i>
+                        </div>
+                        <div class="col3">
+                            applicant
+                        </div>
+                        <div class="col4">
+                            <b-button variant="light" class="user-button decline" @click="acceptApplication">
+                                <i class="fas fa-check"></i>
+                                accept
+                            </b-button>
+                        </div>
+                        <div class="col5">
+                            <b-button variant="light" class="user-button decline" @click="declineApplication">
+                                <i class="fas fa-times"></i>
+                                decline
+                            </b-button>
+                        </div>
+                    </li>
+                    <li
+                        v-for="(user, index) in invitees"
+                        :key="index"
+                    >
+                        <div class="col1">
+                            <i class="far fa-user profile-user"></i>
+                            <span>{{ user.first_name + ' ' + user.last_name }}</span>
+                        </div>
+                        <div class="col2">
+                            <i class="far fa-comment msg" @click="goToChatPage(user.id)"></i>
+                        </div>
+                        <div class="col3">
+                            invited
+                        </div>
+                        <div class="col4">
+                        </div>
+                        <div class="col5">
+                            <b-button variant="light" class="user-button decline" @click="cancelInvitation">
+                                <i class="fas fa-times"></i>
+                                cancel
+                            </b-button>
+                        </div>
+                    </li>
+                    <li
+                        v-for="(user, index) in members"
+                        :key="index"
+                    >
+                        <div class="col1">
+                            <i class="far fa-user profile-user"></i>
+                            <span>{{ user.first_name + ' ' + user.last_name }}</span>
+                        </div>
+                        <div class="col2">
+                            <i class="far fa-comment msg" @click="goToChatPage(user.id)"></i>
+                        </div>
+                        <div class="col3">
+                            member
+                        </div>
+                        <div class="col4">
+                        </div>
+                        <div class="col5">
+                            <b-button variant="light" class="user-button decline" @click="removeMember">
+                                <i class="fas fa-times"></i>
+                                remove
+                            </b-button>
+                        </div>
+                    </li>
               </ul>
             </b-collapse>
         </div>
@@ -106,12 +160,12 @@ i.expand-collapse{
     font-size: 1.5rem;
 }
 
-ul#members{
+ul#users{
     list-style-type: none;
-    padding: 0;
+    padding: 8px 0 0 0;
 }
 
-ul#members > li{
+ul#users > li{
     margin: 8px 0 8px 0;
     display: grid;
     grid-template-columns: minmax(max-content, 1fr) max-content 1fr 1fr 1fr;
@@ -121,11 +175,11 @@ div.col3, div.col4, div.col5{
     justify-self: end;
 }
 
-i.profile-member, i.add-skill{
+i.profile-user, i.add-skill{
     font-size: 1.5rem;
 }
 
-ul#members span{
+ul#users span{
     margin: 0 4px 0 4px;
 }
 
@@ -140,6 +194,21 @@ div#iconsOnCollapsed{
 
 div#iconsOnCollapsed i{
     margin-left: 8px;
+}
+
+.btn-invite{
+    float: right;
+    padding: 4px 8px 4px 8px;
+    margin-top: -3px;
+}
+
+.btn-invite > i{
+    margin-right: 4px;
+}
+
+div.expandable-parent{
+    overflow: auto;
+    padding: 4px;
 }
 
 </style>

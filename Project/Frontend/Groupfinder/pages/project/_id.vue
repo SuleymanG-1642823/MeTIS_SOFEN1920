@@ -16,8 +16,8 @@
             >
                 <i class="fas fa-pen"></i>
             </button>
-            <ProjectProfilesGuest v-if="false" :profiles="project.profiles"/>
-            <ProjectProfilesOwner :profiles="project.profiles"/>
+            <ProjectProfilesGuest v-if="!isOwner" :profiles="project.profiles"/>
+            <ProjectProfilesOwner v-if="isOwner"/>
         </div>
     </div>
 </template>

@@ -1,6 +1,9 @@
 <template>
     <div id="wrapper">
-        <div id="head">
+        <strong v-if="profiles===undefined">
+            This project has no profiles yet.
+        </strong>
+        <div id="head" v-if="profiles!==undefined">
             <span class="informative">Profiles: </span>
         </div>
         <ProjectProfileOwner
@@ -16,10 +19,8 @@
 
 <style scoped>
 
-#wrapper{
-    border: 1px solid blue;
-    margin-top: 20px;
-    min-height: 20px;
+strong{
+    font-size: 1.4rem;
 }
 
 </style>

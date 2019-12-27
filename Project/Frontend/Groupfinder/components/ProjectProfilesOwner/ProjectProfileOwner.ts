@@ -53,11 +53,24 @@ export default class ProjectProfileOwner extends Vue {
         this.membersCollapsed = !this.membersCollapsed;
     }
 
-    /**
-     * Adds a skill to the profile
-     */
-    addSkill(){
-        alert('TODO');
+    invitePeople(){
+        alert('TODO: invite people');
+    }
+
+    removeMember(){
+        alert('TODO: remove member');
+    }
+
+    acceptApplication(){
+        alert('TODO: accept applic');
+    }
+
+    declineApplication(){
+        alert('TODO: decline applic');
+    }
+
+    cancelInvitation(){
+        alert('TODO: cancel invitation');
     }
 
     /** 
