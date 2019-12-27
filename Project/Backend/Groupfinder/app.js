@@ -16,6 +16,7 @@ var reviews_router = require('./routes/reviews/reviews');
 var users_skills_router = require('./routes/users_skills/users_skills');
 var questionnaires_router = require('./routes/questionnaires/questionnaires');
 var applications_router = require('./routes/applications/applications');
+var members_router = require('./routes/members/members');
 
 var app = express();
 
@@ -40,5 +41,6 @@ app.use('/reviews', reviews_router);
 app.use('/users_skills', users_skills_router);
 app.use('/questionnaires', questionnaires_router);
 app.use('/applications', applications_router);
+app.use('/members', members_router);
 
 module.exports = app;
