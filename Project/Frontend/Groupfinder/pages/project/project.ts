@@ -18,7 +18,7 @@ import ProjectProfilesOwner from '~/components/ProjectProfilesOwner/ProjectProfi
         return /^\d+$/.test(params.id)
     }
 })
-export default class RecommendedProjects extends Vue {
+export default class ProjectPage extends Vue {
     project: Project;
     notFound: boolean = true;
     isOwner: boolean = false;
@@ -41,7 +41,7 @@ export default class RecommendedProjects extends Vue {
             status: 0
         }
     }
-    
+
     beforeCreate(){
         return new Promise<void>(async resolve => {
             let projectID = this.$route.params.id;

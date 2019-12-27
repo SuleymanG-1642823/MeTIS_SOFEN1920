@@ -10,12 +10,15 @@
                 :creator="project.creator_first_name + ' ' + project.creator_last_name"
                 :creatorID="project.creator_id"
             />
-            <button
-                v-if="isOwner"
-                class="edit"
-            >
-                <i class="fas fa-pen"></i>
-            </button>
+            <router-link :to="'/editProject/'+project.id">
+                <button
+                    v-if="isOwner"
+                    class="edit"
+                    @click="gotToEditProject"
+                >
+                    <i class="fas fa-pen"></i>
+                </button>
+            </router-link>
             <ProjectProfilesGuest v-if="!isOwner" :profiles="project.profiles"/>
             <ProjectProfilesOwner v-if="isOwner"/>
         </div>

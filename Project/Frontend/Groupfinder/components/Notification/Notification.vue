@@ -3,7 +3,7 @@
         <div v-if="isNew" id="newNotif"></div>
         <router-link
             v-if="destination.length > 0"
-            :to="destination">
+            :to="'/' + destination">
            <p class="msg">{{ displayedMsg }}</p>
         </router-link>
         <p v-if="destination.length === 0" class="msg">{{ displayedMsg }}</p>
