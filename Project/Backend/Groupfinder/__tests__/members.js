@@ -17,7 +17,7 @@ describe("TESTING ALL MEMBERS ROUTES", () => {
     });
     describe("POST /members/:user_id/:profile_id/:project_id", () => {
         it("Should insert a new member into the database", (done) => {
-            request.post('/members/1/1/1').end((err, res) => {
+            request.post('/members/2/1/1').end((err, res) => {
                 if (err) return done(err);
                 expect(res.status).toBe(200);
                 done();
@@ -36,7 +36,7 @@ describe("TESTING ALL MEMBERS ROUTES", () => {
     });
     describe("DELETE /members/:user_id/:profile_id/:project_id", () => {
         it("Should remove the member from the profile", (done) => {
-            request.delete('/members/1/1/1').end((err, res) => {
+            request.delete('/members/2/1/1').end((err, res) => {
                 if (err) return done(err),
                 expect(res.status).toBe(200);
                 done();

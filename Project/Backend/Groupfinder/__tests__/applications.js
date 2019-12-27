@@ -41,6 +41,15 @@ describe("TESTING ALL APPLICATION ROUTES", () => {
             })
         })
     });
+    describe("GET /applications/:application_id", () => {
+        it("Should return an application", (done) => {
+            request.get(`/applications/${applicationID}`).end((err,res) => {
+                if (err) return done(err);
+                expect(res.status).toBe(200);
+                done();
+            })
+        })
+    });
     describe("PUT /applications/status/:application_id/:status", () => {
         it("Should change the status of the application", (done) => {
             request.put(`/applications/status/${applicationID}/1`).end((err, res) => {
@@ -58,5 +67,14 @@ describe("TESTING ALL APPLICATION ROUTES", () => {
                 done();
             })
         })
-    })
+    });
+    describe("DELETE /members/:user_id/:profile_id/:project_id", () => {
+        it("Should remove the member from the profile", (done) => {
+            request.delete('/members/2/1/1').end((err, res) => {
+                if (err) return done(err),
+                expect(res.status).toBe(200);
+                done();
+            })
+        })
+    });
 });

@@ -6,7 +6,7 @@ interface Application {
     project_id: number;
     profile_id: number;
     answers: Answer[];
-    status: number;
+    status: number; // 0 = pending, 1 = accepted, 2 = rejected
     created_at: string; // 'YYYY-MM-DD hh:mm:ss' format
     edited_at: string; // 'YYYY-MM-DD hh:mm:ss' format
 }

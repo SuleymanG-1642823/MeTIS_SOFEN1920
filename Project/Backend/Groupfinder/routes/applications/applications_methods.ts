@@ -37,6 +37,39 @@ function applyForProject(application: Application): Promise<number> {
 
 
 /**
+ * Returns an application object containing the requested application
+ * @param applicationID the id of the application
+ * @returns application object
+ */
+function getApplication(applicationID: number): Promise<Application> {
+    return new Promise(
+        (resolve: any, reject: any) => {
+            const query: string = "SELECT * FROM application WHERE id=?;";
+            const params: any[] = [applicationID];
+            db_conn.query(query, params, async (err: any, rows: any) => {
+                if (err) {
+                    console.log(err);
+                    reject('500');
+                } else {
+                    let application: Application = {
+                        id: rows[0].id,
+                        user_id: rows[0].user_id,
+                        profile_id: rows[0].profile_id,
+                        project_id: rows[0].project_id,
+                        answers: JSON.parse(rows[0].answers),
+                        status: rows[0].status,
+                        created_at: rows[0].created_at,
+                        edited_at: rows[0].edited_at
+                    };
+                    resolve(application);
+                }
+            });
+        }
+    );
+}
+
+
+/**
  * Get all the applications for a single profile
  * @param profile_id the id of the profile
  * @returns an array with application objects containing all the applications for the profile
@@ -146,6 +179,7 @@ function getApplicationID(): Promise<number> {
 
 module.exports = {
     applyForProject,
+    getApplication,
     getProfileApplications,
     changeStatus,
     removeApplication,

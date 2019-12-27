@@ -1,6 +1,7 @@
 import express from 'express';
 const router = express.Router();
 const $applications_methods = require('./applications_methods');
+const $members_methods = require('../members/members_methods');
 import Application from '../../types/application';
 
 /**
@@ -31,7 +32,24 @@ router.post('/', async (req:any, res:any) => {
 
 
 /**
+ * Get the application with id :application_id
+ * @returns application object
+ */
+router.get('/:application_id', async (req: any, res: any) => {
+    try {
+        const application_id = parseInt(req.params.application_id);
+        const application: Application = await $applications_methods.getApplication(application_id);
+        res.status(200).json(application);
+    } catch(err) {
+        const statusCode: number = parseInt(err);
+        res.status(statusCode).send("Error while fetching the application");
+    }
+})
+
+
+/**
  * Get all the applications for the profile with ID :profile_id
+ * @returns list of application objects
  */
 router.get('/profile/:profile_id', async (req: any, res: any) => {
     console.log(req.params);
@@ -54,7 +72,15 @@ router.put('/status/:application_id/:status', async (req: any, res: any) => {
         const application_id: number = parseInt(req.params.application_id);
         const status: number = parseInt(req.params.status);
         await $applications_methods.changeStatus(status, application_id);
-        res.status(200).send("Successfully updated application status");
+        // Status=1 means that the application has been accepted
+        if (status == 1){
+            // Get the application information
+            const application: Application = await $applications_methods.getApplication(application_id);
+            await $members_methods.addMember(application.user_id, application.project_id, application.profile_id);
+            res.status(200).send("Successfully updated application status and added member to profile");
+        } else {
+            res.status(200).send("Successfully updated application status");
+        }
     } catch(err){
         const statusCode: number = parseInt(err);
         res.status(statusCode).send("Error while updating application status");
