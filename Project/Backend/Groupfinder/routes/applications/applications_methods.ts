@@ -77,6 +77,51 @@ function getProfileApplications(profile_id: number): Promise<Application[]> {
 
 
 /**
+ * Changes the status of an application
+ * @param newStatus an integer indicating the new status
+ * @param applicationID the id of the application that will be updated
+ */
+function changeStatus(newStatus: number, applicationID: number): Promise<void>{
+    return new Promise(
+        (resolve: any, reject: any) => {
+            const query: string = 'UPDATE application SET status=? WHERE id=?;';
+            const params: any[] = [newStatus, applicationID];
+            db_conn.query(query, params, async (err: any, row: any) => {
+                if (err) {
+                    console.log(err);
+                    reject('500');
+                } else {
+                    resolve();
+                }
+            })
+        }
+    )
+}
+
+
+/**
+ * Removes an application from the database
+ * @param applicationID the id of the application
+ */
+function removeApplication(applicationID: number): Promise<void>{
+    return new Promise(
+        (resolve: any, reject: any) => {
+            const query: string = "DELETE FROM application WHERE id=?;";
+            const params: any[] = [applicationID];
+            db_conn.query(query, params, async (err: any, rows: any) =>{
+                if (err) {
+                    console.log(err);
+                    reject('500');
+                } else {
+                    resolve();
+                }
+            });
+        }
+    )
+}
+
+
+/**
  * Get ID of the last inserted application
  * @returns the id of the application
  */
@@ -102,5 +147,7 @@ function getApplicationID(): Promise<number> {
 module.exports = {
     applyForProject,
     getProfileApplications,
+    changeStatus,
+    removeApplication,
     getApplicationID
 }

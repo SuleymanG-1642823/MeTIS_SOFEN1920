@@ -41,7 +41,35 @@ router.get('/profile/:profile_id', async (req: any, res: any) => {
         res.status(200).json(applications);
     } catch(err) {
         const statusCode: number = parseInt(err);
-        res.status(500).send("Error while fetching all applications from the database where profileID is the id of the profile of the applications.");
+        res.status(statusCode).send("Error while fetching all applications from the database where profileID is the id of the profile of the applications.");
+    }
+});
+
+
+/**
+ * Change the status of an application
+ */
+router.put('/status/:application_id/:status', async (req: any, res: any) => {
+    try{
+        const application_id: number = parseInt(req.params.application_id);
+        const status: number = parseInt(req.params.status);
+        await $applications_methods.changeStatus(status, application_id);
+        res.status(200).send("Successfully updated application status");
+    } catch(err){
+        const statusCode: number = parseInt(err);
+        res.status(statusCode).send("Error while updating application status");
+    }
+});
+
+
+router.delete('/:application_id', async (req: any, res: any) => {
+    try{
+        const application_id: number = parseInt(req.params.application_id);
+        await $applications_methods.removeApplication(application_id);
+        res.status(200).send("Successfully deleted application");
+    } catch(err) {
+        const statusCode: number = parseInt(err);
+        res.status(statusCode).send("Error while deleting application");
     }
 });
 
