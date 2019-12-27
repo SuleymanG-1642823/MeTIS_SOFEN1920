@@ -1,6 +1,6 @@
 <template>
     <div id="profilewrapper" v-if="profile !== undefined">
-        <span>{{ profile.name + ', ' + profile.id }}</span>
+        <span>{{ profile.name }}</span>
         <b-form-checkbox
             class="apply-checkbox"
             @change="checkedUnChecked"
@@ -33,7 +33,7 @@
                 <i
                     v-for="(member, index) in members"
                     :key="index"
-                    class="fas fa-user profile-member"
+                    class="far fa-user profile-member"
                 >
                 </i>
             </div>
@@ -43,7 +43,7 @@
                     v-for="(member, index) in members"
                     :key="index"
                   >
-                    <i class="fas fa-user profile-member"></i>
+                    <i class="far fa-user profile-member"></i>
                     <span>{{ member.first_name + ' ' + member.last_name }}</span>
                     <i class="far fa-comment msg" @click="goToChatPage(member.id)"></i>
                   </li>

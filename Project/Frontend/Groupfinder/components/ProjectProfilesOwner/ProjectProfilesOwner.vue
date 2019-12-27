@@ -1,6 +1,13 @@
 <template>
     <div id="wrapper">
-        <p class="informative">Profiles</p>
+        <div id="head">
+            <span class="informative">Profiles: </span>
+        </div>
+        <ProjectProfileOwner
+            v-for="profile in profiles"
+            :key="profile.id"
+            :profile="profile"
+        />
     </div>
 </template>
 

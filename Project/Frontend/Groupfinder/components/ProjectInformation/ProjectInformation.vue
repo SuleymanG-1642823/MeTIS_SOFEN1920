@@ -36,6 +36,10 @@
 
 <style scoped>
 
+div#wrapper{
+    margin-bottom: 20px;
+}
+
 div.head{
     overflow: auto;
 }
@@ -46,6 +50,7 @@ h1#title{
     font-size: 1.8rem;
     display: block;
     float: left;
+    margin-bottom: 0;
 }
 
 #creator{

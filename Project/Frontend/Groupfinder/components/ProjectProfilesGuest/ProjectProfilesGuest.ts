@@ -9,6 +9,7 @@ import Profile from '~/types/profile'
 })
 export default class ProjectProfilesGuest extends Vue {
     checkedProfiles: number[] = [];
+    showModal: boolean = false;
 
     @Prop(Array) profiles: Profile[];
     
@@ -38,6 +39,11 @@ export default class ProjectProfilesGuest extends Vue {
     }
 
     redirectToApplicationPage(){
-        alert('TODO: redirect to application page with profile ids: ' + this.checkedProfiles);
+        if (this.checkedProfiles.length === 0){
+            this.showModal = true;
+        }
+        else{
+            alert('TODO: redirect to application page with profile ids: ' + this.checkedProfiles);
+        }
     }
 }

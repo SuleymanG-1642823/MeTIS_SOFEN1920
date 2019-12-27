@@ -12,6 +12,10 @@ export default class ProjectProfileGuest extends Vue {
 
     @Prop(Object) profile: Profile;
 
+    /**
+     * Retrieves missing information such as the members (users that
+     * are already accepted for the profile).
+     */
     created(){
         return new Promise<void>(async (resolve: any, reject: any) => {
             if (this.profile !== undefined){
@@ -90,6 +94,10 @@ export default class ProjectProfileGuest extends Vue {
         });
     }
 
+    /**
+     * This method is called to update the membersCollapsed member. Each time 
+     * the expand/collapse icon is clicked the value of the member is flipped.
+     */
     onExpandCollapseClick(){
         this.membersCollapsed = !this.membersCollapsed;
     }

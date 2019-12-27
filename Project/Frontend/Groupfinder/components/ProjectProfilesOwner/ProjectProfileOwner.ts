@@ -5,36 +5,75 @@ import axios from 'axios'
 import api from '@/helpers/Api';
 
 @Component
-export default class ProjectProfileGuest extends Vue {
+export default class ProjectProfileOwner extends Vue {
     @Prop(Object) profile: Profile;
-    applicants: User[];
-    invitees: User[];
-    members: User[];
+    applicants: User[] = [];
+    invitees: User[] = [];
+    members: User[] = [];
+    membersCollapsed: boolean = true;
+    collapseID: string = '';
 
-    beforeCreate(){
+    /**
+     * Retrieves missing information such as the 
+     *   - members (users that are already accepted for the profile).
+     *   - invitees (users that are invited for the profile).
+     *   - applicants (users that applied for the profile).
+     */
+    created(){
         if (this.profile !== undefined){
             return new Promise<void>(async resolve => {
                 // Get applicants, invitees and members
                 this.applicants = await this.getApplicants();
                 this.invitees = await this.getInvitees();
                 this.members = await this.getMembers();
+
+                // set unique collapse ID and assign it to the b-collapse tag
+                // if multiple b-collapse tags have the same id, they affect each other
+                this.collapseID = 'collapse-' + this.profile.id;
             });
         }
+    }
+
+    /**
+     * Checks if there are any associated users, these are members, invitees, ...
+     */
+    hasAssociatedUsers(){
+        if (this.members.length > 0)    return true;
+        if (this.invitees.length > 0)   return true;
+        if (this.applicants.length > 0) return true;
+
+        return false;
+    }
+
+    /**
+     * This method is called to update the membersCollapsed member. Each time 
+     * the expand/collapse icon is clicked the value of the member is flipped.
+     */
+    onExpandCollapseClick(){
+        this.membersCollapsed = !this.membersCollapsed;
+    }
+
+    /**
+     * Adds a skill to the profile
+     */
+    addSkill(){
+        alert('TODO');
     }
 
     /** 
      * Requests the users that applied for this project from the backend
     */
     private getApplicants(){
-        return new Promise<Array<User>>(async resolve => {
+        return new Promise<Array<User>>(async (resolve: any, reject: any) => {
             /*
             try{
                 // get the applicants for this profile
                 let url = api(`applications/${this.profile.id}`)
                 const response = await axios.get(url)
-                return response.data;
+                resolve(response.data);
             } catch (err) {
-                console.log(`Error while requesting applicants for profile ${this.profile.id}: ${err.response.data}`)
+                console.log(`Error while requesting applicants for profile ${this.profile.id}: ${err.response.data}`);
+                reject();
             }
             */
 
@@ -70,7 +109,7 @@ export default class ProjectProfileGuest extends Vue {
                 private: false
             };
 
-            return [dummyApplicant1, dummyApplicant2];
+            resolve([dummyApplicant1, dummyApplicant2]);
         });
     }
 
@@ -78,15 +117,16 @@ export default class ProjectProfileGuest extends Vue {
      * Requests the users that are invited for this project from the backend
     */
     private getInvitees(){
-        return new Promise<Array<User>>(async resolve => {
+        return new Promise<Array<User>>(async (resolve: any, reject: any) => {
             /*
             // get the applicants for this profile
             try{
-                let url = api(`invitations/${this.profile.id}`)
-                const response = await axios.get(url)
-                return response.data;
+                let url = api(`invitations/${this.profile.id}`);
+                const response = await axios.get(url);
+                resolve(response.data);
             } catch (err) {
-                console.log(`Error while requesting invitees for profile ${this.profile.id}: ${err.response.data}`)
+                console.log(`Error while requesting invitees for profile ${this.profile.id}: ${err.response.data}`);
+                reject();
             }
             */
 
@@ -107,7 +147,7 @@ export default class ProjectProfileGuest extends Vue {
                 private: false
             };
 
-            return [dummyinvitee1];
+            resolve([dummyinvitee1]);
         });
     }
 
@@ -115,15 +155,16 @@ export default class ProjectProfileGuest extends Vue {
      * Requests the users that are invited for this project from the backend
     */
     private getMembers(){
-        return new Promise<Array<User>>(async resolve => {
+        return new Promise<Array<User>>(async (resolve: any, reject: any) => {
             /*
             try{
                 // get the applicants for this profile
-                let url = api(`members/${this.profile.id}`)
-                const response = await axios.get(url)
-                return response.data;
+                let url = api(`members/${this.profile.id}`);
+                const response = await axios.get(url);
+                resolve(response.data);
             } catch (err) {
-                console.log(`Error while requesting members for profile ${this.profile.id}: ${err.response.data}`)
+                console.log(`Error while requesting members for profile ${this.profile.id}: ${err.response.data}`);
+                reject();
             }
             */
             
@@ -144,8 +185,23 @@ export default class ProjectProfileGuest extends Vue {
                available: true,
                private: false
             };
+
+            let dummyMember2: User = {
+                id: 63,
+                first_name: 'Lennert',
+                last_name: 'Gebelen',
+                mail: 'lennert.gebelen@mail.com',
+                address: '',
+                zip: '',
+                city: '',
+                tel: '',
+                website: '',
+                social_media: null,
+                available: true,
+                private: false
+             };
             
-            return [dummyMember1];
+            resolve([dummyMember1, dummyMember2]);
         });
     }
 }

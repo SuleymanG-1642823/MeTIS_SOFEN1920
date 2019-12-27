@@ -16,8 +16,8 @@
             >
                 <i class="fas fa-pen"></i>
             </button>
-            <ProjectProfilesGuest :profiles="project.profiles"/>
-            <ProjectProfilesOwner />
+            <ProjectProfilesGuest v-if="false" :profiles="project.profiles"/>
+            <ProjectProfilesOwner :profiles="project.profiles"/>
         </div>
     </div>
 </template>
@@ -56,9 +56,4 @@ button.edit{
 button.edit > i {
     font-size: 2rem;
 }
-
-ProjectInformation{
-    display: inline-block;
-}
-
 </style>

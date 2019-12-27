@@ -8,9 +8,18 @@
             v-for="profile in profiles"
             :key="profile.id"
             :profile="profile"
-            v-on:profile-checked="onProfileChecked"
-            v-on:profile-unchecked="onProfileUnchecked"
+            @profile-checked="onProfileChecked"
+            @profile-unchecked="onProfileUnchecked"
         />
+        <b-modal
+            id="my-modal"
+            v-model="showModal"
+            centered
+            ok-only
+            title="Notice"
+        >
+            You need to select at least one profile to apply.
+        </b-modal>
     </div>
 </template>
 
@@ -20,7 +29,6 @@
 <style scoped>
 
 #wrapper{
-    border: 1px solid red;
     min-height: 20px;
 }
 
