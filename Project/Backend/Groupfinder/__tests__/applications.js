@@ -17,7 +17,7 @@ describe("TESTING ALL APPLICATION ROUTES", () => {
         test_server.close(done);
     });
     describe("POST /applications/", () => {
-        it("Should inser a new application into the database", (done) => {
+        it("Should insert a new application into the database", (done) => {
             var application = {
                 id: null,
                 user_id: 1,
