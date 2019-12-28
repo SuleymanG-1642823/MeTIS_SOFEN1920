@@ -1,6 +1,8 @@
 const db_conn = require('../../databaseconnection');
 import Application from '../../types/application';
 import Answer from '../../types/answer';
+import Project from '../../types/project';
+const $projects_methods = require('../projects/project_methods');
 
 /**
  * Inserts an application for a profile into the database
@@ -110,6 +112,34 @@ function getProfileApplications(profile_id: number): Promise<Application[]> {
 
 
 /**
+ * Get all the projects a user has applied for
+ * @param user_id the is of the user
+ * @returns A list of Project objects containing all the projects the user has applied for
+ */
+function getUserProjects(user_id: number): Promise<Project[]>{
+    return new Promise(
+        (resolve: any, reject: any) => {
+            const query: string = 'SELECT * FROM application WHERE user_id=?;';
+            const params: any[] = [user_id];
+            db_conn.query(query, params, async (err: any, rows: any) => {
+                if (err) {
+                    console.log(err);
+                    reject('500');
+                } else {
+                    let projects: Project[] = [];
+                    for (let i = 0; i < rows.length; i++){
+                        let project: Project = await $projects_methods.getProject(rows[i].project_id);
+                        projects.push(project);
+                    }
+                    resolve(projects);
+                }
+            })
+        }
+    )
+}
+
+
+/**
  * Changes the status of an application
  * @param newStatus an integer indicating the new status
  * @param applicationID the id of the application that will be updated
@@ -119,7 +149,7 @@ function changeStatus(newStatus: number, applicationID: number): Promise<void>{
         (resolve: any, reject: any) => {
             const query: string = 'UPDATE application SET status=? WHERE id=?;';
             const params: any[] = [newStatus, applicationID];
-            db_conn.query(query, params, async (err: any, row: any) => {
+            db_conn.query(query, params, async (err: any, rows: any) => {
                 if (err) {
                     console.log(err);
                     reject('500');
@@ -183,5 +213,6 @@ module.exports = {
     getProfileApplications,
     changeStatus,
     removeApplication,
-    getApplicationID
+    getApplicationID,
+    getUserProjects
 }

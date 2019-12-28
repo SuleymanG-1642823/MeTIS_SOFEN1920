@@ -3,6 +3,7 @@ const router = express.Router();
 const $applications_methods = require('./applications_methods');
 const $members_methods = require('../members/members_methods');
 import Application from '../../types/application';
+import Project from '../../types/project';
 
 /**
  * Middleware that is specific to this router
@@ -60,6 +61,21 @@ router.get('/profile/:profile_id', async (req: any, res: any) => {
     } catch(err) {
         const statusCode: number = parseInt(err);
         res.status(statusCode).send("Error while fetching all applications from the database where profileID is the id of the profile of the applications.");
+    }
+});
+
+
+/**
+ * Get all the projects the user has applied for
+ */
+router.get('/user/:user_id', async (req: any, res: any) => {
+    try {
+        const user_id: number = parseInt(req.params.user_id);
+        const projects: Project[] = await $applications_methods.getUserProjects(user_id);
+        res.status(200).json(projects);
+    } catch(err) {
+        const statusCode: number = parseInt(err);
+        res.status(statusCode).send("Error while fetching all projects the user has applied for");
     }
 });
 

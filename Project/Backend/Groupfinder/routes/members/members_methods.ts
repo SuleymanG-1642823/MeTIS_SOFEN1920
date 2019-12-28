@@ -92,6 +92,11 @@ function deleteMember(user_id: number, project_id: number, profile_id: number): 
 }
 
 
+/**
+ * Get all the projects the user is a member of
+ * @param user_id the id of the user
+ * @returns A list of Project objects containing all the projects the user is a member of
+ */
 function getProjectsUser(user_id: number): Promise<Project[]> {
     return new Promise(
         (resolve: any, reject: any) => {
