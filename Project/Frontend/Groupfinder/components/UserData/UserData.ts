@@ -19,6 +19,7 @@ export default class UserData extends Vue {
     private logged_in_user: boolean = false;
     private rating: number = 0;
     private nRatings: number = 0;
+    private social_media: any[]|null = null;
 
     // LIFECYCLE HOOKS
     private async mounted(){
@@ -27,6 +28,7 @@ export default class UserData extends Vue {
         this.logged_in_user = (this.$store.state.auth.user.id == this.user_prop.id);
         const reviews: Review[] = await this.fetchReviews();
         this.rating = this.calculateAvgRating(reviews);
+        this.social_media = this.user_prop.social_media;
     }
 
     /**

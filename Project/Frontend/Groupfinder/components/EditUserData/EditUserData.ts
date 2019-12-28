@@ -33,22 +33,16 @@ export default class EditUserData extends Vue {
     // LIFECYCLE HOOKS
     private async mounted(){
         this.resetFields(null);
-        const url: string = api(`users/${this.user_prop.id}`);
-        const response = await axios.get(url);
-        try{
-            if (!response.data.user.social_media){return;}
-            const social_media_from_db: any[] = JSON.parse(response.data.user.social_media);
-            let social_media = [];
-            for (let i = 0; i < social_media_from_db.length; i++){
-                social_media.push({
-                    prefix: social_media_from_db[i].prefix,
-                    suffix: social_media_from_db[i].suffix,
-                    state: (social_media_from_db[i].suffix !== "")
+        if (this.user_prop.social_media){
+            let links: any[] = [];
+            for (let i = 0; i < this.user_prop.social_media.length; i++) {
+                links.push({
+                    prefix: this.user_prop.social_media[i].prefix,
+                    suffix: this.user_prop.social_media[i].suffix,
+                    state: (this.user_prop.social_media[i].suffix !== '')
                 })
             }
-            this.links = social_media;
-        } catch (err){
-            console.log(err);
+            this.links = links;
         }
     }
 
@@ -98,7 +92,7 @@ export default class EditUserData extends Vue {
         this.zip = this.user_prop.zip;
         this.city = this.user_prop.city;
         this.website = this.user_prop.website;
-        this.social_media = this.user_prop.social_media;
+        this.links = this.user_prop.social_media;
         this.available = this.user_prop.available;
     }
 
@@ -106,6 +100,19 @@ export default class EditUserData extends Vue {
      * Save the new data on the server.
      */
     private async saveChanges() {
+        let social_media: any[] | null;
+        if (this.links[0].suffix === '' && this.links[1].suffix === '' && this.links[2].suffix === '' && this.links[3].suffix === ''){
+            social_media = null;
+        } else {
+            social_media = [];
+            for (let i = 0; i < this.links.length; i++){
+                social_media.push({
+                    prefix: this.links[i].prefix,
+                    suffix: this.links[i].suffix
+                });
+            }
+        }
+
         let user: User = {
             id: this.user_prop.id,
             first_name: this.first_name,
@@ -116,7 +123,7 @@ export default class EditUserData extends Vue {
             zip: this.zip,
             city: this.city,
             website: this.website,
-            social_media: this.links,
+            social_media: social_media,
             available: this.available,
             private: this.user_prop.private
         }

@@ -23,6 +23,20 @@ function getUser(userID: number): Promise<User> {
                     reject('404');
                 } else {
                     const row = rows[0];
+                    let social_media;
+                    if (! row.social_media){
+                        social_media = null;
+                    } else {
+                        const social_media_from_db: any[] = JSON.parse(row.social_media);
+                        social_media = [];
+                        for (let i = 0; i < social_media_from_db.length; i++){
+                            social_media.push({
+                                prefix: social_media_from_db[i].prefix,
+                                suffix: social_media_from_db[i].suffix
+                            })
+                        }
+                    }
+                    
                     const user: User = {
                         id: row.id,
                         first_name: row.first_name,
@@ -33,7 +47,7 @@ function getUser(userID: number): Promise<User> {
                         city: row.city,
                         tel: row.tel,
                         website: row.website,
-                        social_media: row.social_media,
+                        social_media: social_media,
                         available: row.available,
                         private: row.private
                     }
@@ -80,16 +94,15 @@ function getMatchingUsers(projectID: number): Promise<any>{
 function updateUser(userID: number, user: User): Promise<void> {
     return new Promise(
         (resolve: any, reject: any) => {
-            let social_media = [];
-            for (let i = 0; i < user.social_media.length; i++){
-                social_media.push({
-                    prefix: user.social_media[i].prefix,
-                    suffix: user.social_media[i].suffix
-                });
-            }   
+            let social_media: string|null;
+            if (user.social_media){
+                social_media = JSON.stringify(user.social_media);
+            } else {
+                social_media = null;
+            }
 
             const query: string = 'UPDATE user SET first_name=?, last_name=?, mail=?, addr=?, zip=?, city=?, tel=?, website=?, social_media=?, available=?, private=? WHERE id=?;';
-            const params: any[] = [user.first_name, user.last_name, user.mail, user.address, user.zip, user.city, user.tel, user.website, JSON.stringify(social_media), user.available, user.private, userID];
+            const params: any[] = [user.first_name, user.last_name, user.mail, user.address, user.zip, user.city, user.tel, user.website, social_media, user.available, user.private, userID];
             db_conn.query(query, params, (err: any, rows: any) => {
                 if (err){
                     console.log(err);
@@ -110,16 +123,15 @@ function updateUser(userID: number, user: User): Promise<void> {
 function addUser(user: User, hashedPassword: string): Promise<number> {
     return new Promise(
         (resolve: any, reject: any) => {
-            let social_media = [];
-            for (let i = 0; i < user.social_media.length; i++){
-                social_media.push({
-                    prefix: user.social_media[i].prefix,
-                    suffix: user.social_media[i].suffix
-                });
-            }          
+            let social_media: string|null;
+            if (user.social_media){
+                social_media = JSON.stringify(user.social_media);
+            } else {
+                social_media = null;
+            }
 
             const query: string = 'INSERT INTO user (first_name, last_name, mail, password, addr, zip, city, tel, website, social_media, available, private) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);';
-            const params: any[] = [user.first_name, user.last_name, user.mail, hashedPassword ,user.address, user.zip, user.city, user.tel, user.website, JSON.stringify(social_media), user.available, user.private];
+            const params: any[] = [user.first_name, user.last_name, user.mail, hashedPassword ,user.address, user.zip, user.city, user.tel, user.website, social_media, user.available, user.private];
             db_conn.query(query, params, async (err: any, rows: any) => {
                 if (err){
                     console.log(err);

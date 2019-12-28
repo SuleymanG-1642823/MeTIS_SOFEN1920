@@ -38,7 +38,9 @@ export default class MyProfile extends Vue {
      */
     @Watch('private_data')
     onPrivateDataChanged(newValue: boolean, oldValue: boolean){
-        this.savePrivacySetting(this.$store.state.auth.user, newValue);
+        if (newValue != this.$store.state.auth.user.private){
+            this.savePrivacySetting(this.$store.state.auth.user, newValue);
+        }
     }
 
     // METHODS

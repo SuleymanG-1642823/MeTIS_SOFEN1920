@@ -1,20 +1,20 @@
 <template>
   <div>
       <h1>My profile</h1>
-      <UserData v-if="this.user" :user_prop="this.user" />
+      <UserData v-if="user" :user_prop="user" />
       <b-tooltip target="edit_data_btn" triggers="hover">Edit data</b-tooltip>
       <b-button v-b-modal.editData type="button" id="edit_data_btn" class="icon_button"><i class="fas fa-pen"></i></b-button>
-      <EditUserData :user_prop="this.user" />
-      <b-tabs id="myProfileNav" v-if="this.user" card>
+      <EditUserData :user_prop="user" />
+      <b-tabs id="myProfileNav" v-if="user" card>
       <b-tab title="Skills">
-        <SkillsOfUser :userid_prop="this.user.id"/>
+        <SkillsOfUser :userid_prop="user.id"/>
       </b-tab>
       <b-tab title="Projects">
-        <ProjectsOfUser :userid_prop="this.user.id"/>
+        <ProjectsOfUser :userid_prop="user.id"/>
       </b-tab>
       <b-tab title="Settings">
         <h2>Change password</h2>
-        <ChangePassword :userID_prop=this.user.id />
+        <ChangePassword :userID_prop=user.id />
         <h2>Privacy settings <i id="help_icon" class="fas fa-info-circle"></i></h2>
          <b-tooltip target="help_icon" triggers="hover">
           If you choose to set your data protected, your mail, telephone number, zip and city will only be visible for teammembers.
