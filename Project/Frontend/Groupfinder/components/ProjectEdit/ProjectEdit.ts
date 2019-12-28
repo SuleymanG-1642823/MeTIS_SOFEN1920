@@ -223,7 +223,7 @@ export default class ProjectEdit extends Vue {
         return new Promise(
             async (resolve: any, reject: any) => {
                 try {
-                    let url = "http://localhost:4000/categories/";
+                    let url = this.$api("categories")
                     const response = await axios.get(url);
                     const categories: Category[] = response.data;
                     resolve(categories);
