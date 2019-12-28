@@ -7,16 +7,16 @@ import Invite from '~/types/invite'
 import Member from '~/types/member'
 import axios from 'axios'
 import api from '@/helpers/Api';
-
 @Component
 export default class ProjectProfileOwner extends Vue {
-    @Prop(Object) profile: Profile;
     membersCollapsed: boolean = true;
     collapseID: string = '';
     
     applicants: {user: User, application: Application}[] = [];
     invitees: {user: User, Invite: Application}[] = [];
     members: User[] = [];
+
+    @Prop(Object) profile: Profile;
 
     /**
      * Retrieves missing information such as the 
@@ -66,6 +66,10 @@ export default class ProjectProfileOwner extends Vue {
         alert('TODO: remove member');
     }
 
+    /**
+     * Sends the request to the server to update the status of the application
+     * to accepted.
+     */
     acceptApplication(applicationID: number){
         return new Promise<void>(async (resolve: any, reject: any) => {
             try{
@@ -86,12 +90,32 @@ export default class ProjectProfileOwner extends Vue {
                 alert('Something went wrong, could not accept application. Please try again.');
                 reject();
             }
-        })
+        });
     }
 
-    declineApplication(){
-        alert('TODO: decline applic');
+    declineApplication(applicationID: number){
+        return new Promise<void>(async (resolve: any, reject: any) => {
+            try{
+                // update application status
+                let url = api(`applications/status/${applicationID}/${APPLICATION_STATUS.REJECTED}`);
+                await axios.put(url);
+
+                // remove application object from component data
+                this.removeApplicant(applicationID);
+
+                // update members
+                this.members = await this.getMembers();
+
+                // end method successfully
+                resolve();
+            } catch (err) {
+                console.log(`Error while accepting application ${applicationID}`);
+                alert('Something went wrong, could not accept application. Please try again.');
+                reject();
+            }
+        });
     }
+
 
     cancelInvitation(){
         alert('TODO: cancel invitation');

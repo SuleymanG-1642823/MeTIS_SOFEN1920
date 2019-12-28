@@ -28,6 +28,12 @@
             ></i>
             <div id="iconsOnCollapsed" v-if="membersCollapsed">
                 <i
+                    v-for="(applicant, index) in applicants"
+                    :key="index"
+                    class="far fa-user profile-user"
+                >
+                </i>
+                <i
                     v-for="(member, index) in members"
                     :key="index"
                     class="far fa-user profile-user"
@@ -61,7 +67,7 @@
                             </b-button>
                         </div>
                         <div class="col5">
-                            <b-button variant="light" class="user-button decline" @click="declineApplication">
+                            <b-button variant="light" class="user-button decline" @click="declineApplication(applicant.application.id)">
                                 <i class="fas fa-times"></i>
                                 decline
                             </b-button>
