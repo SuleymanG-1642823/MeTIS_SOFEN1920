@@ -59,6 +59,11 @@
                         </div>
                         <div class="col3">
                             applicant
+                            <i
+                                class="far fa-file-alt"
+                                v-if="applicant.application.answers !== undefined"
+                                @click="showApplicationAnswers(applicant.application.answers, applicant.user.first_name + ' ' + applicant.user.last_name)"
+                            ></i>
                         </div>
                         <div class="col4">
                             <b-button variant="light" class="user-button decline" @click="acceptApplication(applicant.application.id)">
@@ -122,6 +127,23 @@
               </ul>
             </b-collapse>
         </div>
+        <b-modal
+            id="answers-modal"
+            v-model="showAnswers"
+            centered
+            ok-only
+            size="lg"
+            :title="modalTitle"
+        >
+            <b-card
+                v-for="(answer, index) in modalAnswers"
+                :key="index"
+                bg-variant="light"
+                :header="answer.question"
+                class="text-center">
+                <b-card-text>{{ answer.answer }}</b-card-text>
+            </b-card>
+        </b-modal>
     </div>
 </template>
 
@@ -189,6 +211,10 @@ ul#users span{
     margin: 0 4px 0 4px;
 }
 
+ul#users div > i{
+    font-size: 1.5rem;
+}
+
 i.msg{
     cursor:pointer;
     font-size: 1.5rem;
@@ -215,6 +241,10 @@ div#iconsOnCollapsed i{
 div.expandable-parent{
     overflow: auto;
     padding: 4px;
+}
+
+i.user-row{
+    font-size: 1.5rem;
 }
 
 </style>

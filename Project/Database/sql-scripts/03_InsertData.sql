@@ -30,8 +30,8 @@ VALUES  (1, 'Back-end developper', 1, '["What other projects have you worked on?
 
 -- PROFILE APPLICATIONS
 INSERT INTO application (user_id, project_id, profile_id, answers, status)
-VALUES  (2, 3, 5, '{}', 0),
-        (3, 3, 6, '{}', 0);
+VALUES  (2, 3, 5, '[{"question": "What other projects have you worked on?", "answer": "None."}]', 0),
+        (3, 3, 6, '[{"question": "What other projects have you worked on?", "answer": "None."}, {"question": "What is your preferred programming language?", "answer": "c++"}]', 0);
 
 -- PROFILE SKILLS
 INSERT INTO profile_skill -- (profile_id, name, experience, weight)

@@ -5,8 +5,10 @@ import Application from '~/types/application'
 import {APPLICATION_STATUS} from '~/types/application'
 import Invite from '~/types/invite'
 import Member from '~/types/member'
+import Answer from '~/types/answer'
 import axios from 'axios'
 import api from '@/helpers/Api';
+
 @Component
 export default class ProjectProfileOwner extends Vue {
     membersCollapsed: boolean = true;
@@ -15,6 +17,10 @@ export default class ProjectProfileOwner extends Vue {
     applicants: {user: User, application: Application}[] = [];
     invitees: {user: User, Invite: Application}[] = [];
     members: User[] = [];
+
+    showAnswers: boolean = false;
+    modalAnswers: Array<Answer> = [];
+    modalTitle: string = 'Questionnaire answers';
 
     @Prop(Object) profile: Profile;
 
@@ -155,6 +161,17 @@ export default class ProjectProfileOwner extends Vue {
         });
     }
 
+    /**
+     * Shows the given answers in a modal.
+     * @param answers: answers to show
+     */
+    showApplicationAnswers(answers: Answer[], userName: string){
+        if (userName !== undefined)
+            this.modalTitle = this.profile.name + ' questionnaire answers of ' + userName;
+            
+        this.modalAnswers = answers;
+        this.showAnswers = true;
+    }
 
     cancelInvitation(){
         alert('TODO: cancel invitation');
