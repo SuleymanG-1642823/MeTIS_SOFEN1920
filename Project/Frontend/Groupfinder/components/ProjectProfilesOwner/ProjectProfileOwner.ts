@@ -62,8 +62,47 @@ export default class ProjectProfileOwner extends Vue {
         alert('TODO: invite people');
     }
 
-    removeMember(){
-        alert('TODO: remove member');
+    /**
+     * Remove the given user from being a member. Send a request to backend
+     * to handle the data for this. If request succeeds remove member from the data memberlist
+     */
+    removeMember(memberID: number){
+        return new Promise<void>(async (resolve: any, reject: any) => {
+            try{
+                // update application status
+                let url = api(`members/${memberID}/${this.profile.id}/${this.profile.project_id}`);
+                await axios.delete(url);
+
+                // remove application object from component data
+                this.removeMemberFromData(memberID);
+
+                // end method successfully
+                resolve();
+            } catch (err) {
+                console.log(`Error while removing member ${memberID}`);
+                alert('Something went wrong while removing member. Please try again if member is not removed.');
+                reject();
+            }
+        });
+    }
+
+    /**
+     * Removes member with given index from members.
+     */
+    removeMemberFromData(memberID: number){
+        // find member index
+        let indexToRemove = -1;
+        for (let i = 0; i < this.members.length; i++){
+            if (this.members[i].id === memberID){
+                indexToRemove = i;
+                break;
+            }
+        }
+
+        // remove element on index indexToRemove if given id was found
+        if (indexToRemove > -1){
+            this.members.splice(indexToRemove, 1);
+        }
     }
 
     /**

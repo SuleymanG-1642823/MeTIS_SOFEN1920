@@ -113,7 +113,7 @@
                         <div class="col4">
                         </div>
                         <div class="col5">
-                            <b-button variant="light" class="user-button decline" @click="removeMember">
+                            <b-button variant="light" class="user-button decline" @click="removeMember(user.id)">
                                 <i class="fas fa-times"></i>
                                 remove
                             </b-button>
