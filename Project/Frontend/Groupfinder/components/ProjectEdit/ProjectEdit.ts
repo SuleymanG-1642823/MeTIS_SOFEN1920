@@ -23,7 +23,6 @@ export default class ProjectEdit extends Vue {
     categories_input : Array<SplitCategory> = []
     selected_categories_ids: Array<number> = []
     index: number = 0
-    CategoriesBool: boolean = false;
 
     // Stores all previously created questionnaires from this user
     userQuestionnaireList: Questionnaire[] = [];
