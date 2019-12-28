@@ -20,16 +20,27 @@ export default class CategoriesComponent extends Vue {
     disabledDropdown: string = "dontShow"
 
     @Prop({default: {}}) category: SplitCategory;
+    @Prop({default: []}) checkedBool: Boolean;
 
     /**
      * Function gets called when the component gets created,
      * makes a checkbox for each existing category and its subcategories
      */
     created(){
-        this.category.subcategories.forEach(element => {
-            this.subcategories.push(element.sub_name);
-            this.selectedCategoriesCheckboxes.push(false);
-        })
+        if(this.category.main_id !== null){
+            if(this.category.checkedBool){
+                this.allCheckbox = true;
+            }
+        }
+        for(let i = 0; i < this.category.subcategories.length; i++){
+            this.subcategories.push(this.category.subcategories[i].sub_name)
+            if(this.category.subcategories[i].checkedBool){
+                this.selectedCategoriesCheckboxes[i] = true;
+            }
+            else{
+                this.selectedCategoriesCheckboxes[i] = false;
+            }
+        }
         if(this.category.subcategories.length !== 0){
             this.disabledDropdown = "show"
         }

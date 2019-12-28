@@ -90,9 +90,6 @@ export default class projectCreationForm extends Vue {
             console.log("not validated");
             return;
         }
-        else{
-            console.log("what went wrong");
-        }
 
         // Fill in the details of the project
         this.project.status = 0;

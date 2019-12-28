@@ -3,6 +3,7 @@ const router = express.Router();
 import Project from '../../types/project';
 import Profile from '../../types/profile';
 import Skill from '../../types/skill';
+import Category from '../../types/category';
 const $project_methods = require('./project_methods');
 const $profile_methods = require('../profiles/profiles_methods');
 const $profile_skill_methods = require('../profiles_skills/profiles_skills_methods');
@@ -34,6 +35,13 @@ router.get('/:project_id', async (req: any, res: any) => {
             profiles[i].skills = skills;
         }
         project.profiles = profiles;
+        let categories: string = await $categories_methods.getProjectCategories(project_id)
+        let categories_array = categories.substring(1, categories.length-1).split(", ")
+        console.log(categories_array);
+        for (let i = 0; i < categories_array.length; i++){
+            let new_category = await $categories_methods.getCategory(categories_array[i])
+            project.categories.push(new_category)
+        }
         res.status(200).json({project});
     } catch (err) {
         const statusCode: number = parseInt(err);

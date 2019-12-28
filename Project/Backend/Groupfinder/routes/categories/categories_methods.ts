@@ -138,6 +138,28 @@ function getCategoryID(category: Category): Promise<number> {
     );
 }
 
+function getProjectCategories(projectID: number): Promise<string>{
+    return new Promise(
+        (resolve: any, reject: any) => {
+            const query: string = 'SELECT categories FROM project WHERE id=?;';
+            const params: any[] = [projectID]
+            db_conn.query(query, params, (err: any, rows: any) => {
+                if(err){
+                    console.log(err);
+                    reject('500');
+                } else if (rows.length < 1) {
+                    console.log('Could not find categories of project.');
+                    reject('404');
+                } else {
+                    console.log("Succesfully gotten categories!")
+                    const categories: string = rows[0].categories;
+                    resolve(categories)
+                }
+            })
+        }
+    )
+}
+
 /**
  * updates the project table, posts the categories_ids in the table
  * @param categories array of Category objects of chosen categories
@@ -196,5 +218,6 @@ module.exports = {
     updateCategory,
     addCategory,
     deleteCategory,
-    addCategoriesToProject
+    addCategoriesToProject,
+    getProjectCategories
 }

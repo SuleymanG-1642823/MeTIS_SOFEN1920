@@ -23,6 +23,7 @@ export default class ProjectEdit extends Vue {
     categories_input : Array<SplitCategory> = []
     selected_categories_ids: Array<number> = []
     index: number = 0
+    checkedBool: Boolean[] = []
 
     // Stores all previously created questionnaires from this user
     userQuestionnaireList: Questionnaire[] = [];
@@ -49,7 +50,9 @@ export default class ProjectEdit extends Vue {
             this.categories.push(new_category)
         });
         this.parseCategories(this.categories);
+        console.log("Categories: ", this.project.categories, this.checkedBool)
     }
+
     /**
      * Adds a profile to the profile form
      */
@@ -86,6 +89,12 @@ export default class ProjectEdit extends Vue {
         let temp_sub_category = <SubCategory>{};
         temp_sub_category.sub_id = id;
         temp_sub_category.sub_name = subcategory;
+        if(id in this.project.categories){
+            temp_sub_category.checkedBool = true;
+        }
+        else{
+            temp_sub_category.checkedBool = false;
+        }
         return temp_sub_category;
     }
 
@@ -113,6 +122,12 @@ export default class ProjectEdit extends Vue {
                 }
                 else{
                     temp_split_category.main_id = categories_inp[i].id;
+                    if(temp_split_category.main_id in this.project.categories){
+                        temp_split_category.checkedBool = true;
+                    }
+                    else{
+                        temp_split_category.checkedBool = false;
+                    }
                 }
                 this.categories_input.push(temp_split_category);
             }

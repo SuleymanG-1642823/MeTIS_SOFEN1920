@@ -26,7 +26,13 @@
   </b-form-group>
   <b-form-group label="Categories:">
     <b-card>
-      <CategoryComponent class="pl-3" v-for="(category, index) in categories_input" v-bind:key="index" :category="category" @updateCategories="updateCategories" />
+      <CategoryComponent
+      class="pl-3"
+      v-for="(category, index) in categories_input"
+      v-bind:key="index"
+      :category="category"
+      :checkedBool="checkedBool[index]"
+      @updateCategories="updateCategories"/>
     </b-card>
   </b-form-group>
   <!-- Dynamically add profileForms -->
