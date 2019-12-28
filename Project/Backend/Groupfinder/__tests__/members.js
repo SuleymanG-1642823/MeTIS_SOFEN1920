@@ -34,6 +34,16 @@ describe("TESTING ALL MEMBERS ROUTES", () => {
             })
         })
     });
+    describe("GET /members/user/:user_id", () => {
+        it("Should return all the projects for one users", (done) => {
+            request.get('/members/user/1').end((err, res) => {
+                if (err) return done(err),
+                expect(res.status).toBe(200);
+                expect(res.text[0]).toBeTruthy();
+                done();
+            })
+        })
+    });
     describe("DELETE /members/:user_id/:profile_id/:project_id", () => {
         it("Should remove the member from the profile", (done) => {
             request.delete('/members/2/1/1').end((err, res) => {
