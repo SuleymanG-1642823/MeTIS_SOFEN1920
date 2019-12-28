@@ -1,6 +1,6 @@
 import {mount, shallowMount} from "@vue/test-utils";
 import { tsExternalModuleReference, exportAllDeclaration } from "@babel/types";
-import projectForm from "@/components/ProjectEdit/ProjectEdit";
+import ProjectEdit from "@/components/ProjectEdit/ProjectEdit";
 
 var project;
 var wrapper;
@@ -18,10 +18,10 @@ describe('ProjectEdit component', () => {
       creator_first_name: "Firstname",
       creator_last_name: "Lastname",
       profiles: [],
-      categories: [{id: 1, name: "web", subcategory: "chrome"}]
+      categories: []
     };
     console.log("before wrapper: ")
-    wrapper = mount(projectForm, {
+    wrapper = shallowMount(ProjectEdit, {
       propsData: {project}
     });
     console.log("wrapper: ")
@@ -46,7 +46,7 @@ describe('ProjectEdit component', () => {
     };
     expect(wrapper.vm.parseSubCategory(subcategory, id)).toEqual(temp_sub_obj);
     done();
-  })
+  }),
   test('parses all the categories', (done) => {
     let categories_array = [
       {
