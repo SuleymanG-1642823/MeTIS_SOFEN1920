@@ -32,7 +32,8 @@ export default class ProjectEdit extends Vue {
 
     created(){
         this.createCategories();
-        this.getQuestionnaires(this.$store.state.auth.user.id);
+        //this.getQuestionnaires(this.$store.state.auth.user.id);
+        this.getQuestionnaires(1)
     }
 
     // Methods
