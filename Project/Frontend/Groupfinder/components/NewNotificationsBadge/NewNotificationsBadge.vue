@@ -1,6 +1,6 @@
 <template>
     <div>
-        {{numbOfNewNotif}}
+        {{ numbOfNewNotif }}
     </div>
 </template>
 

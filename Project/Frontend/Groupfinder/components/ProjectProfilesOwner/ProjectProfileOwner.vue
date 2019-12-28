@@ -41,21 +41,21 @@
             <b-collapse :id="collapseID" class="mt-2">
               <ul id="users">
                     <li
-                        v-for="(user, index) in applicants"
-                        :key="index"
+                        v-for="applicant in applicants"
+                        :key="applicant.application.id"
                     >
                         <div class="col1">
                             <i class="far fa-user profile-user"></i>
-                            <span>{{ user.first_name + ' ' + user.last_name }}</span>
+                            <span>{{ applicant.user.first_name + ' ' + applicant.user.last_name }}</span>
                         </div>
                         <div class="col2">
-                            <i class="far fa-comment msg" @click="goToChatPage(user.id)"></i>
+                            <i class="far fa-comment msg" @click="goToChatPage(applicant.user.id)"></i>
                         </div>
                         <div class="col3">
                             applicant
                         </div>
                         <div class="col4">
-                            <b-button variant="light" class="user-button decline" @click="acceptApplication">
+                            <b-button variant="light" class="user-button decline" @click="acceptApplication(applicant.application.id)">
                                 <i class="fas fa-check"></i>
                                 accept
                             </b-button>

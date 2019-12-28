@@ -14,13 +14,12 @@
                 <button
                     v-if="isOwner"
                     class="edit"
-                    @click="gotToEditProject"
                 >
                     <i class="fas fa-pen"></i>
                 </button>
             </router-link>
             <ProjectProfilesGuest v-if="!isOwner" :profiles="project.profiles"/>
-            <ProjectProfilesOwner v-if="isOwner"/>
+            <ProjectProfilesOwner v-if="isOwner" :profiles="project.profiles"/>
         </div>
     </div>
 </template>

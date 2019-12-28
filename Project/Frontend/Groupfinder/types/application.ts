@@ -11,4 +11,11 @@ interface Application {
     edited_at: string; // 'YYYY-MM-DD hh:mm:ss' format
 }
 
+enum STATUS {
+    PENDING = 0,
+    ACCEPTED = 1,
+    REJECTED = 2
+}
+
 export default Application;
+export {STATUS as APPLICATION_STATUS};

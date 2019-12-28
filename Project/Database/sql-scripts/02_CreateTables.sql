@@ -81,7 +81,33 @@ CREATE TABLE message (
     PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
+CREATE TABLE application (
+    id int NOT NULL AUTO_INCREMENT,
+    user_id int NOT NULL,
+    project_id int NOT NULL,        -- could be left out
+    profile_id int NOT NULL,
+    answers JSON NOT NULL,
+    status int NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    edited_at DATETIME ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_application_user_id FOREIGN KEY (user_id)
+        REFERENCES user(id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    CONSTRAINT fk_application_project_id FOREIGN KEY (project_id)
+        REFERENCES project(id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    CONSTRAINT fk_application_profile_id FOREIGN KEY (profile_id)
+        REFERENCES profile(id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    UNIQUE KEY (user_id, profile_id),
+    PRIMARY KEY (id)
+) ENGINE=InnoDB;
 
+/* 
+// OLD application table
 CREATE TABLE application (
     id int NOT NULL AUTO_INCREMENT,
     user_id int NOT NULL,
@@ -106,6 +132,7 @@ CREATE TABLE application (
     UNIQUE KEY (user_id, project_id, profile_id),
     PRIMARY KEY (id)
 ) ENGINE=InnoDB;
+*/
 
 CREATE TABLE review (
     id int NOT NULL AUTO_INCREMENT,

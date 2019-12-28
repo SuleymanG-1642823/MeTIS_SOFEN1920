@@ -15,19 +15,23 @@ VALUES  (1, 'Lennert', 'Geebelen', 'lennert.geebelen@student.uhasselt.be', ' $2a
 INSERT INTO project (id, creator_id, name, status, pitch)
 VALUES  (1, 3, 'Agenda website', 0, 'A website for managing tasks.'),
         (2, 4, 'Image editing app', 0, 'A mobile application where users can easily edit pictures'),
-        (3, 5, 'Resource monitoring program', 0, 'A PC application for visually monitoring system resources in real-time');
+        (3, 1, 'Resource monitoring program', 0, 'A PC application for visually monitoring system resources in real-time');
 
 -- PROJECT PROFILES
-INSERT INTO profile (name, project_id, questions)
-VALUES  ('Back-end developper', 1, '["What other projects have you worked on?", "What is your preferred backend language?"]'), 
-        ('Front-end developper', 1, '["What other projects have you worked on?", "What is your preferred JavaScript framework?"]'),
-        ('UI/UX designer android', 2, '["What other projects have you worked on?"]'), 
-        ('Sofware engineer', 2, '["What other projects have you worked on?", "What is your preferred programming language?"]'),
-        ('UI/UX designer', 3, '["What other projects have you worked on?"]'), 
-        ('Software engineer windows', 3, '["What other projects have you worked on?", "What is your preferred programming language?"]'),
-        ('Software engineer linux', 3, '["What other projects have you worked on?", "What is your preferred programming language?"]'), 
-        ('Software engineer OSX', 3, '["What other projects have you worked on?", "What is your preferred programming language?"]');
+INSERT INTO profile (id, name, project_id, questions)
+VALUES  (1, 'Back-end developper', 1, '["What other projects have you worked on?", "What is your preferred backend language?"]'), 
+        (2, 'Front-end developper', 1, '["What other projects have you worked on?", "What is your preferred JavaScript framework?"]'),
+        (3, 'UI/UX designer android', 2, '["What other projects have you worked on?"]'), 
+        (4, 'Sofware engineer', 2, '["What other projects have you worked on?", "What is your preferred programming language?"]'),
+        (5, 'UI/UX designer', 3, '["What other projects have you worked on?"]'), 
+        (6, 'Software engineer windows', 3, '["What other projects have you worked on?", "What is your preferred programming language?"]'),
+        (7, 'Software engineer linux', 3, '["What other projects have you worked on?", "What is your preferred programming language?"]'), 
+        (8, 'Software engineer OSX', 3, '["What other projects have you worked on?", "What is your preferred programming language?"]');
 
+-- PROFILE APPLICATIONS
+INSERT INTO application (user_id, project_id, profile_id, answers, status)
+VALUES  (2, 3, 5, '{}', 0),
+        (3, 3, 6, '{}', 0);
 
 -- PROFILE SKILLS
 INSERT INTO profile_skill -- (profile_id, name, experience, weight)
@@ -65,7 +69,11 @@ VALUES  (5, 'c++', 7),
         (6, 'SCRUM', 3),
         (6, 'Extreme programming', 2),
         (6, 'Linux OS', 3),
-        (6, 'MySQL', 5);
+        (6, 'MySQL', 5),
+        (2, 'MyQt frameworkSQL', 2),
+        (2, 'C++', 3),
+        (3, 'C++', 5),
+        (3, 'Windows OS', 3);
 
 -- CATEGORIES
 INSERT INTO category
