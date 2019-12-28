@@ -1,5 +1,7 @@
 const db_conn = require('../../databaseconnection');
 import User from '../../types/user';
+import Project from '../../types/project';
+const $projects_methods = require('../projects/project_methods');
 
 /**
  * Adds a member to the profile of a project
@@ -89,8 +91,32 @@ function deleteMember(user_id: number, project_id: number, profile_id: number): 
     )
 }
 
+
+function getProjectsUser(user_id: number): Promise<Project[]> {
+    return new Promise(
+        (resolve: any, reject: any) => {
+            const query: string = 'SELECT * FROM member WHERE user_id=?;';
+            const params: any[] = [user_id];
+            db_conn.query(query, params, async (err: any, rows: any) => {
+                if (err) {
+                    console.log(err);
+                    reject('500');
+                } else {
+                    let projects: Project[] = [];
+                    for (let i = 0; i < rows.length; i++){
+                        let project: Project = await $projects_methods.getProject(rows[i].project_id);
+                        projects.push(project);
+                    }
+                    resolve(projects);
+                }
+            })
+        }
+    )
+}
+
 module.exports = {
     addMember,
     getMembersProfile,
-    deleteMember
+    deleteMember,
+    getProjectsUser
 }
