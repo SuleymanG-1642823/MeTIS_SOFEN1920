@@ -39,9 +39,23 @@ export default class SidebarProjects extends Vue {
         })
     }
 
+    getAppliedProjects(){
+        let url = api(`applications/user/${this.$store.state.auth.user.id}`);
+        axios.get(url)
+        .then(response => {
+            console.log(response.data);
+            this.applied_projects = response.data;
+            this.$forceUpdate();
+        })
+        .catch(error => {
+            console.log("Error while getting the user's applied projects");
+        })
+    }
+
     created(){
         this.getProjects();
         this.getMemberProjects();
+        this.getAppliedProjects();
     }
 
     async mounted() {

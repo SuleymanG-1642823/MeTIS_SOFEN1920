@@ -14,6 +14,13 @@
             {{ member_project.name }}
         </b-list-group-item>
     </b-list-group>
+    <h5>Applications:</h5>
+    <!-- All the projects where the user has applied for -->
+    <b-list-group>
+        <b-list-group-item v-for="(applied_project, index) in applied_projects" v-bind:key="index" class="sidebar-projects">
+            {{ applied_project.name }}
+        </b-list-group-item>
+    </b-list-group>
 </div>
 </template>
 
