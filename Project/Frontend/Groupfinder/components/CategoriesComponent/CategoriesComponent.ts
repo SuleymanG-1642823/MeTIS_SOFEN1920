@@ -13,7 +13,7 @@ import SubCategory from '~/types/subcategory';
 })
 export default class CategoriesComponent extends Vue {
     // Data
-    subcategories : Array<string> = []
+    subcategories : Array<string|null> = []
     selectedCategoriesCheckboxes: Boolean[] = []
     allCheckbox: Boolean = false
     categoryName: string = ""
