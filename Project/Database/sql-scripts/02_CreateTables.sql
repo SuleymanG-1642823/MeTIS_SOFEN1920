@@ -144,7 +144,7 @@ CREATE TABLE invite (
     status int NOT NULL,
     sent_count int NOT NULL,
     max_count int NOT NULL,
-    last_sent_at datetime,      -- 'YYYY-MM-DD hh:mm:ss' format
+    last_sent_at datetime ON UPDATE CURRENT_TIMESTAMP,      -- 'YYYY-MM-DD hh:mm:ss' format
     CONSTRAINT fk_invite_sender_id FOREIGN KEY (sender_id)
         REFERENCES user(id)
         ON UPDATE CASCADE

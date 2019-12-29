@@ -42,7 +42,7 @@
             </div>
             <b-button variant="outline-dark" class="btn-invite" @click="invitePeople">
                 <i class="fas fa-user-plus"></i>
-                Invite people
+                Invite/find people
             </b-button>
             <b-collapse :id="collapseID" class="mt-2">
               <ul id="users">
