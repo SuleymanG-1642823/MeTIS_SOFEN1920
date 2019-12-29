@@ -3,9 +3,11 @@ import http from 'http';
 import supertest from 'supertest';
 import 'babel-polyfill';
 const moment = require('moment');
-const $messages_methods = require('../routes/messages/messages_methods');
+import { MessageController } from '../routes/messages/messages_methods';
 var request;
 var messageID;
+
+let messagecontroller = new MessageController();
 
 describe("TESTING ALL MESSAGE ROUTES", () => {
     beforeAll((done) => {
@@ -64,7 +66,7 @@ describe("TESTING ALL MESSAGE ROUTES", () => {
     // So there's no route provided
     it("Should delete a message from the database", async (done) => {
         try{
-            await $messages_methods.deleteMessage(messageID);
+            await messagecontroller.deleteMessage(messageID);
             done();
         } catch (err) {
             return done(err)

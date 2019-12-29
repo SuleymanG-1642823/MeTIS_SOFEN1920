@@ -1,7 +1,9 @@
 import express from 'express';
 const router = express.Router();
-const $users_skills_methods = require("./users_skills_methods");
+import { UserSkillController } from './users_skills_methods';
 import Skill from '../../types/skill';
+
+let userskillcontroller: UserSkillController = new UserSkillController();
 
 /**
  * Middleware that is specific to this router
@@ -20,7 +22,7 @@ router.use((req: any, res: any, next: Function) => {
 router.get('/:user_id', async (req: any, res: any) => {
     const userID = parseInt(req.params.user_id);
     try{
-        const skills: Skill[] = await $users_skills_methods.getSkillsOfUser(userID);
+        const skills: Skill[] = await userskillcontroller.getSkillsOfUser(userID);
         res.status(200).json(skills);
     } catch (err){
         const statusCode: number = parseInt(err);
@@ -37,7 +39,7 @@ router.put('/:user_id/:skill_name', async (req: any, res: any) => {
     const skill_name: string = req.params.skill_name;
     const newSkill: Skill = req.body.skill;
     try{
-        await $users_skills_methods.updateSkill(userID, skill_name, newSkill);
+        await userskillcontroller.updateSkill(userID, skill_name, newSkill);
         res.status(200).send("Successfully updated user's skill.");
     } catch (err){
         const statusCode: number = parseInt(err);
@@ -53,7 +55,7 @@ router.delete('/:user_id/:skill_name', async (req: any, res: any) => {
     const userID: number = parseInt(req.params.user_id);
     const skill_name: string = req.params.skill_name;
     try{
-        await $users_skills_methods.removeSkill(userID, skill_name);
+        await userskillcontroller.removeSkill(userID, skill_name);
         res.status(200).send("Successfully deleted user's skill.");
     } catch (err){
         const statusCode: number = parseInt(err);
@@ -69,7 +71,7 @@ router.post('/:user_id', async (req: any, res: any) => {
     const userID: number = parseInt(req.params.user_id);
     const skill: Skill = req.body.skill;
     try{
-        await $users_skills_methods.addSkill(userID, skill);
+        await userskillcontroller.addSkill(userID, skill);
         res.status(200).send("Successfully added user's skill into the database.");
     } catch (err){
         const statusCode: number = parseInt(err);

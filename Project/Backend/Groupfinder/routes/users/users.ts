@@ -1,7 +1,9 @@
 import express from 'express';
 const router = express.Router();
 import User from '../../types/user';
-const $users_methods = require('./users_methods');
+import { UserController } from './users_methods';
+
+let usercontroller: UserController = new UserController();
 
 /**
  * Middleware that is specific to this router
@@ -20,7 +22,7 @@ router.use((req: any, res: any, next: Function) => {
 router.get('/:user_id', async (req: any, res: any) => {
     const user_id: number = parseInt(req.params.user_id);
     try{
-        const user: User = await $users_methods.getUser(user_id);
+        const user: User = await usercontroller.getUser(user_id);
         res.status(200).json({user});
     } catch (err) {
         const statusCode: number = parseInt(err);
@@ -34,7 +36,7 @@ router.get('/:user_id', async (req: any, res: any) => {
 router.get('/matchFor/:project_id', async (req: any, res: any) => {
     const project_id: number = parseInt(req.params.project_id);
     try{
-        let result = await $users_methods.getMatchingUsers(project_id);
+        let result = await usercontroller.getMatchingUsers(project_id);
         res.status(200).json(result);
     }catch (err){
         const statusCode: number = parseInt(err);
@@ -49,7 +51,7 @@ router.post('/correctPassword/:user_id', async (req: any, res: any) => {
     const user_id: number = parseInt(req.params.user_id);
     const password: string = req.body.password;
     try{
-        const valid: boolean = await $users_methods.validatePassword(user_id, password);
+        const valid: boolean = await usercontroller.validatePassword(user_id, password);
         res.status(200).json({valid: valid});
     } catch (err) {
         const statusCode: number = parseInt(err);
@@ -66,7 +68,7 @@ router.put('/:user_id', async (req: any, res: any) => {
     const user_id: number = parseInt(req.params.user_id);
     const user: User = req.body.user;
     try{
-        await $users_methods.updateUser(user_id, user);
+        await usercontroller.updateUser(user_id, user);
         res.status(200).send("Successfully updated user in the database.");
     } catch (err) {
         const statusCode: number = parseInt(err);
@@ -83,7 +85,7 @@ router.put('/password/:user_id', async (req: any, res: any) => {
     const user_id: number = parseInt(req.params.user_id);
     const password: string = req.body.password;
     try{
-        await $users_methods.changePassword(user_id, password);
+        await usercontroller.changePassword(user_id, password);
         res.status(200).send("Successfully changed user's password in the database.");
     } catch (err){
         const statusCode: number = parseInt(err);
@@ -99,7 +101,7 @@ router.put('/password/:user_id', async (req: any, res: any) => {
 router.post('/', async (req: any, res: any) => {
     const user: User = req.body.user;
     try{
-        const newUserID: number = await $users_methods.addUser(user, ''); // TODO: pass hashed password instead of an empty string
+        const newUserID: number = await usercontroller.addUser(user, ''); // TODO: pass hashed password instead of an empty string
         res.status(200).json({id: newUserID})
     } catch (err) {
         const statusCode: number = parseInt(err);
@@ -114,7 +116,7 @@ router.post('/', async (req: any, res: any) => {
 router.delete('/:user_id', async (req: any, res: any) => {
     const user_id: number = parseInt(req.params.user_id);
     try{
-        await $users_methods.deleteUser(user_id);
+        await usercontroller.deleteUser(user_id);
         res.status(200).send("Successfully deleted user.");
     } catch (err) {
         const statusCode: number = parseInt(err);

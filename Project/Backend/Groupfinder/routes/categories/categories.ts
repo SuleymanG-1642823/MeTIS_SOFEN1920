@@ -1,7 +1,9 @@
 import express from 'express';
 import Category from '../../types/category';
 const router = express.Router();
-const $categories_methods = require('./categories_methods');
+import { CategoryController } from './categories_methods';
+
+let categorycontroller: CategoryController = new CategoryController();
 
 /**
  * Middleware that is specific to this router
@@ -20,7 +22,7 @@ router.use((req: any, res: any, next: Function) => {
 router.get('/:category_id', async (req: any, res: any) => {
     const categoryID: number = parseInt(req.params.category_id);
     try{
-        const category: Category = await $categories_methods.getCategory(categoryID);
+        const category: Category = await categorycontroller.getCategory(categoryID);
         res.status(200).json({category});
     } catch (err) {
         const statusCode: number = parseInt(err);
@@ -34,7 +36,7 @@ router.get('/:category_id', async (req: any, res: any) => {
  */
 router.get('/', async (req: any, res: any) => {
     try{
-        const categories: Category[] = await $categories_methods.getAllCategories();
+        const categories: Category[] = await categorycontroller.getAllCategories();
         console.log(categories)
         res.status(200).json(categories);
     } catch (err) {
@@ -52,7 +54,7 @@ router.put('/:category_id', async (req: any, res: any) => {
     const categoryID: number = parseInt(req.params.category_id);
     const category: Category = req.body.category;
     try{
-        await $categories_methods.updateCategory(categoryID, category);
+        await categorycontroller.updateCategory(categoryID, category);
         res.status(200).send("Successfully updated category in the database.");
     } catch (err) {
         const statusCode: number = parseInt(err);
@@ -68,7 +70,7 @@ router.put('/:category_id', async (req: any, res: any) => {
 router.post('/', async (req: any, res: any) => {
     const category: Category = req.body.category;
     try{
-        const newCategoryID: number = await $categories_methods.addCategory(category);
+        const newCategoryID: number = await categorycontroller.addCategory(category);
         res.status(200).json({id: newCategoryID});
     } catch (err) {
         const statusCode: number = parseInt(err);
@@ -83,7 +85,7 @@ router.post('/', async (req: any, res: any) => {
 router.delete('/:category_id',  async (req: any, res: any) => {
     const categoryID: number = parseInt(req.params.category_id);
     try{
-        await $categories_methods.deleteCategory(categoryID);
+        await categorycontroller.deleteCategory(categoryID);
         res.status(200).send('Successfully deleted category from the database.');
     } catch (err) {
         const statusCode: number = parseInt(err);
