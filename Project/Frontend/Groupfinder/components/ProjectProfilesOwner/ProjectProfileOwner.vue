@@ -1,6 +1,10 @@
 <template>
     <div id="profilewrapper" v-if="profile !== undefined">
         <span>{{ profile.name }}</span>
+        <b-button variant="outline-dark" class="btn-invite" @click="invitePeople" v-if="!hasAssociatedUsers()">
+            <i class="fas fa-user-plus"></i>
+            Invite/find people
+        </b-button>
         <div id="skills">
             <b-badge
                 v-for="skill in profile.skills"

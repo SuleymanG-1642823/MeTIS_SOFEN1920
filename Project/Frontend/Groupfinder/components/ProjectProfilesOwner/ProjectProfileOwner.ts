@@ -127,6 +127,10 @@ export default class ProjectProfileOwner extends Vue {
                 // update members
                 this.members = await this.getMembers();
 
+                // members section collapses for some reason -> fix
+                //this.membersCollapsed = true;
+                //this.membersCollapsed = false;
+
                 // end method successfully
                 resolve();
             } catch (err) {
