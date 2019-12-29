@@ -3,9 +3,10 @@ import { Component, Prop } from 'vue-property-decorator';
 import axios from 'axios';
 import User from '../../types/user';
 import api from '@/helpers/Api';
+import SocialMedia from '../SocialMedia/SocialMedia';
 
 @Component({
-    components: {}
+    components: {SocialMedia}
 })
 export default class EditUserData extends Vue {
     // PROPS
@@ -20,17 +21,40 @@ export default class EditUserData extends Vue {
     private zip: string = '';
     private city: string = '';
     private website: string = '';
-    private social_media: Object = {};
     private available: boolean = false;
     private private_data: boolean = false;
-
+    private links: any[] = [
+        {prefix: "https://facebook.com/", suffix: "", state: false},
+        {prefix: "https://twitter.com/", suffix: "", state: false},
+        {prefix: "https://linkedin.com/", suffix: "", state: false},
+        {prefix: "https://github.com/", suffix: "", state: false},
+    ]
 
     // LIFECYCLE HOOKS
-    private mounted(){
+    private async mounted(){
         this.resetFields(null);
+        if (this.user_prop.social_media){
+            let links: any[] = [];
+            for (let i = 0; i < this.user_prop.social_media.length; i++) {
+                links.push({
+                    prefix: this.user_prop.social_media[i].prefix,
+                    suffix: this.user_prop.social_media[i].suffix,
+                    state: (this.user_prop.social_media[i].suffix !== '')
+                })
+            }
+            this.links = links;
+        }
     }
 
     // METHODS
+    /**
+     * Setter for private member links.
+     * @param links new links (array of objects)
+     */
+    private setLinks(links: any[]): void {
+        this.links = links;
+    }
+
     /**
      * Validate the new data of the user.
      */
@@ -48,7 +72,8 @@ export default class EditUserData extends Vue {
         if (this.validateData()){
             await this.saveChanges();
             this.$nextTick(() => {
-                this.$refs.modal.hide();
+                let modal: any = this.$refs.modal;
+                modal.hide();
             })
         }
         return;
@@ -67,7 +92,7 @@ export default class EditUserData extends Vue {
         this.zip = this.user_prop.zip;
         this.city = this.user_prop.city;
         this.website = this.user_prop.website;
-        this.social_media = this.user_prop.social_media;
+        this.links = this.user_prop.social_media;
         this.available = this.user_prop.available;
     }
 
@@ -75,6 +100,19 @@ export default class EditUserData extends Vue {
      * Save the new data on the server.
      */
     private async saveChanges() {
+        let social_media: any[] | null;
+        if (this.links[0].suffix === '' && this.links[1].suffix === '' && this.links[2].suffix === '' && this.links[3].suffix === ''){
+            social_media = null;
+        } else {
+            social_media = [];
+            for (let i = 0; i < this.links.length; i++){
+                social_media.push({
+                    prefix: this.links[i].prefix,
+                    suffix: this.links[i].suffix
+                });
+            }
+        }
+
         let user: User = {
             id: this.user_prop.id,
             first_name: this.first_name,
@@ -85,13 +123,12 @@ export default class EditUserData extends Vue {
             zip: this.zip,
             city: this.city,
             website: this.website,
-            social_media: '{}',
+            social_media: social_media,
             available: this.available,
             private: this.user_prop.private
         }
         try {
             const url = api(`users/${this.user_prop.id}`);
-            //let url = `http://localhost:4000/users/${this.user_prop.id}`;
             await axios.put(url, {user: user}, {headers: {'Content-Type': 'application/json'}});
         } catch (err){
             console.log(`Following error occured while updating user:\n${err}`);

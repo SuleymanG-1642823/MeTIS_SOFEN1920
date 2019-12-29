@@ -6,7 +6,7 @@
         integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
         crossorigin="anonymous"
         >
-    <SidebarMenu
+    <sidebar-menu
     :menu="sidebarmenu"
     :theme="theme"
     :showOneChild="showOneChild"
@@ -14,8 +14,8 @@
     @toggle-collapse="onToggleCollapse"
     @item-click="sidbarItemClick"
     >
-        <b-img slot="header" v-if="!collapsed" class="py-3 px-3" src="./Groupfinder_logo.png" fluid />
-    </SidebarMenu>
+        <b-img v-if="!collapsed" slot="header" class="py-3 px-3" src="./Groupfinder_logo.png" fluid />
+    </sidebar-menu>
     <div id="content" :style="{ 'margin-left': contentMarginCSS }">
         <!-- Content components go here -->
         <nuxt />
