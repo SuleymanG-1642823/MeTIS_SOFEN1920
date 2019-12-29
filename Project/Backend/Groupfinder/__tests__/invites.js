@@ -21,7 +21,7 @@ describe("TESTING ALL MEMBERS ROUTES", () => {
         test_server.close(done);
     });
     describe("POST /invites/", () => {
-        it("Should insert a new invite into the database", (done) => {
+        it("Should insert a new invite into the database.", (done) => {
             let newInvite = {
                 id: null,
                 sender_id: 1,
@@ -43,7 +43,7 @@ describe("TESTING ALL MEMBERS ROUTES", () => {
         })
     });
     describe("GET /invites/lastid/", () => {
-        it("Should return the id  of the last inserted invite (inserted by previous test)", (done) => {
+        it("Should return the id  of the last inserted invite (inserted by previous test).", (done) => {
             request.get(`/invites/lastid/`).end((err, res) => {
                 if (err) return done(err);
                 expect(res.status).toBe(200);
@@ -54,7 +54,7 @@ describe("TESTING ALL MEMBERS ROUTES", () => {
         });
     });
     describe("GET /invites/invite/:invite_id", () => {
-        it("Should return invite with given id (id of invite inserted by the test)", (done) => {
+        it("Should return invite with given id (id of invite inserted by the test).", (done) => {
             request.get(`/invites/invite/${inviteID}`).end((err, res) => {
                 if (err) return done(err);
                 expect(res.status).toBe(200);
@@ -64,13 +64,50 @@ describe("TESTING ALL MEMBERS ROUTES", () => {
         });
     });
     describe("GET /invites/profile/:profile_id", () => {
-        it("Should return all invites belonging to given profile", (done) => {
+        it("Should return all invites belonging to given profile.", (done) => {
             request.get(`/invites/profile/${inviteProfileID}`).end((err, res) => {
                 if (err) return done(err);
                 expect(res.status).toBe(200);
                 expect(typeof(res.body)).toBe('object');
                 expect(isArray(res.body)).toBe(true);
                 expect(res.body.length).toBeGreaterThan(0);
+                done();
+            })
+        });
+    });
+    describe("PUT /invites/:invite_id/:status", () => {
+        it("Should status of invite with given id to given status.", (done) => {
+            request.put(`/invites/${inviteID}/${1}`).end((err, res) => {
+                if (err) return done(err);
+                expect(res.status).toBe(200);
+                done();
+            })
+        });
+    });
+    describe("GET /invites/invite/:invite_id", () => {
+        test("The status of the invite inserted in this test should be 1.", (done) => {
+            request.get(`/invites/invite/${inviteID}`).end((err, res) => {
+                if (err) return done(err);
+                expect(res.status).toBe(200);
+                expect(res.body.status).toBe(1);
+                done();
+            })
+        });
+    });
+    describe("DELETE /invites/:invite_id", () => {
+        test("Should delete invite with given id.", (done) => {
+            request.delete(`/invites/${inviteID}`).end((err, res) => {
+                if (err) return done(err);
+                expect(res.status).toBe(200);
+                done();
+            })
+        });
+    });
+    describe("GET /invites/invite/:invite_id", () => {
+        test("Should return status code 404 becuase we deleted the invite on the previous test.", (done) => {
+            request.get(`/invites/${inviteID}/${1}`).end((err, res) => {
+                if (err) return done(err);
+                expect(res.status).toBe(404);
                 done();
             })
         });

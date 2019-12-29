@@ -148,4 +148,25 @@ export default class InvitesDBInterface{
             });
         });
     }
+
+    /**
+     * Deletes invite with given ID from database. 
+     */
+    public static deleteInvite(inviteID: number): Promise<void>{
+        return new Promise(async (resolve: any, reject: any) => {
+            const query: string = `
+                DELETE FROM invite
+                WHERE id = ?;
+            `;
+            const params: any[] = [inviteID];
+            db_conn.query(query, params, async (err: any, rows: any) => {
+                if (err) {
+                    console.log(err);
+                    reject('500');
+                } else {
+                    resolve();
+                }
+            });
+        });
+    }
 }

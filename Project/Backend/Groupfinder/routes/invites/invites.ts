@@ -96,5 +96,19 @@ router.put('/:invite_id/:status', async (req:any, res:any) => {
     }
 });
 
+/**
+ * Update status of invite
+ */
+router.delete('/:invite_id', async (req:any, res:any) => {
+    const inviteID: number = parseInt(req.params.invite_id);
+    try {
+        await InvitesDBInterface.deleteInvite(inviteID);
+        res.status(200).send();
+    } catch(err) {
+        const statusCode: number = parseInt(err);
+        res.status(statusCode).send(`Error while deleting invite ${inviteID} to ${statusCode}`);
+    }
+});
+
 
 module.exports = router;
