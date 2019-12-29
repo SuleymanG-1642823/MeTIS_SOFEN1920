@@ -94,12 +94,3 @@ VALUES
     (1, '', 'Welcome to groupfinder!'),
     (1, 'recommendedProjects', 'Check out the projects!'),
     (1, 'projectCreationForm', 'Create your own project!');
-
--- MEMBERS
-INSERT INTO member (user_id, profile_id, project_id)
-VALUES  (1, 2, 1),
-        (2, 1, 1);
-
--- REVIEWS
-INSERT INTO review (id, writer_id, receiver_id, project_id, rating, message)
-VALUES  (1, 2, 1, 1, 4, 'He is a hard worker and wants to do everyting in a perfect way. Furthermore, he is a pleasant person to work with.');
