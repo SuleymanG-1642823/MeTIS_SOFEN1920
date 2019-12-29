@@ -12,10 +12,10 @@ VALUES  (1, 'Lennert', 'Geebelen', 'lennert.geebelen@student.uhasselt.be', ' $2a
 
 
 -- PROJECTS
-INSERT INTO project (id, creator_id, name, status, pitch)
-VALUES  (1, 3, 'Agenda website', 0, 'A website for managing tasks.'),
-        (2, 4, 'Image editing app', 0, 'A mobile application where users can easily edit pictures'),
-        (3, 1, 'Resource monitoring program', 0, 'A PC application for visually monitoring system resources in real-time');
+INSERT INTO project (id, creator_id, name, status, pitch, categories)
+VALUES  (1, 3, 'Agenda website', 0, 'A website for managing tasks.', '[1]'),
+        (2, 4, 'Image editing app', 0, 'A mobile application where users can easily edit pictures', '[8, 9]'),
+        (3, 1, 'Resource monitoring program', 0, 'A PC application for visually monitoring system resources in real-time', '[5]');
 
 -- PROJECT PROFILES
 INSERT INTO profile (id, name, project_id, questions)
