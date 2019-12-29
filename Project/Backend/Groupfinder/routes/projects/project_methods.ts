@@ -5,7 +5,7 @@ const moment = require('moment');
 import User from '../../types/user';
 import ProjectsToUserMatcher from './../../classes/ProjectsToUserMatcher';
 import ProjectMatch from '../../types/matching/projectMatch';
-const $profiles_methods = require('../profiles/profiles_methods');
+import { ProfileController } from '../profiles/profiles_methods';
 
 /**
  * Get project with specific ID from the database.

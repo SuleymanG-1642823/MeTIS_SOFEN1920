@@ -1,11 +1,12 @@
 import express from 'express';
 const router = express.Router();
-const $profiles_methods = require('./profiles_methods');
+import { ProfileController } from './profiles_methods';
 const $projects_methods = require('../projects/project_methods');
 const $profiles_skills_methods = require('../profiles_skills/profiles_skills_methods');
 import Profile from '../../types/profile';
 import Project from '../../types/project';
 
+let profilecontroller: ProfileController = new ProfileController();
 
 /**
  * Middleware that is specific to this router
@@ -24,7 +25,7 @@ router.use((req: any, res: any, next: Function) => {
 router.get('/:project_id', async (req: any, res: any) => {
     const project_id: number = parseInt(req.params.project_id);
     try {
-        const profiles: Profile[] = await $profiles_methods.getProjectProfiles(project_id);
+        const profiles: Profile[] = await profilecontroller.getProjectProfiles(project_id);
         for (let i=0; i < profiles.length; i++) {
             profiles[i].skills = await $profiles_skills_methods.getSkillsOfProfile(profiles[i].id);
         }
@@ -44,7 +45,7 @@ router.put('/:profile_id', async (req: any, res: any) => {
     const profileID: number = parseInt(req.params.profile_id);
     const profile: Profile = req.body.profile;
     try{
-        await $profiles_methods.updateProfile(profileID, profile);
+        await profilecontroller.updateProfile(profileID, profile);
         for (let i=0; i < profile.skills.length; i++) {
             await $profiles_skills_methods.updateSkillOfProfile(profileID, profile.skills[i].name, profile.skills[i]);
         }
@@ -67,7 +68,7 @@ router.post('/', async (req: any, res: any) => {
         const project: Project = await $projects_methods.getProject(profile.project_id);
         const creator_id: number = project.creator_id;
 
-        const newProfileID: number = await $profiles_methods.addProfile(profile, creator_id, project.name);
+        const newProfileID: number = await profilecontroller.addProfile(profile, creator_id, project.name);
         for (let i=0; i < profile.skills.length; i++) {
             await $profiles_skills_methods.addSkillToProfile(newProfileID, profile.skills[i]);
         }
@@ -85,7 +86,7 @@ router.post('/', async (req: any, res: any) => {
 router.delete('/:profile_id', async (req: any, res: any) => {
     const profileID: number = parseInt(req.params.profile_id);
     try{
-        await $profiles_methods.deleteProfile(profileID);
+        await profilecontroller.deleteProfile(profileID);
         res.status(200).send("Successfully deleted profile from the database.");
     } catch (err) {
         const statusCode: number = parseInt(err);
