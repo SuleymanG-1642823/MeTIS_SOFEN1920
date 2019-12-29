@@ -29,13 +29,19 @@
             <div id="iconsOnCollapsed" v-if="membersCollapsed">
                 <i
                     v-for="(applicant, index) in applicants"
-                    :key="index"
+                    :key="'applicantIcon-' + index"
                     class="far fa-user profile-user"
                 >
                 </i>
                 <i
                     v-for="(member, index) in members"
-                    :key="index"
+                    :key="'memberIcon-' + index"
+                    class="far fa-user profile-user"
+                >
+                </i>
+                <i
+                    v-for="(user, index) in invitees"
+                    :key="'inviteeIcon-' + index"
                     class="far fa-user profile-user"
                 >
                 </i>
@@ -47,8 +53,8 @@
             <b-collapse :id="collapseID" class="mt-2">
               <ul id="users">
                     <li
-                        v-for="applicant in applicants"
-                        :key="applicant.application.id"
+                        v-for="(applicant, index) in applicants"
+                        :key="'applicant-' + index"
                     >
                         <div class="col1">
                             <i class="far fa-user profile-user"></i>
@@ -79,15 +85,15 @@
                         </div>
                     </li>
                     <li
-                        v-for="(user, index) in invitees"
-                        :key="index"
+                        v-for="(invitee, index) in invitees"
+                        :key="'invitee-' + index"
                     >
                         <div class="col1">
                             <i class="far fa-user profile-user"></i>
-                            <span>{{ user.first_name + ' ' + user.last_name }}</span>
+                            <span>{{ invitee.user.first_name + ' ' + invitee.user.last_name }}</span>
                         </div>
                         <div class="col2">
-                            <i class="far fa-comment msg" @click="goToChatPage(user.id)"></i>
+                            <i class="far fa-comment msg" @click="goToChatPage(invitee.user.id)"></i>
                         </div>
                         <div class="col3">
                             invited
@@ -103,7 +109,7 @@
                     </li>
                     <li
                         v-for="(user, index) in members"
-                        :key="index"
+                        :key="'member-' + index"
                     >
                         <div class="col1">
                             <i class="far fa-user profile-user"></i>
@@ -137,7 +143,7 @@
         >
             <b-card
                 v-for="(answer, index) in modalAnswers"
-                :key="index"
+                :key="'modalAnswer-' + index"
                 bg-variant="light"
                 :header="answer.question"
                 class="text-center">
