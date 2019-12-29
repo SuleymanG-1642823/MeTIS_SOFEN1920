@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component, Prop, Watch } from 'vue-property-decorator';
 import axios from 'axios';
 import User from '../../types/user';
 import api from '@/helpers/Api';
@@ -14,13 +14,21 @@ export default class EditUserData extends Vue {
 
     // DATA
     private first_name: string = '';
+    private valid_first_name: boolean|null = null;
     private last_name: string = '';
+    private valid_last_name: boolean|null = null;
     private mail: string = '';
+    private valid_mail: boolean|null = null;
     private tel: string = '';
+    private valid_tel: boolean|null = null;
     private address: string = '';
+    private valid_address: boolean|null = null;
     private zip: string = '';
+    private valid_zip: boolean|null = null;
     private city: string = '';
+    private valid_city: boolean|null = null;
     private website: string = '';
+    private valid_website: boolean|null = null;
     private available: boolean = false;
     private private_data: boolean = false;
     private links: any[] = [
@@ -29,6 +37,110 @@ export default class EditUserData extends Vue {
         {prefix: "https://linkedin.com/", suffix: "", state: false},
         {prefix: "https://github.com/", suffix: "", state: false},
     ]
+
+    // WATCHERS
+    @Watch('first_name')
+    onFirstNameChange(newValue: string, oldValue: string){
+        if (this.first_name.localeCompare(this.user_prop.first_name) == 0){
+            this.valid_first_name = null;
+        }
+        else if (this.first_name.length < 2){
+            this.valid_first_name = false
+        } else {
+            this.valid_first_name = true;
+        }
+    }
+
+    @Watch('last_name')
+    onLastNameChange(newValue: string, oldValue: string){
+        if (this.last_name.localeCompare(this.user_prop.last_name) == 0){
+            this.valid_last_name = null;
+        }
+        else if (this.last_name.length < 2){
+            this.valid_last_name = false
+        } else {
+            this.valid_last_name = true;
+        }
+    }
+
+    @Watch('mail')
+    onEmailChange(newValue: string, oldValue: string){
+        // Regex source: https://html.spec.whatwg.org/multipage/input.html#e-mail-state-(type=email)
+        // This is the official regex used by W3C for email inputs
+        if (this.mail.localeCompare(this.user_prop.mail) == 0){
+            this.valid_mail = null;
+        }
+        else if (/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(this.mail)){
+            this.valid_mail = true;
+        }
+        else {
+            this.valid_mail = false;
+        }
+    }
+
+    @Watch('tel')
+    onTelChange(newValue: string, oldValue: string){
+        if (this.tel.localeCompare(this.user_prop.tel) == 0){
+            this.valid_tel = null;
+        }
+        else if (/^[+]*[0-9]{1,4}[-\s\./0-9]*$/.test(this.tel) || this.tel.localeCompare('') == 0){
+            this.valid_tel = true;
+        }
+        else{
+            this.valid_tel = false;
+        }
+    }
+
+    @Watch('address')
+    onAddressChange(newValue: string, oldValue: string){
+        if (this.address.localeCompare(this.user_prop.address) == 0){
+            this.valid_address = null;
+        }
+        else if ((/^[a-zA-Z 0-9\.\-\s]+$/.test(this.address) && this.address.length > 4) || this.address.length == 0){
+            this.valid_address = true;
+        }
+        else{
+            this.valid_address = false;
+        }
+    }
+
+    @Watch('zip')
+    onZipChange(newValue: string, oldValue: string){
+        if (this.zip.localeCompare(this.user_prop.zip) == 0){
+            this.valid_zip = null;
+        }
+        else if ((/^[a-zA-Z 0-9\.\-]+$/.test(this.zip) && this.zip.length > 1) || this.zip.length == 0){
+            this.valid_zip = true;
+        }
+        else {
+            this.valid_zip = false;
+        }
+    }
+
+    @Watch('city')
+    onCityChange(newValue: string, oldValue: string){
+        if (this.city.localeCompare(this.user_prop.city) == 0){
+            this.valid_city = null;
+        }
+        else if ((/^[a-zA-Z 0-9\.\-\s]+$/.test(this.city) && this.city.length > 1) || this.city.length == 0){
+            this.valid_city = true;
+        }
+        else {
+            this.valid_city = false;
+        }
+    }
+
+    @Watch('website')
+    onWebsiteChange(newValue: string, oldValue: string){
+        if (this.website.localeCompare(this.user_prop.website) == 0){
+            this.valid_website = null;
+        }
+        else if (/^(https?|chrome):\/\/[^\s$.?#].[^\s]*$/.test(this.website) || this.website.localeCompare('') == 0){
+            this.valid_website = true;
+        } else {
+            this.valid_website = false;
+        }
+    }
 
     // LIFECYCLE HOOKS
     private async mounted(){
@@ -46,6 +158,11 @@ export default class EditUserData extends Vue {
         }
     }
 
+    // Computed
+    get submit_permitted(): boolean{
+        return !(this.valid_first_name===false || this.valid_last_name===false || this.valid_mail===false || this.valid_tel===false || this.valid_address===false || this.valid_zip===false || this.valid_city===false || this.valid_website===false);
+    }
+
     // METHODS
     /**
      * Setter for private member links.
@@ -57,6 +174,7 @@ export default class EditUserData extends Vue {
 
     /**
      * Validate the new data of the user.
+     * @returns a boolean: true if the new data is valid, false otherwise
      */
     private validateData(): boolean {
         // TODO
