@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsc",
     "test": "jest",
-    "start": "npm run build && npm run && node ./bin/www"
+    "start": "npm run build && npm run test && node ./bin/www"
   },
   "jest": {
     "transform": {

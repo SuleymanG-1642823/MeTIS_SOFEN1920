@@ -60,7 +60,7 @@ router.get('/:project_id', async (req: any, res: any) => {
         }
         
         console.log('#Categories processed')
-        res.status(200).json(project);
+        res.status(200).json({project});
     } catch (err) {
         console.log('#in route catch, err: ' + err)
         const statusCode: number = parseInt(err);

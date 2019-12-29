@@ -1,8 +1,9 @@
 import express from 'express';
 import Notification from '../../types/notification';
 const router = express.Router();
-const $notification_methods = require('./notification_methods');
+import { NotificationController } from './notification_methods';
 
+let notificationcontroller: NotificationController = new NotificationController();
 
 /**
  * Middleware that is specific to this router
@@ -17,7 +18,7 @@ router.use((req: any, res: any, next: Function) => {
 router.get('/:user_id', async (req: any, res: any) => {
     const user_id: number = parseInt(req.params.user_id);
     try{
-        let notifications: Notification[] = await $notification_methods.getNotifications(user_id);
+        let notifications: Notification[] = await notificationcontroller.getNotifications(user_id);
         res.status(200).json(notifications);
     } catch (err) {
         const statusCode: number = parseInt(err);
@@ -31,7 +32,7 @@ router.get('/:user_id', async (req: any, res: any) => {
 router.get('/numOfNewNotifications/:user_id', async (req: any, res: any) => {
     const user_id: number = parseInt(req.params.user_id);
     try{
-        let amount: number = await $notification_methods.getNumberOfNewNotifications(user_id);
+        let amount: number = await notificationcontroller.getNumberOfNewNotifications(user_id);
         res.status(200).json(amount);
     } catch (err) {
         const statusCode: number = parseInt(err);
@@ -46,7 +47,7 @@ router.get('/numOfNewNotifications/:user_id', async (req: any, res: any) => {
 router.put('/:user_id', async (req: any, res: any) => {
     const user_id: number = parseInt(req.params.user_id);
     try{
-        await $notification_methods.updateStateToSeen(user_id);
+        await notificationcontroller.updateStateToSeen(user_id);
         res.status(200).json("Successfully updated notification statusses to \"Seen\" for user with ID " + user_id);
     } catch (err) {
         const statusCode: number = parseInt(err);
@@ -61,7 +62,7 @@ router.put('/:user_id', async (req: any, res: any) => {
 router.post('/', async (req: any, res: any) => {
     try{
         const notification: Notification = req.body;
-        await $notification_methods.addNotification(notification);
+        await notificationcontroller.addNotification(notification);
         res.status(200).json("Successfully inserted new notification for user " + notification.user_id + ", status notification: " + notification.status);
     } catch (err) {
         const statusCode: number = parseInt(err);
