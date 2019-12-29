@@ -22,6 +22,7 @@ export default class ProjectEdit extends Vue {
     selected_categories: Array<Category> = []
     categories_input : Array<SplitCategory> = []
     selected_categories_ids: Array<number> = []
+    init_selected_ids: Array<number> = []
     index: number = 0
 
     // Stores all previously created questionnaires from this user
@@ -53,18 +54,26 @@ export default class ProjectEdit extends Vue {
         this.updateCategories(temp_array)
     }
 
+    /**
+     * checks if a category is already selected
+     * @param id the id of the category
+     */
     checkIfSelectedId(id: number): boolean {
-        for(let i = 0; i < this.selected_categories_ids.length; i++){
-            if(id === this.selected_categories_ids[i]){
+        for(let i = 0; i < this.init_selected_ids.length; i++){
+            if(id === this.init_selected_ids[i]){
                 return true;
             }
         }
         return false;
     }
 
+    /**
+     * creates a list of all the categories, with a boolean
+     * stating which ones are already chosen.
+     */
     createChosenCategoriesIDlist(): Array<[number, boolean]>{
         for(let i = 0; i < this.project.categories.length; i++){
-            this.selected_categories_ids.push(this.project.categories[i].id);
+            this.init_selected_ids.push(this.project.categories[i].id);
         }
         let init_temp_categories: Array<[number, boolean]> = []
         for(let i = 0; i < this.categories.length; i++){
