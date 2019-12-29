@@ -92,7 +92,9 @@ export default class EditUserData extends Vue {
         this.zip = this.user_prop.zip;
         this.city = this.user_prop.city;
         this.website = this.user_prop.website;
-        this.links = this.user_prop.social_media;
+        if (this.user_prop.social_media){ // if social_media !== null
+            this.links = this.user_prop.social_media;
+        }
         this.available = this.user_prop.available;
     }
 
