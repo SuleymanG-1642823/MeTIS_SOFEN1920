@@ -3,6 +3,7 @@ const router = express.Router();
 import Project from '../../types/project';
 import Profile from '../../types/profile';
 import Skill from '../../types/skill';
+import Category from '../../types/category';
 import { ProjectController } from './project_methods';
 import { ProfileController } from '../profiles/profiles_methods';
 import { ProfileSkillController } from '../profiles_skills/profiles_skills_methods';
@@ -31,16 +32,37 @@ router.get('/:project_id', async (req: any, res: any) => {
     const project_id: number = parseInt(req.params.project_id);
     try{
         const project: Project = await projectcontroller.getProject(project_id);
+        console.log('#Project fetched')
         let profiles: Profile[] = await profilecontroller.getProjectProfiles(project_id);
+        console.log('#Profiles fetched')
         for (let i = 0; i < profiles.length; i++) {
             console.log("Profile: " + profiles[i].name);
             let skills: Skill[] = await profileskillcontroller.getSkillsOfProfile(profiles[i].id);
             console.log("Skills: " + skills.toString());
             profiles[i].skills = skills;
         }
+        console.log('#Skills fetched')
         project.profiles = profiles;
-        res.status(200).json({project});
+        let categories: string = await categorycontroller.getProjectCategories(project_id)
+        console.log('#Categories fetched: ' + categories)
+        
+        // Categories are allowed to be NULL, check for that to prevent errors
+        if (categories !== null){
+            let categories_array_string: string[] = categories.substring(1, categories.length-1).split(", ");
+            let categories_array: number[] = [];
+            for (let i = 0; i < categories_array_string.length; i++) {
+                categories_array.push(parseInt(categories_array_string[i]));
+            }
+            for (let i = 0; i < categories_array.length; i++){
+                let new_category = await categorycontroller.getCategory(categories_array[i])
+                project.categories.push(new_category)
+            }
+        }
+        
+        console.log('#Categories processed')
+        res.status(200).json(project);
     } catch (err) {
+        console.log('#in route catch, err: ' + err)
         const statusCode: number = parseInt(err);
         res.status(statusCode).send("Error while fetching project from the database.");
     }    
@@ -119,6 +141,7 @@ router.get('/matchFor/:userID', async (req: any, res: any) => {
 router.put('/:project_id', async (req: any, res: any) => {
     const projectID: number = parseInt(req.params.project_id);
     const project: Project = req.body.project;
+    console.log(project);
     try{
         await projectcontroller.updateProject(projectID, project);
         for (let i = 0; i < project.profiles.length; i++) {
@@ -127,6 +150,7 @@ router.put('/:project_id', async (req: any, res: any) => {
                 await profileskillcontroller.updateSkillOfProfile(project.profiles[i].id, project.profiles[i].skills[j].name, project.profiles[i].skills[j]);
             }
         }
+        await categorycontroller.addCategoriesToProject(project.categories, projectID)
         res.status(200).send('Successfully updated project in the database.');
     } catch (err) {
         const statusCode: number = parseInt(err);

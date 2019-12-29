@@ -88,6 +88,28 @@ export class CategoryController {
         );
     }
     
+	public getProjectCategories(projectID: number): Promise<string>{
+        return new Promise(
+            (resolve: any, reject: any) => {
+                const query: string = 'SELECT categories FROM project WHERE id=?;';
+                const params: any[] = [projectID]
+                db_conn.query(query, params, (err: any, rows: any) => {
+                    if(err){
+                        console.log(err);
+                        reject('500');
+                    } else if (rows.length < 1) {
+                        console.log('Could not find categories of project.');
+                        reject('404');
+                    } else {
+                        console.log("Succesfully gotten categories!")
+                        const categories: string = rows[0].categories;
+                        resolve(categories)
+                    }
+                })
+            }
+        )
+    }
+
     
     /**
      * Insert a new category into the database.
@@ -150,6 +172,7 @@ export class CategoryController {
     public addCategoriesToProject(categories: Category[], projectID: number): Promise<void>{
         return new Promise(
             (resolve: any, reject: any) => {
+                console.log(categories, projectID);
                 const query: string = 'UPDATE project SET categories=? WHERE id=?;';
                 let categories_ids = "";
                 for(let i = 0; i < categories.length; i++){

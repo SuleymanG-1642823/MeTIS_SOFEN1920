@@ -22,8 +22,8 @@ export default class ProjectEdit extends Vue {
     selected_categories: Array<Category> = []
     categories_input : Array<SplitCategory> = []
     selected_categories_ids: Array<number> = []
+    init_selected_ids: Array<number> = []
     index: number = 0
-    CategoriesBool: boolean = false;
 
     // Stores all previously created questionnaires from this user
     userQuestionnaireList: Questionnaire[] = [];
@@ -49,8 +49,44 @@ export default class ProjectEdit extends Vue {
             new_category.subcategory = element.subcategory
             this.categories.push(new_category)
         });
+        let temp_array: Array<[number, boolean]> = this.createChosenCategoriesIDlist();
         this.parseCategories(this.categories);
+        this.updateCategories(temp_array)
     }
+
+    /**
+     * checks if a category is already selected
+     * @param id the id of the category
+     */
+    checkIfSelectedId(id: number): boolean {
+        for(let i = 0; i < this.init_selected_ids.length; i++){
+            if(id === this.init_selected_ids[i]){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * creates a list of all the categories, with a boolean
+     * stating which ones are already chosen.
+     */
+    createChosenCategoriesIDlist(): Array<[number, boolean]>{
+        for(let i = 0; i < this.project.categories.length; i++){
+            this.init_selected_ids.push(this.project.categories[i].id);
+        }
+        let init_temp_categories: Array<[number, boolean]> = []
+        for(let i = 0; i < this.categories.length; i++){
+            if(this.checkIfSelectedId(this.categories[i].id)){
+                init_temp_categories.push([this.categories[i].id, true]);
+            }
+            else{
+                init_temp_categories.push([this.categories[i].id, false]);
+            }
+        }
+        return init_temp_categories
+    }
+
     /**
      * Adds a profile to the profile form
      */
@@ -87,6 +123,12 @@ export default class ProjectEdit extends Vue {
         let temp_sub_category = <SubCategory>{};
         temp_sub_category.sub_id = id;
         temp_sub_category.sub_name = subcategory;
+        if(this.checkIfSelectedId(id)){
+            temp_sub_category.checkedBool = true;
+        }
+        else{
+            temp_sub_category.checkedBool = false;
+        }
         return temp_sub_category;
     }
 
@@ -114,6 +156,12 @@ export default class ProjectEdit extends Vue {
                 }
                 else{
                     temp_split_category.main_id = categories_inp[i].id;
+                    if(this.checkIfSelectedId(temp_split_category.main_id)){
+                        temp_split_category.checkedBool = true;
+                    }
+                    else{
+                        temp_split_category.checkedBool = false;
+                    }
                 }
                 this.categories_input.push(temp_split_category);
             }

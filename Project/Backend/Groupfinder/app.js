@@ -18,6 +18,7 @@ var questionnaires_router = require('./routes/questionnaires/questionnaires');
 var applications_router = require('./routes/applications/applications');
 var members_router = require('./routes/members/members');
 var notificationsRouter = require('./routes/notifications/notifications');
+var invitesRouter = require('./routes/invites/invites');
 var preferences_router = require('./routes/preferences/preferences');
 
 var app = express();
@@ -45,6 +46,7 @@ app.use('/questionnaires', questionnaires_router);
 app.use('/applications', applications_router);
 app.use('/members', members_router);
 app.use('/notifications', notificationsRouter);
+app.use('/invites', invitesRouter);
 app.use('/preferences', preferences_router);
 
 module.exports = app;

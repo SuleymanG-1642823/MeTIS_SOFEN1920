@@ -28,17 +28,17 @@ export class ApplicationController {
                 }
                 answers = "[" + answers + "]";
 
-                const query: string = 'INSERT INTO application (user_id, project_id, profile_id, answers, status, created_at, edited_at) VALUES (?,?,?,?,?,?,?);';
-                const params: any[] = [application.user_id, application.profile_id, application.profile_id, answers, application.status, application.created_at, application.edited_at];
-                db_conn.query(query, params, async (err: any, rows: any) => {
-                    if (err) {
-                        console.log(err);
-                        reject('500');
-                    } else {
-                        const newID = await this.getApplicationID();
-                        resolve(newID);
-                    }
-                });
+                const query: string = 'INSERT INTO application (user_id, project_id, profile_id, answers, status) VALUES (?,?,?,?,?);';
+            	const params: any[] = [application.user_id, application.project_id, application.profile_id, answers, application.status];
+            	db_conn.query(query, params, async (err: any, rows: any) => {
+                	if (err) {
+                    	console.log(err);
+                    	reject('500');
+                	} else {
+                    	const newID = await this.getApplicationID();
+                    	resolve(newID);
+                	}
+            	});
             }
         );
     }

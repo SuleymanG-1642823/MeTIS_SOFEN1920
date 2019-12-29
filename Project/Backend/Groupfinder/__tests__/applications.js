@@ -27,9 +27,7 @@ describe("TESTING ALL APPLICATION ROUTES", () => {
                     {question: "This is a question", answer: "This is an answer"},
                     {question: "This is a question 2", answer: "This is an answer 2"}
                 ],
-                status: 0,
-                created_at: "2019-12-16 14:00:43",
-                edited_at: "2019-12-16 14:00:43"
+                status: 0
             };
             application = {application: application};
             request.post('/applications/').send(application).end((err, res) => {

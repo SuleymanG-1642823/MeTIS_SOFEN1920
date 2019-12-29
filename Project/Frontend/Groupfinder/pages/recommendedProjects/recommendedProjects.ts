@@ -2,6 +2,7 @@ import { Vue, Component } from 'vue-property-decorator'
 import RecommendedProjectsList from '../../components/RecommendedProjectsList/RecommendedProjectsList'
 import axios from 'axios'
 import ProjectMatch from '../../types/projectMatch';
+import api from '@/helpers/Api';
 
 @Component({
     components: {
@@ -14,7 +15,8 @@ import ProjectMatch from '../../types/projectMatch';
     async mounted () {
       try {
         // Get current user ID if a user is logged in and pass that in the url
-        const response = await axios.get('http://localhost:4000/projects/matchFor/6')
+        let url = api(`projects/matchFor/${this.$store.state.auth.user.id}`)
+        const response = await axios.get(url)
         this.recommendedProjects = response.data
       } catch (err) {
         console.log('Error while fetching user data.')

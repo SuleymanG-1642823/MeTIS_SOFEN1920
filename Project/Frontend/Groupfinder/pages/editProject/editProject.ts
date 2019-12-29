@@ -19,6 +19,8 @@ export default class editProject extends Vue {
     // Data
     project= <Project>{};
     id: string;
+    modalShow: Boolean = false;
+    categoriesNotValidated: string = "false";
 
     gotResponse: boolean = false;
 
@@ -88,12 +90,47 @@ export default class editProject extends Vue {
     }
 
     /**
+     * validates if a checkbox from the categories is checked
+     * @return returns a boolean saying true if one or more checkboxes or checked,
+     * otherwise returns false
+     */
+    validateCategoriesInForm(): boolean{
+        if(this.project.categories.length == 0){
+            this.categoriesNotValidated = "true";
+            return false;
+        }
+        else{
+            this.categoriesNotValidated = "false";
+            return true;
+        }
+    }
+
+    /**
+     * validates the form
+     * @return returns a boolean saying true if the form is correctly filled in,
+     * otherwise returns false
+     */
+    validateForm(): boolean{
+        if(this.validateCategoriesInForm()){
+            this.modalShow = false;
+            return true;
+        };
+        this.modalShow = true;
+        return false;
+    }
+
+    /**
      * submits the project to the database to update is
      * @param evt 
      */
     async updateProject(evt: any){
         evt.preventDefault();
         console.log(this.project);
+
+        if(!(this.validateForm())){
+            console.log("not validated");
+            return;
+        }
 
         this.project.edited_at = GetDate();
 

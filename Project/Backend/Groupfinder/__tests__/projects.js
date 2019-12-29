@@ -130,6 +130,13 @@ describe("TESTING ALL PROJECT ROUTES", () => {
                             ],
                             questions: ["Question 1 adapted", "Question 2 adapted"]
                         }
+                    ],
+                    categories: [
+                        {
+                            id: 1,
+                            name: "Web",
+                            subcategory: "Chrome"
+                        }
                     ]
                 }
             }
