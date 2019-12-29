@@ -2,6 +2,7 @@ import express from 'express';
 const router = express.Router();
 const $members_methods = require('./members_methods');
 import User from '../../types/user';
+import Project from '../../types/project';
 
 /**
  * Middleware that is specific to this router
@@ -61,6 +62,21 @@ router.delete('/:user_id/:profile_id/:project_id', async (req: any, res: any) =>
         const statusCode: number = parseInt(err);
         res.status(statusCode).send("Error while removing member from this profile");
     }
-})
+});
+
+
+/**
+ * Gets all the projects that the user with :user_id is a member of
+ */
+router.get('/user/:user_id', async (req: any, res: any) => {
+    try {
+        const user_id: number = parseInt(req.params.user_id);
+        const projects: Project[] = await $members_methods.getProjectsUser(user_id);
+        res.status(200).json(projects);
+    } catch(err) {
+        const statusCode: number = parseInt(err);
+        res.status(statusCode).send("Error while fetching the projects of this user");
+    }
+});
 
 module.exports = router;

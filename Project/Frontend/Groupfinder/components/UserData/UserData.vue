@@ -13,14 +13,15 @@
             </b-col>
             <b-col lg>
                 <p><i class="fas fa-globe"></i> <a>www.link-to-my-website.be</a></p>
-                <p>TODO: rating</p>
+                <p>Rating: <star-rating v-model="rating" :star-size="20" :increment="0.5" :read-only="true"></star-rating>({{ nRatings }} in total)</p>
                 <p v-if="this.user.available"><i class="fas fa-circle green"></i> available for joining projects</p>
                 <p v-else><i class="fas fa-circle red"></i> unavailable for joining projects</p>
             </b-col>
-            <b-col id="flex">
-                <a id="facebook_icon" class="social_media_icon" href="https://www.facebook.com"><i class="fab fa-facebook"></i></a>
-                <a id="twitter_icon" class="social_media_icon" href="https://www.twitter.com"><i class="fab fa-twitter-square"></i></a>
-                <a id="linkedin_icon" class="social_media_icon" href="https://linkedin.com"><i class="fab fa-linkedin"></i></a>
+            <b-col v-if="social_media" id="flex">
+                <a v-if="social_media[0].suffix !== ''" id="facebook_icon" class="social_media_icon" :href=social_media[0].prefix.concat(social_media[0].suffix)><i class="fab fa-facebook"></i></a>
+                <a v-if="social_media[1].suffix !== ''" id="twitter_icon" class="social_media_icon" :href=social_media[1].prefix.concat(social_media[1].suffix)><i class="fab fa-twitter-square"></i></a>
+                <a v-if="social_media[2].suffix !== ''" id="linkedin_icon" class="social_media_icon" :href=social_media[2].prefix.concat(social_media[2].suffix)><i class="fab fa-linkedin"></i></a>
+                <a v-if="social_media[3].suffix !== ''" id="github_icon" class="social_media_icon" :href=social_media[3].prefix.concat(social_media[3].suffix)><i class="fab fa-github-square"></i></a>
             </b-col>
         </b-row>
     </div>
@@ -61,6 +62,9 @@
     }
     #linkedin_icon{
         color:#227AC3;
+    }
+    #github_icon{
+        color: black;
     }
     .social_media_icon{
         font-size: 30px;

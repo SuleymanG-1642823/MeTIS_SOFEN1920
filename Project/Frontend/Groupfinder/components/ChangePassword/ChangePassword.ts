@@ -80,7 +80,6 @@ export default class ChangePassword extends Vue {
     private async sendToBackend(password: string){
         try {
             const url = api(`users/password/${this.userID_prop}`);
-            //let url = `http://localhost:4000/users/password/${this.userID_prop}`;
             await axios.put(url, {password: password}, {headers: {'Content-Type': 'application/json'}});
         } catch (err){
             console.log(`Following error occured while changing user's password in the database:\n${err}`);
@@ -95,7 +94,6 @@ export default class ChangePassword extends Vue {
         return new Promise(
             async (resolve, reject) => {
                 const url = api(`users/correctPassword/${this.userID_prop}`);
-                //const url = `http://localhost:4000/users/correctPassword/${this.userID_prop}`
                 try{
                     const response = await axios.post(url, {password: password}, {headers: {'Content-Type': 'application/json'}});
                     if (!response.data.valid){this.invalidMessage = 'Your old password is incorrect.';}

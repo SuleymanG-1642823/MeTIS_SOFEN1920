@@ -14,9 +14,45 @@ describe("TESTING ALL USERS_SKILLS ROUTES", () => {
     afterAll((done) => {
         test_server.close(done);
     });
+    describe("POST /users_skills/:user_id", () => {
+        it("Should insert a new entry in the user_skill table.", (done) => {
+            var body = {
+                skill: {
+                    name: 'testSkill',
+                    experience: 1,
+                    weight: null
+                }
+            }
+            request.post('/users_skills/1')
+            .send(body)
+            .end((err, res) => {
+                if (err) return done(err);
+                expect(res.status).toBe(200)
+                done();
+            })
+        })
+    })
+    describe("PUT /users_skills/:user_id/:skill_name", () => {
+        it("Should update an existing skill of a user", (done) => {
+            var body = {
+                skill: {
+                    name: 'testSkill',
+                    experience: 2,
+                    weight: null
+                }
+            }
+            request.put(`/users_skills/1/testSkill`)
+            .send(body)
+            .end((err, res) => {
+                if (err) return done(err);
+                expect(res.status).toBe(200);
+                done();
+            })
+        });
+    });
     describe("GET /users_skills/:user_id", () => {
         it("Should get all skills of a user", (done) => {
-            request.get('/users_skills/6')
+            request.get('/users_skills/1')
             .end((err, res) => {
                 if (err) return done(err);
                 expect(res.status).toBe(200);
@@ -25,4 +61,14 @@ describe("TESTING ALL USERS_SKILLS ROUTES", () => {
             })
         });
     });
+    describe("DELETE /users_skills/:user_id/:skill_name", () => {
+        it("Should delete a skill of a user", (done) => {
+            request.delete('/users_skills/1/testSkill')
+            .end((err, res) => {
+                if (err) return done(err);
+                expect(res.status).toBe(200);
+                done();
+            })
+        })
+    })
 });

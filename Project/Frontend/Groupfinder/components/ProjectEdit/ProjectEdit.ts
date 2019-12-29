@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component, Prop, Watch } from 'vue-property-decorator';
 import User from '@/types/user.ts';
 import axios from 'axios';
 import profileForm from '~/components/profileForm/profileForm.vue'
@@ -23,13 +23,24 @@ export default class ProjectEdit extends Vue {
     categories_input : Array<SplitCategory> = []
     selected_categories_ids: Array<number> = []
     index: number = 0
+    CategoriesBool: boolean = false;
 
     // Stores all previously created questionnaires from this user
     userQuestionnaireList: Questionnaire[] = [];
 
     @Prop({default: {}}) project: Project;
 
-    async created(){
+    created(){
+        this.createCategories();
+        this.getQuestionnaires(this.$store.state.auth.user.id);
+    }
+
+    // Methods
+    /**
+     * Gets all the categories from the database and puts them
+     * in the categories array
+     */
+    async createCategories(){
         const categories_data: Category[] = await this.getAllCategories()
         categories_data.forEach(element => {
             let new_category = <Category>{};
@@ -39,10 +50,7 @@ export default class ProjectEdit extends Vue {
             this.categories.push(new_category)
         });
         this.parseCategories(this.categories);
-        this.getQuestionnaires(this.$store.state.auth.user.id);
     }
-
-    // Methods
     /**
      * Adds a profile to the profile form
      */
@@ -140,6 +148,10 @@ export default class ProjectEdit extends Vue {
         }
     }
 
+    /**
+     * builds up the array with the chosen categories
+     * @param id id of the category that needs to be added to the selection array
+     */
     addCategoryToSelection(id: number){
         for(let i = 0; i < this.categories.length; i++){
             if(this.categories[i].id === id){
@@ -148,6 +160,11 @@ export default class ProjectEdit extends Vue {
         }
     }
 
+    /**
+     * updates the categories arrays based on which checkboxes are checked
+     * @param selected_categories array containing all the ids of the categories and
+     * if they are checked or not in boolean form
+     */
     updateCategories(selected_categories: Array<[number, boolean]>){
         selected_categories.forEach(element => {
             if(this.selected_categories_ids.includes(element[0].valueOf())){
@@ -198,11 +215,15 @@ export default class ProjectEdit extends Vue {
         })
     }
 
+    /**
+     * Returns all the categories stored in the category table in the database
+     * @return returns an array containing all the categories as Category types
+     */
     async getAllCategories(): Promise<Category[]>{
         return new Promise(
             async (resolve: any, reject: any) => {
                 try {
-                    let url = "http://localhost:4000/categories/";
+                    let url = this.$api("categories")
                     const response = await axios.get(url);
                     const categories: Category[] = response.data;
                     resolve(categories);

@@ -61,7 +61,12 @@ VALUES  (1, 'Django', 2, 2),
 
 -- USER SKILLS
 INSERT INTO user_skill -- (user_id, skill name, skill experience)
-VALUES  (5, 'c++', 7),
+VALUES  (1, 'Node.js', 2),
+        (1, 'Vue.js', 2),
+        (1, 'Nuxt', 2),
+        (1, 'MySQL', 30),
+        (2, 'Django', 24),
+        (5, 'c++', 7),
         (5, 'AGILE', 5),
 	(6, 'c++', 7),
         (6, 'python', 3),
