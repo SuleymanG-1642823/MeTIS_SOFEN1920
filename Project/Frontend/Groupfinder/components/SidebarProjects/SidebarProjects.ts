@@ -59,7 +59,7 @@ export default class SidebarProjects extends Vue {
     }
 
     async mounted() {
-        this.$root.$on('refreshProjects', data => {
+        this.$root.$on('refreshProjects', (data: any) => {
             console.log("caught emit");
             this.getProjects();
         });

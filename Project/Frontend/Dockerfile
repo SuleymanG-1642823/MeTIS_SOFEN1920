@@ -23,5 +23,5 @@
  
  #Start the app
  #CMD ["npm", "run", "dev"]
- CMD ["./wait-for-it.sh" , "backend:4000" , "--strict" , "--timeout=300" , "--" , "npm" , "run", "dev"]
+ CMD ["./wait-for-it.sh" , "backend:4000" , "--strict" , "--timeout=300" , "--" , "npm" , "run", "start"]
 

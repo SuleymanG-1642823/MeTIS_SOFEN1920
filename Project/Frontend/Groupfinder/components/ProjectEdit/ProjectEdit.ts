@@ -119,7 +119,7 @@ export default class ProjectEdit extends Vue {
      * @param id The id of the subcategory that is to be stored in the JSON
      * @return returns a JSON object that represents one subcategory of a main category
      */
-    parseSubCategory(subcategory: string, id: number|null): SubCategory{
+    parseSubCategory(subcategory: string|null, id: number): SubCategory{
         let temp_sub_category = <SubCategory>{};
         temp_sub_category.sub_id = id;
         temp_sub_category.sub_name = subcategory;
