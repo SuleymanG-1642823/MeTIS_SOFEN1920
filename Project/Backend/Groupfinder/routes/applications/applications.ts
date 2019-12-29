@@ -1,9 +1,11 @@
 import express from 'express';
 const router = express.Router();
 import { ApplicationController } from './applications_methods';
-const $members_methods = require('../members/members_methods');
+import { MemberController } from '../members/members_methods';
 import Application from '../../types/application';
 import Project from '../../types/project';
+
+let membercontroller: MemberController = new MemberController();
 
 let applicationcontroller: ApplicationController = new ApplicationController();
 
@@ -95,7 +97,7 @@ router.put('/status/:application_id/:status', async (req: any, res: any) => {
         if (status == 1){
             // Get the application information
             const application: Application = await applicationcontroller.getApplication(application_id);
-            await $members_methods.addMember(application.user_id, application.project_id, application.profile_id);
+            await membercontroller.addMember(application.user_id, application.project_id, application.profile_id);
             res.status(200).send("Successfully updated application status and added member to profile");
         } else {
             res.status(200).send("Successfully updated application status");
