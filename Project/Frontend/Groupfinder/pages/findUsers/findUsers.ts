@@ -1,6 +1,6 @@
 import { Vue, Component } from 'vue-property-decorator'
 import axios from 'axios'
-import api from '@/helpers/Api';
+import api from '@/helpers/Api'
 import RecommendedUsersList from '~/components/RecommendedUsersList/RecommendedUsersList'
 import Project from '~/types/project'
 import RecommendedUsers from '~/components/RecommendedUsers/RecommendedUsers'

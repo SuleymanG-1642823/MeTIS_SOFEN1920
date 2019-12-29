@@ -15,10 +15,12 @@
 <style scoped>
 
 #wrapper{
-    border: 2px solid rgba(0, 0, 0, 0.125);
     border-radius: 3px;
     padding: 10px;
     margin: 5px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 8px;
 }
 
 </style>
