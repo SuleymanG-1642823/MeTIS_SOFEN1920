@@ -37,7 +37,6 @@ router.get('/:project_id', async (req: any, res: any) => {
         project.profiles = profiles;
         let categories: string = await $categories_methods.getProjectCategories(project_id)
         let categories_array = categories.substring(1, categories.length-1).split(", ")
-        console.log(categories_array);
         for (let i = 0; i < categories_array.length; i++){
             let new_category = await $categories_methods.getCategory(categories_array[i])
             project.categories.push(new_category)
@@ -130,6 +129,7 @@ router.put('/:project_id', async (req: any, res: any) => {
                 await $profile_skill_methods.updateSkillOfProfile(project.profiles[i].id, project.profiles[i].skills[j].name, project.profiles[i].skills[j]);
             }
         }
+        await $categories_methods.addCategoriesToProject(project.categories, projectID)
         res.status(200).send('Successfully updated project in the database.');
     } catch (err) {
         const statusCode: number = parseInt(err);

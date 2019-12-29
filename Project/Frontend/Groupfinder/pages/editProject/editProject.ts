@@ -61,7 +61,6 @@ export default class editProject extends Vue {
         axios.get(url)
         .then(response => {
             this.project = response.data.project;
-            console.log("Project categories gotten: ", this.project.categories);
             console.log(this.project.profiles[0].skills);
             this.fillQuestionsInProfiles();
             this.stopLoadingAnimation();

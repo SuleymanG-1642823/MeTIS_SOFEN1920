@@ -31,7 +31,6 @@
       v-for="(category, index) in categories_input"
       v-bind:key="index"
       :category="category"
-      :checkedBool="checkedBool[index]"
       @updateCategories="updateCategories"/>
     </b-card>
   </b-form-group>

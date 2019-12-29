@@ -20,7 +20,6 @@ export default class CategoriesComponent extends Vue {
     disabledDropdown: string = "dontShow"
 
     @Prop({default: {}}) category: SplitCategory;
-    @Prop({default: []}) checkedBool: Boolean;
 
     /**
      * Function gets called when the component gets created,
