@@ -42,45 +42,24 @@ export class PreferenceController {
 
 
     /**
-     * Insert categories (non-)preferred by a user into the database.
+     * Update an existing preference in the database.
      * @param userID the id of the user.
-     * @param categories categories to be inserted.
-     * @param type true for fetching preferred categories, false for fetching non-preferred categories.
+     * @param categoryID (non-) preferred category to be updated.
+     * @param type value of new preference: true for preferred category, false for non-preferred.
      */
-    public addPreferences(userID: number, categories: Category[], type: boolean): Promise<void> {
+    public updatePreference(userID: number, categoryID: number, type: boolean): Promise<void> {
         return new Promise(
-            async (resolve, reject) => {
-                try{
-                    for (let i = 0; i < categories.length; i++) {
-                        await this.addPreference(userID, categories[i], type);
+            (resolve, reject) => {
+                const query: string = "UPDATE preference SET type=? WHERE user_id=? AND category_id=?;";
+                const params: any[] = [type, userID, categoryID];
+                db_conn.query(query, params, (err: any, rows: any) => {
+                    if (err) {
+                        console.log(err);
+                        reject('500')
+                    } else {
+                        resolve();
                     }
-                    resolve();
-                } catch (err) {
-                    reject(err);
-                }
-            }
-        );
-    }
-
-
-    /**
-     * Delete preferred categories from the database.
-     * @param userID id of the user.
-     * @param categories categories to be deleted as preferred category.
-     * @param type true for deleting preferred category, false for deleting non-preferred category.
-     */
-    public deletePreferences(userID: number, categories: Category[]): Promise<void> {
-        return new Promise(
-            async (resolve, reject) => {
-                try{
-                    for (let i = 0; i < categories.length; i++){
-                        await this.deletePreference(userID, categories[i]);
-                    }
-                    resolve();
-                } catch (err) {
-                    reject(err);
-                }
-
+                })
             }
         );
     }
@@ -92,11 +71,11 @@ export class PreferenceController {
      * @param category (non-)preferred category to be inserted.
      * @param type true for inserting preferred category, false for inserting non-preferred category.
      */
-    private addPreference(userID: number, category: Category, type: boolean): Promise<void> {
+    public addPreference(userID: number, categoryID: number, type: boolean): Promise<void> {
         return new Promise(
             (resolve, reject) => {
                 const query: string = "INSERT INTO preference VALUES (?,?,?);";
-                const params: any[] = [userID, category.id, type];
+                const params: any[] = [userID, categoryID, type];
                 db_conn.query(query, params, (err: any, rows: any) => {
                     if (err) {
                         console.log(err);
@@ -116,11 +95,11 @@ export class PreferenceController {
      * @param category category to be deleted as preferred category.
      * @param type true for deleting preferred category, false for deleting non-preferred category.
      */
-    private deletePreference(userID: number, category: Category): Promise<void> {
+    public deletePreference(userID: number, categoryID: number): Promise<void> {
         return new Promise(
             (resolve, reject) => {
                 const query: string = "DELETE FROM preference WHERE user_id=? AND category_id=?;";
-                const params: any[] = [userID, category.id];
+                const params: any[] = [userID, categoryID];
                 db_conn.query(query, params, (err: any, rows: any) => {
                     if (err) {
                         console.log(err);

@@ -34,34 +34,50 @@ router.get('/:user_id/:type', async (req: any, res: any) => {
 })
 
 /**
- * Insert categories (non-)preferred by a user into the database.
- * url param type must be a boolean (true for preferred categories, false for non-preferred)
+ * Update an existing preference in the database.
  */
-router.post('/:user_id/:type', async (req: any, res: any) => {
+router.put('/:user_id/:category_id/:type', async (req: any, res: any) => {
     try{
         const userID: number = parseInt(req.params.user_id);
+        const categoryID: number = parseInt(req.params.category_id);
         const type: boolean = ('true' == req.params.type);
-        const categories: Category[] = req.body.categories;
-        await controller.addPreferences(userID, categories, type);
-        res.status(200).send('Successfully added preferred categories into the database.')
+        await controller.updatePreference(userID, categoryID, type);
+        res.status(200).send('Successfully changed prefered category in the database.');
     } catch (err) {
         const code: number = parseInt(err);
-        res.status(code).send("Error while inserting preferred categories into the database.")
+        res.status(code).send("Error while updating preferred category in the database.");
     }
 })
 
 /**
- * Delete preferred categories from the database.
+ * Insert category (non-)preferred by a user into the database.
+ * url param type must be a boolean (true for preferred categories, false for non-preferred)
  */
-router.delete('/:user_id', async (req: any, res: any) => {
+router.post('/:user_id/:category_id/:type', async (req: any, res: any) => {
     try{
         const userID: number = parseInt(req.params.user_id);
-        const categories: Category[] = req.body.categories;
-        await controller.deletePreferences(userID, categories);
-        res.status(200).send('Successfully deleted preferred categories from the database.');
+        const categoryID: number = parseInt(req.params.category_id);
+        const type: boolean = ('true' == req.params.type);
+        await controller.addPreference(userID, categoryID, type);
+        res.status(200).send('Successfully added preferred category into the database.')
     } catch (err) {
         const code: number = parseInt(err);
-        res.status(code).send("Error while deleting preferred categories from the database.");
+        res.status(code).send("Error while inserting preferred category into the database.")
+    }
+})
+
+/**
+ * Delete preferred category from the database.
+ */
+router.delete('/:user_id/:category_id', async (req: any, res: any) => {
+    try{
+        const userID: number = parseInt(req.params.user_id);
+        const categoryID: number = parseInt(req.params.category_id);
+        await controller.deletePreference(userID, categoryID);
+        res.status(200).send('Successfully deleted preferred category from the database.');
+    } catch (err) {
+        const code: number = parseInt(err);
+        res.status(code).send("Error while deleting preferred category from the database.");
     }
 })
 

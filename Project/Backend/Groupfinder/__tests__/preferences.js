@@ -15,24 +15,10 @@ describe("TESTING ALL PREFERENCES ROUTES", () => {
     });
     describe('POST /preferences/:user_id/:type', () => {
         it("Should insert a new preference into the database", (done) => {
-           var body = {
-               categories: [
-                   {
-                        id: 1,
-                        name: 'Website',
-                        subcategory: null
-                   },
-                   {
-                       id: 2,
-                       name: 'Game Development',
-                       subcategory: null
-                   }
-               ]
-           }
            const userID = 1;
+           const categoryID = 1;
            const type = true;
-           request.post(`/preferences/${userID}/${type}`)
-           .send(body)
+           request.post(`/preferences/${userID}/${categoryID}/${type}`)
            .end((err, res) => {
                if (err) return done(err);
                expect(res.status).toBe(200);
@@ -40,10 +26,23 @@ describe("TESTING ALL PREFERENCES ROUTES", () => {
            })
         });
     })
+    describe('PUT /:user_id/:category_id/:type', () => {
+        it("Should update an existing preference in the database.", (done) => {
+        const userID = 1;
+        const categoryID = 1;
+        const type = false;
+        request.put(`/preferences/${userID}/${categoryID}/${type}`)
+        .end((err, res) => {
+            if (err) return done(err);
+            expect(res.status).toBe(200);
+            done();
+        })
+        })
+    })
     describe('GET /preferences/:user_id/:type', () => {
         it("Should get all categories preferred by a user from the database.", (done) => {
            const userID = 1;
-           const type = true;
+           const type = false;
            request.get(`/preferences/${userID}/${type}`)
            .end((err, res) => {
                if (err) return done(err);
@@ -55,23 +54,9 @@ describe("TESTING ALL PREFERENCES ROUTES", () => {
     })
     describe('DELETE /preferences/:user_id', () => {
         it("Should delete preferred categories from the database.", (done) => {
-            var body = {
-                categories: [
-                    {
-                         id: 1,
-                         name: 'Website',
-                         subcategory: null
-                    },
-                    {
-                        id: 2,
-                        name: 'Game Development',
-                        subcategory: null
-                    }
-                ]
-            }
             const userID = 1;
-            request.delete(`/preferences/${userID}`)
-            .send(body)
+            const categoryID = 1;
+            request.delete(`/preferences/${userID}/${categoryID}`)
             .end((err, res) => {
                 if (err) return done(err);
                 expect(res.status).toBe(200);

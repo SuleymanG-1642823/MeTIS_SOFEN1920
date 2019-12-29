@@ -6,6 +6,7 @@ import ProjectsOfUser from '../../components/ProjectsOfUser/ProjectsOfUser';
 import SkillsOfUser from '../../components/SkillsOfUser/SkillsOfUser';
 import EditUserData from '../../components/EditUserData/EditUserData';
 import ChangePassword from '../../components/ChangePassword/ChangePassword';
+import EditPreferences from '../../components/EditPreferences/EditPreferences';
 import axios from 'axios';
 import api from '@/helpers/Api';
 
@@ -15,7 +16,8 @@ import api from '@/helpers/Api';
         EditUserData,
         ProjectsOfUser,
         SkillsOfUser,
-        ChangePassword
+        ChangePassword,
+        EditPreferences
     }
 })
 export default class MyProfile extends Vue {

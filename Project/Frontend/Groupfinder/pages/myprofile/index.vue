@@ -9,6 +9,9 @@
       <b-tab title="Skills">
         <SkillsOfUser :userid_prop="user.id"/>
       </b-tab>
+      <b-tab title="Categories">
+        <EditPreferences :userID_prop="user.id" />
+      </b-tab>
       <b-tab title="Projects">
         <ProjectsOfUser :userid_prop="user.id"/>
       </b-tab>
