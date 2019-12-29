@@ -2,7 +2,9 @@ const db_conn = require('../../databaseconnection');
 import Application from '../../types/application';
 import Answer from '../../types/answer';
 import Project from '../../types/project';
-const $projects_methods = require('../projects/project_methods');
+import { ProjectController } from '../projects/project_methods';
+
+let projectcontroller: ProjectController = new ProjectController();
 
 /**
  * Manage all interactions with applications in the database
@@ -132,7 +134,7 @@ export class ApplicationController {
                     } else {
                         let projects: Project[] = [];
                         for (let i = 0; i < rows.length; i++){
-                            let project: Project = await $projects_methods.getProject(rows[i].project_id);
+                            let project: Project = await projectcontroller.getProject(rows[i].project_id);
                             projects.push(project);
                         }
                         resolve(projects);

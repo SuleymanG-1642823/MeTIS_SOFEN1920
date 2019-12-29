@@ -2,7 +2,6 @@ const db_conn = require('../../databaseconnection');
 import Profile from '../../types/profile';
 import Questionnaire from '../../types/questionnaire';
 import { QuestionnaireController } from '../questionnaires/questionnaires_methods';
-const $projects_methods = require('../projects/project_methods');
 
 let questionnairecontroller: QuestionnaireController = new QuestionnaireController();
 

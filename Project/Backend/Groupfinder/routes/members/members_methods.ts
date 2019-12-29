@@ -1,7 +1,9 @@
 const db_conn = require('../../databaseconnection');
 import User from '../../types/user';
 import Project from '../../types/project';
-const $projects_methods = require('../projects/project_methods');
+import { ProjectController } from '../projects/project_methods';
+
+let projectcontroller: ProjectController = new ProjectController();
 
 /**
  * Manage all interactions with members in the database
@@ -113,7 +115,7 @@ export class MemberController {
                     } else {
                         let projects: Project[] = [];
                         for (let i = 0; i < rows.length; i++){
-                            let project: Project = await $projects_methods.getProject(rows[i].project_id);
+                            let project: Project = await projectcontroller.getProject(rows[i].project_id);
                             projects.push(project);
                         }
                         resolve(projects);

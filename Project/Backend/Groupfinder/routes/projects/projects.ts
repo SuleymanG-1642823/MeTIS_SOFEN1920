@@ -3,13 +3,14 @@ const router = express.Router();
 import Project from '../../types/project';
 import Profile from '../../types/profile';
 import Skill from '../../types/skill';
-const $project_methods = require('./project_methods');
+import { ProjectController } from './project_methods';
 import { ProfileController } from '../profiles/profiles_methods';
 const $profile_skill_methods = require('../profiles_skills/profiles_skills_methods');
 import { CategoryController } from '../categories/categories_methods';
 
 let categorycontroller: CategoryController = new CategoryController();
 let profilecontroller: ProfileController = new ProfileController();
+let projectcontroller: ProjectController = new ProjectController();
 
 /**
  * Middleware that is specific to this router
@@ -28,7 +29,7 @@ router.use((req: any, res: any, next: Function) => {
 router.get('/:project_id', async (req: any, res: any) => {
     const project_id: number = parseInt(req.params.project_id);
     try{
-        const project: Project = await $project_methods.getProject(project_id);
+        const project: Project = await projectcontroller.getProject(project_id);
         let profiles: Profile[] = await profilecontroller.getProjectProfiles(project_id);
         for (let i = 0; i < profiles.length; i++) {
             console.log("Profile: " + profiles[i].name);
@@ -50,7 +51,7 @@ router.get('/:project_id', async (req: any, res: any) => {
  */
 router.get('/', async (req: any, res: any) => {
     try {
-        const projects: Project[] = await $project_methods.getAllProjects();
+        const projects: Project[] = await projectcontroller.getAllProjects();
         for (let i = 0; i < projects.length; i++) {
             let project: Project = projects[i];
             let profiles: Profile[] = await profilecontroller.getProjectProfiles(project.id);
@@ -74,7 +75,7 @@ router.get('/', async (req: any, res: any) => {
 router.get('/owner/:user_id', async (req: any, res: any) => {
     const userID: number = parseInt(req.params.user_id);
     try{
-        const projects: Project[] = await $project_methods.getAllProjectsOfOwner(userID);
+        const projects: Project[] = await projectcontroller.getAllProjectsOfOwner(userID);
         res.status(200).json(projects);
     } catch (err) {
         const statusCode: number = parseInt(err);
@@ -88,7 +89,7 @@ router.get('/owner/:user_id', async (req: any, res: any) => {
 router.get('/teammember/:user_id', async (req: any, res: any) => {
     const userID: number = parseInt(req.params.user_id);
     try{
-        const projects: Project[] = await $project_methods.getAllProjectsWithMember(userID);
+        const projects: Project[] = await projectcontroller.getAllProjectsWithMember(userID);
         res.status(200).json(projects);
     } catch (err) {
         const statusCode: number = parseInt(err);
@@ -102,7 +103,7 @@ router.get('/teammember/:user_id', async (req: any, res: any) => {
 router.get('/matchFor/:userID', async (req: any, res: any) => {
     const userID: number = parseInt(req.params.userID);
     try {
-        const matchingProjects: any = await $project_methods.getMatchingProjects(userID);
+        const matchingProjects: any = await projectcontroller.getMatchingProjects(userID);
         res.status(200).json(matchingProjects);
     } catch (err) {
         const statusCode: number = parseInt(err);
@@ -118,7 +119,7 @@ router.put('/:project_id', async (req: any, res: any) => {
     const projectID: number = parseInt(req.params.project_id);
     const project: Project = req.body.project;
     try{
-        await $project_methods.updateProject(projectID, project);
+        await projectcontroller.updateProject(projectID, project);
         for (let i = 0; i < project.profiles.length; i++) {
             await profilecontroller.updateProfile(project.profiles[i].id, project.profiles[i]);
             for (let j = 0; j < project.profiles[i].skills.length; j++){
@@ -138,9 +139,9 @@ router.put('/:project_id', async (req: any, res: any) => {
  * @pre body of http request contains new project (type: Project) in JSON format
  */
 router.post('/', async (req: any, res: any) => {
-    const project: Project = req.body;
     try{
-        const newProjectID: number = await $project_methods.addProject(project);
+        const project: Project = req.body;
+        const newProjectID: number = await projectcontroller.addProject(project);
         const profiles: Profile[] = project.profiles;
         for (let i = 0; i < profiles.length; i++){
             profiles[i].project_id = newProjectID;
@@ -164,7 +165,7 @@ router.post('/', async (req: any, res: any) => {
 router.delete('/:project_id', async (req: any, res: any) => {
     const projectID: number = parseInt(req.params.project_id);
     try{
-        await $project_methods.deleteProject(projectID);
+        await projectcontroller.deleteProject(projectID);
         res.status(200).send("Successfully deleted project from the database.");
     } catch (err) {
         const statusCode: number = parseInt(err);
@@ -179,7 +180,7 @@ router.delete('/:project_id', async (req: any, res: any) => {
 router.get('/user/:userID', async (req: any, res: any) => {
     const userID: number = parseInt(req.params.userID);
     try { // Array<Object>
-        const projects: Project[] = await $project_methods.getProjectsUser(userID);
+        const projects: Project[] = await projectcontroller.getProjectsUser(userID);
         res.status(200).json(projects);
     } catch (err) {
         const statusCode: number = parseInt(err);

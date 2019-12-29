@@ -1,12 +1,14 @@
 import express from 'express';
 const router = express.Router();
 import { ProfileController } from './profiles_methods';
-const $projects_methods = require('../projects/project_methods');
+import { ProjectController } from '../projects/project_methods';
 const $profiles_skills_methods = require('../profiles_skills/profiles_skills_methods');
 import Profile from '../../types/profile';
 import Project from '../../types/project';
 
 let profilecontroller: ProfileController = new ProfileController();
+let projectcontroller: ProjectController = new ProjectController();
+
 
 /**
  * Middleware that is specific to this router
@@ -65,7 +67,7 @@ router.post('/', async (req: any, res: any) => {
     const profile: Profile = req.body.profile;
     try{
         // We need the creator_id for the addProfile, we can look it up using the project_id
-        const project: Project = await $projects_methods.getProject(profile.project_id);
+        const project: Project = await projectcontroller.getProject(profile.project_id);
         const creator_id: number = project.creator_id;
 
         const newProfileID: number = await profilecontroller.addProfile(profile, creator_id, project.name);
