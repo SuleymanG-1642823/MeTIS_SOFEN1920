@@ -14,7 +14,7 @@ export default class ProjectProfileOwner extends Vue {
     collapseID: string = '';
     
     applicants: {user: User, application: Application}[] = [];
-    invitees: {user: User, Invite: Invite}[] = [];
+    invitees: {user: User, invite: Invite}[] = [];
     members: User[] = [];
 
     showAnswers: boolean = false;
@@ -172,8 +172,39 @@ export default class ProjectProfileOwner extends Vue {
         this.showAnswers = true;
     }
 
-    cancelInvitation(){
-        alert('TODO: cancel invitation');
+    cancelInvitation(invitationID: number){
+        return new Promise<void>(async (resolve: any, reject: any) => {
+            try{
+                // update application status
+                let url = api(`invites/${invitationID}`);
+                await axios.delete(url);
+
+                // remove application object from component data
+                this.removeInvitationFromDataList(invitationID);
+
+                // end method successfully
+                resolve();
+            } catch (err) {
+                console.log(`Error while canceling invitation ${invitationID}`);
+                alert('Something went wrong, could not cancel invitation. Please try again.');
+                reject();
+            }
+        });
+    }
+
+    removeInvitationFromDataList(invitationID: number){
+        // find index of application
+        let indexToDelete = -1;
+        for (let i = 0; i < this.invitees.length; i++){
+            if (this.invitees[i].invite.id === invitationID){
+                indexToDelete = i;
+                break
+            }
+        }
+        // removes element at given index
+        if (indexToDelete > -1){
+            this.invitees.splice(indexToDelete, 1);
+        }
     }
 
     /**
@@ -229,7 +260,7 @@ export default class ProjectProfileOwner extends Vue {
      * Requests the users that are invited for this project from the backend
     */
     private getInvitees(){
-        return new Promise<Array<{user: User, Invite: Invite}>>(async (resolve: any, reject: any) => {
+        return new Promise<Array<{user: User, invite: Invite}>>(async (resolve: any, reject: any) => {
             try{
                 // get the invitees for this profile
                 let url = api(`invites/profile/${this.profile.id}`)

@@ -101,7 +101,7 @@
                         <div class="col4">
                         </div>
                         <div class="col5">
-                            <b-button variant="light" class="user-button decline" @click="cancelInvitation">
+                            <b-button variant="light" class="user-button decline" @click="cancelInvitation(invitee.invite.id)">
                                 <i class="fas fa-times"></i>
                                 cancel
                             </b-button>
