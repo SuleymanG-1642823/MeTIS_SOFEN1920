@@ -6,7 +6,9 @@ import Skill from '../../types/skill';
 const $project_methods = require('./project_methods');
 const $profile_methods = require('../profiles/profiles_methods');
 const $profile_skill_methods = require('../profiles_skills/profiles_skills_methods');
-const $categories_methods = require('../categories/categories_methods')
+import { CategoryController } from '../categories/categories_methods';
+
+let categorycontroller: CategoryController = new CategoryController();
 
 /**
  * Middleware that is specific to this router
@@ -146,7 +148,7 @@ router.post('/', async (req: any, res: any) => {
                 await $profile_skill_methods.addSkillToProfile(profileID, profiles[i].skills[j]);
             }
         }
-        await $categories_methods.addCategoriesToProject(project.categories, newProjectID)
+        await categorycontroller.addCategoriesToProject(project.categories, newProjectID)
         res.status(200).json({id: newProjectID});
     } catch (err) {
         const statusCode: number = parseInt(err);

@@ -1,9 +1,10 @@
 const db_conn = require('../../databaseconnection');
 import Category from '../../types/category';
 import Project from '../../types/project';
-const $categories_methods = require('../categories/categories_methods');
+import { CategoryController } from '../categories/categories_methods';
 const $projects_methods = require("../projects/project_methods");
 
+let categorycontroller: CategoryController = new CategoryController();
 
 /**
  * Get all categories to which a certain project belongs.
@@ -24,7 +25,7 @@ function getAllCategoriesOfProject(projectID: number): Promise<Category[]> {
                         let categories: Category[] = [];
                         for (let i=0; i < rows.length; i++) {
                             let categoryID: number = rows[i].category_id;
-                            let category: Category = await $categories_methods.getCategory(categoryID);
+                            let category: Category = await categorycontroller.getCategory(categoryID);
                             categories.push(category);
                         }
                         resolve(categories);
