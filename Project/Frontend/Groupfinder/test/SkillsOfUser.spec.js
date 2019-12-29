@@ -4,7 +4,7 @@ import SkillsOfUser from '@/components/SkillsOfUser/SkillsOfUser';
 var wrapper;
 var userid_prop;
 
-describe('SkillsOfUser comonent', () => {
+describe('SkillsOfUser component', () => {
     beforeAll(()=>{
         userid_prop = 1;
         wrapper = shallowMount(SkillsOfUser, {
