@@ -1,9 +1,10 @@
 const db_conn = require('../../databaseconnection');
 import Profile from '../../types/profile';
 import Questionnaire from '../../types/questionnaire';
-const $questionnaire_methods = require('../questionnaires/questionnaires_methods');
+import { QuestionnaireController } from '../questionnaires/questionnaires_methods';
 const $projects_methods = require('../projects/project_methods');
 
+let questionnairecontroller: QuestionnaireController = new QuestionnaireController();
 
 /**
  * Get all profiles of a project (without the skills)
@@ -111,7 +112,7 @@ function addProfile(profile: Profile, creator_id: number, project_name: string):
                             questions: profile.questions
                         }
                         console.log(newQuestionnaire);
-                        const newQuestionnaireID: number = await $questionnaire_methods.addQuestionnaire(newQuestionnaire)
+                        const newQuestionnaireID: number = await questionnairecontroller.addQuestionnaire(newQuestionnaire)
                         const newID: number = await getProfileID(profile);
                         console.log("Sucessfully inserted profile");
                         resolve(newID);
