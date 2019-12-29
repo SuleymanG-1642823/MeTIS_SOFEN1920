@@ -18,15 +18,15 @@ VALUES  (1, 3, 'Agenda website', 0, 'A website for managing tasks.'),
         (3, 5, 'Resource monitoring program', 0, 'A PC application for visually monitoring system resources in real-time');
 
 -- PROJECT PROFILES
-INSERT INTO profile (name, project_id, questions)
-VALUES  ('Back-end developper', 1, '["What other projects have you worked on?", "What is your preferred backend language?"]'), 
-        ('Front-end developper', 1, '["What other projects have you worked on?", "What is your preferred JavaScript framework?"]'),
-        ('UI/UX designer android', 2, '["What other projects have you worked on?"]'), 
-        ('Sofware engineer', 2, '["What other projects have you worked on?", "What is your preferred programming language?"]'),
-        ('UI/UX designer', 3, '["What other projects have you worked on?"]'), 
-        ('Software engineer windows', 3, '["What other projects have you worked on?", "What is your preferred programming language?"]'),
-        ('Software engineer linux', 3, '["What other projects have you worked on?", "What is your preferred programming language?"]'), 
-        ('Software engineer OSX', 3, '["What other projects have you worked on?", "What is your preferred programming language?"]');
+INSERT INTO profile (id, name, project_id, questions)
+VALUES  (1, 'Back-end developper', 1, '["What other projects have you worked on?", "What is your preferred backend language?"]'), 
+        (2, 'Front-end developper', 1, '["What other projects have you worked on?", "What is your preferred JavaScript framework?"]'),
+        (3, 'UI/UX designer android', 2, '["What other projects have you worked on?"]'), 
+        (4, 'Sofware engineer', 2, '["What other projects have you worked on?", "What is your preferred programming language?"]'),
+        (5, 'UI/UX designer', 3, '["What other projects have you worked on?"]'), 
+        (6, 'Software engineer windows', 3, '["What other projects have you worked on?", "What is your preferred programming language?"]'),
+        (7, 'Software engineer linux', 3, '["What other projects have you worked on?", "What is your preferred programming language?"]'), 
+        (8, 'Software engineer OSX', 3, '["What other projects have you worked on?", "What is your preferred programming language?"]');
 
 
 -- PROFILE SKILLS
@@ -57,7 +57,12 @@ VALUES  (1, 'Django', 2, 2),
 
 -- USER SKILLS
 INSERT INTO user_skill -- (user_id, skill name, skill experience)
-VALUES  (5, 'c++', 7),
+VALUES  (1, 'Node.js', 2),
+        (1, 'Vue.js', 2),
+        (1, 'Nuxt', 2),
+        (1, 'MySQL', 30),
+        (2, 'Django', 24),
+        (5, 'c++', 7),
         (5, 'AGILE', 5),
 	(6, 'c++', 7),
         (6, 'python', 3),
