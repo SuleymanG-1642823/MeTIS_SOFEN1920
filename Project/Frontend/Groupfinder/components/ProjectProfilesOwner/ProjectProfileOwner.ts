@@ -63,10 +63,6 @@ export default class ProjectProfileOwner extends Vue {
         this.membersCollapsed = !this.membersCollapsed;
     }
 
-    invitePeople(){
-        alert('TODO: invite people');
-    }
-
     /**
      * Remove the given user from being a member. Send a request to backend
      * to handle the data for this. If request succeeds remove member from the data memberlist

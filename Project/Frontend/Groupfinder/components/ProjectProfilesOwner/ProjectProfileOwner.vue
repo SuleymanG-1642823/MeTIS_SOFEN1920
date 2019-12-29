@@ -50,10 +50,12 @@
                 >
                 </i>
             </div>
-            <b-button variant="outline-dark" class="btn-invite" @click="invitePeople">
-                <i class="fas fa-user-plus"></i>
-                Invite/find people
-            </b-button>
+            <router-link :to="'/findUsers/' + profile.project_id">
+                <b-button variant="outline-dark" class="btn-invite">
+                    <i class="fas fa-user-plus"></i>
+                    Invite/find people
+                </b-button>
+            </router-link>
             <b-collapse :id="collapseID" class="mt-2">
               <ul id="users">
                     <li
