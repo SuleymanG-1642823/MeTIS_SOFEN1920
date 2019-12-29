@@ -81,7 +81,6 @@ CREATE TABLE message (
     PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
-
 CREATE TABLE application (
     id int NOT NULL AUTO_INCREMENT,
     user_id int NOT NULL,
@@ -89,8 +88,8 @@ CREATE TABLE application (
     profile_id int NOT NULL,
     answers JSON NOT NULL,
     status int NOT NULL,
-    created_at datetime,
-    edited_at datetime,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    edited_at DATETIME ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT fk_application_user_id FOREIGN KEY (user_id)
         REFERENCES user(id)
         ON UPDATE CASCADE
@@ -103,7 +102,7 @@ CREATE TABLE application (
         REFERENCES profile(id)
         ON UPDATE CASCADE
         ON DELETE CASCADE,
-    UNIQUE KEY (user_id, project_id, profile_id),
+    UNIQUE KEY (user_id, profile_id),
     PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
@@ -145,7 +144,7 @@ CREATE TABLE invite (
     status int NOT NULL,
     sent_count int NOT NULL,
     max_count int NOT NULL,
-    last_sent_at datetime,      -- 'YYYY-MM-DD hh:mm:ss' format
+    last_sent_at datetime ON UPDATE CURRENT_TIMESTAMP,      -- 'YYYY-MM-DD hh:mm:ss' format
     CONSTRAINT fk_invite_sender_id FOREIGN KEY (sender_id)
         REFERENCES user(id)
         ON UPDATE CASCADE
