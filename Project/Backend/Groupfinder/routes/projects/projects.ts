@@ -5,12 +5,13 @@ import Profile from '../../types/profile';
 import Skill from '../../types/skill';
 import { ProjectController } from './project_methods';
 import { ProfileController } from '../profiles/profiles_methods';
-const $profile_skill_methods = require('../profiles_skills/profiles_skills_methods');
+import { ProfileSkillController } from '../profiles_skills/profiles_skills_methods';
 import { CategoryController } from '../categories/categories_methods';
 
 let categorycontroller: CategoryController = new CategoryController();
 let profilecontroller: ProfileController = new ProfileController();
 let projectcontroller: ProjectController = new ProjectController();
+let profileskillcontroller: ProfileSkillController = new ProfileSkillController();
 
 /**
  * Middleware that is specific to this router
@@ -33,7 +34,7 @@ router.get('/:project_id', async (req: any, res: any) => {
         let profiles: Profile[] = await profilecontroller.getProjectProfiles(project_id);
         for (let i = 0; i < profiles.length; i++) {
             console.log("Profile: " + profiles[i].name);
-            let skills: Skill[] = await $profile_skill_methods.getSkillsOfProfile(profiles[i].id);
+            let skills: Skill[] = await profileskillcontroller.getSkillsOfProfile(profiles[i].id);
             console.log("Skills: " + skills.toString());
             profiles[i].skills = skills;
         }
@@ -56,7 +57,7 @@ router.get('/', async (req: any, res: any) => {
             let project: Project = projects[i];
             let profiles: Profile[] = await profilecontroller.getProjectProfiles(project.id);
             for (let j = 0; j < profiles.length; j++) {
-                let skills: Skill[] = await $profile_skill_methods.getSkillsOfProfile(profiles[j].id);
+                let skills: Skill[] = await profileskillcontroller.getSkillsOfProfile(profiles[j].id);
                 profiles[j].skills = skills;
             }
             project.profiles = profiles;
@@ -123,7 +124,7 @@ router.put('/:project_id', async (req: any, res: any) => {
         for (let i = 0; i < project.profiles.length; i++) {
             await profilecontroller.updateProfile(project.profiles[i].id, project.profiles[i]);
             for (let j = 0; j < project.profiles[i].skills.length; j++){
-                await $profile_skill_methods.updateSkillOfProfile(project.profiles[i].id, project.profiles[i].skills[j].name, project.profiles[i].skills[j]);
+                await profileskillcontroller.updateSkillOfProfile(project.profiles[i].id, project.profiles[i].skills[j].name, project.profiles[i].skills[j]);
             }
         }
         res.status(200).send('Successfully updated project in the database.');
@@ -147,7 +148,7 @@ router.post('/', async (req: any, res: any) => {
             profiles[i].project_id = newProjectID;
             let profileID = await profilecontroller.addProfile(profiles[i], project.creator_id, project.name);
             for (let j = 0; j < profiles[i].skills.length; j++){
-                await $profile_skill_methods.addSkillToProfile(profileID, profiles[i].skills[j]);
+                await profileskillcontroller.addSkillToProfile(profileID, profiles[i].skills[j]);
             }
         }
         await categorycontroller.addCategoriesToProject(project.categories, newProjectID)

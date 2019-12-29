@@ -2,12 +2,13 @@ import express from 'express';
 const router = express.Router();
 import { ProfileController } from './profiles_methods';
 import { ProjectController } from '../projects/project_methods';
-const $profiles_skills_methods = require('../profiles_skills/profiles_skills_methods');
+import { ProfileSkillController } from '../profiles_skills/profiles_skills_methods';
 import Profile from '../../types/profile';
 import Project from '../../types/project';
 
 let profilecontroller: ProfileController = new ProfileController();
 let projectcontroller: ProjectController = new ProjectController();
+let profileskillcontroller: ProfileSkillController = new ProfileSkillController();
 
 
 /**
@@ -29,7 +30,7 @@ router.get('/:project_id', async (req: any, res: any) => {
     try {
         const profiles: Profile[] = await profilecontroller.getProjectProfiles(project_id);
         for (let i=0; i < profiles.length; i++) {
-            profiles[i].skills = await $profiles_skills_methods.getSkillsOfProfile(profiles[i].id);
+            profiles[i].skills = await profileskillcontroller.getSkillsOfProfile(profiles[i].id);
         }
         res.status(200).json(profiles);
     } catch (err) {
@@ -49,7 +50,7 @@ router.put('/:profile_id', async (req: any, res: any) => {
     try{
         await profilecontroller.updateProfile(profileID, profile);
         for (let i=0; i < profile.skills.length; i++) {
-            await $profiles_skills_methods.updateSkillOfProfile(profileID, profile.skills[i].name, profile.skills[i]);
+            await profileskillcontroller.updateSkillOfProfile(profileID, profile.skills[i].name, profile.skills[i]);
         }
         res.status(200).send("Successfully updated profile in the database.");
     } catch (err) {
@@ -72,7 +73,7 @@ router.post('/', async (req: any, res: any) => {
 
         const newProfileID: number = await profilecontroller.addProfile(profile, creator_id, project.name);
         for (let i=0; i < profile.skills.length; i++) {
-            await $profiles_skills_methods.addSkillToProfile(newProfileID, profile.skills[i]);
+            await profileskillcontroller.addSkillToProfile(newProfileID, profile.skills[i]);
         }
         res.status(200).json({id: newProfileID});
     } catch (err) {
