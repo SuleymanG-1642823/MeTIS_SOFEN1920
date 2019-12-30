@@ -6,10 +6,22 @@
             <b-modal v-model="modalShow" title="Form not correctly filled in!">
                 <p v-if="categoriesNotValidated == 'true'">Select one or more categories</p>
             </b-modal>
-            <b-button v-if="gotResponse" type="submit" variant="success">Save</b-button>
+            <b-container fluid>
+                <b-row align-h="center" align-content="center">
+                    <b-button class="submit-btn" v-if="gotResponse" type="submit" variant="success">Save</b-button>
+                </b-row>
+            </b-container>
         </b-form>
     </div>
 </template>
 
 <script lang="ts" src="./editProject.ts">
 </script>
+
+<style scoped>
+
+.submit-btn{
+    width: 15%;
+}
+
+</style>

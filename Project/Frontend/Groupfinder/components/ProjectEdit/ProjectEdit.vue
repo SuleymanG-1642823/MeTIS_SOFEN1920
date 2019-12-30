@@ -42,9 +42,21 @@
   :profile="profile"
   :userQuestionnaireList="userQuestionnaireList"
   />
-  <b-button @click="addProfile" class="my-2" variant="primary">Add profile</b-button>
+  <b-container fluid>
+    <b-row align-h="center" align-content="center">
+      <b-button @click="addProfile" class="my-2 profile-btn" variant="primary">Add profile</b-button>
+    </b-row>
+  </b-container>
 </div>
 </template>
 
 <script lang="ts" src="./ProjectEdit.ts">
 </script>
+
+<style scoped>
+
+.profile-btn{
+  width: 15%;
+}
+
+</style>
