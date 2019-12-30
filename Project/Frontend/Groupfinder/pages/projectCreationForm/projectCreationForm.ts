@@ -17,7 +17,6 @@ import FormValidationBools from '../../types/formvalidationbools';
 export default class projectCreationForm extends Vue {
     // Data
     project= <Project>{};
-    formvalidationbools = <FormValidationBools>{};
     modalShow: Boolean = false;
     categoriesNotValidated: string = "false";
 
@@ -38,7 +37,6 @@ export default class projectCreationForm extends Vue {
             profiles: [],
             categories: []
         }
-        this.formvalidationbools.CategoriesBool = false;
     }
 
     /**
@@ -58,15 +56,10 @@ export default class projectCreationForm extends Vue {
      */
     validateCategoriesInForm(): boolean{
         if(this.project.categories.length == 0){
-            console.log("if", this.project.categories);
-            this.formvalidationbools.CategoriesBool = true;
             this.categoriesNotValidated = "true";
             return false;
         }
         else{
-            console.log("else", this.project.categories);
-            console.log(this.project.categories.length);
-            this.formvalidationbools.CategoriesBool = false;
             this.categoriesNotValidated = "false";
             return true;
         }
@@ -96,9 +89,6 @@ export default class projectCreationForm extends Vue {
         if(!(this.validateForm())){
             console.log("not validated");
             return;
-        }
-        else{
-            console.log("what went wrong");
         }
 
         // Fill in the details of the project

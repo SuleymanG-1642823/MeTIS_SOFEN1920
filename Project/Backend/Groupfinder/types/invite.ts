@@ -3,10 +3,18 @@ interface Invite {
     sender_id: number;
     receiver_id: number;
     profile_id: number;
-    status: number;
+    status: number; // 0: pending, 1: accepted, 2: rejected
     sent_count: number;
     max_count: number;
     last_sent_at: string|null //YYYY-MM-DD hh:mm:ss
 }
 
+enum STATUS {
+    PENDING = 0,
+    ACCEPTED = 1,
+    REJECTED = 2
+}
+
+
 export default Invite;
+export {STATUS as INVITE_STATUS};

@@ -4,7 +4,9 @@
     <!-- All the projects owned by the user -->
     <b-list-group>
         <b-list-group-item v-for="(project, index) in user_projects" v-bind:key="index" class="sidebar-projects">
-            {{ project.name }}
+            <router-link :to="'/project/' + project.id">
+                {{ project.name }}
+            </router-link>
         </b-list-group-item>
     </b-list-group>
     <h5>Member Projects:</h5>
@@ -37,6 +39,11 @@
 .sidebar-projects{
     border-left: 0;
     border-right: 0;
+}
+
+a{
+    color: black;
+    text-decoration: none;
 }
 
 </style>

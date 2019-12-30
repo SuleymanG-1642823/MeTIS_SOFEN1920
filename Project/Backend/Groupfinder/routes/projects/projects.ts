@@ -3,10 +3,16 @@ const router = express.Router();
 import Project from '../../types/project';
 import Profile from '../../types/profile';
 import Skill from '../../types/skill';
-const $project_methods = require('./project_methods');
-const $profile_methods = require('../profiles/profiles_methods');
-const $profile_skill_methods = require('../profiles_skills/profiles_skills_methods');
-const $categories_methods = require('../categories/categories_methods')
+import Category from '../../types/category';
+import { ProjectController } from './project_methods';
+import { ProfileController } from '../profiles/profiles_methods';
+import { ProfileSkillController } from '../profiles_skills/profiles_skills_methods';
+import { CategoryController } from '../categories/categories_methods';
+
+let categorycontroller: CategoryController = new CategoryController();
+let profilecontroller: ProfileController = new ProfileController();
+let projectcontroller: ProjectController = new ProjectController();
+let profileskillcontroller: ProfileSkillController = new ProfileSkillController();
 
 /**
  * Middleware that is specific to this router
@@ -25,17 +31,38 @@ router.use((req: any, res: any, next: Function) => {
 router.get('/:project_id', async (req: any, res: any) => {
     const project_id: number = parseInt(req.params.project_id);
     try{
-        const project: Project = await $project_methods.getProject(project_id);
-        let profiles: Profile[] = await $profile_methods.getProjectProfiles(project_id);
+        const project: Project = await projectcontroller.getProject(project_id);
+        console.log('#Project fetched')
+        let profiles: Profile[] = await profilecontroller.getProjectProfiles(project_id);
+        console.log('#Profiles fetched')
         for (let i = 0; i < profiles.length; i++) {
             console.log("Profile: " + profiles[i].name);
-            let skills: Skill[] = await $profile_skill_methods.getSkillsOfProfile(profiles[i].id);
+            let skills: Skill[] = await profileskillcontroller.getSkillsOfProfile(profiles[i].id);
             console.log("Skills: " + skills.toString());
             profiles[i].skills = skills;
         }
+        console.log('#Skills fetched')
         project.profiles = profiles;
+        let categories: string = await categorycontroller.getProjectCategories(project_id)
+        console.log('#Categories fetched: ' + categories)
+        
+        // Categories are allowed to be NULL, check for that to prevent errors
+        if (categories !== null){
+            let categories_array_string: string[] = categories.substring(1, categories.length-1).split(", ");
+            let categories_array: number[] = [];
+            for (let i = 0; i < categories_array_string.length; i++) {
+                categories_array.push(parseInt(categories_array_string[i]));
+            }
+            for (let i = 0; i < categories_array.length; i++){
+                let new_category = await categorycontroller.getCategory(categories_array[i])
+                project.categories.push(new_category)
+            }
+        }
+        
+        console.log('#Categories processed')
         res.status(200).json({project});
     } catch (err) {
+        console.log('#in route catch, err: ' + err)
         const statusCode: number = parseInt(err);
         res.status(statusCode).send("Error while fetching project from the database.");
     }    
@@ -47,12 +74,12 @@ router.get('/:project_id', async (req: any, res: any) => {
  */
 router.get('/', async (req: any, res: any) => {
     try {
-        const projects: Project[] = await $project_methods.getAllProjects();
+        const projects: Project[] = await projectcontroller.getAllProjects();
         for (let i = 0; i < projects.length; i++) {
             let project: Project = projects[i];
-            let profiles: Profile[] = await $profile_methods.getProjectProfiles(project.id);
+            let profiles: Profile[] = await profilecontroller.getProjectProfiles(project.id);
             for (let j = 0; j < profiles.length; j++) {
-                let skills: Skill[] = await $profile_skill_methods.getSkillsOfProfile(profiles[j].id);
+                let skills: Skill[] = await profileskillcontroller.getSkillsOfProfile(profiles[j].id);
                 profiles[j].skills = skills;
             }
             project.profiles = profiles;
@@ -71,7 +98,7 @@ router.get('/', async (req: any, res: any) => {
 router.get('/owner/:user_id', async (req: any, res: any) => {
     const userID: number = parseInt(req.params.user_id);
     try{
-        const projects: Project[] = await $project_methods.getAllProjectsOfOwner(userID);
+        const projects: Project[] = await projectcontroller.getAllProjectsOfOwner(userID);
         res.status(200).json(projects);
     } catch (err) {
         const statusCode: number = parseInt(err);
@@ -85,7 +112,7 @@ router.get('/owner/:user_id', async (req: any, res: any) => {
 router.get('/teammember/:user_id', async (req: any, res: any) => {
     const userID: number = parseInt(req.params.user_id);
     try{
-        const projects: Project[] = await $project_methods.getAllProjectsWithMember(userID);
+        const projects: Project[] = await projectcontroller.getAllProjectsWithMember(userID);
         res.status(200).json(projects);
     } catch (err) {
         const statusCode: number = parseInt(err);
@@ -99,7 +126,7 @@ router.get('/teammember/:user_id', async (req: any, res: any) => {
 router.get('/matchFor/:userID', async (req: any, res: any) => {
     const userID: number = parseInt(req.params.userID);
     try {
-        const matchingProjects: any = await $project_methods.getMatchingProjects(userID);
+        const matchingProjects: any = await projectcontroller.getMatchingProjects(userID);
         res.status(200).json(matchingProjects);
     } catch (err) {
         const statusCode: number = parseInt(err);
@@ -114,14 +141,16 @@ router.get('/matchFor/:userID', async (req: any, res: any) => {
 router.put('/:project_id', async (req: any, res: any) => {
     const projectID: number = parseInt(req.params.project_id);
     const project: Project = req.body.project;
+    console.log(project);
     try{
-        await $project_methods.updateProject(projectID, project);
+        await projectcontroller.updateProject(projectID, project);
         for (let i = 0; i < project.profiles.length; i++) {
-            await $profile_methods.updateProfile(project.profiles[i].id, project.profiles[i]);
+            await profilecontroller.updateProfile(project.profiles[i].id, project.profiles[i]);
             for (let j = 0; j < project.profiles[i].skills.length; j++){
-                await $profile_skill_methods.updateSkillOfProfile(project.profiles[i].id, project.profiles[i].skills[j].name, project.profiles[i].skills[j]);
+                await profileskillcontroller.updateSkillOfProfile(project.profiles[i].id, project.profiles[i].skills[j].name, project.profiles[i].skills[j]);
             }
         }
+        await categorycontroller.addCategoriesToProject(project.categories, projectID)
         res.status(200).send('Successfully updated project in the database.');
     } catch (err) {
         const statusCode: number = parseInt(err);
@@ -135,18 +164,18 @@ router.put('/:project_id', async (req: any, res: any) => {
  * @pre body of http request contains new project (type: Project) in JSON format
  */
 router.post('/', async (req: any, res: any) => {
-    const project: Project = req.body;
     try{
-        const newProjectID: number = await $project_methods.addProject(project);
+        const project: Project = req.body;
+        const newProjectID: number = await projectcontroller.addProject(project);
         const profiles: Profile[] = project.profiles;
         for (let i = 0; i < profiles.length; i++){
             profiles[i].project_id = newProjectID;
-            let profileID = await $profile_methods.addProfile(profiles[i], project.creator_id, project.name);
+            let profileID = await profilecontroller.addProfile(profiles[i], project.creator_id, project.name);
             for (let j = 0; j < profiles[i].skills.length; j++){
-                await $profile_skill_methods.addSkillToProfile(profileID, profiles[i].skills[j]);
+                await profileskillcontroller.addSkillToProfile(profileID, profiles[i].skills[j]);
             }
         }
-        await $categories_methods.addCategoriesToProject(project.categories, newProjectID)
+        await categorycontroller.addCategoriesToProject(project.categories, newProjectID)
         res.status(200).json({id: newProjectID});
     } catch (err) {
         const statusCode: number = parseInt(err);
@@ -161,7 +190,7 @@ router.post('/', async (req: any, res: any) => {
 router.delete('/:project_id', async (req: any, res: any) => {
     const projectID: number = parseInt(req.params.project_id);
     try{
-        await $project_methods.deleteProject(projectID);
+        await projectcontroller.deleteProject(projectID);
         res.status(200).send("Successfully deleted project from the database.");
     } catch (err) {
         const statusCode: number = parseInt(err);
@@ -176,7 +205,7 @@ router.delete('/:project_id', async (req: any, res: any) => {
 router.get('/user/:userID', async (req: any, res: any) => {
     const userID: number = parseInt(req.params.userID);
     try { // Array<Object>
-        const projects: Project[] = await $project_methods.getProjectsUser(userID);
+        const projects: Project[] = await projectcontroller.getProjectsUser(userID);
         res.status(200).json(projects);
     } catch (err) {
         const statusCode: number = parseInt(err);

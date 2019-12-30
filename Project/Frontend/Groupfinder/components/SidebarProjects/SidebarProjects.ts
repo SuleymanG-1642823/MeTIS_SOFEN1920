@@ -1,11 +1,10 @@
-import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 import axios from 'axios';
 import api from '@/helpers/Api';
 
 import Project from '@/types/project';
 
-@ Component
+@Component
 export default class SidebarProjects extends Vue {
     // Data
     user_projects: Project[] = [];
