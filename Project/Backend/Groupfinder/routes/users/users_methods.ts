@@ -182,7 +182,7 @@ export class UserController {
      * @param user The user whose id will be searched for. (type: User)
      * @returns promise of the user's id (type: Promise<number>)
      */
-    public getNewID(user: User): Promise<number>{
+    private getNewID(user: User): Promise<number>{
         return new Promise(
             (resolve, reject) => {
                 const query: string = 'SELECT id FROM user WHERE mail=? ORDER BY id DESC;';
@@ -260,7 +260,7 @@ export class UserController {
      * Hash a password.
      * @param password the plain text password to be hashed
      */
-    public hashPassword(plainTextPassword: string): Promise<string>{
+    private hashPassword(plainTextPassword: string): Promise<string>{
         return new Promise(
             (resolve, reject) => {
                 bcrypt.genSalt(10, function(err: any, salt: any) {
