@@ -19,7 +19,7 @@ export default class RecommendedUsersList extends Vue{
     profileUserMatches: Array<ProfileUserMatch> = [];
 
     @Prop(Array) projectID: number;
-
+    
     /**
      * Puts prop into mProfileUserMatch member that is seen as vue 
      * "data" and is reactive.
