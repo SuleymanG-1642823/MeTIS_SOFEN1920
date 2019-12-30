@@ -70,6 +70,7 @@ export default class MyProfile extends Vue {
         try {
             let url = api(`users/${user.id}`);
             await axios.put(url, {user: body}, {headers: {'Content-Type': 'application/json'}});
+            this.$store.commit('auth/SET_USER', body);
         } catch (err){
             console.log(`Following error occured while updating user:\n${err}`);
         }

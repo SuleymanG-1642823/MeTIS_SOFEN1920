@@ -250,6 +250,7 @@ export default class EditUserData extends Vue {
         try {
             const url = api(`users/${this.user_prop.id}`);
             await axios.put(url, {user: user}, {headers: {'Content-Type': 'application/json'}});
+            this.$store.commit('auth/SET_USER', user);
         } catch (err){
             console.log(`Following error occured while updating user:\n${err}`);
         }
