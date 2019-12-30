@@ -1,9 +1,6 @@
 <template>
-    <div v-if="this.user" style="wrapper">
+    <div v-if="this.user">
         <b-row>
-            <b-col id="image_column" lg>
-                <b-img id="profile_image" fluid-grow alt="ProfileImage" src="https://img.icons8.com/ios/100/000000/user.png"/>
-            </b-col>
             <b-col lg>
                 <p>{{ this.user.first_name }} {{ this.user.last_name }}</p>
                 <p v-if="(this.logged_in_user || !this.privateData) && this.user.address"> <i class="fas fa-map-marker-alt"></i> {{ this.user.address }}</p>
@@ -17,7 +14,7 @@
                 <p v-if="this.user.available"><i class="fas fa-circle green"></i> available for joining projects</p>
                 <p v-else><i class="fas fa-circle red"></i> unavailable for joining projects</p>
             </b-col>
-            <b-col v-if="social_media" id="flex">
+            <b-col v-if="social_media">
                 <a v-if="social_media[0].suffix !== ''" id="facebook_icon" class="social_media_icon" :href=social_media[0].prefix.concat(social_media[0].suffix)><i class="fab fa-facebook"></i></a>
                 <a v-if="social_media[1].suffix !== ''" id="twitter_icon" class="social_media_icon" :href=social_media[1].prefix.concat(social_media[1].suffix)><i class="fab fa-twitter-square"></i></a>
                 <a v-if="social_media[2].suffix !== ''" id="linkedin_icon" class="social_media_icon" :href=social_media[2].prefix.concat(social_media[2].suffix)><i class="fab fa-linkedin"></i></a>
@@ -31,29 +28,6 @@
 </script>
 
 <style scoped>
-    @media (min-width: 993px) {
-        #flex{
-            display: flex;
-            flex-direction: column;
-        }
-    }
-    @media (max-width: 992px) {
-        #flex{
-            display: flex;
-            flex-direction: row;
-        }
-        .social_media_icon{
-            margin-right:10px;
-        }
-    }
-    #profile_image{
-        width: auto;
-        height: auto;
-        max-height: 200px;
-        max-width: 200px;
-        margin: auto;
-        display: block;
-    }
     #facebook_icon{
         color:#3B5B98;
     }
@@ -68,6 +42,7 @@
     }
     .social_media_icon{
         font-size: 30px;
+        margin-left: 10px;
     }
     .green{
         color:green;
