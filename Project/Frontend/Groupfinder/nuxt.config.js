@@ -28,23 +28,24 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '~/plugins/api.ts'
+    '~/plugins/api.ts',
+    '~/plugins/axios.ts',
+    '~/plugins/vee-validate.ts'
   ],
   /*
   ** Nuxt.js dev-modules
   */
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
-    '@nuxtjs/eslint-module', '@nuxt/typescript-build'
+    '@nuxtjs/eslint-module', '@nuxt/typescript-build',
   ],
-  /*
-  ** Nuxt.js modules
-  */
   modules: [
     // Doc: https://bootstrap-vue.js.org
     'bootstrap-vue/nuxt',
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    // Doc: https://www.npmjs.com/package/nuxt-vuex-localstorage
+    'nuxt-vuex-localstorage'
   ],
   /*
   ** Axios module configuration
@@ -56,6 +57,7 @@ export default {
   ** Build configuration
   */
   build: {
+    transpile: ["vee-validate/dist/rules"],
     /*
     ** You can extend webpack config here
     */
@@ -64,5 +66,10 @@ export default {
   },
   env: {
      API_PORT: process.env.API_PORT 
-    }
+  },
+  router: {
+    middleware: [
+      'Auth'
+    ],
+  }
 }

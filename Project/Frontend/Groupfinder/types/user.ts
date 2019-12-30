@@ -1,9 +1,10 @@
 interface User {
-    id: number|null;
+    id?: number;
+    password?: string;
+    is_admin: boolean;
     first_name: string;
     last_name: string;
     mail: string;
-    address: string;
     zip: string;
     city: string;
     tel: string;

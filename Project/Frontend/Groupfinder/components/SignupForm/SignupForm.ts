@@ -1,8 +1,11 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import axios from 'axios';
+import { ValidationObserver, ValidationProvider } from "vee-validate";
 
-@ Component
+@ Component({
+  components: {ValidationObserver, ValidationProvider}
+})
 export default class SignupForm extends Vue {
     // Data
     first_name: string = ''
@@ -20,7 +23,25 @@ export default class SignupForm extends Vue {
         // check equality of mail
 
     }
-
+    
+    commit(){
+      console.log('commiting')
+      this.$store.commit('auth/SET_USER', 
+      {
+        id: 1,
+        first_name: 'Lennert',
+        last_name: 'Geebelen',
+        mail: 'lennert.geebelen@mail.com',
+        address: 'ditiseenstraatnaam 100',
+        zip: '3500',
+        city: 'Brussel',
+        tel: '+32000112233',
+        website: 'www.mywebsite.be',
+        social_media: {}
+      })
+      console.log('committed')
+    }
+    
     toggleVisibility() {
       this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password'  
       this.passwordIcon = this.passwordFieldType === 'password' ? 'fa-eye' : 'fa-slash-eye'
