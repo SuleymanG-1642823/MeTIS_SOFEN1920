@@ -225,6 +225,14 @@ export default class ProjectProfileOwner extends Vue {
         }
     }
     
+    /**
+     * Redirects to the chatpage to chat with the user that has the given ID.
+     * @param chatPartnerID 
+     */
+    goToChatPage(chatPartnerID: number){
+        alert('TODO: go to chatpage')
+    }
+
     /** 
      * Requests the users that applied for this project from the backend
     */

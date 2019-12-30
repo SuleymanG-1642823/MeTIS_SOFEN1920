@@ -20,7 +20,15 @@
     margin: 5px;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-column-gap: 8px;
+    grid-column-gap: 16px;
+    grid-row-gap: 16px;
+}
+
+/* When width is less that 675px make two rows of the footer */
+@media (max-width: 1750px) {
+  #wrapper{
+    grid-template-columns: 1fr;
+  }
 }
 
 </style>
