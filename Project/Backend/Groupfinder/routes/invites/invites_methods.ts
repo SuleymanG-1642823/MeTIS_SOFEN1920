@@ -1,7 +1,7 @@
 const db_conn = require('../../databaseconnection');
 import Invite from '../../types/invite'
 
-export default class InvitesDBInterface{
+export default class InviteController{
     private static DB: any = db_conn;
 
     /**
