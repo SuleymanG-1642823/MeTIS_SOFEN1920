@@ -87,6 +87,54 @@ function getMatchingUsers(projectID: number): Promise<any>{
 }
 
 /**
+ * Returns the users that have the given string in their firstnames, lastnames or emails.
+ * @param str 
+ */
+function getUserSuggestions(str: string): Promise<User[]>{
+    return new Promise( (resolve: any, reject: any) => {
+        const query: string = `
+            SELECT *
+            FROM user
+            WHERE	first_name LIKE concat('%', ?, '%')
+            	 	OR last_name LIKE concat('%', ?, '%')
+                    OR concat(first_name, ' ', last_name) LIKE concat('%', ?, '%')
+                    OR mail LIKE concat('%', ?, '%');
+        `;
+
+        const params: any[] = [str, str, str, str];
+        db_conn.query(query, params, (err: any, rows: any) => {
+            if (err){
+                console.log(err);
+                reject('500');
+            } 
+            else {
+                let userSuggestions: User[] = [];
+
+                // create a user object out of each rows
+                for (let user of rows){
+                    const userSuggestion: User = {
+                        id: user.id,
+                        first_name: user.first_name,
+                        last_name: user.last_name,
+                        mail: user.mail,
+                        address: user.addr,
+                        zip: user.zip,
+                        city: user.city,
+                        tel: user.tel,
+                        website: user.website,
+                        social_media: null, // TODO: parse social media json if necessary (now null because social media data is not needed for suggestions)
+                        available: user.available,
+                        private: user.private
+                    }
+                    userSuggestions.push(userSuggestion); // add user object to results
+                }
+                resolve(userSuggestions);
+            }
+        });    
+    });
+}
+
+/**
  * Change data of existing user in the database.
  * @param userID the id of the user to be updated
  * @param user the updated user data
@@ -280,5 +328,6 @@ module.exports = {
     deleteUser,
     getMatchingUsers,
     changePassword,
-    validatePassword
+    validatePassword,
+    getUserSuggestions
 }

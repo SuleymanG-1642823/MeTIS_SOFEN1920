@@ -43,6 +43,21 @@ router.get('/matchFor/:project_id', async (req: any, res: any) => {
 });
 
 /**
+ * Get user suggestions for a given string (that is compared with firstnames and/or lastnames or mails)
+ */
+router.get('/suggestions/:str', async (req: any, res: any) => {
+    const str: number = req.params.str;
+    console.log('#param:' + str)
+    try{
+        let result: User[] = await $users_methods.getUserSuggestions(str);
+        res.status(200).json(result);
+    }catch (err){
+        const statusCode: number = parseInt(err);
+        res.status(statusCode).send("Error while fetching user suggestions.");
+    }
+});
+
+/**
  * Validate users's password.
  */
 router.post('/correctPassword/:user_id', async (req: any, res: any) => {
