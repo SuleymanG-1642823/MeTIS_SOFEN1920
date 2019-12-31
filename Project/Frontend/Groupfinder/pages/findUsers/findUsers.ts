@@ -147,6 +147,7 @@ export default class FindUsers extends Vue {
                 console.log(`Error while requesting invites for profile ${profileID}: ${err.response.data}`)
             }
         });
+        
     }
 
     /**
