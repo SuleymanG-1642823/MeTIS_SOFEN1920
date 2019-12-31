@@ -6,20 +6,18 @@ import UserMatch from '~/types/matching/userMatch';
 import axios from 'axios'
 import api from '@/helpers/Api';
 
-
 /*
     This component is created for displaying a user that is recommended to a project's profile. 
 */
 @Component({
     components:{
         RecommendedUserCard
-    }
+}
 })
-export default class RecommendedUsersList extends Vue{
+export default class RecommendedUsers extends Vue{
     profileUserMatches: Array<ProfileUserMatch> = [];
+    @Prop(Number) projectID: number;
 
-    @Prop(Array) projectID: number;
-    
     /**
      * Puts prop into mProfileUserMatch member that is seen as vue 
      * "data" and is reactive.

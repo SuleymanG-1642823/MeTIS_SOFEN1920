@@ -1,9 +1,10 @@
-import { Vue, Component } from 'vue-property-decorator'
+import { Vue, Component, Watch } from 'vue-property-decorator'
 import axios from 'axios'
 import api from '@/helpers/Api'
 import Project from '~/types/project'
+import Profile from '~/types/profile'
 import RecommendedUsers from '~/components/RecommendedUsers/RecommendedUsers'
-import Invite from '~/types/invite'
+import Invite, { INVITE_STATUS } from '~/types/invite'
 import User from '~/types/user'
 
 @Component({
@@ -17,14 +18,58 @@ import User from '~/types/user'
 })
 export default class FindUsers extends Vue {
     project: Project|null = null;
-    selectionOptions: {value: Object|null, text: string}[] = [ {value: null, text: 'Please select a profile'}] ;
-    selectedOption: Object|null = null;
     showInvites: boolean = false;
+    showInviteInfoModal: boolean = false;
+
+    /* For dropdown to select profile */
+    selectionProfileOptions: {value: Profile, text: string}[] = [];
+    selectedProfile: Profile|null = null;
+    
+    /* For search input */
+    inviteSearchInput: string = '';
+    
+    /* For selection list to select a suggestion */
+    searchSuggestions: {value: User, text: string}[] = [];
+    selectedSuggestion: User|null = null;
+    showSuggestions: Boolean = false;
+
 
     // Array of {Invite, User} array.
     // ProfileInvites[profileID] gives an array of all invites sent for that 
     // profile along with the user objects that represent the invite receivers.
     profileInvites: {invite: Invite, user: User}[][] = [];
+
+    /**
+     * When the user has input more than 3 characters request suggestions from the server.
+     * When the user wrote less than 3 characters (or deleted input) remove current suggestions.
+     * @param newSearchValue 
+     * @param oldSearchValue 
+     */
+    @Watch('inviteSearchInput')
+    updateSuggestions(newSearchValue: string, oldSearchValue: string){
+        if (newSearchValue.length >= 3){
+            this.showSuggestions = true;
+            this.updateUserSuggestions(newSearchValue);
+        }
+        else{
+            this.showSuggestions = false;
+        }
+        
+        // When there is input, the selected suggestion must be deselected
+        if (this.selectedSuggestion === null || this.getFullName(this.selectedSuggestion) !== this.inviteSearchInput){
+            this.selectedSuggestion = null;
+        }
+    }
+
+    /**
+     * Sets input field text to the selected suggestions' text
+    */
+    @Watch('selectedSuggestion')
+    setSearchTextToSelectedValue(newSelectedValue: User|null, oldSelectedValue:User|null){
+        if (this.selectedSuggestion !== null){
+            this.inviteSearchInput = this.getFullName(this.selectedSuggestion);
+        }
+    }
 
     beforeCreate(){
         // Requests
@@ -40,7 +85,7 @@ export default class FindUsers extends Vue {
                 if (this.project !== null){
                     // Got project, init options for profile selection of invite
                     for (let profile of this.project.profiles){
-                        this.selectionOptions.push({value: profile, text: profile.name});
+                        this.selectionProfileOptions.push({value: profile, text: profile.name});
                     }
                     
                     try{
@@ -69,6 +114,25 @@ export default class FindUsers extends Vue {
         });
     }
 
+    async updateUserSuggestions(queryStr: string){
+        try{
+            // Get the suggestions
+            let url = api(`users/suggestions/${queryStr}`);
+            let response = await axios.get(url);
+
+            // update search suggestions
+            this.searchSuggestions = []; // delete previous suggestions
+            let suggestedUsers: User[] = response.data;
+            for (let user of suggestedUsers){
+                // create a new suggestion object and insert it into the list bound with the dropdown elem
+                this.searchSuggestions.push({value: user, text: user.first_name + ' ' + user.last_name});
+            }
+
+        } catch (err) {
+            console.log(`Error while updating suggestions ${queryStr}`);
+        }
+    }
+
     /**
      * Requests and returns the invites sent for profile with given id.
      */
@@ -83,6 +147,55 @@ export default class FindUsers extends Vue {
                 console.log(`Error while requesting invites for profile ${profileID}: ${err.response.data}`)
             }
         });
+    }
+
+    /**
+     * Creates a new invite and requests server to register it.
+     * @pre a suggestion must be selected
+     * @pre a profile must be selected
+     */
+    async inviteUserCurrentlySelectedUser(){
+        // check if a profile and a suggestion is selected
+        if (this.selectedProfile === null || this.selectedSuggestion === null){
+            this.showInviteInfoModal = true;
+            return; // abort function
+        }
+        
+        // to make typescript not complain about number|null not being assignable 
+        // to number (eventough the first line does the check).
+        let selectedUserID: any = this.selectedSuggestion.id;
+        let selectProfileID: any = this.selectedProfile.id;
+
+        // necessary items selected, create an invite and send a post request
+        try {
+            // Create an invite
+            let newInvite: Invite = {
+                id: null,
+                sender_id: this.$store.state.auth.user.id,
+                receiver_id: selectedUserID, 
+                profile_id: selectProfileID,
+                status: INVITE_STATUS.PENDING,
+                sent_count: 0,
+                max_count: 0,
+                last_sent_at: ''
+            }
+
+            // send post request for registering invite
+            let url = api(`invites/`)
+            await axios.post(url, {invite: newInvite});
+
+            // successfully sent invitation, clear search field
+            this.inviteSearchInput = '';
+
+            // add new invite object to 
+            // profileInvites: {invite: Invite, user: User}[][] = [];
+            this.profileInvites[selectProfileID].push({invite: newInvite, user: this.selectedSuggestion});
+
+            // new invite sent, update invites
+            this.updateInvites();
+        } catch (err) {
+            console.log(`Error while sending invitation for user ${selectedUserID}: ${err.response.data}`)
+        }
     }
 
     /**
@@ -151,5 +264,9 @@ export default class FindUsers extends Vue {
     updateInvites(){
         this.showInvites = false;
         this.showInvites = true;
+    }
+
+    getFullName(user: User){
+        return user.first_name + ' ' + user.last_name;
     }
 }
