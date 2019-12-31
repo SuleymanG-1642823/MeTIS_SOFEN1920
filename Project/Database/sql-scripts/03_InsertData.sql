@@ -1,13 +1,13 @@
 USE groupfinder;
 
 -- USERS
-INSERT INTO user (id, first_name, last_name, mail, password, available, private)
-VALUES  (1, 'Lennert', 'Geebelen', 'lennert.geebelen@student.uhasselt.be', ' $2a$10$xNkcrieExKemWxBlqNDS8ORKbY8QV0Y5N2WYUO4iW6FTudjgfm9KS', 1, 0),
-        (2, 'Jurian', 'Lodewijk', 'Jurian.Lodewijk@mail.com', ' $2a$10$xNkcrieExKemWxBlqNDS8ORKbY8QV0Y5N2WYUO4iW6FTudjgfm9KS', 1, 0),
-        (3, 'Mart', 'Bolink', 'Mart.Bolink@mail.com', ' $2a$10$xNkcrieExKemWxBlqNDS8ORKbY8QV0Y5N2WYUO4iW6FTudjgfm9KS', 1, 0),
-        (4, 'Klaas', 'Budde', 'Klaas.Budde@mail.com', ' $2a$10$xNkcrieExKemWxBlqNDS8ORKbY8QV0Y5N2WYUO4iW6FTudjgfm9KS', 0, 0),
-        (5, 'Willem', 'Kreijkes', 'Willem.Kreijkes@mail.com', ' $2a$10$xNkcrieExKemWxBlqNDS8ORKbY8QV0Y5N2WYUO4iW6FTudjgfm9KS', 1, 0),
-        (6, 'Robert', 'Louwes', 'Robert.Louwes@mail.com', ' $2a$10$xNkcrieExKemWxBlqNDS8ORKbY8QV0Y5N2WYUO4iW6FTudjgfm9KS', 1, 0);
+INSERT INTO user (id, first_name, last_name, mail, city, password, available, private)
+VALUES  (1, 'Lennert', 'Geebelen', 'lennert.geebelen@student.uhasselt.be', 'Bree', ' $2a$10$xNkcrieExKemWxBlqNDS8ORKbY8QV0Y5N2WYUO4iW6FTudjgfm9KS', 1, 0),
+        (2, 'Jurian', 'Lodewijk', 'Jurian.Lodewijk@mail.com', 'Eupen', ' $2a$10$xNkcrieExKemWxBlqNDS8ORKbY8QV0Y5N2WYUO4iW6FTudjgfm9KS', 1, 0),
+        (3, 'Mart', 'Bolink', 'Mart.Bolink@mail.com', 'Charleroi', ' $2a$10$xNkcrieExKemWxBlqNDS8ORKbY8QV0Y5N2WYUO4iW6FTudjgfm9KS', 1, 0),
+        (4, 'Klaas', 'Budde', 'Klaas.Budde@mail.com', 'Brussel', ' $2a$10$xNkcrieExKemWxBlqNDS8ORKbY8QV0Y5N2WYUO4iW6FTudjgfm9KS', 0, 0),
+        (5, 'Willem', 'Kreijkes', 'Willem.Kreijkes@mail.com', 'Antwerpen', ' $2a$10$xNkcrieExKemWxBlqNDS8ORKbY8QV0Y5N2WYUO4iW6FTudjgfm9KS', 1, 0),
+        (6, 'Robert', 'Louwes', 'Robert.Louwes@mail.com', 'Deinze', ' $2a$10$xNkcrieExKemWxBlqNDS8ORKbY8QV0Y5N2WYUO4iW6FTudjgfm9KS', 1, 0);
       
 
 

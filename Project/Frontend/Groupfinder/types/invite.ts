@@ -15,6 +15,5 @@ enum STATUS {
     REJECTED = 2
 }
 
-
 export default Invite;
 export {STATUS as INVITE_STATUS};

@@ -63,10 +63,6 @@ export default class ProjectProfileOwner extends Vue {
         this.membersCollapsed = !this.membersCollapsed;
     }
 
-    invitePeople(){
-        alert('TODO: invite people');
-    }
-
     /**
      * Remove the given user from being a member. Send a request to backend
      * to handle the data for this. If request succeeds remove member from the data memberlist
@@ -229,6 +225,14 @@ export default class ProjectProfileOwner extends Vue {
         }
     }
     
+    /**
+     * Redirects to the chatpage to chat with the user that has the given ID.
+     * @param chatPartnerID 
+     */
+    goToChatPage(chatPartnerID: number){
+        alert('TODO: go to chatpage')
+    }
+
     /** 
      * Requests the users that applied for this project from the backend
     */
