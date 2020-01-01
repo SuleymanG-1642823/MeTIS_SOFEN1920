@@ -135,6 +135,21 @@ router.get('/matchFor/:userID', async (req: any, res: any) => {
 });
 
 /**
+ * Get projects that contain given string in their names.
+ */
+router.get('/search/:str', async (req: any, res: any) => {
+    const str: string = req.params.str;
+    try {
+        const results: any = await projectcontroller.getProjectsContainingStr(str);
+        res.status(200).json(results);
+    } catch (err) {
+        const statusCode: number = parseInt(err);
+        res.status(statusCode).send("Error while fetching matching projects from the database.");
+    }
+});
+
+
+/**
  * Update existing project in the database.
  * @pre body of http request contains the project (type: Project) in JSON format
  */

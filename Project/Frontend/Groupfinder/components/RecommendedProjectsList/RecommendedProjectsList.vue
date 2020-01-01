@@ -18,12 +18,13 @@
 #cardContainer{
   display: grid;
   grid-template-columns: 50% 50%;
+  grid-gap: 16px;
 }
 
 @media (max-width: 1250px){
   #cardContainer{
     display: grid;
-    grid-template-columns: 100%;
+    grid-template-columns: 1fr;
   }
 }
 
