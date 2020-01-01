@@ -23,7 +23,7 @@
 <style scoped>
 
 .projectCard{
-    margin: 0.75rem;
+    margin: 0;
 }
 
 a{

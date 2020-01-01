@@ -195,6 +195,52 @@ export class ProjectController {
         });
     }
     
+    /**
+     * Get projects that contain given string in their names.
+     * @param str the string that the user submitted for a project search task.
+     */
+    public getProjectsContainingStr(str: string): Promise<Project[]>{
+        return new Promise((resolve:any, reject:any) => {
+            const query: string = `
+                SELECT project.id AS projectID, name, status, pitch, created_at, edited_at, user.id AS userID, user.first_name, user.last_name  
+                FROM project JOIN user ON user.id=project.creator_id 
+                WHERE project.name LIKE CONCAT('%', ?, '%');`;
+            const params: any[] = [str];
+            db_conn.query(query, params, async (err: any, rows: any) => {
+                if (err){
+                    console.log(`Error while fetching project from database: ${err}`);
+                    reject("500");
+                } else {
+                    try{
+                        let projects: Project[] = [];
+                        for (let row of rows){
+                            //const profiles_result: Profile[] = await $profiles_methods.getProjectProfiles(rows[0].projectID);
+                            const project: Project = {
+                                id: row.projectID,
+                                name: row.name,
+                                status: row.status,
+                                pitch: row.pitch,
+                                created_at: moment(row.created_at).format('YYYY-MM-DD hh:mm:ss'),
+                                edited_at: moment(row.edited_at).format('YYYY-MM-DD hh:mm:ss'),
+                                creator_id: row.userID,
+                                creator_first_name: row.first_name,
+                                creator_last_name: row.last_name,
+                                //profiles: profiles_result
+                                profiles: [],
+                                categories: []
+                            }
+
+                            projects.push(project);
+                        }
+                        resolve(projects);
+                    } catch (err) {
+                        console.log("Error while fetching profiles of a project from the database.");
+                        reject(err);
+                    }                    
+                }
+            });
+        });
+    }
     
     /**
      * Update existing project in the database.

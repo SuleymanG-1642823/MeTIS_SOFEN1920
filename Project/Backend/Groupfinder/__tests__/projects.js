@@ -2,6 +2,7 @@ import app from '../app';
 import http from 'http';
 import supertest from 'supertest';
 import 'babel-polyfill';
+import { isArray } from 'util';
 var request;
 var projectID;
 
@@ -145,6 +146,19 @@ describe("TESTING ALL PROJECT ROUTES", () => {
             .end((err, res) => {
                 if (err) return done(err);
                 expect(res.status).toBe(200);
+                done();
+            });
+        })
+    });
+    describe("GET /projects/search/:str", () => {
+        it("Should return the project that is edited in the previous test", (done) => {
+            request.get(`/projects/search/proj`) // proj is substring of test project
+            .end((err, res) => {
+                if (err) return done(err);
+                expect(res.status).toBe(200);
+                expect(typeof(res.body)).toBe('object');
+                expect(isArray(res.body)).toBe(true);
+                expect(res.body.length).toBeGreaterThan(0);
                 done();
             });
         })
