@@ -34,9 +34,4 @@ export default class RecommendedProjectCard extends Vue{
         // if ID is not encountered -> invalid ID
         return '';
     }
-
-    // Lifecycle hook, gets called after init component
-    created(){
-        // TODO: sort profiles by their matching %
-    }
 }

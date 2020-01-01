@@ -1,6 +1,6 @@
 <template>
     <div id="wrapper">
-        <h1 v-if="notFound">Project could not be found</h1>
+        <h1 v-if="notFound">404: Project could not be found</h1>
         <div id="projectWrapper" v-if="!notFound">
             <ProjectInformation
                 :title="project.name"

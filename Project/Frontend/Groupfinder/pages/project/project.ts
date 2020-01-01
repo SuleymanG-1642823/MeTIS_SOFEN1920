@@ -56,20 +56,7 @@ export default class ProjectPage extends Vue {
                     this.isOwner = true;
                 }
 
-                // test only
-                let category1: Category = {
-                    id: null,
-                    name: 'Website',
-                    subcategory: ''
-                }
-
                 this.notFound = false;
-            
-                if (this.project !== null){
-                    this.project.categories.push(category1);
-                }
-                this.project.created_at = '2019-12-26 14:05';
-                // test till here
             } catch (err) {
                 console.log(`Error while requesting project ${projectID}: ${err.response.data}`)
                 this.notFound = true;
