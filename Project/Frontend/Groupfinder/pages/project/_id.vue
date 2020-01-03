@@ -11,12 +11,13 @@
                 :creatorID="project.creator_id"
             />
             <router-link :to="'/editProject/'+project.id">
-                <button
+                <b-button
                     v-if="isOwner"
-                    class="edit"
+                    variant="primary"
+                    class="edit icon_button"
                 >
                     <i class="fas fa-pen"></i>
-                </button>
+                </b-button>
             </router-link>
             <ProjectProfilesGuest v-if="!isOwner" :profiles="project.profiles"/>
             <ProjectProfilesOwner v-if="isOwner" :profiles="project.profiles"/>
@@ -34,12 +35,23 @@
 }
 
 #projectWrapper{
-    max-width: 1140px;
     margin: 0 auto;
     display: grid;
 }
 
-button.edit{
+.icon_button{
+      width: 50px;
+      height: 50px;
+      border-radius: 35px;
+      font-size: 20px;
+}
+.edit{
+    position: fixed;
+    right: 30px;
+    top: 30px;
+}
+
+/*button.edit{
     background: none;
     color: inherit;
     padding: 0;
@@ -57,5 +69,5 @@ button.edit{
 
 button.edit > i {
     font-size: 2rem;
-}
+}*/
 </style>

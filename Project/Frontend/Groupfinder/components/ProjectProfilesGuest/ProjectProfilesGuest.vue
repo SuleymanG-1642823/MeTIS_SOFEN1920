@@ -4,8 +4,8 @@
             This project has no profiles yet.
         </strong>
         <div id="head" v-if="profiles!==undefined && profiles.length > 0">
-            <span class="informative">We are looking for these profiles</span>
-            <b-button id="btnApply" variant="outline-dark" @click="redirectToApplicationPage">Apply</b-button>
+            <span class="informative">We are looking for these profiles:</span>
+            <b-button id="btnApply" variant="primary" @click="redirectToApplicationPage">Apply</b-button>
         </div>
         <ProjectProfileGuest
             v-for="profile in profiles"

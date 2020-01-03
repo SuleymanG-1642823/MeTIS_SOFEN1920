@@ -41,4 +41,10 @@
         border-top: 1px solid #ced4da;
         border-bottom: 2px solid #ced4da;
     }
+    .preferences_table tr:nth-of-type(odd){
+        background-color: rgba(0,0,0,.02);
+    }
+    .preferences_table th{
+        background-color:white;
+    }
 </style>

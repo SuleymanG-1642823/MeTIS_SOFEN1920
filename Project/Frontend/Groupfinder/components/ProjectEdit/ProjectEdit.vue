@@ -42,11 +42,7 @@
   :profile="profile"
   :userQuestionnaireList="userQuestionnaireList"
   />
-  <b-container fluid>
-    <b-row align-h="center" align-content="center">
-      <b-button @click="addProfile" class="my-2 profile-btn" variant="primary">Add profile</b-button>
-    </b-row>
-  </b-container>
+  <b-button @click="addProfile" class="my-2 profile-btn" variant="primary"><i class="fas fa-plus"></i> Add profile</b-button>
 </div>
 </template>
 
@@ -56,7 +52,8 @@
 <style scoped>
 
 .profile-btn{
-  width: 15%;
+  width: 140px;
+  float: left;
 }
 
 </style>

@@ -14,7 +14,7 @@
     @toggle-collapse="onToggleCollapse"
     @item-click="sidbarItemClick"
     >
-        <b-img v-if="!collapsed" slot="header" class="py-3 px-3" src="./Groupfinder_logo.png" fluid />
+        <!--<b-img v-if="!collapsed" slot="header" class="py-3 px-3" src="./Groupfinder_logo.png" fluid />-->
     </sidebar-menu>
     <div id="content" :style="{ 'margin-left': contentMarginCSS }">
         <!-- Content components go here -->
@@ -26,13 +26,22 @@
 <script lang="ts" src="./default.ts">
 </script>
 
-<style scoped>
+<style>
 #vertical-nav{
     width: 100%;
     height: 100vh;
     top: 0;
     left: 0;
     padding-top: 20px;
+}
+
+.btn-primary{
+    background-color: darkblue;
+}
+
+body{
+    color:#414141;
+    background-color:#fcfcfc;
 }
 
 #content{

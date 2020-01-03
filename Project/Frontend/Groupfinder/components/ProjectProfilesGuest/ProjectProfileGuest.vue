@@ -1,6 +1,6 @@
 <template>
-    <div id="profilewrapper" v-if="profile !== undefined">
-        <span>{{ profile.name }}</span>
+    <!--<div id="profilewrapper" v-if="profile !== undefined">-->
+    <b-card id="profilecard" :title=profile.name v-if="profile !== undefined">
         <b-form-checkbox
             class="apply-checkbox"
             @change="checkedUnChecked"
@@ -9,7 +9,8 @@
             <b-badge
                 v-for="skill in profile.skills"
                 :key="skill.name"
-                variant="info"
+                pill
+                variant="dark"
                 class="skill badge"
             >
                 {{ skill.name }}
@@ -44,13 +45,16 @@
                     :key="index"
                   >
                     <i class="far fa-user profile-member"></i>
-                    <span>{{ member.first_name + ' ' + member.last_name }}</span>
+                    <router-link :to="'/userpage/' + member.id">
+                        <span>{{ member.first_name + ' ' + member.last_name }}</span>
+                    </router-link>
                     <i class="far fa-comment msg" @click="goToChatPage(member.id)"></i>
                   </li>
               </ul>
             </b-collapse>
         </div>
-    </div>
+    <!--</div>-->
+    </b-card>
 </template>
 
 <script lang="ts" src="./ProjectProfileGuest.ts">
@@ -62,6 +66,10 @@
     border: 1px solid black;
     margin: 10px 0 0 0;
     padding: 8px;
+}
+
+#profilecard{
+    margin-bottom: 20px;
 }
 
 .apply-checkbox{
@@ -117,6 +125,10 @@ div#iconsOnCollapsed{
 
 div#iconsOnCollapsed i{
     margin-left: 8px;
+}
+
+a span{
+    color: black;
 }
 
 </style>

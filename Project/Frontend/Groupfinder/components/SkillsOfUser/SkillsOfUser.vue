@@ -47,17 +47,17 @@
                 </b-form>
             </td>
             <td class="actions_column">
-            <b-button class="round icon" :disabled=!add_permitted @click="saveAddition()"><i class="fas fa-plus"></i></b-button>
+            <b-button class="round icon" variant="primary" :disabled=!add_permitted @click="saveAddition()"><i class="fas fa-plus"></i></b-button>
             </td>
         </tr> <!-- ALL EXISTING SKILLS -->
         <tr v-for="skill in skills" :key="skill.name">
             <td>{{ skill.name }}</td>
             <td>{{ format_experience(skill.experience) }}</td>
             <td v-if="logged_in_user" class="actions_column">
-                <b-button class="round icon" @click="onEditSkill(skill)">
+                <b-button class="round icon" variant="primary" @click="onEditSkill(skill)">
                     <i class="fas fa-pen"></i>
                 </b-button>
-                <b-button class="round icon" @click="onDeleteSkill(skill)">
+                <b-button class="round icon" variant="danger" @click="onDeleteSkill(skill)">
                     <i class="fas fa-trash-alt"></i>
                 </b-button>
             </td>
@@ -131,7 +131,7 @@
     #skills_table th{
         border-top: 1px solid #ced4da;
         border-bottom: 2px solid #ced4da;
-        background-color: white;
+        background-color:white;
     }
     .actions_column{
         width: 100px;

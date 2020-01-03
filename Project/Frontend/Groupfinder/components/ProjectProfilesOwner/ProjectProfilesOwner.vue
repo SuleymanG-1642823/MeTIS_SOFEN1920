@@ -4,7 +4,7 @@
             This project has no profiles yet.
         </strong>
         <div id="head" v-if="profiles!==undefined">
-            <span class="informative">Profiles: </span>
+            <h4>Profiles: </h4>
         </div>
         <ProjectProfileOwner
             v-for="profile in profiles"
