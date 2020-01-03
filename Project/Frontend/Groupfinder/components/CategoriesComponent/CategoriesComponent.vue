@@ -6,18 +6,18 @@
     <b-col>
       <div v-if="disabledDropdown === 'dontShow'">
         <h3>
-        <b-button class="px-2 categoryLabel" variant="info" @click="checkBoxSwitch">
+        <b-button class="px-2 categoryLabel" variant="primary" @click="checkBoxSwitch">
           {{ categoryName }}
         </b-button>
         </h3>
       </div>
       <div v-else>
         <h3>
-        <b-dropdown class="categoryLabel" :text="categoryName" variant="info" dropright offset="-35">
+        <b-dropdown class="categoryLabel" :text="categoryName" variant="primary" dropright offset="-35">
           <b-form-group class="pl-1" label="Subcategories:">
             <li v-for="(box, index) in selectedCategoriesCheckboxes" v-bind:key="index" class="pl-2">
               <b-checkbox v-model="selectedCategoriesCheckboxes[index]">
-                <b-badge variant="info">
+                <b-badge class="subcategories-color" variant="primary">
                   {{ subcategories[index] }}
                 </b-badge>
               </b-checkbox>
@@ -37,6 +37,10 @@
 
 .categoryLabel{
   width: 25%;
+}
+
+.subcategories-color{
+  background-color: darkblue;
 }
 
 </style>

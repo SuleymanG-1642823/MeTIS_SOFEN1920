@@ -73,8 +73,8 @@
   @update_questionnaire="update_questionnaire"
   />
   <i v-if="profile.questions.length != 0" class="fas fa-check" rel="tooltip" title="The questionnaire of this profile has been filled in"></i>
-  <b-button @click="$bvModal.show(modalId())" variant="info" size="sm">Edit questionnaire</b-button>
-  <b-button @click="deleteProfileFromList()" variant="danger" size="sm">Delete Profile</b-button>
+  <b-button @click="$bvModal.show(modalId())" variant="outline-primary" size="sm">Edit questionnaire</b-button>
+  <b-button @click="deleteProfileFromList()" variant="outline-danger" size="sm">Delete Profile</b-button>
 </b-card>
 </div>
 </template>
