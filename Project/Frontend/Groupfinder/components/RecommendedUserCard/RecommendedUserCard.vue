@@ -31,8 +31,10 @@
           <i class="fas fa-check"></i>
           Invitation sent
         </b-button>
-        <b-button v-if="!mInviteSent" variant="outline-dark float-right btn-invite" size="sm" @click="inviteUser(userMatch.user.id)">Invite</b-button>
-        <b-button variant="outline-dark float-right btn-profile" size="sm" @click="goToProfilePage(userMatch.user.id)">Show profile</b-button>
+          <b-button v-if="!mInviteSent" variant="outline-dark float-right btn-invite" size="sm" @click="inviteUser(userMatch.user.id)">Invite</b-button>
+        <router-link :to="'/userpage/' + userMatch.user.id">
+          <b-button variant="outline-dark float-right btn-profile" size="sm">Show profile</b-button>
+        </router-link>
       </div>
     </div>
   </b-card>

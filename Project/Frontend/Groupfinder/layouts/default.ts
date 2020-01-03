@@ -65,7 +65,7 @@ export default class MainLayout extends Vue {
         }
     ];
 
-    theme: String = 'white-theme';
+    theme: String = 'dark-theme';
     showOneChild: Boolean= true;
     width: String = '350px';
 

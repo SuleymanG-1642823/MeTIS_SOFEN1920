@@ -11,7 +11,7 @@
             </span>
         </div>
         <p id="creator">
-            {{ creator }}
+            <router-link :to=creatorUrl>{{ creator }}</router-link>
             <i
                 class="far fa-comment"
                 @click="goToChatPage(creatorID)"
@@ -20,7 +20,8 @@
         <div id="categories">
             <b-badge
                 class="category badge"
-                variant="info"
+                pill
+                variant="dark"
                 v-for="category in categories"
                 :key="category.id"
             >

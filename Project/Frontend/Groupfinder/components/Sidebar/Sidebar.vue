@@ -13,7 +13,7 @@
         </button>
     </div>
     -->
-    <b-tabs>
+    <b-tabs id="subnav">
         <b-tab @click="projectsBtnClickEvent()">
             <template v-slot:title>
                 <div class="sidebar-tab">
@@ -59,6 +59,14 @@
 
 .sidebar-tab{
     text-align:center;
+}
+
+#subnav *{
+    color:white;
+}
+
+#subnav .nav-link.active *{
+    color: black;
 }
 
 .sidebar-tab > i {

@@ -9,7 +9,7 @@
         <b-form-group label="Repeat new password:">
             <b-form-input type="password" v-model="repeated_new_password"/>
         </b-form-group>
-        <b-button id="changePswBtn" type="submit">Submit</b-button>
+        <b-button id="changePswBtn" variant="primary" type="submit">Submit</b-button>
         <br/>
         <b-alert
             class="changePswMessage"

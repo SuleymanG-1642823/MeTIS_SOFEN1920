@@ -106,14 +106,6 @@ export default class RecommendedUserCard extends Vue{
         alert('TODO: go to chatpage')
     }
 
-
-    /**
-     * TODO: insert <router-link> in the vue file to the profile page with the correct id.
-     */
-    goToProfilePage(userID: number){
-        alert('TODO: go to profile page')
-    }
-
     /**
      * Invites user: create and send a new invite to backend.
      * @param userID: id of user to invite.

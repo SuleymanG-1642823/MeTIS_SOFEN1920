@@ -1,10 +1,10 @@
 <template>
-    <div id="wrapper">
+    <div class="wrapper">
         <div v-if="isNew" id="newNotif"></div>
         <router-link
             v-if="destination.length > 0"
             :to="'/' + destination">
-           <p class="msg">{{ displayedMsg }}</p>
+           <p :id=displayedMsg class="msg">{{ displayedMsg }}</p>
         </router-link>
         <p v-if="destination.length === 0" class="msg">{{ displayedMsg }}</p>
         <span id="created">{{ createdAt }}</span>
@@ -18,7 +18,7 @@
 
 <style scoped>
 
-#wrapper{
+.wrapper{
     /*border: 1px solid black;*/
     margin: 0 8px 10px 0;
     padding: 5px 5px 14px 5px;
@@ -27,13 +27,18 @@
     color: black;
 }
 
-#wrapper:hover{
+.wrapper:hover{
     background-color: #f0f0f0;
+}
+
+.wrapper:hover p{
+    color: black;
 }
 
 .msg{
     font-size:1rem;
     margin-bottom: 4px;
+    color: white;
 }
 
 #created{
