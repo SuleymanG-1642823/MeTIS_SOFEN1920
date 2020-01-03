@@ -5,7 +5,7 @@
       <b-modal v-model="modalShow" title="Form not correctly filled in!">
         <p v-if="categoriesNotValidated == 'true'">Select one or more categories</p>
       </b-modal>
-          <b-button class="submit-btn" type="submit" variant="success">Submit Project</b-button>
+          <b-button class="submit-btn" type="submit" variant="outline-success">Submit Project</b-button>
     </b-form>
   </div>
 </template>

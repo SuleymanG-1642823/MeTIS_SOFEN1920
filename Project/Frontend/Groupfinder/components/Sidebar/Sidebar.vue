@@ -59,9 +59,11 @@
 
 .sidebar-tab{
     text-align:center;
+    color: black;
 }
+
 #subnav *{
-    color: white;
+    color: black;
 }
 
 .sidebar-tab > i {
