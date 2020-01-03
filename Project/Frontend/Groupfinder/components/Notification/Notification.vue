@@ -4,7 +4,7 @@
         <router-link
             v-if="destination.length > 0"
             :to="'/' + destination">
-           <p class="msg">{{ displayedMsg }}</p>
+           <p :id=displayedMsg class="msg">{{ displayedMsg }}</p>
         </router-link>
         <p v-if="destination.length === 0" class="msg">{{ displayedMsg }}</p>
         <span id="created">{{ createdAt }}</span>
@@ -31,9 +31,14 @@
     background-color: #f0f0f0;
 }
 
+#wrapper:hover .msg{
+    color: black;
+}
+
 .msg{
     font-size:1rem;
     margin-bottom: 4px;
+    color: white;
 }
 
 #created{

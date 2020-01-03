@@ -28,4 +28,12 @@ export default class ProjectInformation extends Vue {
     goToChatPage(userID: number){
         alert('TODO: implement chatpage');
     }
+
+    get creatorUrl(): string {
+        if (this.creatorID == this.$store.state.auth.user.id){
+            return `/myprofile/`;
+        } else {
+            return `/userpage/${this.creatorID}`;
+        }
+    }
 }

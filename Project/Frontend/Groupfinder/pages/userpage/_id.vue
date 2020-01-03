@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>User Page</h1>
     <UserData v-if="this.user" :user_prop="this.user" />
     <b-tabs id="profile_nav" card>
       <b-tab title="Skills">

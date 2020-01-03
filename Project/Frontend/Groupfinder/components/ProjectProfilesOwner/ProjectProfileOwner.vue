@@ -1,8 +1,8 @@
 <template>
-    <div id="profilewrapper" v-if="profile !== undefined">
-        <span>{{ profile.name }}</span>
+    <!--<div id="profilewrapper" v-if="profile !== undefined">-->
+    <b-card id="profilecard" :title=profile.name v-if="profile !== undefined">
         <router-link :to="'/findUsers/' + profile.project_id">
-            <b-button variant="outline-dark" class="btn-invite" v-if="!hasAssociatedUsers()">
+            <b-button variant="primary" class="btn-invite" v-if="!hasAssociatedUsers()">
                 <i class="fas fa-user-plus"></i>
                 Invite/find people
             </b-button>
@@ -11,14 +11,15 @@
             <b-badge
                 v-for="skill in profile.skills"
                 :key="skill.name"
-                variant="info"
+                pill
+                variant="dark"
                 class="skill badge"
             >
                 {{ skill.name }}
             </b-badge>
             <!--<i class="far fa-plus-square add-skill" @click="addSkill"></i>-->
         </div>
-        <hr v-if="hasAssociatedUsers()">
+        <!--hr v-if="hasAssociatedUsers()">-->
         <div v-if="hasAssociatedUsers()" class="expandable-parent">
             <i
                 v-if="!membersCollapsed"
@@ -53,7 +54,7 @@
                 </i>
             </div>
             <router-link :to="'/findUsers/' + profile.project_id">
-                <b-button variant="outline-dark" class="btn-invite">
+                <b-button variant="primary" class="btn-invite">
                     <i class="fas fa-user-plus"></i>
                     Invite/find people
                 </b-button>
@@ -80,13 +81,13 @@
                             ></i>
                         </div>
                         <div class="col4">
-                            <b-button variant="light" class="user-button decline" @click="acceptApplication(applicant.application.id)">
+                            <b-button variant="outline-success" class="user-button decline" @click="acceptApplication(applicant.application.id)">
                                 <i class="fas fa-check"></i>
                                 accept
                             </b-button>
                         </div>
                         <div class="col5">
-                            <b-button variant="light" class="user-button decline" @click="declineApplication(applicant.application.id)">
+                            <b-button variant="outline-danger" class="user-button decline" @click="declineApplication(applicant.application.id)">
                                 <i class="fas fa-times"></i>
                                 decline
                             </b-button>
@@ -109,7 +110,7 @@
                         <div class="col4">
                         </div>
                         <div class="col5">
-                            <b-button variant="light" class="user-button decline" @click="cancelInvitation(invitee.invite.id)">
+                            <b-button variant="outline-danger" class="user-button decline" @click="cancelInvitation(invitee.invite.id)">
                                 <i class="fas fa-times"></i>
                                 cancel
                             </b-button>
@@ -132,8 +133,8 @@
                         <div class="col4">
                         </div>
                         <div class="col5">
-                            <b-button variant="light" class="user-button decline" @click="removeMember(user.id)">
-                                <i class="fas fa-times"></i>
+                            <b-button variant="outline-danger" class="user-button decline" @click="removeMember(user.id)">
+                                <i class="fas fa-trash-alt"></i>
                                 remove
                             </b-button>
                         </div>
@@ -158,7 +159,8 @@
                 <b-card-text>{{ answer.answer }}</b-card-text>
             </b-card>
         </b-modal>
-    </div>
+    <!--</div>-->
+    </b-card>
 </template>
 
 <script lang="ts" src="./ProjectProfileOwner.ts">
@@ -166,10 +168,18 @@
 
 <style scoped>
 
+.expandable-parent .user-button{
+    width: 100px;
+}
+
 #profilewrapper{
     border: 1px solid black;
     margin: 10px 0 0 0;
     padding: 8px;
+}
+
+#profilecard{
+    margin-bottom: 20px;
 }
 
 .apply-checkbox{
@@ -255,6 +265,7 @@ div#iconsOnCollapsed i{
 div.expandable-parent{
     overflow: auto;
     padding: 4px;
+    margin-top: 20px;
 }
 
 i.user-row{

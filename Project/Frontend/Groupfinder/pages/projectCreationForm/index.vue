@@ -5,11 +5,7 @@
       <b-modal v-model="modalShow" title="Form not correctly filled in!">
         <p v-if="categoriesNotValidated == 'true'">Select one or more categories</p>
       </b-modal>
-      <b-container fluid>
-        <b-row align-h="center" align-content="center">
           <b-button class="submit-btn" type="submit" variant="success">Submit Project</b-button>
-        </b-row>
-      </b-container>
     </b-form>
   </div>
 </template>
@@ -20,7 +16,9 @@
 <style scoped>
 
 .submit-btn{
-  width: 15%;
+  width: 140px;
+  float: right;
+  clear: left;
 }
 
 </style>

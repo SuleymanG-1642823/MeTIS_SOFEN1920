@@ -1,9 +1,8 @@
 <template>
   <div>
-      <h1>My profile</h1>
       <UserData v-if="user" :user_prop="user" />
       <b-tooltip target="edit_data_btn" triggers="hover">Edit data</b-tooltip>
-      <b-button v-b-modal.editData type="button" id="edit_data_btn" class="icon_button"><i class="fas fa-pen"></i></b-button>
+      <b-button v-b-modal.editData type="button" id="edit_data_btn" class="icon_button" variant="primary"><i class="fas fa-pen"></i></b-button>
       <EditUserData :user_prop="user" />
       <b-tabs id="myProfileNav" v-if="user" card>
       <b-tab title="Skills">

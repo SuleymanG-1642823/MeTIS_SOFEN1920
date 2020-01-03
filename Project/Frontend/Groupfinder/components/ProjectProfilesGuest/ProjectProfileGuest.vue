@@ -1,6 +1,6 @@
 <template>
-    <div id="profilewrapper" v-if="profile !== undefined">
-        <span>{{ profile.name }}</span>
+    <!--<div id="profilewrapper" v-if="profile !== undefined">-->
+    <b-card id="profilecard" :title=profile.name v-if="profile !== undefined">
         <b-form-checkbox
             class="apply-checkbox"
             @change="checkedUnChecked"
@@ -9,7 +9,8 @@
             <b-badge
                 v-for="skill in profile.skills"
                 :key="skill.name"
-                variant="info"
+                pill
+                variant="dark"
                 class="skill badge"
             >
                 {{ skill.name }}
@@ -50,7 +51,8 @@
               </ul>
             </b-collapse>
         </div>
-    </div>
+    <!--</div>-->
+    </b-card>
 </template>
 
 <script lang="ts" src="./ProjectProfileGuest.ts">
@@ -62,6 +64,10 @@
     border: 1px solid black;
     margin: 10px 0 0 0;
     padding: 8px;
+}
+
+#profilecard{
+    margin-bottom: 20px;
 }
 
 .apply-checkbox{

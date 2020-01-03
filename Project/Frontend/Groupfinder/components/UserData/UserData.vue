@@ -1,8 +1,8 @@
 <template>
     <div v-if="this.user">
+        <h1>{{ this.user.first_name }} {{ this.user.last_name }}</h1>
         <b-row>
             <b-col lg=4>
-                <p>{{ this.user.first_name }} {{ this.user.last_name }}</p>
                 <p v-if="(this.logged_in_user || !this.privateData) && this.user.address"> <i class="fas fa-map-marker-alt"></i> {{ this.user.address }}</p>
                 <p v-if="(this.logged_in_user || !this.privateData) && this.user.zip && this.user.city"><i class="fas fa-building"></i> {{ this.user.zip }}, {{ this.user.city }}</p>
                 <p v-if="(this.logged_in_user || !this.privateData) && this.user.tel"><i class="fas fa-phone"></i> {{ this.user.tel }}</p>
@@ -28,6 +28,9 @@
 </script>
 
 <style scoped>
+    .row{
+        margin-top: 20px;
+    }
     #facebook_icon{
         color:#3B5B98;
     }
