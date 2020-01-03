@@ -1,5 +1,5 @@
 <template>
-    <div id="wrapper">
+    <div class="wrapper">
         <div v-if="isNew" id="newNotif"></div>
         <router-link
             v-if="destination.length > 0"
@@ -18,7 +18,7 @@
 
 <style scoped>
 
-#wrapper{
+.wrapper{
     /*border: 1px solid black;*/
     margin: 0 8px 10px 0;
     padding: 5px 5px 14px 5px;
@@ -27,11 +27,11 @@
     color: black;
 }
 
-#wrapper:hover{
+.wrapper:hover{
     background-color: #f0f0f0;
 }
 
-#wrapper:hover .msg{
+.wrapper:hover p{
     color: black;
 }
 

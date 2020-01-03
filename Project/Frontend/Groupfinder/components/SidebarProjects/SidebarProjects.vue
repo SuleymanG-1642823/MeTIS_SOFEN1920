@@ -46,11 +46,20 @@
 .sidebar-projects{
     border-left: 0;
     border-right: 0;
+    background-color:inherit;
 }
 
 a{
-    color: black;
+    color: white;
     text-decoration: none;
+}
+
+.sidebar-projects:hover{
+    background-color: #f0f0f0;
+}
+
+.sidebar-projects:hover a {
+    color: black;
 }
 
 </style>

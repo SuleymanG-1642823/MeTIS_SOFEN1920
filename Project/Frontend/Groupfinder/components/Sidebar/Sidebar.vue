@@ -60,13 +60,17 @@
 .sidebar-tab{
     text-align:center;
 }
+
 #subnav *{
-    color: white;
+    color:white;
+}
+
+#subnav .nav-link.active *{
+    color: black;
 }
 
 .sidebar-tab > i {
     display: inline-block;
-
 }
 
 </style>
