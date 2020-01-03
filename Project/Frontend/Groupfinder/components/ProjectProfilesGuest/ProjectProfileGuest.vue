@@ -45,7 +45,9 @@
                     :key="index"
                   >
                     <i class="far fa-user profile-member"></i>
-                    <span>{{ member.first_name + ' ' + member.last_name }}</span>
+                    <router-link :to="'/userpage/' + member.id">
+                        <span>{{ member.first_name + ' ' + member.last_name }}</span>
+                    </router-link>
                     <i class="far fa-comment msg" @click="goToChatPage(member.id)"></i>
                   </li>
               </ul>
@@ -123,6 +125,10 @@ div#iconsOnCollapsed{
 
 div#iconsOnCollapsed i{
     margin-left: 8px;
+}
+
+a span{
+    color: black;
 }
 
 </style>

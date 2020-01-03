@@ -67,7 +67,9 @@
                     >
                         <div class="col1">
                             <i class="far fa-user profile-user"></i>
-                            <span>{{ applicant.user.first_name + ' ' + applicant.user.last_name }}</span>
+                            <router-link :to="'/userpage/' + applicant.id">
+                                <span>{{ applicant.user.first_name + ' ' + applicant.user.last_name }}</span>
+                            </router-link>
                         </div>
                         <div class="col2">
                             <i class="far fa-comment msg" @click="goToChatPage(applicant.user.id)"></i>
@@ -99,7 +101,9 @@
                     >
                         <div class="col1">
                             <i class="far fa-user profile-user"></i>
-                            <span>{{ invitee.user.first_name + ' ' + invitee.user.last_name }}</span>
+                            <router-link :to="'/userpage/' + invitee.user.id">
+                                <span>{{ invitee.user.first_name + ' ' + invitee.user.last_name }}</span>
+                            </router-link>
                         </div>
                         <div class="col2">
                             <i class="far fa-comment msg" @click="goToChatPage(invitee.user.id)"></i>
@@ -122,7 +126,9 @@
                     >
                         <div class="col1">
                             <i class="far fa-user profile-user"></i>
-                            <span>{{ user.first_name + ' ' + user.last_name }}</span>
+                            <router-link :to="'/userpage/' + user.id">
+                                <span>{{ user.first_name + ' ' + user.last_name }}</span>
+                            </router-link>
                         </div>
                         <div class="col2">
                             <i class="far fa-comment msg" @click="goToChatPage(user.id)"></i>
@@ -270,6 +276,10 @@ div.expandable-parent{
 
 i.user-row{
     font-size: 1.5rem;
+}
+
+a span{
+    color: black;
 }
 
 </style>
