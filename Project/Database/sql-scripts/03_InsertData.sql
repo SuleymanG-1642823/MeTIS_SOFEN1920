@@ -15,7 +15,8 @@ VALUES  (1, 'Lennert', 'Geebelen', 'lennert.geebelen@student.uhasselt.be', 'Bree
 INSERT INTO project (id, creator_id, name, status, pitch, categories)
 VALUES  (1, 3, 'Agenda website', 0, 'A website for managing tasks.', '[1]'),
         (2, 4, 'Image editing app', 0, 'A mobile application where users can easily edit pictures', '[8, 9]'),
-        (3, 1, 'Resource monitoring program', 0, 'A PC application for visually monitoring system resources in real-time', '[5]');
+        (3, 1, 'Resource monitoring program', 0, 'A PC application for visually monitoring system resources in real-time', '[5]'),
+        (4, 1, 'PriceSpotter', 0, 'A mobile application for tracking the prices of products in grocery stores. It can also be used as a checklist while shopping.', '[8, 9]');
 
 -- PROJECT PROFILES
 INSERT INTO profile (id, name, project_id, questions)
@@ -25,18 +26,22 @@ VALUES  (1, 'Back-end developper', 1, '["What other projects have you worked on?
         (4, 'Sofware engineer', 2, '["What other projects have you worked on?", "What is your preferred programming language?"]'),
         (5, 'UI/UX designer', 3, '["What other projects have you worked on?"]'), 
         (6, 'Software engineer windows', 3, '["What other projects have you worked on?", "What is your preferred programming language?"]'),
-        (7, 'Software engineer linux', 3, '["What other projects have you worked on?", "What is your preferred programming language?"]'), 
-        (8, 'Software engineer OSX', 3, '["What other projects have you worked on?", "What is your preferred programming language?"]');
+        (7, 'Software engineer linux', 3, '["What other projects have you worked on?", "What is your preferred programming language?"]'),
+        (8, 'Software engineer OSX', 3, '["What other projects have you worked on?", "What is your preferred programming language?"]'),
+        (9, 'Frontend developer', 4, '["What other projects have you worked on?", "What is your preferred programming language?"]'),
+        (10, 'Backend developer', 4, '["What other projects have you worked on?", "What is your preferred programming language?"]');
 
 -- PROFILE APPLICATIONS
 INSERT INTO application (user_id, project_id, profile_id, answers, status)
 VALUES  (2, 3, 5, '[{"question": "What other projects have you worked on?", "answer": "None."}]', 0),
-        (3, 3, 6, '[{"question": "What other projects have you worked on?", "answer": "None."}, {"question": "What is your preferred programming language?", "answer": "c++"}]', 0);
+        (3, 3, 6, '[{"question": "What other projects have you worked on?", "answer": "None."}, {"question": "What is your preferred programming language?", "answer": "c++"}]', 0),
+        (1, 3, 6, '[{"question": "What other projects have you worked on?", "answer": "None."}, {"question": "What is your preferred programming language?", "answer": "c++"}]', 0);
 
 -- PROJECT MEMBERS 
 INSERT INTO member -- (user_id, profile_id, project_id)
 VALUES  (6, 7, 3),
-        (4, 5, 3);
+        (4, 5, 3),
+        (1, 2, 1);
 
 -- INVITES
 INSERT INTO invite (sender_id, receiver_id, profile_id, status, sent_count, max_count)
@@ -66,13 +71,19 @@ VALUES  (1, 'Django', 2, 2),
         (7, 'Linux OS', 3, 2),
         (8, 'C++', 3, 4),
         (8, 'AGILE', 3, 2),
-        (8, 'OSx', 3, 2);
+        (8, 'OSx', 3, 2),
+        (9, 'Java', 1, 5),
+        (10, 'Python', 2, 3),
+        (10, 'SQL', 2, 7);
 
 -- USER SKILLS
 INSERT INTO user_skill -- (user_id, skill name, skill experience)
 VALUES  (1, 'Node.js', 2),
         (1, 'Vue.js', 2),
         (1, 'Nuxt', 2),
+        (1, 'Android Studio', 1),
+        (1, 'C++', 3),
+        (1, 'SQL', 2),
         (1, 'MySQL', 30),
         (2, 'Django', 24),
         (5, 'c++', 7),
