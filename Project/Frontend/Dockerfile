@@ -26,7 +26,6 @@
  
  #Start the app
  #CMD ["npm", "run", "dev"]
- COPY /MeTIS_SOFEN1920/Project/Frontend/Groupfinder/frontendStartscript.sh ./
- RUN chmod +x ./frontendStartscript.sh
- CMD ["./MeTIS_SOFEN1920/Project/Frontend/Groupfinder/wait-for-it.sh" , "backend:4000" , "--strict" , "--timeout=300" , "--" , "./frontendStartscript.sh"]
+ RUN chmod +x ./MeTIS_SOFEN1920/Project/Frontend/Groupfinder/frontendStartscript.sh
+ CMD ["./MeTIS_SOFEN1920/Project/Frontend/Groupfinder/wait-for-it.sh" , "backend:4000" , "--strict" , "--timeout=300" , "--" , "./MeTIS_SOFEN1920/Project/Frontend/Groupfinder/frontendStartscript.sh"]
 
