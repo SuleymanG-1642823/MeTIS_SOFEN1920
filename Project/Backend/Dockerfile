@@ -25,4 +25,4 @@ EXPOSE 4000
 # Similar to 'npm run start' (this command will be executed when container is started, not when this image is created)
 #CMD ["npm", "start"]
 RUN chmod +x ./MeTIS_SOFEN1920/Project/Backend/Groupfinder/backendStartscript.sh
-CMD ["sh", "-c", ". ./waitForContainer.sh waitContainer db && ./MeTIS_SOFEN1920/Project/Backend/Groupfinder/backendStartscript.sh"]
+CMD ["sh", "-c", ". ./MeTIS_SOFEN1920/Project/Backend/Groupfinder/waitForContainer.sh waitContainer db && ./MeTIS_SOFEN1920/Project/Backend/Groupfinder/backendStartscript.sh"]
