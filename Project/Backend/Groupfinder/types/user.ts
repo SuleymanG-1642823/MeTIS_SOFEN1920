@@ -5,6 +5,7 @@ interface User {
     first_name: string;
     last_name: string;
     mail: string;
+    address: string;
     zip: string;
     city: string;
     tel: string;

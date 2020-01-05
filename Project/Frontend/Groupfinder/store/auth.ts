@@ -8,6 +8,7 @@ const default_user = {
   first_name: '',
   last_name: '',
   mail: '',
+  address: '',
   zip: '',
   city: '',
   tel: '',

@@ -237,6 +237,7 @@ export default class EditUserData extends Vue {
             id: this.user_prop.id,
             first_name: this.first_name,
             last_name: this.last_name,
+            is_admin: this.$store.state.auth.isAdmin,
             mail: this.mail,
             tel: this.tel,
             address: this.address,

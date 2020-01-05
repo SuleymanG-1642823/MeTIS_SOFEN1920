@@ -9,7 +9,7 @@ CREATE TABLE user (
     first_name varchar(255) NOT NULL,
     last_name  varchar(255) NOT NULL,
     mail nvarchar(255) NOT NULL,
-    -- addr varchar(255),
+    addr varchar(255),
     zip varchar(255),
     city varchar(255),
     -- cv_loc varchar(255),             cvs/user_id could be used to retrieve cv
@@ -226,7 +226,3 @@ CREATE TABLE user_skill (
         ON DELETE CASCADE,
     PRIMARY KEY (user_id, skill_name)
 ) ENGINE=InnoDB;
-
-
-
-
