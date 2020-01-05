@@ -53,7 +53,7 @@ export default class projectCreationForm extends Vue {
 
         try {
             let url = "http://localhost:4000/projects/";
-            axios.post(url, project);
+            this.$axios.post(url, project);
             //const response = await axios.post(`http://localhost:4000/projects/${project}`);
         } catch (err){
             console.log('Error while posting project.')

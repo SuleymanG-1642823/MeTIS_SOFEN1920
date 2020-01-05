@@ -1,35 +1,34 @@
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import axios from 'axios';
 import { NuxtAxiosInstance } from '@nuxtjs/axios';
-import Api from 'helpers/Api'
+import Api from '../helpers/Api'
 
 const tokenInstance = axios.create();
 
 export default function ({ $axios, store, redirect }: {$axios: NuxtAxiosInstance, store: any, redirect: (location: string)=> void }) {
     $axios.onRequest(async function (config: AxiosRequestConfig) {
-        console.log('Making request to ' + config.url);
-        let token = store.sessionStorage.token;
+        let token = store.state.localStorage.token;
+        console.log(`Request for ${config.url} with token ${token}`);
         if(token){
-            console.log("setting token for expiry request: ", token);
             try {
-                const response = await tokenInstance.get(Api('auth/expiry'), {headers: {'access-token': token}});
-                const expiry = response.data
-                const email = store.sessionStorage.email , pw = store.sessionStorage.pw;
-                if (expiry < (5 * 60) && email && pw){
+                const response = await tokenInstance.get(Api('auth/expiry'), {headers: {'Authorization': token}});
+                const expiry = response.data.time;           // Time until expiration in milliseconds
+                const min_expiry = 5 * 60 * 1000;       // 5 minutes in milliseconds
+                const email = store.state.localStorage.mail , pw = store.state.localStorage.pw;
+                if (expiry < min_expiry && email && pw){  // Try to get a new token if current one is valid for less than 
                     const tokenResponse = await tokenInstance.post(Api('auth/login'), {mail: email, password: pw});
-                    const newToken = tokenResponse.headers['access-token'];
-                    if(newToken){
-                        token = newToken;
-                        console.log("Committing new token: ", token)
-                        store.commit('sessionStorage/SET_TOKEN', tokenResponse.headers['access-token']);
+                    const headerData = <string> tokenResponse.headers['authorization'];
+                    if(headerData){
+                        const token = headerData.split(" ")[1];
+                        store.commit('localStorage/SET_TOKEN', token);
                     }
                 }
             }
             catch(error){
             }
         }
-        config.headers['access-token'] = token;
-        return config
+        config.headers['Authorization'] = "Bearer " + token;
+        return config;
     })
 
     $axios.onError((error: any) => {
@@ -39,8 +38,11 @@ export default function ({ $axios, store, redirect }: {$axios: NuxtAxiosInstance
       }
     })
 
-    $axios.onResponse(function (response: AxiosResponse) {
-        const token = response.headers['access-token']
-        store.commit('sessionStorage/SET_TOKEN', token);
+    $axios.onResponse(function (response: any) {
+        const headerData = response.headers["authorization"];
+        if(headerData){ 
+            const token = headerData.split(" ")[1];
+            store.commit('localStorage/SET_TOKEN', token);
+        }
     })
   }

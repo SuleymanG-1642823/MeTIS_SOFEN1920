@@ -14,8 +14,8 @@ import ProjectMatch from '../../types/projectMatch';
     async mounted () {
       try {
         // Get current user ID if a user is logged in and pass that in the url
-        const response = await axios.get('http://localhost:4000/projects/matchFor/6')
-        this.recommendedProjects = response.data
+        const response = await this.$axios.get(`http://localhost:4000/projects/matchFor/${this.$store.state.user.id}`);
+        this.recommendedProjects = response.data;
       } catch (err) {
         console.log('Error while fetching user data.')
       }

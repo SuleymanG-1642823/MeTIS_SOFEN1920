@@ -6,7 +6,7 @@
       </span>
       <br>
       <span>
-        Do you have ideas for programmng project, but lack the necessary manpower or knowledge on the subject? Then this platform will help you realise those projects!
+        Do you have ideas for programming project, but lack the necessary manpower or knowledge on the subject? Then this platform will help you realise those projects!
       </span>
       <br>
       <span>

@@ -46,6 +46,8 @@ export default {
     '@nuxtjs/axios',
     // Doc: https://www.npmjs.com/package/nuxt-vuex-localstorage
     'nuxt-vuex-localstorage'
+    //['nuxt-vuex-localstorage', {  //  If not entered, “sessionStorage” is the default value
+    //}],
   ],
   /*
   ** Axios module configuration
@@ -57,11 +59,13 @@ export default {
   ** Build configuration
   */
   build: {
-    transpile: ["vee-validate/dist/rules"],
+    transpile: [
+      'vee-validate/dist/rules',
+    ],
     /*
     ** You can extend webpack config here
     */
-    extend (config, ctx) {
+    extend (config, ctx){
     }
   },
   env: {

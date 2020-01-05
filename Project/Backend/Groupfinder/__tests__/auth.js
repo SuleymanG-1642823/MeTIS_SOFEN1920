@@ -32,7 +32,7 @@ describe("TESTING ALL AUTH ROUTES", () => {
                 userID = res.body.user.id;
                 expect(res.status).toBe(201);
                 expect(typeof(res.body.user)).toBe('object');
-                expect(res.header).toHaveProperty('access-token');
+                expect(res.header).toHaveProperty('Authorization');
                 done();
             })
         });
@@ -50,7 +50,7 @@ describe("TESTING ALL AUTH ROUTES", () => {
                 if (err){ return done(err)};
                 expect(res.status).toBe(422);
                 expect(res.body.messages.length).toBe(1);
-                expect(res.header).not.toHaveProperty('access-token');
+                expect(res.header).not.toHaveProperty('Authorization');
                 done();
             });
         });
@@ -67,7 +67,7 @@ describe("TESTING ALL AUTH ROUTES", () => {
                 if (err) return done(err);
                 expect(res.status).toBe(422);
                 expect(res.body.messages.length).toBe(4);
-                expect(res.header).not.toHaveProperty('access-token');
+                expect(res.header).not.toHaveProperty('Authorization');
                 done();
             });
         });
@@ -81,7 +81,7 @@ describe("TESTING ALL AUTH ROUTES", () => {
                 if (err) return done(err);
                 expect(res.status).toBe(200);   
                 expect(typeof(res.body.user)).toBe('object');
-                expect(res.header).toHaveProperty('access-token');
+                expect(res.header).toHaveProperty('Authorization');
                 done();
             });
         });
@@ -93,7 +93,7 @@ describe("TESTING ALL AUTH ROUTES", () => {
                 if (err) return done(err);
                 expect(res.status).toBe(422);   
                 expect(res.body.messages.length).toBe(1);
-                expect(res.header).not.toHaveProperty('access-token');
+                expect(res.header).not.toHaveProperty('Authorization');
                 done();
             });
         });

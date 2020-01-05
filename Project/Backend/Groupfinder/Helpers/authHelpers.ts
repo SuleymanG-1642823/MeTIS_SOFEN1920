@@ -43,12 +43,10 @@ function hashPassword(plainTextPassword: string): Promise<string>{
 }
 
 function generateJWT(user: User): Promise<string> {
-    /*const newToken = jwt.sign({ id: user.id, email: user.mail, isAdmin: user.is_admin }, JWT_SECRET, {
-        expiresIn: JWT_TOKEN_EXPIRY   // The token is valid for duration set via env variable
-        });
-    return newToken;*/
     return new Promise((resolve: any, reject: any) => {
-        jwt.sign({ id: user.id, email: user.mail, isAdmin: user.is_admin }, JWT_SECRET, {
+        const timeInMilliseconds = (new Date()).getTime();
+        const expiryInMilliseconds = parseInt(JWT_TOKEN_EXPIRY);
+        jwt.sign({ id: user.id, email: user.mail, isAdmin: user.is_admin, iat: timeInMilliseconds, expiry: expiryInMilliseconds }, JWT_SECRET, {
             expiresIn: JWT_TOKEN_EXPIRY   // The token is valid for duration set via env variable
             }, (err, token) => {
                 if(err){
@@ -62,11 +60,29 @@ function generateJWT(user: User): Promise<string> {
 }
 
 function refreshJWT(jwtData: any): string {
-    const { id, email, isAdmin } = jwtData;
-    const newToken = jwt.sign({ id, email, isAdmin }, JWT_SECRET, {
+    const { id, email, isAdmin} = jwtData;
+    const timeInMilliseconds = (new Date()).getTime();
+    const expiryInMilliseconds = parseInt(JWT_TOKEN_EXPIRY);
+    const newToken = jwt.sign({ id, email, isAdmin, iat: timeInMilliseconds, expiry:expiryInMilliseconds }, JWT_SECRET, {
         expiresIn: JWT_TOKEN_EXPIRY   // The token is valid for duration set via env variable
         });
     return newToken;
+}
+
+function timeToExpiration(token:string) {
+    let tokenData;
+    let millisecondsRemaining;
+    try {   // Try to validate the token and get data
+        tokenData = <any>jwt.verify(token, JWT_SECRET);
+        const iat = tokenData.iat,
+            expiry = tokenData.expiry,
+            now = (new Date()).getTime();
+        millisecondsRemaining = (iat + expiry) - now; // Always positive (verification failed otherwise)
+    } catch (error) {
+        //If token is not valid, 0 milliseconds remain
+        millisecondsRemaining = 0;
+    }
+    return millisecondsRemaining;
 }
 
 export default {
@@ -74,4 +90,5 @@ export default {
     hashPassword,
     generateJWT,
     refreshJWT,
+    timeToExpiration
 }

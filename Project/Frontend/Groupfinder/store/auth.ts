@@ -1,39 +1,39 @@
-/*export const state = () => ({
-  user: {
-    id: 1,
-    first_name: 'Lennert',
-    last_name: 'Geebelen',
-    mail: 'lennert.geebelen@mail.com',
-    address: 'ditiseenstraatnaam 100',
-    zip: '3500',
-    city: 'Brussel',
-    tel: '+32000112233',
-    website: 'www.mywebsite.be',
-    social_media: {}
-  }
-}) */
-
 import { GetterTree, ActionTree, MutationTree } from "vuex"
 import { RootState } from '../store'
 import User from "../types/user"
 
+const default_user = {
+  id: 0,
+  is_admin: false,
+  first_name: '',
+  last_name: '',
+  mail: '',
+  zip: '',
+  city: '',
+  tel: '',
+  website: '',
+  social_media: {}
+}
+
 export const state = () => ({
-  user: {} as User,
-  loggedIn: false as boolean
+  user: default_user as User,
+  loggedIn: false
 });
 ​
 export type AuthState = ReturnType<typeof state>
 
 export const getters: GetterTree<AuthState, RootState> = {
   isAdmin(state) {
-      return state.user.is_admin ? state.user.is_admin : false
+      return state.user ? (state.user.is_admin ? state.user.is_admin : false) : false
   },
 };
 
 export const mutations: MutationTree<AuthState> = {
   SET_USER(state, newUser: User) {
-      state.user = newUser;
-      state.loggedIn = true;
+    state.user = newUser;
+  },
+  SET_LOGIN(state, loggedIn: boolean){
+    state.loggedIn = loggedIn;
   }
 };
 ​

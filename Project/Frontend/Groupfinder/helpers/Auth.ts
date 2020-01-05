@@ -1,6 +1,9 @@
-export function loggedIn() : boolean {
+import * as stored from "../store/index"
+export function loggedIn(store: any) : boolean {
     let loggedIn = false;
-    // check session voor token
+    if(store.state.localStorage.token){
+        loggedIn = true;
+    }
     return loggedIn;
 }
 

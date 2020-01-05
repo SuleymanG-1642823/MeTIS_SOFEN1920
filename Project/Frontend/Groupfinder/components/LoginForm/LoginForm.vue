@@ -20,23 +20,24 @@
         label="Password"
         label-for="input-password"
       >
-        <b-form-input
-          id="input-password"
-          v-model="pass"
-          type="password"
-          required
-          placeholder=""
-        ></b-form-input>
+        <b-input-group>
+            <b-form-input
+                id="input-password"
+                v-model="pass"
+                :type="passwordFieldType"
+                required
+                placeholder=""
+            ></b-form-input>
+            <b-input-group-append>
+                <b-button @click="toggleVisibility" variant="outline-secondary">{{ passwordToggle }}</b-button>
+            </b-input-group-append>
+        </b-input-group>
       </b-form-group>
       <div class="clearfix">
         <b-button class="float-left" type="submit" variant="primary">Log in</b-button>
         <a href="/" class="minimal-btn small float-right">Forgot password?</a>
       </div>
     </b-form>
-    <div class="px-2 py-2">
-      <p>Not logged in?</p>
-      <b-button variant="outline-primary"><nuxt-link to="signup">Sign up</nuxt-link></b-button>
-    </div>
   </div>
 </template>
 

@@ -1,8 +1,14 @@
 <template>
-    <div id="signup-content" class="center">
+<div id="signup-content" class="center">
+    <h1 id="signup-title">Sign up now!</h1>
+    <b-button @click="removeError(index)" v-for="(error, index) in errors" :key="index" class="btn-danger error-message center clearfix">
+        {{ error }}
+        <span aria-hidden="true" class="float-right">
+        &times;
+        </span>
+    </b-button>
     <ValidationObserver ref="observer" v-slot="{ passes }">
         <b-form id="signup-form" @submit.prevent="passes(onSignup)">
-            <h1 id="signup-title">Sign up now!</h1>
             <div id="name-fields" class="clearfix">
                 <!-- First Name -->
                 <ValidationProvider v-slot="{ valid, errors }" rules="required" name="fname">
@@ -14,8 +20,8 @@
                     <b-form-input
                     id="input-fname"
                     v-model="first_name"
-                    type="text"
                     :state="errors[0] ? false : (valid ? true : null)"
+                    type="text"
                     placeholder="First name"
                     ></b-form-input>
                     <b-form-invalid-feedback id="inputLiveFeedback">{{ errors[0] }}</b-form-invalid-feedback>
@@ -31,8 +37,8 @@
                     <b-form-input
                     id="input-lname"
                     v-model="last_name"
-                    type="text"
                     :state="errors[0] ? false : (valid ? true : null)"
+                    type="text"
                     placeholder="Last name"
                     ></b-form-input>
                     <b-form-invalid-feedback id="inputLiveFeedback">{{ errors[0] }}</b-form-invalid-feedback>
@@ -48,9 +54,9 @@
             >
                 <b-form-input
                     id="input-mail"
-                    v-model="email"
-                    type="email"
+                    v-model="mail"
                     :state="errors[0] ? false : (valid ? true : null)"
+                    type="email"
                     placeholder="Email"
                 ></b-form-input>
                 <b-form-invalid-feedback id="inputLiveFeedback">{{ errors[0] }}</b-form-invalid-feedback>
@@ -65,9 +71,9 @@
                 >
                 <b-form-input
                     id="input-confirmation"
-                    v-model="emailConfirmation"
-                    type="email"
+                    v-model="mailConfirmation"
                     :state="errors[0] ? false : (valid ? true : null)"
+                    type="email"
                     placeholder="Re-enter email"
                 ></b-form-input>
                 <b-form-invalid-feedback id="inputLiveFeedback">{{ errors[0] }}</b-form-invalid-feedback>
@@ -89,7 +95,7 @@
                         placeholder="New password"
                     ></b-form-input>
                     <b-input-group-append>
-                        <b-button variant="outline-secondary" @click="toggleVisibility" >{{ passwordToggle }}</b-button>
+                        <b-button id="toggle" @click="toggleVisibility" variant="outline-secondary">{{ passwordToggle }}</b-button>
                     </b-input-group-append>
                     <b-form-invalid-feedback id="inputLiveFeedback">{{ errors[0] }}</b-form-invalid-feedback>
                 </b-input-group>
@@ -98,8 +104,7 @@
             <b-button class="float-right" type="submit" variant="primary">Sign up</b-button>
         </b-form>
     </ValidationObserver>
-    <p>{{ $store.state.auth.user }}</p>
-    <button @click="commit">Update</button></div>
+</div>
 </template>
 
 <script lang="ts" src="./SignupForm.ts">
@@ -125,5 +130,15 @@
     width: 100%;
     min-width: 300px;
     padding: 20px;
+}
+.error-message{
+    display: block;
+    width: 100%;
+    margin: 5px auto;
+    text-align: center;
+}
+#toggle{
+  border-top-right-radius: 0.25rem !important;
+  border-bottom-right-radius: 0.25rem !important;
 }
 </style>

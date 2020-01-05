@@ -44,7 +44,7 @@ router.post('/register', async (req: Request, res: Response) => {
                         user.id = newID
                         authHelpers.generateJWT(user)
                             .then((token) =>{
-                                res.setHeader("access-token", token)
+                                res.setHeader("Authorization", "Bearer " + token)
                                 delete user.password // Remove password hash
                                 return res.status(201).json({ user });
                             }).catch(() => {
@@ -77,7 +77,8 @@ router.post('/login', async (req: Request, res: Response) => {
     users_methods.getUserForLogin(mail)
         .then((user : User) => {
             if(!user){
-                return res.status(404).send("No user found for given email.")
+                // Don't reveal reason
+                return res.status(422).json({messages: ["Invalid email/password combination"]});
             }
 
             // If user is found for given email, check the password
@@ -85,7 +86,7 @@ router.post('/login', async (req: Request, res: Response) => {
                 if(matches){ // Create JWT and send data back
                     authHelpers.generateJWT(user)
                     .then((token) =>{
-                        res.setHeader("access-token", token)
+                        res.setHeader("Authorization", "Bearer " + token)
                         delete user.password // Remove password from data
                         return res.status(200).json({user});
                     }).catch(() => {
@@ -93,7 +94,7 @@ router.post('/login', async (req: Request, res: Response) => {
                     });
                 }
                 else{
-                    return res.status(422).json({messages: ["Incorrect password."]});
+                    return res.status(422).json({messages: ["Invalid email/password combination"]});
                 }
             }).catch(() => {
                 res.status(500).send("Internal server error.");
@@ -104,5 +105,17 @@ router.post('/login', async (req: Request, res: Response) => {
         });
 });
 
+/**
+ * Get the remaining time before expiration (in milliseconds) of the token in header, returns 0 if token is invalid
+ */
+router.get('/expiry', async (req: Request, res: Response) => {
+    const headerData = <string> req.headers["authorization"];
+    if(!headerData){
+        return res.status(400).send("No bearer token provided")
+    }
+    const token = headerData.split(" ")[1];
+    const time = authHelpers.timeToExpiration(token);
+    res.status(200).json({time});
+});
 
 module.exports = router;
