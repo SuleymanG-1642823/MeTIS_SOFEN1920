@@ -4,11 +4,11 @@ USE groupfinder;
 
 CREATE TABLE user (
     id int NOT NULL AUTO_INCREMENT,
-    password varchar(255) NOT NULL,
-    is_admin BOOLEAN NOT NULL,
     first_name varchar(255) NOT NULL,
     last_name  varchar(255) NOT NULL,
+    is_admin BOOLEAN NOT NULL,
     mail nvarchar(255) NOT NULL,
+    password varchar(255) NOT NULL,
     addr varchar(255),
     zip varchar(255),
     city varchar(255),
@@ -16,6 +16,8 @@ CREATE TABLE user (
     tel varchar(255),
     website varchar(255),
     social_media JSON,
+    available BOOLEAN NOT NULL,
+    private BOOLEAN NOT NULL,
     UNIQUE(mail),
     PRIMARY KEY (id)
 ) ENGINE=InnoDB;
@@ -29,6 +31,7 @@ CREATE TABLE project (
     -- video_loc varchar(255),              similarly to cv_loc, videos/project_id could be used
     created_at datetime,
     edited_at datetime,
+    categories JSON,
     CONSTRAINT fk_project_user_id FOREIGN KEY (creator_id)
         REFERENCES user(id)
         ON UPDATE CASCADE
@@ -40,6 +43,7 @@ CREATE TABLE profile (
     id int NOT NULL AUTO_INCREMENT,
     name varchar(255) NOT NULL,
     project_id int,
+    questions JSON,
     CONSTRAINT fk_profile_project_id FOREIGN KEY (project_id)
         REFERENCES project(id)
         ON UPDATE CASCADE
@@ -50,8 +54,10 @@ CREATE TABLE profile (
 CREATE TABLE notification(
     id int NOT NULL AUTO_INCREMENT,
     user_id int NOT NULL,
-    status int NOT NULL, 
+    status int DEFAULT 0, 
     dest_url varchar(255),
+    msg varchar(512),
+    created_at timestamp,
     PRIMARY KEY (id),
     CONSTRAINT fk_notification_user_id FOREIGN KEY (user_id)
         REFERENCES user(id)
@@ -76,7 +82,6 @@ CREATE TABLE message (
     PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
-
 CREATE TABLE application (
     id int NOT NULL AUTO_INCREMENT,
     user_id int NOT NULL,
@@ -84,8 +89,8 @@ CREATE TABLE application (
     profile_id int NOT NULL,
     answers JSON NOT NULL,
     status int NOT NULL,
-    created_at datetime,
-    edited_at datetime,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    edited_at DATETIME ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT fk_application_user_id FOREIGN KEY (user_id)
         REFERENCES user(id)
         ON UPDATE CASCADE
@@ -98,7 +103,7 @@ CREATE TABLE application (
         REFERENCES profile(id)
         ON UPDATE CASCADE
         ON DELETE CASCADE,
-    UNIQUE KEY (user_id, project_id, profile_id),
+    UNIQUE KEY (user_id, profile_id),
     PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
@@ -128,6 +133,7 @@ CREATE TABLE review (
 CREATE TABLE category (
     id int NOT NULL AUTO_INCREMENT,
     name varchar(255) NOT NULL,
+    subcategory varchar(255),
     PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
@@ -139,7 +145,7 @@ CREATE TABLE invite (
     status int NOT NULL,
     sent_count int NOT NULL,
     max_count int NOT NULL,
-    last_sent_at datetime,      -- 'YYYY-MM-DD hh:mm:ss' format
+    last_sent_at datetime ON UPDATE CURRENT_TIMESTAMP,      -- 'YYYY-MM-DD hh:mm:ss' format
     CONSTRAINT fk_invite_sender_id FOREIGN KEY (sender_id)
         REFERENCES user(id)
         ON UPDATE CASCADE
@@ -226,3 +232,17 @@ CREATE TABLE user_skill (
         ON DELETE CASCADE,
     PRIMARY KEY (user_id, skill_name)
 ) ENGINE=InnoDB;
+
+CREATE TABLE questionnaire (
+    id int NOT NULL AUTO_INCREMENT,
+    name varchar(255) NOT NULL,
+    creator_id int NOT NULL,
+    questions JSON,
+    CONSTRAINT fk_questionnaire_user_id FOREIGN KEY (creator_id)
+        REFERENCES user(id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB;
+
+
