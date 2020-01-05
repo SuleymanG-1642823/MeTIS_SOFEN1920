@@ -8,7 +8,7 @@
         </span>
     </b-button>
     <ValidationObserver ref="observer" v-slot="{ passes }">
-        <b-form id="signup-form" @submit.prevent="validate().then(onSignup)">
+        <b-form id="signup-form" @submit.prevent="passes(onSignup)">
             <div id="name-fields" class="clearfix">
                 <!-- First Name -->
                 <ValidationProvider v-slot="{ valid, errors }" rules="required" name="fname">
