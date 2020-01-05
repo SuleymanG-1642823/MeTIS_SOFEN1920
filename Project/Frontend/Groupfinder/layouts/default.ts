@@ -6,12 +6,9 @@ import axios from 'axios';
 import Sidebar from '~/components/Sidebar/Sidebar'
 import LoginForm from '~/components/LoginForm/LoginForm'
 
-//const SidebarMenu = require('vue-sidebar-menu');
-import { SidebarMenu } from 'vue-sidebar-menu'
-import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
-
+import User from '~/types/user';
 @ Component({
-    components: {Sidebar, LoginForm, SidebarMenu}
+    components: {Sidebar, LoginForm}
 })
 export default class MainLayout extends Vue {
     // Components
@@ -36,7 +33,7 @@ export default class MainLayout extends Vue {
             hiddenOnCollapse: true
         },
         {
-            title: 'Profile Name',
+            title: this.getFullName(),
             icon: 'fas fa-user',
             hidden: false
         },
@@ -68,7 +65,7 @@ export default class MainLayout extends Vue {
         }
     ];
 
-    theme: String = 'white-theme';
+    theme: String = 'dark-theme';
     showOneChild: Boolean= true;
     width: String = '350px';
 
@@ -87,10 +84,13 @@ export default class MainLayout extends Vue {
 
     sidbarItemClick(event: any, item: any){
         if (item.title == "Home"){
-            this.$router.push('/');
+            this.$router.push('/recommendedProjects');
         }
         else if (item.title == "Create Project"){
             this.$router.push('/projectCreationForm');
+        }
+        else if (item.title == this.getFullName()){
+            this.$router.push('/myprofile');
         }
     }
 
@@ -106,5 +106,9 @@ export default class MainLayout extends Vue {
             this.collapsed = true;
             this.contentMarginCSS = this.contentMarginCSS_Collapsed;
         }
+    }
+
+    private getFullName(){
+        return `${this.$store.state.auth.user.first_name} ${this.$store.state.auth.user.last_name}`;
     }
 }

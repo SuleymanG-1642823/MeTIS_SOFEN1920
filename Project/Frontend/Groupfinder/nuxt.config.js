@@ -28,9 +28,10 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '~/plugins/api.ts',
     '~/plugins/axios.ts',
     '~/plugins/vee-validate.ts'
+    '~/plugins/vue-star-rating',
+    '~/plugins/vue-sidebar-menu'
   ],
   /*
   ** Nuxt.js dev-modules
@@ -65,7 +66,14 @@ export default {
     /*
     ** You can extend webpack config here
     */
-    extend (config, ctx){
+    extend (config, ctx) {
+    },
+    terser: {
+      terserOptions: {
+        compress: {
+          drop_console: true
+        }
+      }
     }
   },
   env: {

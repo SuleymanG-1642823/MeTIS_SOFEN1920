@@ -1,6 +1,12 @@
+/*
 import app from '../app';
 import http from 'http';
 import supertest from 'supertest';
+*/
+const app = require('../app');
+const http = require('http');
+const supertest = require('supertest');
+
 import 'babel-polyfill';
 var request;
 var userID;
@@ -27,7 +33,9 @@ describe("TESTING ALL USER ROUTES", () => {
                     city: null,
                     tel: null,
                     website: null,
-                    social_media: null
+                    social_media: null,
+                    available: false,
+                    private: false
                 }
             }
             request.post('/users/')
@@ -72,7 +80,9 @@ describe("TESTING ALL USER ROUTES", () => {
                     city: null,
                     tel: null,
                     website: null,
-                    social_media: null
+                    social_media: null,
+                    available: true,
+                    private: true
                 }
             };
             request.put(`/users/${userID}`)

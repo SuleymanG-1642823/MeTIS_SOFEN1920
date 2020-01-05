@@ -1,12 +1,12 @@
 <template>
-<b-container class="mx-0 main">
+<b-container fluid class="main">
     <link
         rel="stylesheet"
         href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
         integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
         crossorigin="anonymous"
         >
-    <SidebarMenu
+    <sidebar-menu v-if="$store.state.auth.loggedIn"
     :menu="sidebarmenu"
     :theme="theme"
     :showOneChild="showOneChild"
@@ -14,8 +14,9 @@
     @toggle-collapse="onToggleCollapse"
     @item-click="sidbarItemClick"
     >
-        <b-img v-if="!collapsed" slot="header" class="py-3 px-3" src="./Groupfinder_logo.png" fluid />
-    </SidebarMenu>
+        <!--<b-img v-if="!collapsed" slot="header" class="py-3 px-3" src="./Groupfinder_logo.png" fluid />-->
+    </sidebar-menu>
+    <LoginForm v-else />
     <div id="content" :style="{ 'margin-left': contentMarginCSS }">
         <!-- Content components go here -->
         <nuxt />
@@ -26,7 +27,7 @@
 <script lang="ts" src="./default.ts">
 </script>
 
-<style scoped>
+<style>
 #vertical-nav{
     width: 100%;
     height: 100vh;
@@ -35,9 +36,17 @@
     padding-top: 20px;
 }
 
+.btn-primary{
+    background-color: darkblue;
+}
+
+body{
+    color:#414141;
+    background-color:#fcfcfc;
+}
+
 #content{
-    padding-top: 60px;
-    padding-bottom: 20px;
+    margin: 30px;
     margin-left: 390px;
     transition: margin 1s;
 }

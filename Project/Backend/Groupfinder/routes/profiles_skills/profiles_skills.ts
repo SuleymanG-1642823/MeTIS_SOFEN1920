@@ -1,7 +1,9 @@
 import express from 'express';
 const router = express.Router();
-const $profiles_skills_methods = require('./profiles_skills_methods');
+import { ProfileSkillController } from './profiles_skills_methods';
 import Skill from '../../types/skill';
+
+let profileskillcontroller: ProfileSkillController = new ProfileSkillController();
 
 /**
  * Get all skills of a profile.
@@ -9,7 +11,7 @@ import Skill from '../../types/skill';
 router.get('/:profile_id', async (req: any, res: any) => {
     const profileID: number = parseInt(req.params.profile_id);
     try{
-        const skills: Skill[] = await $profiles_skills_methods.getSkillsOfProfile(profileID);
+        const skills: Skill[] = await profileskillcontroller.getSkillsOfProfile(profileID);
         res.status(200).json(skills);
     } catch (err) {
         const statusCode: number = parseInt(err);
@@ -26,7 +28,7 @@ router.put('/:profile_id/:skill_name', async (req: any, res: any) => {
     const skillName: string = req.params.skill_name;
     const skill: Skill = req.body.skill;
     try{
-        $profiles_skills_methods.updateSkillOfProfile(profileID, skillName, skill);
+        await profileskillcontroller.updateSkillOfProfile(profileID, skillName, skill);
         res.status(200).send("Successfully updated a profile's skill in the database.");
     } catch (err) {
         const statusCode: number = parseInt(err);
@@ -44,7 +46,7 @@ router.post('/', async (req: any, res: any) => {
     const profileID: number = req.body.profileID;
     const skill: Skill = req.body.skill;
     try{
-        await $profiles_skills_methods.addSkillToProfile(profileID, skill);
+        await profileskillcontroller.addSkillToProfile(profileID, skill);
         res.status(200).send('Successfully added skill to profile.')
     } catch (err) {
         const statusCode: number = parseInt(err);
@@ -62,7 +64,7 @@ router.delete('/:profile_id/:skill_name', async (req: any, res: any) => {
     const profileID: number = parseInt(req.params.profile_id);
     const skillName: string = req.params.skill_name;
     try{
-        $profiles_skills_methods.removeSkillFromProfile(profileID, skillName);
+        profileskillcontroller.removeSkillFromProfile(profileID, skillName);
         res.status(200).send("Successfully deleted a profile's skill from the database.");
     } catch (err) {
         const statusCode: number = parseInt(err);

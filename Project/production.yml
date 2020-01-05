@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+    frontend:
+        build: './Frontend'
+        image: '${FRONTEND_IMAGE}'
+        restart: always
+        container_name: '${FRONTEND_CONTAINER}'
+        depends_on: 
+            - backend
+        ports:
+            - "${FRONTEND_PORT}:${FRONTEND_PORT}"
+        volumes:
+            - ./Frontend/Groupfinder:/usr/src/nuxt-app
+            - /usr/src/nuxt-app/node_modules
+        environment:
+            - API_PORT=:${BACKEND_PORT}/
+    backend:
+        build: './Backend'
+        image: '${BACKEND_IMAGE}'
+        restart: always
+        container_name: '${BACKEND_CONTAINER}'
+        depends_on:
+            - db
+        ports:
+            - "${BACKEND_PORT}:${BACKEND_PORT}"
+        volumes:
+            - ./Backend/Groupfinder:/usr/src/app
+            - /usr/src/app/node_modules
+    db:
+        build: './Database'
+        image: '${DB_IMAGE}'
+        restart: always
+        container_name: '${DB_CONTAINER}'
+        ports: 
+            - '${DB_PORT}:${DB_PORT}/tcp'
+        volumes:
+            - 'data:/var/lib/mysql'
+
+volumes:
+    'data':
