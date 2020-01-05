@@ -327,4 +327,65 @@ export class UserController {
             }
         );
     }
+
+    /**
+ * Get user with specific mail address from database
+ * @param mail the mail address of the user that will be searched for
+ */
+public getUserForLogin(mail: string): Promise<User> {
+    return new Promise(
+        (resolve: any, reject: any) => {
+            const query: string = 'SELECT * FROM user WHERE mail=?;';
+            const params: any[] = [mail];
+            db_conn.query(query, params, (err: any, rows: any) => {
+                if (err){
+                    console.log(err);
+                    reject('500');
+                } 
+                else if (rows.length < 1) {
+                    console.log(`Error finding user with mail=${mail}`)
+                    //reject('404');
+                    resolve();
+                } else {
+                    const row = rows[0];
+                    const user: User = {
+                        id: row.id,
+                        password: row.password,
+                        is_admin: row.is_admin,
+                        first_name: row.first_name,
+                        last_name: row.last_name,
+                        mail: row.mail,
+                        zip: row.zip,
+                        city: row.city,
+                        tel: row.tel,
+                        website: row.website,
+                        social_media: JSON.parse(row.social_media),
+                        available: row.available,
+                        private: row.private
+                    }
+                    resolve(user);
+                }
+            });
+        }
+    );
+}
+
+public userExists(mail: string): Promise<boolean> {
+    return new Promise((resolve: any, reject: any) => {
+        const query: string = 'SELECT * FROM user WHERE mail=?;';
+        const params: any[] = [mail];
+        db_conn.query(query, params, (err: any, rows: any) => {
+            if (err){
+                console.log(err);
+                reject('500');
+            } 
+            else if (rows.length > 0) {
+                console.log(`User already exists for mail=${mail}`)
+                resolve(true);
+            } else {
+                resolve(false);
+            }
+        });
+    });
+}
 }
