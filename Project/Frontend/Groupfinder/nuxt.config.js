@@ -28,6 +28,7 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~/plugins/api.ts',
     '~/plugins/axios.ts',
     '~/plugins/vee-validate.ts',
     '~/plugins/vue-star-rating',
