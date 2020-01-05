@@ -2,7 +2,8 @@ import express, { Request, Response } from 'express';
 import { compare } from 'bcryptjs'
 import User from '../../types/user';
 import authHelpers from '../../Helpers/authHelpers';
-const UserController = require('../users/users_methods');
+import { UserController } from '../users/users_methods'
+const usercontroller: UserController = new UserController();
 const router = express.Router();
 /////////////////////////////////////////////////////////////////////////////////////
 // Define routes
@@ -27,7 +28,7 @@ router.post('/register', async (req: Request, res: Response) => {
     }
     // Check if a user already exists for the given email
     let newUser = true;
-    UserController.userExists(mail)
+    usercontroller.userExists(mail)
     .then((exists: boolean) => {
         if( exists ){ 
             newUser = false
@@ -38,7 +39,7 @@ router.post('/register', async (req: Request, res: Response) => {
             authHelpers.hashPassword(password)
             .then((hash) => {
                 const user : User = {first_name: fname, last_name: lname, mail: mail, password: hash, is_admin: false, address:"", zip:"", city:"", tel:"", website:"", social_media:{}, available: true, private: true }
-                UserController.addUser(user)
+                usercontroller.addUser(user, hash)
                 .then((newID: number) => {
                     if(newID){
                         user.id = newID
@@ -74,7 +75,7 @@ router.post('/login', async (req: Request, res: Response) => {
     if(!mail || !password){     // Abort if arguments aren't passed
         return res.status(400).send("Bad request. Provide mail and password.");
     }
-    UserController.getUserForLogin(mail)
+    usercontroller.getUserForLogin(mail)
         .then((user : User) => {
             if(!user){
                 // Don't reveal reason
