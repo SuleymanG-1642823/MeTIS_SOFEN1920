@@ -65,7 +65,7 @@ export default class MainLayout extends Vue {
         },
         {
             component: Sidebar,
-            hidden: this.$store.state.auth.loggedIn,
+            hidden: !this.$store.state.auth.loggedIn,
             hiddenOnCollapse: true
         }
     ];
