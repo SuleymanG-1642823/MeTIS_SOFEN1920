@@ -29,7 +29,7 @@ export default {
   */
   plugins: [
     '~/plugins/axios.ts',
-    '~/plugins/vee-validate.ts'
+    '~/plugins/vee-validate.ts',
     '~/plugins/vue-star-rating',
     '~/plugins/vue-sidebar-menu'
   ],
