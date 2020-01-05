@@ -355,6 +355,7 @@ public getUserForLogin(mail: string): Promise<User> {
                         first_name: row.first_name,
                         last_name: row.last_name,
                         mail: row.mail,
+                        address: row.address,
                         zip: row.zip,
                         city: row.city,
                         tel: row.tel,
