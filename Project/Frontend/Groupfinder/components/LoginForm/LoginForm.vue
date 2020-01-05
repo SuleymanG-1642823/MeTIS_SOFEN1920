@@ -2,12 +2,12 @@
   <div class="pl-3">
     <b-form id="login_form" @submit.prevent="tryLogin">
       <b-form-group
-        id="input-group-mail"
+        id="login-group-mail"
         label="Email address"
-        label-for="input-mail"
+        label-for="login-mail"
       >
         <b-form-input
-          id="input-mail"
+          id="login-mail"
           v-model="mail"
           type="email"
           required
@@ -16,13 +16,13 @@
       </b-form-group>
 
       <b-form-group
-        id="input-group-password"
+        id="login-group-password"
         label="Password"
         label-for="input-pass"
       >
         <b-input-group>
             <b-form-input
-                id="input-pass"
+                id="login-pass"
                 v-model="pass"
                 :type="passwordFieldType"
                 required
