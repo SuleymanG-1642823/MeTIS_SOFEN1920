@@ -5,7 +5,7 @@ import axios from 'axios'
 import api from '@/helpers/Api'
 import Skill from '~/types/skill'
 import User from '~/types/user'
-import Invite, {INVITE_STATUS} from '~/types/invite'
+import Invite, { INVITE_STATUS } from '~/types/invite'
 
 /*
     This component is created for displaying a user that is recommended to a project's profile. 

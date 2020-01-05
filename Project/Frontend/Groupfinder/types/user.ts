@@ -1,5 +1,5 @@
 interface User {
-    id?: number;
+    id: number | null;
     password?: string;
     is_admin: boolean;
     first_name: string;
