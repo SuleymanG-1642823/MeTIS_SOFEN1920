@@ -17,7 +17,7 @@ export default class SignupForm extends Vue {
     passwordFieldType = 'password'
     passwordIcon = 'fa-eye-slash'
     passwordToggle = 'Show'
-    errors: string[] = ["een error die echt veel te lang is en te veel plaats inneemt", "volgende error"];
+    errors: string[] = [];
     
     // Methods
     async onSignup(){

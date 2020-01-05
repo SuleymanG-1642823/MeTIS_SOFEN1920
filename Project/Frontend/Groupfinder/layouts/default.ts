@@ -26,16 +26,21 @@ export default class MainLayout extends Vue {
     // Margin of the content when the sidebar is not collapsed
     contentMarginCSS_NotCollapsed: String = "390px";
 
+    theme: String = 'dark-theme';
+    showOneChild: Boolean= true;
+    width: String = '350px';
+
     sidebarmenu: any[] = [
         {
             header: true,
             title: 'Profile',
+            hidden: !this.$store.state.auth.loggedIn,
             hiddenOnCollapse: true
         },
         {
             title: this.getFullName(),
             icon: 'fas fa-user',
-            hidden: false
+            hidden: !this.$store.state.auth.loggedIn
         },
         {
             header: true,
@@ -45,34 +50,29 @@ export default class MainLayout extends Vue {
         {
             title: 'Home',
             icon: 'fas fa-home',
-            hidden: false
+            hidden: !this.$store.state.auth.loggedIn
         },
         {
             title: 'Create Project',
             icon: 'fas fa-plus-square',
-            hidden: false
+            hidden: !this.$store.state.auth.loggedIn
         },
         {
             component: LoginForm,
             // props: componentProps
-            hidden: true,
+            hidden: this.$store.state.auth.loggedIn,
             hiddenOnCollapse: true
         },
         {
             component: Sidebar,
-            hidden: false,
+            hidden: this.$store.state.auth.loggedIn,
             hiddenOnCollapse: true
         }
     ];
 
-    theme: String = 'dark-theme';
-    showOneChild: Boolean= true;
-    width: String = '350px';
-
     // Data
     content_type: String;
-    // TODO LOGGED IN -> change sidebarmenu hidden
-    logged_in: Boolean = false;
+    
     // Methods
     created(){
         this.content_type = "helloworld";
