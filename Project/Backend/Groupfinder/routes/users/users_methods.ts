@@ -186,8 +186,8 @@ export class UserController {
                     social_media = null;
                 }
     
-                const query: string = 'INSERT INTO user (first_name, last_name, mail, password, addr, zip, city, tel, website, social_media, available, private) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);';
-                const params: any[] = [user.first_name, user.last_name, user.mail, hashedPassword ,user.address, user.zip, user.city, user.tel, user.website, social_media, user.available, user.private];
+                const query: string = 'INSERT INTO user (first_name, last_name, mail, is_admin, password, addr, zip, city, tel, website, social_media, available, private) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);';
+                const params: any[] = [user.first_name, user.last_name, user.mail, user.is_admin, hashedPassword ,user.address, user.zip, user.city, user.tel, user.website, social_media, user.available, user.private];
                 db_conn.query(query, params, async (err: any, rows: any) => {
                     if (err){
                         console.log(err);
