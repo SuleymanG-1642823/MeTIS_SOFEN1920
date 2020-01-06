@@ -116,7 +116,7 @@ export default class SkillsOfUser extends Vue {
     private async mounted(){
         try{
             const url = api(`users_skills/${this.userid_prop}`);
-            const response = await axios.get(url);
+            const response = await this.$axios.get(url);
             this.skills = response.data;
             this.logged_in_user = (this.$store.state.auth.user.id == this.userid_prop);
             if (this.logged_in_user){
@@ -194,7 +194,7 @@ export default class SkillsOfUser extends Vue {
                 experience: new_experience,
                 weight: null
             }
-            await axios.put(url, {skill: newSkill}, {headers: {'Content-Type': 'application/json'}});
+            await this.$axios.put(url, {skill: newSkill}, {headers: {'Content-Type': 'application/json'}});
             window.location.reload(true);
         } catch (err) {
             console.log("Error while updating user's skill.");
@@ -207,7 +207,7 @@ export default class SkillsOfUser extends Vue {
     private async saveDeletion(): Promise<void> {
         const url = api(`users_skills/${this.userid_prop}/${this.selected_skill_name}`);
         try{
-            await axios.delete(url);
+            await this.$axios.delete(url);
             window.location.reload(true);
         } catch (err) {
             console.log("Error while updating user's skill.");
@@ -227,7 +227,7 @@ export default class SkillsOfUser extends Vue {
             }
             const url = api(`users_skills/${this.userid_prop}`);
             try{
-                await axios.post(url, {skill: skill}, {headers: {'Content-Type': 'application/json'}});
+                await this.$axios.post(url, {skill: skill}, {headers: {'Content-Type': 'application/json'}});
                 window.location.reload(true);
             } catch (err) {
                 console.log("Error while adding user's skill.");

@@ -154,6 +154,9 @@ __pycache__
 # Ignore compiled .js.map and .js files
 /routes/**/*.js
 /routes/**/*.js.map
+/**/*.js
+/**/*.js.map
+!/__tests__/*.js
 /types/*.js
 /types/*.js.map
 /types/**/*.js

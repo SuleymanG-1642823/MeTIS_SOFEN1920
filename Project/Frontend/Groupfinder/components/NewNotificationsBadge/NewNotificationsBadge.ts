@@ -9,7 +9,7 @@ export default class NewNotificationsBadge extends Vue{
 
     beforeCreate(){
         let url = api(`notifications/numOfNewNotifications/${this.$store.state.auth.user.id}`);
-        axios.get(url)
+        this.$axios.get(url)
         .then(response => {
             //console.log(response.data);
             this.numbOfNewNotif= response.data;

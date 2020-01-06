@@ -45,6 +45,7 @@ export class UserController {
                             id: row.id,
                             first_name: row.first_name,
                             last_name: row.last_name,
+                            is_admin: row.is_admin,
                             mail: row.mail,
                             address: row.addr,
                             zip: row.zip,
@@ -120,6 +121,7 @@ export class UserController {
                             id: user.id,
                             first_name: user.first_name,
                             last_name: user.last_name,
+                            is_admin: user.is_admin,
                             mail: user.mail,
                             address: user.addr,
                             zip: user.zip,
@@ -184,8 +186,8 @@ export class UserController {
                     social_media = null;
                 }
     
-                const query: string = 'INSERT INTO user (first_name, last_name, mail, password, addr, zip, city, tel, website, social_media, available, private) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);';
-                const params: any[] = [user.first_name, user.last_name, user.mail, hashedPassword ,user.address, user.zip, user.city, user.tel, user.website, social_media, user.available, user.private];
+                const query: string = 'INSERT INTO user (first_name, last_name, mail, is_admin, password, addr, zip, city, tel, website, social_media, available, private) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);';
+                const params: any[] = [user.first_name, user.last_name, user.mail, user.is_admin, hashedPassword ,user.address, user.zip, user.city, user.tel, user.website, social_media, user.available, user.private];
                 db_conn.query(query, params, async (err: any, rows: any) => {
                     if (err){
                         console.log(err);
@@ -325,4 +327,66 @@ export class UserController {
             }
         );
     }
+
+    /**
+ * Get user with specific mail address from database
+ * @param mail the mail address of the user that will be searched for
+ */
+public getUserForLogin(mail: string): Promise<User> {
+    return new Promise(
+        (resolve: any, reject: any) => {
+            const query: string = 'SELECT * FROM user WHERE mail=?;';
+            const params: any[] = [mail];
+            db_conn.query(query, params, (err: any, rows: any) => {
+                if (err){
+                    console.log(err);
+                    reject('500');
+                } 
+                else if (rows.length < 1) {
+                    console.log(`Error finding user with mail=${mail}`)
+                    //reject('404');
+                    resolve();
+                } else {
+                    const row = rows[0];
+                    const user: User = {
+                        id: row.id,
+                        password: row.password,
+                        is_admin: row.is_admin,
+                        first_name: row.first_name,
+                        last_name: row.last_name,
+                        mail: row.mail,
+                        address: row.address,
+                        zip: row.zip,
+                        city: row.city,
+                        tel: row.tel,
+                        website: row.website,
+                        social_media: JSON.parse(row.social_media),
+                        available: row.available,
+                        private: row.private
+                    }
+                    resolve(user);
+                }
+            });
+        }
+    );
+}
+
+public userExists(mail: string): Promise<boolean> {
+    return new Promise((resolve: any, reject: any) => {
+        const query: string = 'SELECT * FROM user WHERE mail=?;';
+        const params: any[] = [mail];
+        db_conn.query(query, params, (err: any, rows: any) => {
+            if (err){
+                console.log(err);
+                reject('500');
+            } 
+            else if (rows.length > 0) {
+                console.log(`User already exists for mail=${mail}`)
+                resolve(true);
+            } else {
+                resolve(false);
+            }
+        });
+    });
+}
 }

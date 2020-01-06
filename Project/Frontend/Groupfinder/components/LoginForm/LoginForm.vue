@@ -2,12 +2,12 @@
   <div class="pl-3">
     <b-form id="login_form" @submit.prevent="tryLogin">
       <b-form-group
-        id="input-group-mail"
+        id="login-group-mail"
         label="Email address"
-        label-for="input-mail"
+        label-for="login-mail"
       >
         <b-form-input
-          id="input-mail"
+          id="login-mail"
           v-model="mail"
           type="email"
           required
@@ -16,27 +16,28 @@
       </b-form-group>
 
       <b-form-group
-        id="input-group-password"
+        id="login-group-password"
         label="Password"
-        label-for="input-password"
+        label-for="input-pass"
       >
-        <b-form-input
-          id="input-password"
-          v-model="pass"
-          type="password"
-          required
-          placeholder=""
-        ></b-form-input>
+        <b-input-group>
+            <b-form-input
+                id="login-pass"
+                v-model="pass"
+                :type="passwordFieldType"
+                required
+                placeholder=""
+            ></b-form-input>
+            <b-input-group-append>
+                <b-button @click="toggleVisibility" variant="outline-secondary">{{ passwordToggle }}</b-button>
+            </b-input-group-append>
+        </b-input-group>
       </b-form-group>
       <div class="clearfix">
         <b-button class="float-left" type="submit" variant="primary">Log in</b-button>
-        <a href="/" class="minimal-btn small float-right">Forgot password?</a>
+        <!-- <a href="/" class="minimal-btn small float-right">Forgot password?</a>   |mailing not implemented|-->
       </div>
     </b-form>
-    <div class="px-2 py-2">
-      <p>Not logged in?</p>
-      <b-button variant="outline-primary"><nuxt-link to="signup">Sign up</nuxt-link></b-button>
-    </div>
   </div>
 </template>
 
@@ -59,4 +60,8 @@
   min-width: 150px;
   padding: 10px;
 }
+  #login_form > *, #login_form button {
+    color: #fff !important;
+  }
+
 </style>

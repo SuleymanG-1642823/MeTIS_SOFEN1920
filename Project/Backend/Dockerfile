@@ -12,7 +12,7 @@ RUN apk add --no-cache bash
 RUN apk add git
 
 #Pull from the git repository
-RUN git clone https://github.com/SuleymanGuney/MeTIS_SOFEN1920.git
+RUN git clone -b login-signup-forms https://github.com/SuleymanGuney/MeTIS_SOFEN1920.git
 
 RUN cd MeTIS_SOFEN1920/Project/Backend/Groupfinder && npm install
 

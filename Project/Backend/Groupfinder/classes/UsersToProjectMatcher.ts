@@ -87,6 +87,7 @@ export default class UsersToProjectMatcher{
             id: userID,
             first_name: firstName,
             last_name: lastName,
+            is_admin: false,
             mail: '',
             address: '',
             zip: '',

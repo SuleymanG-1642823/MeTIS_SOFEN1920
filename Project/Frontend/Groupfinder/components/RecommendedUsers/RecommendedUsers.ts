@@ -30,7 +30,7 @@ export default class RecommendedUsers extends Vue{
                 let url = api(`users/matchFor/${this.projectID}`)
                 
                 // returns Array<ProfileUserMatch>
-                const response = await axios.get(url)
+                const response = await this.$axios.get(url)
                 this.profileUserMatches = response.data
             } catch (err) {
                 console.log('Error while fetching user data.')
@@ -53,12 +53,14 @@ export default class RecommendedUsers extends Vue{
 
         for (let profileUserMatch of this.profileUserMatches){
             for (let uMatch of profileUserMatch.userMatches){
-                matches.push(
-                    {
-                        profile: profileUserMatch.profile,
-                        userMatch: uMatch
-                    }
-                );
+                if(uMatch.user.id != this.$store.state.auth.user.id){
+                    matches.push(
+                        {
+                            profile: profileUserMatch.profile,
+                            userMatch: uMatch
+                        }
+                    );
+                }
             }
         }
 

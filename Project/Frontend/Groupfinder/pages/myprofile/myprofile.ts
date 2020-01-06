@@ -26,7 +26,7 @@ export default class MyProfile extends Vue {
     private private_data: boolean = false;
 
     // LIFECYCLE HOOKS
-    private created(){
+    created(){
         this.user = this.$store.state.auth.user;
         this.private_data = this.$store.state.auth.user.private;
     }
@@ -57,6 +57,7 @@ export default class MyProfile extends Vue {
             id: user.id,
             first_name: user.first_name,
             last_name: user.last_name,
+            is_admin: user.is_admin,
             mail: user.mail,
             tel: user.tel,
             address: user.address,
@@ -69,7 +70,7 @@ export default class MyProfile extends Vue {
         }
         try {
             let url = api(`users/${user.id}`);
-            await axios.put(url, {user: body}, {headers: {'Content-Type': 'application/json'}});
+            await this.$axios.put(url, {user: body}, {headers: {'Content-Type': 'application/json'}});
             this.$store.commit('auth/SET_USER', body);
         } catch (err){
             console.log(`Following error occured while updating user:\n${err}`);

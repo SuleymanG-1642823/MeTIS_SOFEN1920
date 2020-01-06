@@ -14,7 +14,7 @@ export default class NameCard extends Vue {
     // Methods
     async mounted() {
         try{
-            const response = await axios.get(`http://localhost:4000/users/${this.user_id}`);
+            const response = await this.$axios.get(`http://localhost:4000/users/${this.user_id}`);
             this.user = response.data;
         } catch (err) {
             console.log('Error while fetching user data.');

@@ -14,7 +14,7 @@ export default class SidebarProjects extends Vue {
     // Methods
     getProjects(){
         let url = api(`projects/user/${this.$store.state.auth.user.id}`);
-        axios.get(url)
+        this.$axios.get(url)
         .then(response => {
             console.log(response.data);
             this.user_projects = response.data;
@@ -27,7 +27,7 @@ export default class SidebarProjects extends Vue {
 
     getMemberProjects(){
         let url = api(`members/user/${this.$store.state.auth.user.id}`);
-        axios.get(url)
+        this.$axios.get(url)
         .then(response => {
             console.log(response.data);
             this.member_projects = response.data;
@@ -40,7 +40,7 @@ export default class SidebarProjects extends Vue {
 
     getAppliedProjects(){
         let url = api(`applications/user/${this.$store.state.auth.user.id}`);
-        axios.get(url)
+        this.$axios.get(url)
         .then(response => {
             console.log(response.data);
             this.applied_projects = response.data;

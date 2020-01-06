@@ -23,8 +23,8 @@ export default class ProjectCardWithReviews extends Vue {
         this.project = this.project_prop;
         try{
             const url = api(`reviews/receiver/${this.userID_prop}`);
-            //const response = await axios.get(`http://localhost:4000/reviews/receiver/${this.userID_prop}`);
-            const response = await axios.get(url);
+            //const response = await this.$axios.get(`http://localhost:4000/reviews/receiver/${this.userID_prop}`);
+            const response = await this.$axios.get(url);
             let allReviews: Review[] = response.data;
             let reviewsForProject = [];
             for (let i = 0; i < allReviews.length; i++){

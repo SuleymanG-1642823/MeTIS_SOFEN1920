@@ -24,14 +24,14 @@ export default class ProjectsOfUser extends Vue {
         this.userID = this.userid_prop;
         try{
             const url = api(`projects/owner/${this.userid_prop}`);
-            const response = await axios.get(url);
+            const response = await this.$axios.get(url);
             this.projects_owner = response.data;
         } catch (err) {
             console.log(err);
         }
         try{
             const url = api(`projects/teammember/${this.userid_prop}`);
-            const response = await axios.get(url);
+            const response = await this.$axios.get(url);
             this.projects_member = response.data;
         } catch (err) {
             console.log(err);

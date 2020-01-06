@@ -59,7 +59,7 @@ export default class UserData extends Vue {
             async (resolve, reject) => {
                 try{
                     const url: string = api(`reviews/receiver/${this.user_prop.id}`);
-                    const response = await axios.get(url);
+                    const response = await this.$axios.get(url);
                     const reviews: Review[] = response.data;
                     resolve(reviews);
                 } catch (err) {

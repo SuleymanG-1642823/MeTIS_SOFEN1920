@@ -54,6 +54,7 @@ export class MemberController {
                                 id: rows[i].id,
                                 first_name: rows[i].first_name,
                                 last_name: rows[i].last_name,
+                                is_admin: rows[i].is_admin,
                                 mail: rows[i].mail,
                                 address: rows[i].address,
                                 zip: rows[i].zip,

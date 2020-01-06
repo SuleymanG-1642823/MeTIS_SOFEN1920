@@ -40,11 +40,11 @@ export default class EditPreferences extends Vue {
      */
     private async mounted(){
         const category_ids_inserted: number[] = [];
-        let response = await axios.get(api(`preferences/${this.userID_prop}/true`));
+        let response = await this.$axios.get(api(`preferences/${this.userID_prop}/true`));
         const categories_preferred: Category[] = response.data;
-        response = await axios.get(api(`preferences/${this.userID_prop}/false`));
+        response = await this.$axios.get(api(`preferences/${this.userID_prop}/false`));
         const categories_not_preferred: Category[] = response.data;
-        response = await axios.get(api('categories'));
+        response = await this.$axios.get(api('categories'));
         const all_categories: Category[] = response.data;
         for (let i = 0; i < categories_preferred.length; i++){
             category_ids_inserted.push(categories_preferred[i].id);
@@ -159,7 +159,7 @@ export default class EditPreferences extends Vue {
     private async addNewPreference(categoryID: number, type: boolean){
         const url: string = api(`preferences/${this.userID_prop}/${categoryID}/${type}`);
         try {
-            await axios.post(url);
+            await this.$axios.post(url);
         } catch (err){
             console.log(err);
         }
@@ -172,7 +172,7 @@ export default class EditPreferences extends Vue {
     private async deletePreference(categoryID: number){
         const url: string = api(`preferences/${this.userID_prop}/${categoryID}`);
         try {
-            await axios.delete(url);
+            await this.$axios.delete(url);
         } catch (err){
             console.log(err);
         }
@@ -186,7 +186,7 @@ export default class EditPreferences extends Vue {
     private async updatePreference(categoryID: number, type: boolean){
         const url: string = api(`preferences/${this.userID_prop}/${categoryID}/${type}`);
         try{
-            await axios.put(url);
+            await this.$axios.put(url);
         } catch (err) {
             console.log(err);
         }

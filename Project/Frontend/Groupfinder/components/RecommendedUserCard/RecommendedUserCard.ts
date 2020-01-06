@@ -5,7 +5,7 @@ import axios from 'axios'
 import api from '@/helpers/Api'
 import Skill from '~/types/skill'
 import User from '~/types/user'
-import Invite, {INVITE_STATUS} from '~/types/invite'
+import Invite, { INVITE_STATUS } from '~/types/invite'
 
 /*
     This component is created for displaying a user that is recommended to a project's profile. 
@@ -76,7 +76,7 @@ export default class RecommendedUserCard extends Vue{
             try {
                 // Get all skills of user
                 let url = api(`users_skills/${this.userMatch.user.id}`)
-                const response = await axios.get(url)
+                const response = await this.$axios.get(url)
                 resolve(response.data);
             } catch (err) {
                 console.log(`Error while requesting user skills for user ${this.userMatch.user.id}: ${err.response.data}`)
@@ -90,7 +90,7 @@ export default class RecommendedUserCard extends Vue{
             try {
                 // Get all skills of user
                 let url = api(`users/${this.userMatch.user.id}`)
-                const response = await axios.get(url)
+                const response = await this.$axios.get(url)
                 resolve(response.data.user);
             } catch (err) {
                 console.log(`Error while requesting user object for user ${this.userMatch.user.id}: ${err.response.data}`)
@@ -129,7 +129,7 @@ export default class RecommendedUserCard extends Vue{
     
                     // send post request for registering invite
                     let url = api(`invites/`)
-                    await axios.post(url, {invite: newInvite});
+                    await this.$axios.post(url, {invite: newInvite});
 
                     // successfully sent invitation, set member for invitation sent
                     this.mInviteSent = true;

@@ -250,7 +250,7 @@ export default class ProjectEdit extends Vue {
      */
     async getQuestionnaires(user_id: number){
         let url = api(`questionnaires/${user_id}`);
-        axios.get(url)
+        this.$axios.get(url)
         .then(response => {
             console.log("GET QUESTIONNAIRES");
             console.log(response.data);
@@ -272,7 +272,7 @@ export default class ProjectEdit extends Vue {
             async (resolve: any, reject: any) => {
                 try {
                     let url = this.$api("categories")
-                    const response = await axios.get(url);
+                    const response = await this.$axios.get(url);
                     const categories: Category[] = response.data;
                     resolve(categories);
                 } catch (err){

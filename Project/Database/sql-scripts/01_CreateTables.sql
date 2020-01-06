@@ -6,6 +6,7 @@ CREATE TABLE user (
     id int NOT NULL AUTO_INCREMENT,
     first_name varchar(255) NOT NULL,
     last_name  varchar(255) NOT NULL,
+    is_admin BOOLEAN NOT NULL,
     mail nvarchar(255) NOT NULL,
     password varchar(255) NOT NULL,
     addr varchar(255),
@@ -14,7 +15,7 @@ CREATE TABLE user (
     -- cv_loc varchar(255),             cvs/user_id could be used to retrieve cv
     tel varchar(255),
     website varchar(255),
-    social_media JSON,
+    social_media varchar(255),
     available BOOLEAN NOT NULL,
     private BOOLEAN NOT NULL,
     UNIQUE(mail),

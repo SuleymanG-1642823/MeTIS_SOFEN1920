@@ -41,8 +41,10 @@ export default class ChangePassword extends Vue {
         else if (! (/.*[0-9]+.*/.test(new_password))){
             this.invalidMessage = "Your password must contain at least 1 number digit.";
         }
-        else if (new_password.localeCompare(repeated_new_password) != 0){
-            this.invalidMessage = "Your new passwords do not match.";
+        else if (new_password != null){
+            if (new_password.localeCompare(repeated_new_password) != 0){
+                this.invalidMessage = "Your new passwords do not match.";
+            }
         }
         else{
             return true;
@@ -80,7 +82,7 @@ export default class ChangePassword extends Vue {
     private async sendToBackend(password: string){
         try {
             const url = api(`users/password/${this.userID_prop}`);
-            await axios.put(url, {password: password}, {headers: {'Content-Type': 'application/json'}});
+            await this.$axios.put(url, {password: password}, {headers: {'Content-Type': 'application/json'}});
         } catch (err){
             console.log(`Following error occured while changing user's password in the database:\n${err}`);
         }
@@ -95,7 +97,7 @@ export default class ChangePassword extends Vue {
             async (resolve, reject) => {
                 const url = api(`users/correctPassword/${this.userID_prop}`);
                 try{
-                    const response = await axios.post(url, {password: password}, {headers: {'Content-Type': 'application/json'}});
+                    const response = await this.$axios.post(url, {password: password}, {headers: {'Content-Type': 'application/json'}});
                     if (!response.data.valid){this.invalidMessage = 'Your old password is incorrect.';}
                     resolve(response.data.valid);
                 } catch (err) {

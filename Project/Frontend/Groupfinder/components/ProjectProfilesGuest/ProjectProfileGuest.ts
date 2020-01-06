@@ -50,7 +50,7 @@ export default class ProjectProfileGuest extends Vue {
             try{
                 // get the applicants for this profile
                 let url = api(`members/profile/${this.profile.id}`);
-                const response = await axios.get(url);
+                const response = await this.$axios.get(url);
                 resolve(response.data);
             } catch (err) {
                 console.log(`Error while requesting members for profile ${this.profile.id}: ${err.response.data}`);

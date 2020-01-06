@@ -72,7 +72,7 @@ export default class ProjectProfileOwner extends Vue {
             try{
                 // update application status
                 let url = api(`members/${memberID}/${this.profile.id}/${this.profile.project_id}`);
-                await axios.delete(url);
+                await this.$axios.delete(url);
 
                 // remove application object from component data
                 this.removeMemberFromData(memberID);
@@ -115,7 +115,7 @@ export default class ProjectProfileOwner extends Vue {
             try{
                 // update application status
                 let url = api(`applications/status/${applicationID}/${APPLICATION_STATUS.ACCEPTED}`);
-                await axios.put(url);
+                await this.$axios.put(url);
 
                 // remove application object from component data
                 this.removeApplicant(applicationID);
@@ -142,7 +142,7 @@ export default class ProjectProfileOwner extends Vue {
             try{
                 // update application status
                 let url = api(`applications/status/${applicationID}/${APPLICATION_STATUS.REJECTED}`);
-                await axios.put(url);
+                await this.$axios.put(url);
 
                 // remove application object from component data
                 this.removeApplicant(applicationID);
@@ -177,7 +177,7 @@ export default class ProjectProfileOwner extends Vue {
             try{
                 // update application status
                 let url = api(`invites/${invitationID}`);
-                await axios.delete(url);
+                await this.$axios.delete(url);
 
                 // remove application object from component data
                 this.removeInvitationFromDataList(invitationID);
@@ -241,7 +241,7 @@ export default class ProjectProfileOwner extends Vue {
             try{
                 // get the applicants for this profile
                 let url = api(`applications/profile/${this.profile.id}`)
-                const response = await axios.get(url)
+                const response = await this.$axios.get(url)
                 let applications: Application[] = response.data;
                 let result: {user: User, application: Application}[] = [];
 
@@ -250,7 +250,7 @@ export default class ProjectProfileOwner extends Vue {
                 for (let application of applications){
                     if (application.status === APPLICATION_STATUS.PENDING){
                         let url = api(`users/${application.user_id}`)
-                        const response = await axios.get(url)
+                        const response = await this.$axios.get(url)
                         let newApplicant: User = response.data.user;
                         result.push({user: newApplicant, application: application});
                     }
@@ -272,7 +272,7 @@ export default class ProjectProfileOwner extends Vue {
             try{
                 // get the invitees for this profile
                 let url = api(`invites/profile/${this.profile.id}`)
-                const response = await axios.get(url)
+                const response = await this.$axios.get(url)
                 let invites: Invite[] = response.data;
                 let result: {user: User, invite: Invite}[] = [];
 
@@ -281,7 +281,7 @@ export default class ProjectProfileOwner extends Vue {
                 for (let invite of invites){
                     if (invite.status === INVITE_STATUS.PENDING){
                         let url = api(`users/${invite.receiver_id}`)
-                        const response = await axios.get(url)
+                        const response = await this.$axios.get(url)
                         let newInvitee: User = response.data.user;
                         result.push({user: newInvitee, invite: invite});
                     }
@@ -303,7 +303,7 @@ export default class ProjectProfileOwner extends Vue {
             try{
                 // get the applicants for this profile
                 let url = api(`members/profile/${this.profile.id}`);
-                const response = await axios.get(url);
+                const response = await this.$axios.get(url);
                 resolve(response.data);
             } catch (err) {
                 console.log(`Error while requesting members for profile ${this.profile.id}: ${err.response.data}`);

@@ -78,7 +78,7 @@ export default class FindUsers extends Vue {
             try {
                 // Get current user ID if a user is logged in and pass that in the url
                 let url = api(`projects/${projectID}`)
-                const response = await axios.get(url)
+                const response = await this.$axios.get(url)
                 this.project = response.data.project;
 
                 // if check needed for making typescript stop complaining
@@ -118,7 +118,7 @@ export default class FindUsers extends Vue {
         try{
             // Get the suggestions
             let url = api(`users/suggestions/${queryStr}`);
-            let response = await axios.get(url);
+            let response = await this.$axios.get(url);
 
             // update search suggestions
             this.searchSuggestions = []; // delete previous suggestions
@@ -141,7 +141,7 @@ export default class FindUsers extends Vue {
             try {
                 // Get current user ID if a user is logged in and pass that in the url
                 let url = api(`invites/profile/${profileID}`)
-                const response = await axios.get(url)
+                const response = await this.$axios.get(url)
                 resolve(response.data);
             } catch (err) {
                 console.log(`Error while requesting invites for profile ${profileID}: ${err.response.data}`)
@@ -183,7 +183,7 @@ export default class FindUsers extends Vue {
 
             // send post request for registering invite
             let url = api(`invites/`)
-            await axios.post(url, {invite: newInvite});
+            await this.$axios.post(url, {invite: newInvite});
 
             // successfully sent invitation, clear search field
             this.inviteSearchInput = '';
@@ -207,7 +207,7 @@ export default class FindUsers extends Vue {
             try {
                 // Get current user ID if a user is logged in and pass that in the url
                 let url = api(`users/${userID}`)
-                const response = await axios.get(url)
+                const response = await this.$axios.get(url)
                 resolve(response.data.user);
             } catch (err) {
                 console.log(`Error while requesting user ${userID}: ${err.response.data}`)
@@ -224,7 +224,7 @@ export default class FindUsers extends Vue {
             try{
                 // update application status
                 let url = api(`invites/${invitationID}`);
-                await axios.delete(url);
+                await this.$axios.delete(url);
 
                 // remove application object from component data
                 this.removeInviteFromDataList(invitationID);

@@ -57,8 +57,7 @@ export default class editProject extends Vue {
      */
     async getProject(project_id: string){
         let url = api(`projects/${project_id}`);
-        const response = await axios.get(url);
-        axios.get(url)
+        this.$axios.get(url)
         .then(response => {
             this.project = response.data.project;
             console.log(this.project.profiles[0].skills);
@@ -136,7 +135,7 @@ export default class editProject extends Vue {
 
         try {
             let url = api(`projects/${this.id}`);
-            axios.put(url, {project_id: this.id, project: this.project} );
+            this.$axios.put(url, {project_id: this.id, project: this.project} );
             // TODO: push to project view
             // this.$router.push('/recommendedProjects');
         } catch (err){

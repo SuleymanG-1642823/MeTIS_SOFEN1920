@@ -41,104 +41,120 @@ export default class EditUserData extends Vue {
     // WATCHERS
     @Watch('first_name')
     onFirstNameChange(newValue: string, oldValue: string){
-        if (this.first_name.localeCompare(this.user_prop.first_name) == 0){
-            this.valid_first_name = null;
-        }
-        else if (this.first_name.length < 2){
-            this.valid_first_name = false
-        } else {
-            this.valid_first_name = true;
+        if(this.first_name){
+            if (this.first_name.localeCompare(this.user_prop.first_name) == 0){
+                this.valid_first_name = null;
+            }
+            else if (this.first_name.length < 2){
+                this.valid_first_name = false
+            } else {
+                this.valid_first_name = true;
+            }
         }
     }
 
     @Watch('last_name')
     onLastNameChange(newValue: string, oldValue: string){
-        if (this.last_name.localeCompare(this.user_prop.last_name) == 0){
-            this.valid_last_name = null;
-        }
-        else if (this.last_name.length < 2){
-            this.valid_last_name = false
-        } else {
-            this.valid_last_name = true;
+        if(this.last_name){
+            if (this.last_name.localeCompare(this.user_prop.last_name) == 0){
+                this.valid_last_name = null;
+            }
+            else if (this.last_name.length < 2){
+                this.valid_last_name = false
+            } else {
+                this.valid_last_name = true;
+            }
         }
     }
 
     @Watch('mail')
     onEmailChange(newValue: string, oldValue: string){
-        // Regex source: https://html.spec.whatwg.org/multipage/input.html#e-mail-state-(type=email)
-        // This is the official regex used by W3C for email inputs
-        if (this.mail.localeCompare(this.user_prop.mail) == 0){
-            this.valid_mail = null;
-        }
-        else if (/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(this.mail)){
-            this.valid_mail = true;
-        }
-        else {
-            this.valid_mail = false;
+        if(this.mail){
+            // Regex source: https://html.spec.whatwg.org/multipage/input.html#e-mail-state-(type=email)
+            // This is the official regex used by W3C for email inputs
+            if (this.mail.localeCompare(this.user_prop.mail) == 0){
+                this.valid_mail = null;
+            }
+            else if (/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(this.mail)){
+                this.valid_mail = true;
+            }
+            else {
+                this.valid_mail = false;
+            }
         }
     }
 
     @Watch('tel')
     onTelChange(newValue: string, oldValue: string){
-        if (this.tel.localeCompare(this.user_prop.tel) == 0){
-            this.valid_tel = null;
-        }
-        else if (/^[+]*[0-9]{1,4}[-\s\./0-9]*$/.test(this.tel) || this.tel.localeCompare('') == 0){
-            this.valid_tel = true;
-        }
-        else{
-            this.valid_tel = false;
+        if(this.tel){
+            if (this.tel.localeCompare(this.user_prop.tel) == 0){
+                this.valid_tel = null;
+            }
+            else if (/^[+]*[0-9]{1,4}[-\s\./0-9]*$/.test(this.tel) || this.tel.localeCompare('') == 0){
+                this.valid_tel = true;
+            }
+            else{
+                this.valid_tel = false;
+            }
         }
     }
 
     @Watch('address')
     onAddressChange(newValue: string, oldValue: string){
-        if (this.address.localeCompare(this.user_prop.address) == 0){
-            this.valid_address = null;
-        }
-        else if ((/^[a-zA-Z 0-9\.\-\s]+$/.test(this.address) && this.address.length > 4) || this.address.length == 0){
-            this.valid_address = true;
-        }
-        else{
-            this.valid_address = false;
+        if(this.address){
+            if (this.address.localeCompare(this.user_prop.address) == 0){
+                this.valid_address = null;
+            }
+            else if ((/^[a-zA-Z 0-9\.\-\s]+$/.test(this.address) && this.address.length > 4) || this.address.length == 0){
+                this.valid_address = true;
+            }
+            else{
+                this.valid_address = false;
+            }
         }
     }
 
     @Watch('zip')
     onZipChange(newValue: string, oldValue: string){
-        if (this.zip.localeCompare(this.user_prop.zip) == 0){
-            this.valid_zip = null;
-        }
-        else if ((/^[a-zA-Z 0-9\.\-]+$/.test(this.zip) && this.zip.length > 1) || this.zip.length == 0){
-            this.valid_zip = true;
-        }
-        else {
-            this.valid_zip = false;
+        if(this.zip){
+            if (this.zip.localeCompare(this.user_prop.zip) == 0){
+                this.valid_zip = null;
+            }
+            else if ((/^[a-zA-Z 0-9\.\-]+$/.test(this.zip) && this.zip.length > 1) || this.zip.length == 0){
+                this.valid_zip = true;
+            }
+            else {
+                this.valid_zip = false;
+            }
         }
     }
 
     @Watch('city')
     onCityChange(newValue: string, oldValue: string){
-        if (this.city.localeCompare(this.user_prop.city) == 0){
-            this.valid_city = null;
-        }
-        else if ((/^[a-zA-Z 0-9\.\-\s]+$/.test(this.city) && this.city.length > 1) || this.city.length == 0){
-            this.valid_city = true;
-        }
-        else {
-            this.valid_city = false;
+        if(this.city){
+            if (this.city.localeCompare(this.user_prop.city) == 0){
+                this.valid_city = null;
+            }
+            else if ((/^[a-zA-Z 0-9\.\-\s]+$/.test(this.city) && this.city.length > 1) || this.city.length == 0){
+                this.valid_city = true;
+            }
+            else {
+                this.valid_city = false;
+            }
         }
     }
 
     @Watch('website')
     onWebsiteChange(newValue: string, oldValue: string){
-        if (this.website.localeCompare(this.user_prop.website) == 0){
-            this.valid_website = null;
-        }
-        else if (/^(https?|chrome):\/\/[^\s$.?#].[^\s]*$/.test(this.website) || this.website.localeCompare('') == 0){
-            this.valid_website = true;
-        } else {
-            this.valid_website = false;
+        if(this.website){
+            if (this.website.localeCompare(this.user_prop.website) == 0){
+                this.valid_website = null;
+            }
+            else if (/^(https?|chrome):\/\/[^\s$.?#].[^\s]*$/.test(this.website) || this.website.localeCompare('') == 0){
+                this.valid_website = true;
+            } else {
+                this.valid_website = false;
+            }
         }
     }
 
@@ -237,6 +253,7 @@ export default class EditUserData extends Vue {
             id: this.user_prop.id,
             first_name: this.first_name,
             last_name: this.last_name,
+            is_admin: this.$store.state.auth.isAdmin,
             mail: this.mail,
             tel: this.tel,
             address: this.address,
@@ -249,7 +266,7 @@ export default class EditUserData extends Vue {
         }
         try {
             const url = api(`users/${this.user_prop.id}`);
-            await axios.put(url, {user: user}, {headers: {'Content-Type': 'application/json'}});
+            await this.$axios.put(url, {user: user}, {headers: {'Content-Type': 'application/json'}});
             this.$store.commit('auth/SET_USER', user);
         } catch (err){
             console.log(`Following error occured while updating user:\n${err}`);

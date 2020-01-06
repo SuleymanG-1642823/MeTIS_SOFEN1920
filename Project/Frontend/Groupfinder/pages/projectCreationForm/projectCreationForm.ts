@@ -102,7 +102,7 @@ export default class projectCreationForm extends Vue {
         // Post
         try {
             let url = api(`projects/`);
-            axios.post(url, this.project);
+            this.$axios.post(url, this.project);
             this.$root.$emit('refreshProjects');
             // TODO: rout to project page
             this.$router.push('/recommendedProjects');

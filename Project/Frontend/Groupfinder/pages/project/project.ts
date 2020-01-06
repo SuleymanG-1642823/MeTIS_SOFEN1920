@@ -48,7 +48,7 @@ export default class ProjectPage extends Vue {
             try {
                 // Get current user ID if a user is logged in and pass that in the url
                 let url = api(`projects/${projectID}`)
-                const response = await axios.get(url)
+                const response = await this.$axios.get(url)
                 this.project = response.data.project;
 
                 // check if current logged in user is owner of requested project

@@ -23,8 +23,8 @@ export default class UserPage extends Vue {
     private async created(){
         try{
             let url = api(`users/${this.$route.params.id}`);
-            const response = await axios.get(url);
-            //const response = await axios.get(`http://localhost:4000/users/${this.$route.params.id}`);
+            const response = await this.$axios.get(url);
+            //const response = await this.$axios.get(`http://localhost:4000/users/${this.$route.params.id}`);
             this.user = response.data.user;
         } catch (err) {
             console.log(err);

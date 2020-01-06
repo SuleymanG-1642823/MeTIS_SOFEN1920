@@ -14,7 +14,7 @@
                 <td><input type="radio" :name="main_category.name" :checked="main_category.categories[0].preference === null" :value=null @change="editPreference(main_category.name, main_category.categories[0].id, null)"/></td>
             </tr>
             <tr v-for="category in categoriesWithSubcategories" :key="category.id">
-                <td>{{category.main_category_name}}: {{ category.subcategory }}</td>
+                <td>{{ category.main_category_name }}: {{ category.subcategory }}</td>
                 <td><input type="radio" :name="category.subcategory" :checked="category.preference === true" :value=true @change="editPreference(category.main_category_name, category.id, true)"/></td>
                 <td><input type="radio" :name="category.subcategory" :checked="category.preference === false" :value=false @change="editPreference(category.main_category_name, category.id, false)"/></td>
                 <td><input type="radio" :name="category.subcategory" :checked="category.preference === null" :value=null @change="editPreference(category.main_category_name, category.id, null)"/></td>

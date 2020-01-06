@@ -23,7 +23,7 @@ export default class SidebarNotifications extends Vue{
      */
     private refreshNotifications(){
         let url = api(`notifications/${this.$store.state.auth.user.id}`);
-        axios.get(url)
+        this.$axios.get(url)
         .then(response => {
             console.log(response.data);
             this.notifications = response.data;
@@ -38,7 +38,7 @@ export default class SidebarNotifications extends Vue{
      */
     private updateNotifStatus(){
         let url = api(`notifications/${this.$store.state.auth.user.id}`);
-        axios.put(url)
+        this.$axios.put(url)
         .then(response => {
             console.log(response.data);
         })

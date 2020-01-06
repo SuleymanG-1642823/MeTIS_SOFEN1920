@@ -21,7 +21,7 @@ export default class RecommendedProjects extends Vue {
     try {
       // Get current user ID if a user is logged in and pass that in the url
       let url = api(`projects/matchFor/${this.$store.state.auth.user.id}`)
-      const response = await axios.get(url)
+      const response = await this.$axios.get(url)
       this.recommendedProjects = response.data
     } catch (err) {
       console.log('Error while fetching user data.')
@@ -35,7 +35,7 @@ export default class RecommendedProjects extends Vue {
         let url = api(`projects/search/${this.searchInput}`)
         
         // returns Array<ProfileUserMatch>
-        const response = await axios.get(url)
+        const response = await this.$axios.get(url)
         this.searchResults = response.data
 
         // show feedback if there are no results
