@@ -29,11 +29,16 @@ export default function ({ store, redirect, route }: {store: any, redirect: any,
                     store.commit('auth/SET_LOGIN', true);
                 }
                 catch (error){  // stored credentials are invalid
+                    store.commit('auth/RESET_USER');
+                    store.commit('auth/SET_LOGIN', false);
                     store.commit('localStorage/RESET_TOKEN');
+                    store.commit('localStorage/RESET_PW');
+                    store.commit('localStorage/RESET_MAIL');
+                    store.commit('localStorage/RESET_ID');
                     return redirect('/signup')
                 }
             }
-            if(route.name == ""){
+            if(route.name == "index"){
                 return redirect("/recommendedProjects")
             }
             else{

@@ -53,12 +53,14 @@ export default class RecommendedUsers extends Vue{
 
         for (let profileUserMatch of this.profileUserMatches){
             for (let uMatch of profileUserMatch.userMatches){
-                matches.push(
-                    {
-                        profile: profileUserMatch.profile,
-                        userMatch: uMatch
-                    }
-                );
+                if(uMatch.user.id != this.$store.state.auth.user.id){
+                    matches.push(
+                        {
+                            profile: profileUserMatch.profile,
+                            userMatch: uMatch
+                        }
+                    );
+                }
             }
         }
 

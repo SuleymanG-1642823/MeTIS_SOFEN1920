@@ -34,13 +34,13 @@ export default class MainLayout extends Vue {
         {
             header: true,
             title: 'Profile',
-            hidden: !this.$store.state.auth.loggedIn,
+            hidden: !this.loggedIn,
             hiddenOnCollapse: true
         },
         {
             title: this.getFullName(),
             icon: 'fas fa-user',
-            hidden: !this.$store.state.auth.loggedIn
+            hidden: !this.loggedIn
         },
         {
             header: true,
@@ -50,27 +50,27 @@ export default class MainLayout extends Vue {
         {
             title: 'Home',
             icon: 'fas fa-home',
-            hidden: !this.$store.state.auth.loggedIn
+            hidden: !this.loggedIn
         },
         {
             title: 'Create Project',
             icon: 'fas fa-plus-square',
-            hidden: !this.$store.state.auth.loggedIn
+            hidden: !this.loggedIn
         },
         {
             title: 'Sign out',
             icon: 'fas fa-sign-out-alt',
-            hidden: !this.$store.state.auth.loggedIn
+            hidden: !this.loggedIn
         },
         {
             component: LoginForm,
             // props: componentProps
-            hidden: this.$store.state.auth.loggedIn,
+            hidden: this.loggedIn,
             hiddenOnCollapse: true
         },
         {
             component: Sidebar,
-            hidden: !this.$store.state.auth.loggedIn,
+            hidden: !this.loggedIn,
             hiddenOnCollapse: true
         }
     ];
@@ -98,12 +98,13 @@ export default class MainLayout extends Vue {
             this.$router.push('/myprofile');
         }
         else if (item.title == 'Sign out'){
+            this.$store.commit('auth/RESET_USER');
+            this.$store.commit('auth/SET_LOGIN', false);
             this.$store.commit('localStorage/RESET_TOKEN');
             this.$store.commit('localStorage/RESET_PW');
             this.$store.commit('localStorage/RESET_MAIL');
             this.$store.commit('localStorage/RESET_ID');
-            this.$store.commit('auth/RESET_USER');
-            this.$store.commit('auth/SET_LOGIN', false);
+            this.$forceUpdate();
             this.$router.push('/signup');
         }
     }
@@ -125,4 +126,8 @@ export default class MainLayout extends Vue {
     private getFullName(){
         return `${this.$store.state.auth.user.first_name} ${this.$store.state.auth.user.last_name}`;
     }
+
+    get loggedIn(): boolean {
+        return this.$store.state.auth.loggedIn;
+    } 
 }
