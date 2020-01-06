@@ -29,7 +29,8 @@ export default class SignupForm extends Vue {
             this.$store.commit('auth/SET_LOGIN', true);
             this.$store.commit('localStorage/SET_MAIL', this.mail);
             this.$store.commit('localStorage/SET_PW', this.password);
-            this.$store.commit('localStorage/SET_ID', user.id)
+            this.$store.commit('localStorage/SET_ID', user.id);
+            window.location.reload(true);
             this.$router.push('/recommendedProjects');
           }
         }

@@ -23,6 +23,7 @@ export default class LoginForm extends Vue {
             this.$store.commit('localStorage/SET_MAIL', this.mail);
             this.$store.commit('localStorage/SET_PW', this.pass);
             this.$store.commit('localStorage/SET_ID', user.id);
+            window.location.reload(true);
             this.$router.push('/recommendedProjects');
           }
           else if(response.status == 422){

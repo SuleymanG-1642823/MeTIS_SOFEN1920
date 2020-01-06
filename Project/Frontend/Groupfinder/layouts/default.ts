@@ -104,7 +104,7 @@ export default class MainLayout extends Vue {
             this.$store.commit('localStorage/RESET_PW');
             this.$store.commit('localStorage/RESET_MAIL');
             this.$store.commit('localStorage/RESET_ID');
-            this.$forceUpdate();
+            window.location.reload(true);
             this.$router.push('/signup');
         }
     }
