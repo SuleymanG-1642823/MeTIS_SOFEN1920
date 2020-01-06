@@ -38,7 +38,7 @@ router.post('/register', async (req: Request, res: Response) => {
             // Insert user data with hashed password and respond with new token
             authHelpers.hashPassword(password)
             .then((hash) => {
-                const user : User = {first_name: fname, last_name: lname, mail: mail, password: hash, is_admin: false, address:"", zip:"", city:"", tel:"", website:"", social_media:{}, available: true, private: true }
+                const user : User = {first_name: fname, last_name: lname, mail: mail, password: hash, is_admin: false, address:"", zip:"", city:"", tel:"", website:"", social_media:"", available: true, private: true }
                 usercontroller.addUser(user, hash)
                 .then((newID: number) => {
                     if(newID){

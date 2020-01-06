@@ -15,7 +15,7 @@ CREATE TABLE user (
     -- cv_loc varchar(255),             cvs/user_id could be used to retrieve cv
     tel varchar(255),
     website varchar(255),
-    social_media JSON,
+    social_media varchar(255),
     available BOOLEAN NOT NULL,
     private BOOLEAN NOT NULL,
     UNIQUE(mail),

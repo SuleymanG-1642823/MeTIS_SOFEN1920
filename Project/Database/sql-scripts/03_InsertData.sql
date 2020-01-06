@@ -1,13 +1,13 @@
 USE groupfinder;
 
 -- USERS
-INSERT INTO user (id, first_name, last_name, is_admin, mail, city, password, available, private)
-VALUES  (1, 'Lennert', 'Geebelen', TRUE, 'lennert.geebelen@student.uhasselt.be', 'Bree', '$2a$10$5sOZPGw9EqiWCBgWcmuI3.6uCX/yv8KlL7EN498xe8P2nWGDx/WY6', 1, 0),
-        (2, 'Jurian', 'Lodewijk', FALSE, 'Jurian.Lodewijk@mail.com', 'Eupen', '$2a$10$jpvCdxgnT6ejUrXiFrmgmusepRCctuw9kOL.nHZREmcGZxNAjB4OS', 1, 0),
-        (3, 'Mart', 'Bolink', FALSE, 'Mart.Bolink@mail.com', 'Charleroi', '$2a$10$yVlaF55Nw/ZWPL595Mgh6.wvBcywkipRkRCe4rNacwaLc2qo/1hRO', 1, 0),
-        (4, 'Klaas', 'Budde', FALSE, 'Klaas.Budde@mail.com', 'Brussel', '$2a$10$iYHnK/Nh/gtB/LpMAb3AqOW8KfSx2.KLxfE98icojvyU02vKs4k3S', 0, 0),
-        (5, 'Willem', 'Kreijkes', FALSE, 'Willem.Kreijkes@mail.com', 'Antwerpen', '$2a$10$Yi12KDq5PRu0NmZswuIehOfpD9cdw8GcyEEHuJmT.V6Guey28GOlS', 1, 0),
-        (6, 'Robert', 'Louwes', FALSE, 'Robert.Louwes@mail.com', 'Deinze', '$2a$10$UScEJgbk9HCRWHcwpacTH.IvpPTjaj7J1dwJGq6YuPUO1kfAN6w.C', 1, 0);
+INSERT INTO user (id, first_name, last_name, is_admin, address, zip, mail, city, password, available, private, tel, social_media)
+VALUES  (1, 'Lennert', 'Geebelen', TRUE, 'lennert.geebelen@student.uhasselt.be', 'straat', 'code', 'Bree', '$2a$10$5sOZPGw9EqiWCBgWcmuI3.6uCX/yv8KlL7EN498xe8P2nWGDx/WY6', 1, 0, "", "[]"),
+        (2, 'Jurian', 'Lodewijk', FALSE, 'Jurian.Lodewijk@mail.com', 'straat', 'code', 'Eupen', '$2a$10$jpvCdxgnT6ejUrXiFrmgmusepRCctuw9kOL.nHZREmcGZxNAjB4OS', 1, 0, "", ""),
+        (3, 'Mart', 'Bolink', FALSE, 'Mart.Bolink@mail.com', 'straat', 'code', 'Charleroi', '$2a$10$yVlaF55Nw/ZWPL595Mgh6.wvBcywkipRkRCe4rNacwaLc2qo/1hRO', 1, 0, "", ""),
+        (4, 'Klaas', 'Budde', FALSE, 'Klaas.Budde@mail.com', 'straat', 'code', 'Brussel', '$2a$10$iYHnK/Nh/gtB/LpMAb3AqOW8KfSx2.KLxfE98icojvyU02vKs4k3S', 0, 0, "", ""),
+        (5, 'Willem', 'Kreijkes', FALSE, 'Willem.Kreijkes@mail.com', 'straat', 'code', 'Antwerpen', '$2a$10$Yi12KDq5PRu0NmZswuIehOfpD9cdw8GcyEEHuJmT.V6Guey28GOlS', 1, 0, "", ""),
+        (6, 'Robert', 'Louwes', FALSE, 'Robert.Louwes@mail.com', 'straat', 'code', 'Deinze', '$2a$10$UScEJgbk9HCRWHcwpacTH.IvpPTjaj7J1dwJGq6YuPUO1kfAN6w.C', 1, 0, "", "");
 
 -- PROJECTS
 INSERT INTO project (id, creator_id, name, status, pitch, categories)
