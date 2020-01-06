@@ -10,7 +10,7 @@
  RUN apk add --no-cache bash
  
  #Pull from the git repository
- RUN git clone -b login-signup-forms https://github.com/SuleymanGuney/MeTIS_SOFEN1920.git
+ RUN git clone -b test-login https://github.com/SuleymanGuney/MeTIS_SOFEN1920.git
  
  #Copy the app, note .dockerignore
  #COPY ./Groupfinder /usr/src/nuxt-app
