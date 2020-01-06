@@ -55,7 +55,7 @@ export default class EditUserData extends Vue {
 
     @Watch('last_name')
     onLastNameChange(newValue: string, oldValue: string){
-        if(this.first_name){
+        if(this.last_name){
             if (this.last_name.localeCompare(this.user_prop.last_name) == 0){
                 this.valid_last_name = null;
             }
@@ -69,7 +69,7 @@ export default class EditUserData extends Vue {
 
     @Watch('mail')
     onEmailChange(newValue: string, oldValue: string){
-        if(this.first_name){
+        if(this.mail){
             // Regex source: https://html.spec.whatwg.org/multipage/input.html#e-mail-state-(type=email)
             // This is the official regex used by W3C for email inputs
             if (this.mail.localeCompare(this.user_prop.mail) == 0){
@@ -86,7 +86,7 @@ export default class EditUserData extends Vue {
 
     @Watch('tel')
     onTelChange(newValue: string, oldValue: string){
-        if(this.first_name){
+        if(this.tel){
             if (this.tel.localeCompare(this.user_prop.tel) == 0){
                 this.valid_tel = null;
             }
@@ -101,7 +101,7 @@ export default class EditUserData extends Vue {
 
     @Watch('address')
     onAddressChange(newValue: string, oldValue: string){
-        if(this.first_name){
+        if(this.address){
             if (this.address.localeCompare(this.user_prop.address) == 0){
                 this.valid_address = null;
             }
@@ -116,7 +116,7 @@ export default class EditUserData extends Vue {
 
     @Watch('zip')
     onZipChange(newValue: string, oldValue: string){
-        if(this.first_name){
+        if(this.zip){
             if (this.zip.localeCompare(this.user_prop.zip) == 0){
                 this.valid_zip = null;
             }
@@ -131,7 +131,7 @@ export default class EditUserData extends Vue {
 
     @Watch('city')
     onCityChange(newValue: string, oldValue: string){
-        if(this.first_name){
+        if(this.city){
             if (this.city.localeCompare(this.user_prop.city) == 0){
                 this.valid_city = null;
             }
@@ -146,7 +146,7 @@ export default class EditUserData extends Vue {
 
     @Watch('website')
     onWebsiteChange(newValue: string, oldValue: string){
-        if(this.first_name){
+        if(this.website){
             if (this.website.localeCompare(this.user_prop.website) == 0){
                 this.valid_website = null;
             }
