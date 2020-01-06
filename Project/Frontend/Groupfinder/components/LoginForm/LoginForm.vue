@@ -35,7 +35,7 @@
       </b-form-group>
       <div class="clearfix">
         <b-button class="float-left" type="submit" variant="primary">Log in</b-button>
-        <a href="/" class="minimal-btn small float-right">Forgot password?</a>
+        <!-- <a href="/" class="minimal-btn small float-right">Forgot password?</a>   |mailing not implemented|-->
       </div>
     </b-form>
   </div>
@@ -60,4 +60,8 @@
   min-width: 150px;
   padding: 10px;
 }
+  #login_form label, #login_form button {
+    color: #fff !important;
+  }
+
 </style>
