@@ -60,7 +60,7 @@
   min-width: 150px;
   padding: 10px;
 }
-  #login_form label, #login_form button {
+  #login_form > *, #login_form button {
     color: #fff !important;
   }
 
