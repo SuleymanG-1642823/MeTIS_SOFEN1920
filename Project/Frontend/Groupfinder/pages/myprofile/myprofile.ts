@@ -26,7 +26,7 @@ export default class MyProfile extends Vue {
     private private_data: boolean = false;
 
     // LIFECYCLE HOOKS
-    private created(){
+    created(){
         this.user = this.$store.state.auth.user;
         this.private_data = this.$store.state.auth.user.private;
     }
