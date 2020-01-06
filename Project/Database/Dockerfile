@@ -4,7 +4,7 @@ RUN apk update && apk upgrade
 RUN apk add git
 RUN apk add --no-cache bash
 
-RUN git clone -b login-signup-forms https://github.com/SuleymanGuney/MeTIS_SOFEN1920.git
+RUN git clone https://github.com/SuleymanGuney/MeTIS_SOFEN1920.git
 
 # Derived from official mysql image (our base image)
 FROM mysql:5.7
