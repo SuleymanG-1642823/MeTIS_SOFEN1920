@@ -41,8 +41,10 @@ export default class ChangePassword extends Vue {
         else if (! (/.*[0-9]+.*/.test(new_password))){
             this.invalidMessage = "Your password must contain at least 1 number digit.";
         }
-        else if (new_password.localeCompare(repeated_new_password) != 0){
-            this.invalidMessage = "Your new passwords do not match.";
+        else if (new_password != null){
+            if (new_password.localeCompare(repeated_new_password) != 0){
+                this.invalidMessage = "Your new passwords do not match.";
+            }
         }
         else{
             return true;
