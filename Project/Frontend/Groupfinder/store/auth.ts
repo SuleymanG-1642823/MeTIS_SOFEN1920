@@ -18,7 +18,7 @@ const default_user = {
 
 export const state = () => ({
   user: default_user as User,
-  loggedIn: false
+  loggedIn: false as boolean
 });
 ​
 export type AuthState = ReturnType<typeof state>
