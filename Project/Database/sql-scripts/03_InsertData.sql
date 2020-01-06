@@ -33,7 +33,7 @@ VALUES  (1, 'Back-end developper', 1, '["What other projects have you worked on?
 INSERT INTO application (user_id, project_id, profile_id, answers, status)
 VALUES  (2, 3, 5, '[{"question": "What other projects have you worked on?", "answer": "None."}]', 0),
         (3, 3, 6, '[{"question": "What other projects have you worked on?", "answer": "None."}, {"question": "What is your preferred programming language?", "answer": "c++"}]', 0),
-        (1, 3, 6, '[{"question": "What other projects have you worked on?", "answer": "None."}, {"question": "What is your preferred programming language?", "answer": "c++"}]', 0);
+        (1, 2, 3, '[{"question": "What other projects have you worked on?", "answer": "Currently working on two projects of myself: PriceSpotter and a resource monitoring program."}]', 0);
 
 -- PROJECT MEMBERS 
 INSERT INTO member -- (user_id, profile_id, project_id)

@@ -58,6 +58,11 @@ export default class MainLayout extends Vue {
             hidden: !this.$store.state.auth.loggedIn
         },
         {
+            title: 'Sign out',
+            icon: 'fas fa-sign-out-alt',
+            hidden: !this.$store.state.auth.loggedIn
+        },
+        {
             component: LoginForm,
             // props: componentProps
             hidden: this.$store.state.auth.loggedIn,
@@ -91,6 +96,15 @@ export default class MainLayout extends Vue {
         }
         else if (item.title == this.getFullName()){
             this.$router.push('/myprofile');
+        }
+        else if (item.title == 'Sign out'){
+            this.$store.commit('localStorage/RESET_TOKEN');
+            this.$store.commit('localStorage/RESET_PW');
+            this.$store.commit('localStorage/RESET_MAIL');
+            this.$store.commit('localStorage/RESET_ID');
+            this.$store.commit('auth/RESET_USER');
+            this.$store.commit('auth/SET_LOGIN', false);
+            this.$router.push('/signup');
         }
     }
 

@@ -22,15 +22,24 @@ export const mutations: MutationTree<localStorageState> = {
     RESET_TOKEN(state){
         state.token = "";
     },
-    SET_ID(state, newID: number){
-        state.id = newID;
-    },
     SET_EMAIL(state, mail: string) {
         state.mail = mail;
     },
+    RESET_EMAIL(state){
+        state.mail = "";
+    },
     SET_PW(state, pw: string) {
         state.pw = pw;
-  }
+    },
+    RESET_PW(state){
+        state.pw = "";
+    },
+    SET_ID(state, newID: number){
+        state.id = newID;
+    },
+    RESET_ID(state){
+        state.id = 0;
+    }
 };
 ​
 export const actions: ActionTree<localStorageState, RootState> = {

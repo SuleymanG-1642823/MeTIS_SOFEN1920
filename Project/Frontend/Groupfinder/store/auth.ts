@@ -13,7 +13,9 @@ const default_user = {
   city: '',
   tel: '',
   website: '',
-  social_media: {}
+  social_media: {},
+  available: false,
+  private: true
 }
 
 export const state = () => ({
@@ -32,6 +34,9 @@ export const getters: GetterTree<AuthState, RootState> = {
 export const mutations: MutationTree<AuthState> = {
   SET_USER(state, newUser: User) {
     state.user = newUser;
+  },
+  RESET_USER(state){
+    state.user = default_user;
   },
   SET_LOGIN(state, loggedIn: boolean){
     state.loggedIn = loggedIn;
