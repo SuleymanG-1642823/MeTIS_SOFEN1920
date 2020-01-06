@@ -22,10 +22,10 @@ export const mutations: MutationTree<localStorageState> = {
     RESET_TOKEN(state){
         state.token = "";
     },
-    SET_EMAIL(state, mail: string) {
+    SET_MAIL(state, mail: string) {
         state.mail = mail;
     },
-    RESET_EMAIL(state){
+    RESET_MAIL(state){
         state.mail = "";
     },
     SET_PW(state, pw: string) {

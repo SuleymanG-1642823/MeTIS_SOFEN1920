@@ -27,7 +27,7 @@ export default class SignupForm extends Vue {
             const user: User = response.data.user;            
             this.$store.commit('auth/SET_USER', user);
             this.$store.commit('auth/SET_LOGIN', true);
-            this.$store.commit('localStorage/SET_EMAIL', this.mail);
+            this.$store.commit('localStorage/SET_MAIL', this.mail);
             this.$store.commit('localStorage/SET_PW', this.password);
             this.$store.commit('localStorage/SET_ID', user.id)
             this.$router.push('/recommendedProjects');
